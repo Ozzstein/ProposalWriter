@@ -23,7 +23,7 @@
   },
   "mcpServers": {
     "academic-search": {
-      "command": "python",
+      "command": "/opt/homebrew/bin/python3.13",
       "args": ["mcp-servers/academic-search/server.py"]
     }
   }
