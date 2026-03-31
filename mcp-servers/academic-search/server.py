@@ -13,6 +13,9 @@ import httpx
 from fastmcp import FastMCP
 
 PUBMED_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
+ARXIV_BASE = "https://export.arxiv.org/api/query"
+# arXiv asks that API clients identify themselves via User-Agent
+ARXIV_HEADERS = {"User-Agent": "ProposalWriter/1.0 (grant proposal writing tool; contact via GitHub)"}
 
 mcp = FastMCP("academic-search")
 
@@ -223,6 +226,191 @@ async def fetch_mesh_terms(pmid: str) -> str:
         "pmid": pmid,
         "mesh_terms": mesh_entries,
         "total": len(mesh_entries),
+    }, indent=2)
+
+
+@mcp.tool()
+async def search_arxiv(
+    query: str,
+    max_results: int = 20,
+    category: str = "",
+    date_from: str = "",
+    date_to: str = "",
+) -> str:
+    """Search arXiv for preprints and papers.
+
+    Args:
+        query: Search query (supports arXiv search syntax, e.g., 'ti:CRISPR AND abs:therapy').
+        max_results: Maximum number of results to return (default 20, max 100).
+        category: Optional arXiv category filter (e.g., 'cs.AI', 'q-bio.GN', 'physics.med-ph').
+        date_from: Optional start date filter (YYYYMMDD format, e.g., '20220101').
+        date_to: Optional end date filter (YYYYMMDD format, e.g., '20241231').
+
+    Returns:
+        JSON string with results including arXiv IDs, titles, abstracts, authors, and categories.
+    """
+    import xml.etree.ElementTree as ET
+
+    max_results = min(max_results, 100)
+
+    # Build search query
+    search_query = query
+    if category:
+        search_query = f"cat:{category} AND ({query})"
+
+    params = {
+        "search_query": search_query,
+        "start": "0",
+        "max_results": str(max_results),
+        "sortBy": "relevance",
+        "sortOrder": "descending",
+    }
+    if date_from or date_to:
+        # arXiv date filtering via submittedDate field
+        from_str = date_from or "19910101"
+        to_str = date_to or "30000101"
+        params["search_query"] = f"submittedDate:[{from_str} TO {to_str}] AND ({search_query})"
+
+    async with httpx.AsyncClient(timeout=60.0, headers=ARXIV_HEADERS) as client:
+        resp = await client.get(ARXIV_BASE, params=params)
+        resp.raise_for_status()
+        xml_text = resp.text
+
+    # Parse Atom feed
+    NS = {
+        "atom": "http://www.w3.org/2005/Atom",
+        "arxiv": "http://arxiv.org/schemas/atom",
+    }
+    root = ET.fromstring(xml_text)
+
+    total_results_el = root.find("opensearch:totalResults", {
+        "opensearch": "http://a9.com/-/spec/opensearch/1.1/"
+    })
+    total_count = int(total_results_el.text) if total_results_el is not None else 0
+
+    results = []
+    for entry in root.findall("atom:entry", NS):
+        arxiv_id_raw = (entry.findtext("atom:id", "", NS) or "").strip()
+        # Extract just the ID (e.g., "2301.00001v1" -> "2301.00001")
+        arxiv_id = arxiv_id_raw.split("/abs/")[-1].split("v")[0] if "/abs/" in arxiv_id_raw else arxiv_id_raw
+
+        title = (entry.findtext("atom:title", "", NS) or "").strip().replace("\n", " ")
+        summary = (entry.findtext("atom:summary", "", NS) or "").strip().replace("\n", " ")
+
+        authors = [
+            (a.findtext("atom:name", "", NS) or "").strip()
+            for a in entry.findall("atom:author", NS)
+        ]
+        authors_str = ", ".join(authors[:5])
+        if len(authors) > 5:
+            authors_str += " et al."
+
+        published = (entry.findtext("atom:published", "", NS) or "")[:10]
+        year = published[:4] if published else ""
+
+        categories = [
+            t.get("term", "")
+            for t in entry.findall("atom:category", NS)
+        ]
+
+        doi_el = entry.find("arxiv:doi", NS)
+        doi = doi_el.text.strip() if doi_el is not None and doi_el.text else ""
+
+        results.append({
+            "arxiv_id": arxiv_id,
+            "title": title,
+            "authors": authors_str,
+            "year": year,
+            "published": published,
+            "categories": categories,
+            "abstract": summary[:500] + ("..." if len(summary) > 500 else ""),
+            "doi": doi,
+            "url": f"https://arxiv.org/abs/{arxiv_id}",
+            "pdf_url": f"https://arxiv.org/pdf/{arxiv_id}",
+        })
+
+    import json
+    return json.dumps({
+        "total_count": total_count,
+        "returned": len(results),
+        "results": results,
+    }, indent=2)
+
+
+@mcp.tool()
+async def fetch_arxiv_paper(arxiv_id: str) -> str:
+    """Fetch full metadata and abstract for an arXiv paper.
+
+    Args:
+        arxiv_id: arXiv paper ID (e.g., '2301.00001' or '2301.00001v2').
+
+    Returns:
+        JSON string with full title, abstract, authors, categories, and links.
+    """
+    import xml.etree.ElementTree as ET
+
+    # Strip version suffix for the query
+    clean_id = arxiv_id.split("v")[0] if "v" in arxiv_id else arxiv_id
+
+    params = {
+        "id_list": clean_id,
+        "max_results": "1",
+    }
+
+    async with httpx.AsyncClient(timeout=60.0, headers=ARXIV_HEADERS) as client:
+        resp = await client.get(ARXIV_BASE, params=params)
+        resp.raise_for_status()
+        xml_text = resp.text
+
+    NS = {
+        "atom": "http://www.w3.org/2005/Atom",
+        "arxiv": "http://arxiv.org/schemas/atom",
+    }
+    root = ET.fromstring(xml_text)
+    entry = root.find("atom:entry", NS)
+
+    if entry is None:
+        import json
+        return json.dumps({"error": f"No paper found for arXiv ID: {arxiv_id}"})
+
+    title = (entry.findtext("atom:title", "", NS) or "").strip().replace("\n", " ")
+    summary = (entry.findtext("atom:summary", "", NS) or "").strip().replace("\n", " ")
+    published = (entry.findtext("atom:published", "", NS) or "")[:10]
+    updated = (entry.findtext("atom:updated", "", NS) or "")[:10]
+
+    authors = [
+        (a.findtext("atom:name", "", NS) or "").strip()
+        for a in entry.findall("atom:author", NS)
+    ]
+
+    categories = [
+        t.get("term", "")
+        for t in entry.findall("atom:category", NS)
+    ]
+
+    primary_cat_el = entry.find("arxiv:primary_category", NS)
+    primary_category = primary_cat_el.get("term", "") if primary_cat_el is not None else (categories[0] if categories else "")
+
+    doi_el = entry.find("arxiv:doi", NS)
+    doi = doi_el.text.strip() if doi_el is not None and doi_el.text else ""
+
+    comment_el = entry.find("arxiv:comment", NS)
+    comment = comment_el.text.strip() if comment_el is not None and comment_el.text else ""
+
+    import json
+    return json.dumps({
+        "arxiv_id": clean_id,
+        "title": title,
+        "authors": authors,
+        "abstract": summary,
+        "published": published,
+        "updated": updated,
+        "primary_category": primary_category,
+        "all_categories": categories,
+        "doi": doi,
+        "comment": comment,
+        "url": f"https://arxiv.org/abs/{clean_id}",
+        "pdf_url": f"https://arxiv.org/pdf/{clean_id}",
     }, indent=2)
 
 
