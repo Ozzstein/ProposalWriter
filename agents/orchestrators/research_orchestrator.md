@@ -18,6 +18,7 @@ Gather comprehensive evidence from literature, patents, and standards to establi
 ## Subagents to Spawn
 Launch these in parallel where possible:
 - **literature_searcher** (model: haiku) — Search Consensus, PubMed, arXiv, and Semantic Scholar for papers
+- **web_scraper** (model: haiku) — Search OpenAIRE, CORDIS, Zenodo, HAL, and other EU-relevant repositories via Firecrawl for papers not covered by PubMed/arXiv
 - **patent_scanner** (model: haiku) — Search for relevant patents [v2]
 - **state_of_art_synthesizer** (model: opus) — Synthesize all evidence into SOTA summary and novelty map
 
@@ -33,7 +34,7 @@ Launch these in parallel where possible:
 - Updated `runs/{project}/memory/claim_registry.jsonl`
 
 ## Completion Criteria
-- Minimum 12 quality sources in evidence store
+- Minimum 12 quality sources in evidence store (from literature_searcher, web_scraper, and/or patent_scanner combined)
 - SOTA summary covers the key research areas
 - At least 2 novelty anchors identified
 - Gaps between SOTA and proposed work clearly documented
