@@ -1,0 +1,28 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ReviewReport",
+  "description": "Output from reviewer agents",
+  "type": "object",
+  "properties": {
+    "section_name": { "type": "string" },
+    "reviewer_type": { "type": "string", "enum": ["scientific", "compliance", "writing", "consistency", "evaluator_simulation"] },
+    "overall_score": { "type": "number", "minimum": 0, "maximum": 10 },
+    "major_issues": { "type": "array", "items": { "type": "string" } },
+    "minor_issues": { "type": "array", "items": { "type": "string" } },
+    "unsupported_claims": { "type": "array", "items": { "type": "string" }, "description": "Claim IDs that lack sufficient evidence" },
+    "redundancies": { "type": "array", "items": { "type": "string" } },
+    "fixes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "priority": { "type": "string", "enum": ["critical", "high", "medium", "low"] },
+          "action": { "type": "string" }
+        },
+        "required": ["priority", "action"]
+      }
+    },
+    "strengths": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["section_name", "reviewer_type", "overall_score", "major_issues", "fixes"]
+}

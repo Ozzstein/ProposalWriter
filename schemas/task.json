@@ -1,0 +1,24 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AgentTask",
+  "description": "Standard input contract for all worker agents",
+  "type": "object",
+  "properties": {
+    "task_id": { "type": "string", "pattern": "^TASK-\\d+$" },
+    "agent_name": { "type": "string" },
+    "goal": { "type": "string" },
+    "context": {
+      "type": "object",
+      "properties": {
+        "project_name": { "type": "string" },
+        "call_name": { "type": "string" },
+        "domain": { "type": "string" }
+      }
+    },
+    "inputs": { "type": "array", "items": { "type": "string" }, "description": "File paths to read" },
+    "constraints": { "type": "object" },
+    "output_schema": { "type": "string", "description": "Name of the schema the output must conform to" },
+    "stop_conditions": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["task_id", "agent_name", "goal"]
+}

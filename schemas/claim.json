@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Claim",
+  "description": "A proposal claim linked to evidence",
+  "type": "object",
+  "properties": {
+    "claim_id": { "type": "string", "pattern": "^CLM-\\d+$" },
+    "text": { "type": "string" },
+    "type": { "type": "string", "enum": ["technical_benefit", "scientific_finding", "impact_statement", "methodology_claim", "novelty_claim", "assumption"] },
+    "supported_by": { "type": "array", "items": { "type": "string" }, "description": "Source IDs (SRC-xxx) backing this claim" },
+    "owner_agent": { "type": "string" },
+    "status": { "type": "string", "enum": ["supported", "assumption", "unsupported", "disputed"] },
+    "created_at": { "type": "string", "format": "date" }
+  },
+  "required": ["claim_id", "text", "type", "status"]
+}

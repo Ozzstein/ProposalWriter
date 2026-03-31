@@ -1,0 +1,16 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Decision",
+  "description": "A recorded decision with rationale and evidence",
+  "type": "object",
+  "properties": {
+    "decision_id": { "type": "string", "pattern": "^DEC-\\d+$" },
+    "question": { "type": "string" },
+    "decision": { "type": "string" },
+    "rationale": { "type": "array", "items": { "type": "string" } },
+    "evidence_refs": { "type": "array", "items": { "type": "string" } },
+    "alternatives_considered": { "type": "array", "items": { "type": "string" } },
+    "date": { "type": "string", "format": "date" }
+  },
+  "required": ["decision_id", "question", "decision", "rationale", "date"]
+}

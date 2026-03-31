@@ -1,0 +1,26 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "GateCheck",
+  "description": "Result of a review gate check",
+  "type": "object",
+  "properties": {
+    "gate_name": { "type": "string", "enum": ["scope", "evidence", "technical", "draft", "submission"] },
+    "passed": { "type": "boolean" },
+    "checked_at": { "type": "string", "format": "date-time" },
+    "criteria": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "criterion": { "type": "string" },
+          "met": { "type": "boolean" },
+          "notes": { "type": "string" }
+        },
+        "required": ["criterion", "met"]
+      }
+    },
+    "blockers": { "type": "array", "items": { "type": "string" } },
+    "recommendations": { "type": "array", "items": { "type": "string" } }
+  },
+  "required": ["gate_name", "passed", "criteria"]
+}
