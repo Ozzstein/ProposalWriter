@@ -17,7 +17,7 @@ Gather comprehensive evidence from literature, patents, and standards to establi
 
 ## Subagents to Spawn
 Launch these in parallel where possible:
-- **literature_searcher** (model: haiku) — Search academic databases for papers
+- **literature_searcher** (model: haiku) — Search Consensus, PubMed, arXiv, and Semantic Scholar for papers
 - **patent_scanner** (model: haiku) — Search for relevant patents [v2]
 - **state_of_art_synthesizer** (model: opus) — Synthesize all evidence into SOTA summary and novelty map
 
