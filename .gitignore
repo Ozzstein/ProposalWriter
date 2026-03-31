@@ -9,3 +9,4 @@ runs/*/drafts/
 runs/*/reviews/
 runs/*/final/
 .claude/plans/
+.claude/settings.local.json
