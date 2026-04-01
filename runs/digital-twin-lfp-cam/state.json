@@ -1,0 +1,25 @@
+{
+  "project_name": "digital-twin-lfp-cam",
+  "funding_agency": "European Commission — Innovation Fund",
+  "mechanism": "Innovation Fund large-scale",
+  "stage_type": "Stage 1 — Concept Note (~25 pages)",
+  "created_at": "2026-04-01",
+  "deadline": "2026-04-15",
+  "stages": {
+    "call_parsing": { "status": "pending" },
+    "research": { "status": "pending" },
+    "writing": { "status": "pending" },
+    "review": { "status": "pending" }
+  },
+  "gates": {
+    "scope": { "passed": false },
+    "evidence": { "passed": false },
+    "draft": { "passed": false },
+    "submission": { "passed": false }
+  },
+  "inputs": {
+    "call_document": null,
+    "call_template": null,
+    "research_report": "inputs/research_report.pdf"
+  }
+}
