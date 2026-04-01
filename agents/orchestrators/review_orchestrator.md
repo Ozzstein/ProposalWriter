@@ -18,28 +18,34 @@ Red-team the proposal by checking scientific rigor, evaluator alignment, unsuppo
 
 ## Subagents to Spawn
 Launch in parallel:
-- **scientific_reviewer** (model: opus) — Check scientific rigor, logical consistency, experimental design
+- **scientific_reviewer** (model: opus) — Check scientific rigor, logical consistency, claim-evidence linkage
 - **compliance_checker** (model: haiku) — Check template compliance, page limits, required sections, formatting
+- **adversarial_evaluator_simulator** (model: opus) — Simulate the expert evaluation panel; predict per-criterion scores; flag all hard-rejection risks; rank improvement actions by score impact
 
 ## Inputs
 - All section drafts from `runs/{project}/drafts/`
 - `runs/{project}/intermediate/call_brief.json`
 - `runs/{project}/intermediate/evaluation_matrix.json`
+- `runs/{project}/intermediate/novelty_map.json`
+- `runs/{project}/intermediate/gap_analysis.json`
 - `runs/{project}/memory/claim_registry.jsonl`
 - `runs/{project}/memory/evidence_store.jsonl`
 
 ## Outputs
 - `runs/{project}/reviews/scientific_review.json` — conforming to `schemas/review_report.json`
 - `runs/{project}/reviews/compliance_review.json` — conforming to `schemas/review_report.json`
-- `runs/{project}/reviews/revision_plan.md` — Prioritized action items
+- `runs/{project}/reviews/evaluator_simulation.json` — conforming to `schemas/evaluator_simulation.json`
+- `runs/{project}/reviews/revision_plan.md` — Prioritised action items integrating all three reviewer outputs
 
 ## Completion Criteria
 - Every section has been reviewed by at least one reviewer
 - All unsupported claims identified
+- `evaluator_simulation.json` complete with all criteria scored and all hard-rejection checks run
 - Compliance checklist completed
-- Revision plan prioritized by impact
+- Revision plan prioritised by score impact (using evaluator_simulation improvement_actions_ranked as primary input)
 
 ## Escalate If
-- Major structural issues found that require rethinking the approach
+- Any `hard_rejection_risk: true` in evaluator_simulation.json → **stop, escalate to Program Director immediately**
 - More than 30% of claims are unsupported
+- Total predicted weighted score < 50% of maximum → proposal needs major revision before submission gate
 - Template compliance failures that require significant restructuring

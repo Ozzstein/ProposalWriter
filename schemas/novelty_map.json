@@ -1,0 +1,94 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NoveltyMap",
+  "description": "Structured map of the project's novelty positions relative to the state of the art. Produced by the novelty_mapper agent.",
+  "type": "object",
+  "required": ["project_name", "novelty_anchors", "minimum_anchors_met"],
+  "properties": {
+    "project_name": {
+      "type": "string",
+      "description": "Matches runs/{project-name} directory"
+    },
+    "generated_at": {
+      "type": "string",
+      "description": "ISO 8601 date"
+    },
+    "novelty_summary": {
+      "type": "string",
+      "description": "3–5 sentence narrative of the project's overall novelty position"
+    },
+    "novelty_anchors": {
+      "type": "array",
+      "minItems": 2,
+      "description": "Individual novelty position claims",
+      "items": {
+        "type": "object",
+        "required": ["anchor_id", "claim", "novelty_type", "dimension", "supported_by", "confidence", "attack_surface", "defensibility_score"],
+        "properties": {
+          "anchor_id": {
+            "type": "string",
+            "pattern": "^NOV-[0-9]{3}$",
+            "description": "Unique anchor identifier: NOV-001, NOV-002, ..."
+          },
+          "claim": {
+            "type": "string",
+            "description": "One-sentence statement of the novelty position"
+          },
+          "novelty_type": {
+            "type": "string",
+            "enum": ["first", "only", "best", "combination", "scale", "application"],
+            "description": "first = world-first; only = no alternative exists; best = measurably superior; combination = novel combination of existing elements; scale = existing tech applied at unprecedented scale; application = tech applied in new domain"
+          },
+          "dimension": {
+            "type": "string",
+            "enum": ["technical", "process", "integration", "application", "scale"],
+            "description": "Which dimension of the project is novel"
+          },
+          "existing_art": {
+            "type": "string",
+            "description": "What currently exists — reference source_ids inline e.g. [SRC-001]"
+          },
+          "gap": {
+            "type": "string",
+            "description": "The specific gap between existing art and what this project delivers"
+          },
+          "supported_by": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "source_ids from evidence store that support this novelty claim",
+            "minItems": 1
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+            "description": "Confidence that this claim will survive expert scrutiny"
+          },
+          "attack_surface": {
+            "type": "string",
+            "description": "How a sceptical evaluator or competitor could challenge this claim"
+          },
+          "defensibility_score": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 10,
+            "description": "1 = easily challenged, 10 = extremely difficult to refute"
+          },
+          "related_claims": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "CLM-ids from claim registry that depend on this novelty anchor"
+          }
+        }
+      }
+    },
+    "weak_points": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Novelty claims that need stronger evidence to be defensible. Explicitly state [] if none."
+    },
+    "minimum_anchors_met": {
+      "type": "boolean",
+      "description": "true if ≥3 anchors exist with defensibility_score ≥ 6; false otherwise"
+    }
+  }
+}
