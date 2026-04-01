@@ -1,0 +1,182 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EvaluatorSimulation",
+  "description": "Adversarial evaluator simulation report. Extends review_report.json with per-criterion predicted scores, hard-rejection checks, and funding probability assessment. Produced by adversarial_evaluator_simulator.",
+  "type": "object",
+  "required": ["project_name", "call_topic", "hard_rejection_checks", "criterion_scores", "summary"],
+  "properties": {
+    "project_name": {
+      "type": "string"
+    },
+    "call_topic": {
+      "type": "string",
+      "description": "e.g. INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING"
+    },
+    "generated_at": {
+      "type": "string",
+      "description": "ISO 8601 date"
+    },
+    "simulated_evaluator_profiles": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Descriptions of the evaluator personas used in the simulation"
+    },
+
+    "hard_rejection_checks": {
+      "type": "array",
+      "description": "Hard-rejection and minimum-threshold checks run before any scoring",
+      "items": {
+        "type": "object",
+        "required": ["check_id", "description", "met", "hard_rejection_risk"],
+        "properties": {
+          "check_id": {
+            "type": "string",
+            "description": "e.g. HR-1, HR-2, ..."
+          },
+          "description": {
+            "type": "string",
+            "description": "What is being checked"
+          },
+          "met": {
+            "type": "boolean",
+            "description": "Whether the check is currently met based on draft content"
+          },
+          "hard_rejection_risk": {
+            "type": "boolean",
+            "description": "true if failing this check would trigger automatic rejection"
+          },
+          "evidence": {
+            "type": "string",
+            "description": "What in the draft (or absence thereof) leads to this assessment"
+          },
+          "action_required": {
+            "type": "string",
+            "description": "What must be done to satisfy this check. Empty string if already met."
+          }
+        }
+      }
+    },
+
+    "criterion_scores": {
+      "type": "array",
+      "description": "Predicted score per criterion/sub-criterion from evaluation_matrix.json",
+      "items": {
+        "type": "object",
+        "required": ["criterion_id", "criterion_name", "max_score", "predicted_score_central"],
+        "properties": {
+          "criterion_id": {
+            "type": "string",
+            "description": "Matches criterion_id in evaluation_matrix.json (e.g. C1, C2.1, C3.2)"
+          },
+          "criterion_name": {
+            "type": "string"
+          },
+          "max_score": {
+            "type": "number"
+          },
+          "weight": {
+            "type": "number",
+            "description": "Weight multiplier from evaluation_matrix.json (1 if unweighted)"
+          },
+          "max_weighted_score": {
+            "type": "number"
+          },
+          "predicted_score_range": {
+            "type": "array",
+            "items": { "type": "number" },
+            "minItems": 2,
+            "maxItems": 2,
+            "description": "[low, high] — reflects evaluator variability"
+          },
+          "predicted_score_central": {
+            "type": "number",
+            "description": "Central estimate — use this for total score calculation"
+          },
+          "predicted_weighted_score": {
+            "type": "number",
+            "description": "predicted_score_central × weight"
+          },
+          "score_rationale": {
+            "type": "string",
+            "description": "Why this score is predicted — reference specific strengths and weaknesses in the draft"
+          },
+          "weakest_argument": {
+            "type": "string",
+            "description": "The single argument in this section that Evaluator A/B/C is most likely to downgrade"
+          },
+          "score_ceiling": {
+            "type": "number",
+            "description": "Maximum achievable score given current evidence and project status — not the theoretical max"
+          },
+          "hard_rejection_risk": {
+            "type": "boolean"
+          },
+          "improvement_actions": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Specific actions to raise the predicted score for this criterion"
+          }
+        }
+      }
+    },
+
+    "summary": {
+      "type": "object",
+      "required": ["total_predicted_weighted_score", "total_max_weighted_score", "funding_probability"],
+      "properties": {
+        "hard_rejection_risks_detected": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "List of hard-rejection checks that are not met — these must be resolved before submission"
+        },
+        "total_predicted_weighted_score": {
+          "type": "number"
+        },
+        "total_max_weighted_score": {
+          "type": "number"
+        },
+        "score_percentage": {
+          "type": "number",
+          "description": "(total_predicted / total_max) × 100"
+        },
+        "funding_probability": {
+          "type": "string",
+          "enum": ["high", "medium", "low", "at_risk"],
+          "description": "high = likely funded; medium = competitive but not assured; low = unlikely without major revision; at_risk = hard-rejection risk present"
+        },
+        "percentile_estimate": {
+          "type": "string",
+          "description": "Estimated percentile position in the field of competing proposals (e.g. 'top 20-30%')"
+        },
+        "top_3_risks": {
+          "type": "array",
+          "items": { "type": "string" },
+          "maxItems": 3
+        },
+        "top_3_strengths": {
+          "type": "array",
+          "items": { "type": "string" },
+          "maxItems": 3
+        },
+        "single_highest_impact_action": {
+          "type": "string",
+          "description": "The one action that would most improve the predicted total score"
+        },
+        "improvement_actions_ranked": {
+          "type": "array",
+          "description": "Top 5 improvement actions ranked by estimated score gain",
+          "maxItems": 5,
+          "items": {
+            "type": "object",
+            "properties": {
+              "rank": { "type": "integer" },
+              "criterion": { "type": "string" },
+              "action": { "type": "string" },
+              "estimated_score_gain": { "type": "string" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

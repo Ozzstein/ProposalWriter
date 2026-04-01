@@ -16,17 +16,25 @@ Draft polished, persuasive narrative sections for the grant proposal that are gr
 - Reviewing or critiquing sections (that's the review orchestrator)
 
 ## Subagents to Spawn
-Launch section writers in parallel:
-- **impact_writer** (model: sonnet) — Draft significance/impact sections
-- **implementation_writer** (model: sonnet) — Draft approach/implementation sections
-- **abstract_writer** (model: sonnet) — Draft the abstract (after other sections)
+
+### Phase 1 — Section writing (spawn in parallel)
+- **excellence_writer** (model: sonnet) — Draft the innovation/excellence section (Section 1 for IF, Section 1 Excellence for HE). Reads `novelty_map.json` and `gap_analysis.json` as primary inputs. Must be the first section written as it establishes the novelty narrative that other sections reference.
+- **impact_writer** (model: sonnet) — Draft significance/impact sections (GHG avoidance, broader impact, replicability for IF; impact section for HE)
+- **implementation_writer** (model: sonnet) — Draft approach/implementation sections (project maturity, workplan, cost efficiency for IF; methodology and implementation for HE)
+
+### Phase 2 — Abstract (after Phase 1 completes)
+- **abstract_writer** (model: sonnet) — Draft the project summary/abstract last, once all sections are complete
 
 ## Inputs
-- All intermediate outputs: call_brief, evaluation_matrix, sota_summary, novelty_map
+- `runs/{project}/intermediate/call_brief.json` — Instrument detection and evaluator focus
+- `runs/{project}/intermediate/evaluation_matrix.json` — Scoring rubric for every section
+- `runs/{project}/intermediate/sota_summary.md` — Background for all sections
+- `runs/{project}/intermediate/novelty_map.json` — Novelty anchors for excellence_writer
+- `runs/{project}/intermediate/gap_analysis.json` — Gap framing for excellence_writer and impact_writer
+- `runs/{project}/intermediate/proposal_outline.md` — Section structure and page budget
 - `runs/{project}/memory/evidence_store.jsonl`
 - `runs/{project}/memory/claim_registry.jsonl`
 - `runs/{project}/memory/decision_log.jsonl`
-- `templates/proposal_outline_nih_r01.md` (or relevant template)
 
 ## Outputs
 - `runs/{project}/drafts/{section_name}.md` — Individual section drafts
