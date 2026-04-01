@@ -92,10 +92,20 @@ The Innovation Fund carbon abatement case rests on:
 - Raissi et al., J. Computational Physics 2019 (PINNs)
 - Kalidindi et al., Frontiers in Materials 2022 (PSP linkages)
 
-## Open Questions (to resolve before /parse-call)
-1. What specific Innovation Fund call/topic is being targeted? (IF 2025 Large Scale?)
-2. What is FAAM's current LFP production capacity (tonnes/year)?
-3. What synthesis route does FAAM use? (solid-state is industrial standard)
-4. What is current energy consumption per tonne of LFP produced?
-5. What is the current TRL of the DT components? (report suggests TRL 4-5 for individual models)
-6. Are there additional consortium partners (research institutes, technology providers)?
+## Confirmed Scope (Gate 1 passed: 2026-04-02)
+- **Topic**: INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING ✓
+- **CAPEX**: €250,000,000 (well above €2.5M minimum) ✓
+- **Grant potential**: up to 60% of relevant costs (exact figure depends on relevant cost methodology)
+- **Location**: Brindisi, Italy — Eni brownfield site — eligible EU Member State ✓
+- **Applicants**: FAAM (FIB S.p.A. & Eni) — single beneficiary, no consortium required ✓
+- **Deadline**: 23 April 2026 – 17:00 CET ✓
+- **Calcination**: electric (maximise renewable electricity use)
+- **Spray drying**: electric
+
+## Open Questions (to resolve during /research and /write-proposal)
+1. What synthesis route does FAAM plan to use? (solid-state most likely for industrial scale)
+2. Reference energy consumption for GHG calculator (conventional gas-fired baseline)
+3. Expected grid carbon intensity for Brindisi (Puglia region) — needed for GHG calculation
+4. TRL of individual DT components as of project start (report suggests TRL 4-5 for models)
+5. Financial close timeline (must be within 4 years of grant signature)
+6. Any permits already in progress for the Brindisi site?

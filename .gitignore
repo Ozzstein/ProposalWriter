@@ -4,7 +4,6 @@ __pycache__/
 .env
 runs/*/memory/*.jsonl
 runs/*/inputs/
-runs/*/intermediate/
 runs/*/drafts/
 runs/*/reviews/
 runs/*/final/

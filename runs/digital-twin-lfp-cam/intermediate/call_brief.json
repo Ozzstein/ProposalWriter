@@ -1,0 +1,129 @@
+{
+  "call_name": "Innovation Fund call 2025 Net Zero Technologies",
+  "call_id": "INNOVFUND-2025-NZT",
+  "funder": "European Commission / CINEA",
+  "version": "1.1 – 14 January 2026",
+  "template_source": "uploaded: call-fiche_innovfund-2025-nzt_en.pdf",
+
+  "deadline": "23 April 2026 – 17:00:00 CET",
+  "call_opening": "4 December 2025",
+  "evaluation_period": "April–September 2026",
+  "ga_signature": "November 2026 – March 2027",
+
+  "recommended_topic": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
+  "recommended_topic_budget": "EUR 1,000,000,000",
+
+  "topics": [
+    {
+      "id": "INNOVFUND-2025-NZT-GENERAL-LSP",
+      "name": "General decarbonisation – Large-Scale Projects",
+      "budget": "EUR 1,200,000,000",
+      "capex_min": "EUR 100,000,000",
+      "capex_max": null
+    },
+    {
+      "id": "INNOVFUND-2025-NZT-GENERAL-MSP",
+      "name": "General decarbonisation – Medium-Scale Projects",
+      "budget": "EUR 300,000,000",
+      "capex_min": "EUR 20,000,000",
+      "capex_max": "EUR 100,000,000"
+    },
+    {
+      "id": "INNOVFUND-2025-NZT-GENERAL-SSP",
+      "name": "General decarbonisation – Small-Scale Projects",
+      "budget": "EUR 100,000,000",
+      "capex_min": "EUR 2,500,000",
+      "capex_max": "EUR 20,000,000"
+    },
+    {
+      "id": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
+      "name": "Clean-tech manufacturing",
+      "budget": "EUR 1,000,000,000",
+      "capex_min": "EUR 2,500,000",
+      "capex_max": null,
+      "scope": "Manufacturing of batteries and storage solutions; manufacturing of components and materials significant in final equipment performance/cost; innovation in production processes including digital technologies"
+    },
+    {
+      "id": "INNOVFUND-2025-NZT-PILOTS",
+      "name": "Pilot projects",
+      "budget": "EUR 300,000,000",
+      "capex_min": "EUR 2,500,000",
+      "capex_max": null,
+      "note": "Pre-commercial scale only, 3–5 year lifetime — NOT suitable for 7,000 t/year plant"
+    }
+  ],
+
+  "award_criteria": [
+    {
+      "criterion": "Degree of Innovation",
+      "max_points": 15,
+      "subcriteria": [
+        {"name": "Innovation vs state of the art", "points": 15}
+      ],
+      "threshold": "Must pass minimum threshold or proposal rejected"
+    },
+    {
+      "criterion": "GHG Emission Avoidance Potential",
+      "max_points": 12,
+      "subcriteria": [
+        {"name": "Absolute GHG emission avoidance", "points": 2},
+        {"name": "Relative GHG emission avoidance", "points": 5},
+        {"name": "Quality of GHG calculation and minimum requirements", "points": 5}
+      ],
+      "minimum_requirements": {
+        "relative_avoidance_min": "at least 50% (non-pilot topics)",
+        "process_emissions": "below applicable EU ETS benchmark at call opening",
+        "dnsh": "compliance with Do No Significant Harm principle required"
+      }
+    },
+    {
+      "criterion": "Project Maturity",
+      "max_points": 15,
+      "subcriteria": [
+        {"name": "Technical maturity", "points": 5},
+        {"name": "Financial maturity", "points": 5},
+        {"name": "Operational maturity", "points": 5}
+      ]
+    }
+  ],
+  "note_more_criteria": "Full award criteria continue in document — scalability/replicability and other subcriteria to be extracted",
+
+  "key_eligibility": {
+    "geographic": "EU Member States or EEA countries — Italy (Brindisi) is eligible",
+    "consortium": "Single applicant allowed",
+    "financial_close": "Within 4 years after grant signature",
+    "monitoring_period": "At least 5 years after entry into operation",
+    "max_grant_rate": "60% of relevant costs",
+    "ineligible_activities": [
+      "Activities primarily aimed at software/services to improve efficient use of ETS Annex I/III products — NOTE: DT alone would be ineligible; must be part of physical manufacturing plant",
+      "Activities not complying with DNSH principle",
+      "Projects that have already reached financial close"
+    ]
+  },
+
+  "page_limits": {
+    "part_b": "70 pages maximum",
+    "feasibility_study": "60 pages maximum",
+    "business_plan": "60 pages maximum"
+  },
+
+  "mandatory_annexes": [
+    "Application Form Part A (online)",
+    "Application Form Part B (PDF, max 70 pages)",
+    "Part C (online, KPIs)",
+    "Detailed budget table / relevant cost calculator",
+    "Participant information (CVs and previous projects)",
+    "Timetable / Gantt chart",
+    "GHG emission avoidance calculator (Excel template)",
+    "Feasibility study (max 60 pages)",
+    "Business plan (max 60 pages)",
+    "Detailed financial model (Excel, with formulas)"
+  ],
+
+  "project_specific_notes": {
+    "faam_capex": "7,000 t/year LFP plant — CAPEX likely well above EUR 2.5M minimum",
+    "location": "Brindisi, Italy — EU Member State, eligible",
+    "ghg_case": "Electric calcination + renewable grid (southern Italy solar) → basis for >50% GHG reduction vs. gas-fired baseline",
+    "dt_eligibility_note": "DT must be positioned as integrated innovation in the manufacturing process, NOT as a standalone software service"
+  }
+}

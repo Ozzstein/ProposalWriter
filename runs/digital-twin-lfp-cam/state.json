@@ -2,24 +2,36 @@
   "project_name": "digital-twin-lfp-cam",
   "funding_agency": "European Commission — Innovation Fund",
   "mechanism": "Innovation Fund large-scale",
-  "stage_type": "Stage 1 — Concept Note (~25 pages)",
+  "topic": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
+  "stage_type": "Full application (Part B, max 70 pages)",
   "created_at": "2026-04-01",
-  "deadline": "2026-04-15",
+  "deadline": "2026-04-23T17:00:00+01:00",
   "stages": {
-    "call_parsing": { "status": "pending" },
+    "call_parsing": { "status": "complete" },
     "research": { "status": "pending" },
     "writing": { "status": "pending" },
     "review": { "status": "pending" }
   },
   "gates": {
-    "scope": { "passed": false },
+    "scope": { "passed": true, "passed_at": "2026-04-02", "checked_at": "2026-04-02" },
     "evidence": { "passed": false },
     "draft": { "passed": false },
     "submission": { "passed": false }
   },
   "inputs": {
-    "call_document": null,
-    "call_template": null,
-    "research_report": "inputs/research_report.pdf"
+    "call_document": "inputs/call-fiche_innovfund-2025-nzt_en.pdf",
+    "call_template": "inputs/application-form_innovfund_en.pdf",
+    "research_report": "inputs/research_report.pdf",
+    "ghg_calculator": "inputs/ghg-calculator-energy-intensive-industries-eii_innovfund_en.xlsx",
+    "ghg_methodology": "inputs/ghg-emission-avoidance-methodology_innovfund_en.pdf",
+    "feasibility_template": "inputs/feasibility-study_innovfund_en.docx"
+  },
+  "project": {
+    "location": "Brindisi, Italy (Eni brownfield site)",
+    "applicants": ["FAAM (FIB S.p.A. & Eni)"],
+    "production_capacity_tpy": 7000,
+    "capex_eur": 250000000,
+    "calcination": "electric (maximise renewable electricity)",
+    "spray_drying": "electric"
   }
 }

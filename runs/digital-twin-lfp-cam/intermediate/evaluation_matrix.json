@@ -1,0 +1,337 @@
+{
+  "_meta": {
+    "source": "INNOVFUND-2025-NZT call document V1.1 (14 January 2026)",
+    "topic": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
+    "extracted_at": "2026-04-02",
+    "total_max_weighted": 105,
+    "total_max_unweighted": 75,
+    "hard_rejection_rules": [
+      {
+        "rule": "GHG relative avoidance < 50%",
+        "consequence": "Automatic rejection — score for 'Quality of GHG calculation' falls below threshold"
+      },
+      {
+        "rule": "Cost efficiency ratio > €200/tCO₂eq",
+        "consequence": "Automatic rejection — score for 'Cost efficiency ratio' is zero"
+      },
+      {
+        "rule": "GHG methodology incorrectly applied, assumptions not credible, or calculator not filled correctly",
+        "consequence": "Score for 'Quality of GHG calculation' below minimum threshold → rejection"
+      },
+      {
+        "rule": "Relevant costs calculator contains substantial errors or not filled completely",
+        "consequence": "Score for 'Quality of cost calculation' below minimum threshold → rejection"
+      },
+      {
+        "rule": "DNSH compliance for 'climate change mitigation' not demonstrated",
+        "consequence": "Score below threshold for minimum requirements"
+      }
+    ]
+  },
+
+  "criteria": [
+    {
+      "id": "C1",
+      "name": "Degree of Innovation",
+      "section_in_part_b": "Section 1",
+      "weight": 2,
+      "max_unweighted": 15,
+      "max_weighted": 30,
+      "min_pass_score": 9,
+      "hard_rejection_if_below_min": false,
+      "subcriteria": [
+        {
+          "id": "C1.1",
+          "name": "Innovation in relation to the state of the art",
+          "max_points": 15,
+          "min_pass": 9,
+          "weight": 2,
+          "scoring_rubric": "Degree to which the project goes beyond incremental innovation on a scale from intermediate to breakthrough innovation, including scaling-up. Quality, soundness and reliability of the information provided. European level as reference point.",
+          "what_evaluators_look_for": [
+            "Comparison to commercial state-of-the-art (most similar commercially available process)",
+            "Comparison to technological state-of-the-art (highest TRL demonstrated)",
+            "Reference to Innovation Fund project portfolio for overlap check",
+            "Evidence of non-incremental innovation (process, product, business model)",
+            "Justification that the proposed scale is appropriate",
+            "Citations from feasibility study for all technical claims"
+          ],
+          "project_strategy": "Position the ISO 23247 four-layer DT as world-first integration for LFP CAM powder synthesis — no analogous system exists (document gap per research report Section 10.1). Contrast with ARTISTIC (electrode, not CAM), DiBaZ (cell production), TwinHeat (generic furnace). Emphasise: (1) multi-scale physics coupling (CALPHAD+CFD+PBM+DEM) is breakthrough at TRL3→6; (2) real-time PAT-driven Bayesian updating has no precedent in LFP manufacturing; (3) closed-loop MPC for electric calcination + milling is novel at industrial scale."
+        }
+      ]
+    },
+
+    {
+      "id": "C2",
+      "name": "GHG Emission Avoidance Potential",
+      "section_in_part_b": "Section 2",
+      "weight": 1,
+      "max_unweighted": 12,
+      "max_weighted": 12,
+      "min_pass_score": null,
+      "note": "No overall minimum for this criterion, but subcriteria C2.3 has a hard pass/fail quality gate",
+      "subcriteria": [
+        {
+          "id": "C2.1",
+          "name": "Absolute GHG emission avoidance",
+          "max_points": 2,
+          "min_pass": null,
+          "weight": 1,
+          "scoring_rubric": "Relative to the sector median (proposals at median = 1 point; proportional scoring above/below). Calculated over 10 years after entry into operation using the official GHG calculator.",
+          "formula": "Score proportional to absolute tCO₂eq/10yr vs sector median",
+          "calculation_note": "Need: (1) FAAM's annual LFP production = 7,000 t/yr; (2) reference energy consumption for gas-fired calcination baseline; (3) Puglia grid emission factor for electric scenario",
+          "project_strategy": "Maximise absolute avoidance by: full electric calcination and spray drying, 100% renewable electricity procurement (PPA with Eni), scrap reduction from DT (fewer wasted batches = less embodied energy per tonne output)."
+        },
+        {
+          "id": "C2.2",
+          "name": "Relative GHG emission avoidance",
+          "max_points": 5,
+          "min_pass": null,
+          "weight": 1,
+          "scoring_rubric": "Score = 5 × (relative_avoidance%). Min 0% → 0pts; 100% → 5pts. Linear interpolation.",
+          "minimum_threshold": "50% relative avoidance required (non-pilot topics) — hard rejection below this",
+          "formula": "score = 5 × min(relative_avoidance, 1.0)",
+          "project_strategy": "Electric calcination with southern Italy solar grid (Puglia ~360 g CO₂/kWh average grid, dropping to ~120 g with dedicated renewable PPA). Gas-fired baseline ~600 g CO₂/kWh equivalent. Target: >75% relative avoidance to score 3.75+/5."
+        },
+        {
+          "id": "C2.3",
+          "name": "Quality of GHG emission avoidance calculation and minimum requirements",
+          "max_points": 5,
+          "min_pass": 3,
+          "weight": 1,
+          "hard_rejection_if_below_min": true,
+          "scoring_rubric": "Quality and credibility of GHG calculation methodology. Minimum requirements: (a) process emissions below EU ETS benchmark; (b) relative avoidance ≥50%; (c) DNSH for climate change mitigation objective; (d) GHG calculator correctly filled.",
+          "what_evaluators_look_for": [
+            "GHG calculator (Excel) fully completed — all sheets including data traceability",
+            "Reference scenario clearly defined and justified",
+            "Project scenario assumptions stated and referenced",
+            "ETS benchmark comparison included",
+            "DNSH TSC for climate change mitigation addressed",
+            "Sensitivity analysis on key assumptions",
+            "Consistent values across Part A, Part B, Part C, and financial model"
+          ],
+          "project_strategy": "Hire specialist GHG methodology consultant. Use official IF calculator template. Baseline: gas-fired rotary kiln LFP calcination (800°C, 2–4 h dwell time), relevant ETS benchmark. Project scenario: electric kiln + PPA. Document all assumptions. Score target: 5/5."
+        }
+      ]
+    },
+
+    {
+      "id": "C3",
+      "name": "Project Maturity",
+      "section_in_part_b": "Section 3",
+      "weight": 2,
+      "max_unweighted": 15,
+      "max_weighted": 30,
+      "min_pass_score": null,
+      "bonus_note": "CLEAN-TECH-MANUFACTURING bonus: financial close ≤2 years AND entry into operation ≤4 years after grant signature → higher score if all other aspects addressed",
+      "subcriteria": [
+        {
+          "id": "C3.1",
+          "name": "Technical maturity",
+          "max_points": 5,
+          "min_pass": 3,
+          "weight": 2,
+          "scoring_rubric": "Technical feasibility of achieving expected outputs; understanding of technology and related technical risks; quality of information. Mandatory annex: feasibility study.",
+          "what_evaluators_look_for": [
+            "Block flow diagrams and process flow diagrams",
+            "Mass and energy balances",
+            "Technology readiness level (TRL) with justification",
+            "Technical risks table (likelihood × impact × mitigation)",
+            "Due diligence reports if available",
+            "Volume of final product (7,000 t/yr LFP)"
+          ],
+          "project_strategy": "Current TRL for DT components: TRL 4-5 (models validated at lab/pilot scale). Project brings to TRL 7 (system prototype in operational environment). Strong point: Eni/FIB S.p.A. industrial track record in chemical manufacturing. Feasibility study must include: detailed FEED-level description of rotary kiln, spray dryer, ball mill, and DT architecture."
+        },
+        {
+          "id": "C3.2",
+          "name": "Financial maturity",
+          "max_points": 5,
+          "min_pass": 3,
+          "weight": 2,
+          "scoring_rubric": "Ability to reach financial close ≤48 months; credibility of business model and financial model; financing plan and sources; strategy to secure supply/offtake; quality of debt terms; understanding of financial risks.",
+          "what_evaluators_look_for": [
+            "Detailed financial model (Excel with formulas) — mandatory",
+            "Business plan annex — mandatory",
+            "CAPEX/OPEX breakdown",
+            "Expected project profitability before and after IF grant (IRR, NPV, WACC)",
+            "Financing structure: equity, debt, grant",
+            "Evidence of equity commitment (Eni/FIB balance sheets)",
+            "Debt financing status (indicative terms or mandate)",
+            "Sensitivity analysis on revenue, CAPEX, LFP price, carbon price",
+            "Financial close target date (within 4 years of GA; bonus for ≤2 years)"
+          ],
+          "project_strategy": "CAPEX €250M → max grant €150M (60%). Eni backing provides credibility. Need: LFP offtake term sheet (automotive OEM or battery cell maker), OPEX estimate, revenue forecast (LFP price trajectory 2027-2040). Financial close by Q4 2027 (within 2 years) would earn bonus points."
+        },
+        {
+          "id": "C3.3",
+          "name": "Operational maturity",
+          "max_points": 5,
+          "min_pass": 3,
+          "weight": 2,
+          "scoring_rubric": "Credibility of implementation plan; milestone detail (financial close, entry into operation, annual reporting); project management track record; permits status and plan; public acceptance; ability to enter operation in line with or faster than market standards.",
+          "what_evaluators_look_for": [
+            "Gantt chart covering grant signature → construction → commissioning → 5yr monitoring",
+            "Permitting status: EIA, environmental permits, building permits — Brindisi site is brownfield (advantage)",
+            "Site ownership / access confirmation",
+            "EPC contractor strategy",
+            "O&M strategy for DT system",
+            "Project management team CVs",
+            "Quality management and HSE plan",
+            "Entry into operation target date"
+          ],
+          "project_strategy": "Brownfield Eni site in Brindisi is major advantage (existing infrastructure, no greenfield permitting). FIB S.p.A. has Italian manufacturing track record. Target: EIA in progress or completed by application date. Project timeline: GA Q1 2027 → financial close Q4 2027 → construction start Q1 2028 → commissioning Q2 2030 → entry into operation Q3 2030."
+        },
+        {
+          "id": "C3.4",
+          "name": "Risk management",
+          "max_points": null,
+          "min_pass": null,
+          "weight": null,
+          "note": "Covered via business plan and feasibility study annexes — not separately scored but informs C3.1/C3.2/C3.3",
+          "what_evaluators_look_for": [
+            "Comprehensive risk register: technology, construction, market, regulatory, financing",
+            "Contingency provisions in budget"
+          ]
+        }
+      ]
+    },
+
+    {
+      "id": "C4",
+      "name": "Replicability",
+      "section_in_part_b": "Section 4",
+      "weight": 1,
+      "max_unweighted": 15,
+      "max_weighted": 15,
+      "min_pass_score": null,
+      "subcriteria": [
+        {
+          "id": "C4.1a",
+          "name": "Replicability in terms of efficiency gains and multiple environmental impacts",
+          "max_points": 5,
+          "min_pass": null,
+          "weight": 1,
+          "scoring_rubric": "Efficient use of resources; reduction and/or more efficient use of critical raw materials; circularity, recycling, recyclability; potential to address multiple environmental impacts (biodiversity, pollution); DNSH compliance for environmental objectives other than climate mitigation.",
+          "project_strategy": "LFP has no Co/Ni (Critical Raw Materials Act relevance). DT enables: (1) reduced Li waste through scrap reduction; (2) closed-loop material tracking for EU Battery Passport; (3) water savings in washing steps. DNSH: address water, pollution, circular economy in Section 4.1. Replication: same DT architecture applicable to NMC, LMFP, solid-state CAM manufacturing."
+        },
+        {
+          "id": "C4.1b",
+          "name": "Contribution to Europe's industrial leadership and competitiveness",
+          "max_points": 10,
+          "min_pass": 4,
+          "weight": 1,
+          "scoring_rubric": "Contribution to European industrial ecosystems (clusters, European suppliers); IP retention in EU/EEA; cooperation with EU universities/research institutions; capacity-building; due diligence on supply chain; mitigating critical raw material dependencies; knowledge sharing plan outline.",
+          "what_evaluators_look_for": [
+            "EU research partnerships (universities, RTOs) — TBD partners",
+            "IP strategy: what DT IP will be retained in EU",
+            "Training and capacity building during project",
+            "Supply chain due diligence (precursor sourcing — Fe₂O₃, Li₂CO₃/LiOH, H₃PO₄)",
+            "Critical raw material dependency analysis and diversification strategy",
+            "Connection to European battery value chain (BATT4EU, EBA, EIT InnoEnergy)"
+          ],
+          "project_strategy": "Partner with Italian university (e.g., Politecnico di Torino or Università di Bari) for DT model development. Link to EBA (European Battery Alliance) and EU Battery Regulation compliance. Document: 100% EU-sourced technology stack (COMSOL is EU-based; OpenFOAM is open-source). IP: DT models and PAT calibration data owned by FAAM. Score target: 8-9/10."
+        },
+        {
+          "id": "C4.2",
+          "name": "Knowledge sharing — Communication, dissemination and visibility",
+          "max_points": null,
+          "min_pass": null,
+          "weight": null,
+          "note": "Not separately scored; contributes to Section 4 overall impression",
+          "project_strategy": "Conference presentations at E-MRS, ISE, Euromat. Open-data publication of anonymised DT performance benchmarks. Battery Passport dataset as open standard contribution. Visibility: EU flag acknowledgement, CINEA reporting, public project website."
+        }
+      ]
+    },
+
+    {
+      "id": "C5",
+      "name": "Cost Efficiency",
+      "section_in_part_b": "Section 5",
+      "weight": 1,
+      "max_unweighted": 15,
+      "max_weighted": 15,
+      "min_pass_score": null,
+      "subcriteria": [
+        {
+          "id": "C5.1",
+          "name": "Cost efficiency ratio",
+          "max_points": 12,
+          "min_pass": null,
+          "weight": 1,
+          "hard_rejection_if_above_threshold": true,
+          "formula": "12 - (12 × (grant / absolute_GHG_avoidance_10yr / 200)) for ratio ≤ €200/tCO₂eq",
+          "formula_note": "ratio = (IF grant + other public support) / absolute GHG avoidance in tCO₂eq over 10 years",
+          "threshold": "Hard rejection if ratio > €200/tCO₂eq",
+          "scoring_rubric": "Cost-effectiveness of grant per tonne CO₂ avoided. Lower ratio = higher score. Formula: 12 – (12 × CER / 200). CER=0 → 12pts; CER=100 → 6pts; CER=200 → 0pts and rejected.",
+          "project_specific_estimate": {
+            "grant_requested_eur": 150000000,
+            "note_on_grant": "60% of €250M CAPEX — upper bound; actual relevant costs may be lower",
+            "ghg_avoidance_needed_tco2eq_10yr": 750000,
+            "note_on_ghg": "Need ≥750,000 tCO₂eq over 10yr to achieve ratio ≤€200/tCO₂eq at max grant",
+            "annual_ghg_needed_tco2eq": 75000,
+            "project_strategy": "With 7,000 t/yr LFP, electric calcination vs gas baseline: need to verify energy consumption per tonne LFP (typically 8-12 MWh/t for calcination + milling). At 12 MWh/t and Δ emission factor of ~1.0 tCO₂/MWh (gas vs renewable electric), annual avoidance = 7,000 × 12 × 1.0 = ~84,000 tCO₂/yr = 840,000 over 10yr. Ratio = €150M / 840,000 = €179/tCO₂ — WITHIN threshold. Verify with actual data."
+          }
+        },
+        {
+          "id": "C5.2",
+          "name": "Quality of the cost calculation and minimum requirements",
+          "max_points": 3,
+          "min_pass": 1.5,
+          "weight": 1,
+          "hard_rejection_if_below_min": true,
+          "scoring_rubric": "Quality and credibility of relevant costs calculation; correct methodology applied (incremental cost vs reference plant); all non-eligible costs excluded; correct formula for cost efficiency ratio.",
+          "what_evaluators_look_for": [
+            "Relevant costs calculator filled completely using IF template",
+            "Methodology clearly stated (incremental cost Option 1 or reference plant Option 2)",
+            "Separation of relevant vs. non-relevant costs",
+            "Maximum grant request ≤ 60% of relevant costs",
+            "Consistency between Part B, financial model, and Part C"
+          ]
+        }
+      ]
+    }
+  ],
+
+  "bonus_points": [
+    {
+      "id": "B1",
+      "name": "Net carbon removals potential",
+      "max_points": 1,
+      "weight": 1,
+      "applicability": "Not applicable — LFP manufacturing does not generate net carbon removals"
+    },
+    {
+      "id": "B2",
+      "name": "SME coordinator",
+      "max_points": 1,
+      "weight": 1,
+      "applicability": "Not applicable — FAAM (FIB S.p.A. + Eni) is not an SME"
+    },
+    {
+      "id": "B3",
+      "name": "Maritime sector decarbonisation",
+      "max_points": 1,
+      "weight": 1,
+      "applicability": "Not applicable — FAAM is a terrestrial battery manufacturing project"
+    }
+  ],
+
+  "overall_scoring_summary": {
+    "topic": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
+    "max_weighted_without_bonus": 102,
+    "max_weighted_with_bonus": 105,
+    "applicable_bonus_max": 0,
+    "effective_max": 102,
+    "no_overall_threshold": true,
+    "funding_decision": "Proposals above individual thresholds funded within available budget (€1B pool). Ranked by total weighted score. Ties broken by: (1) Degree of Innovation score, (2) GHG Avoidance score, (3) submission date."
+  },
+
+  "project_target_scores": {
+    "C1_degree_of_innovation": {"target_raw": 13, "target_weighted": 26, "confidence": "high — clear gap in literature"},
+    "C2_ghg_avoidance": {"target_raw": 10, "target_weighted": 10, "confidence": "medium — depends on GHG calculator verification"},
+    "C3_project_maturity": {"target_raw": 12, "target_weighted": 24, "confidence": "medium — brownfield site helps; permitting TBD"},
+    "C4_replicability": {"target_raw": 12, "target_weighted": 12, "confidence": "medium — EU partners TBD"},
+    "C5_cost_efficiency": {"target_raw": 12, "target_weighted": 12, "confidence": "medium — needs GHG calculator to confirm ratio ≤€200"},
+    "total_target_weighted": 84,
+    "note": "All individual threshold criteria must pass — no exceptions"
+  }
+}
