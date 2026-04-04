@@ -49,11 +49,6 @@ Find high-quality, relevant academic papers on the specified research topic usin
 - Use `category` filter (e.g. `q-bio.GN`, `cs.LG`, `eess.SP`) to narrow results
 - Best for: cutting-edge methods, ML/AI papers, physics-adjacent topics
 
-**IEEE Xplore** (`ieee_search`):
-- Use for engineering, manufacturing, control systems, digital twins, battery management
-- Filter by `content_type: "Journals"` for peer-reviewed only, or `"Conferences"` for cutting-edge applied work
-- Best for: Industry 4.0, cyber-physical systems, smart manufacturing, BMS, power electronics
-
 **CrossRef** (`crossref_search`):
 - Use to verify DOIs, check citation counts, and find funder metadata for any publisher
 - Best for: confirming publication details, finding EU-funded papers by funder name, checking if a preprint has been published

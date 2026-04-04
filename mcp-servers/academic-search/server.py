@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
-"""Academic Search MCP Server — PubMed, arXiv, Unpaywall, and Elsevier tools.
+"""Academic Search MCP Server — PubMed, arXiv, Unpaywall, Elsevier, CrossRef, Europe PMC.
 
 Provides search and retrieval tools for:
   - PubMed (NCBI E-utilities)
   - arXiv (Atom feed API)
   - Unpaywall (open-access PDF resolver)
-  - Scopus (Elsevier bibliometric database — search + abstract retrieval)
-  - ScienceDirect (Elsevier full-text retrieval — requires institutional access for paywalled articles)
+  - Scopus (Elsevier bibliometric database — search + abstract snippet)
+  - ScienceDirect (Elsevier full-text — OA or institutional access only)
+  - CrossRef (DOI registry, citation counts, funder metadata — no key)
+  - Europe PMC (EU-funded and biomedical OA literature — no key)
 
 Run with: python server.py
 Requires: pip install fastmcp httpx
@@ -24,7 +26,6 @@ UNPAYWALL_BASE = "https://api.unpaywall.org/v2"
 SCOPUS_BASE = "https://api.elsevier.com/content/search/scopus"
 SCOPUS_ABSTRACT_BASE = "https://api.elsevier.com/content/abstract"
 SCIENCEDIRECT_BASE = "https://api.elsevier.com/content/article"
-IEEE_BASE = "https://ieeexploreapi.ieee.org/api/v1/search/articles"
 CROSSREF_BASE = "https://api.crossref.org/works"
 EUROPEPMC_BASE = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 
@@ -34,7 +35,6 @@ UNPAYWALL_EMAIL = "proposalwriter@tool.local"
 ARXIV_HEADERS = {"User-Agent": "ProposalWriter/1.0 (grant proposal writing tool; contact via GitHub)"}
 
 _ELSEVIER_API_KEY = os.environ.get("ELSEVIER_API_KEY", "")
-_IEEE_API_KEY = os.environ.get("IEEEXPLORE_API_KEY", "")
 
 def _elsevier_headers(accept: str = "application/json") -> dict:
     """Build Elsevier API request headers."""
@@ -906,108 +906,6 @@ async def sciencedirect_fetch(doi: str) -> str:
         "section_count": len(sections),
         "url": f"https://doi.org/{doi}",
         "sciencedirect_url": f"https://www.sciencedirect.com/science/article/pii/{core.get('pii', '')}",
-    }, indent=2)
-
-
-@mcp.tool()
-async def ieee_search(
-    query: str,
-    max_results: int = 25,
-    year_from: int = 0,
-    year_to: int = 0,
-    content_type: str = "",
-) -> str:
-    """Search IEEE Xplore for engineering and technical papers.
-
-    IEEE Xplore is the primary database for:
-    - Digital twins and cyber-physical systems (IEEE Transactions on Industrial Informatics)
-    - Manufacturing systems and Industry 4.0 (IEEE Transactions on Automation Science)
-    - Battery management systems and energy storage (IEEE Transactions on Energy Conversion)
-    - Control systems, sensors, and IoT (IEEE Sensors Journal)
-    - Conference papers from IECON, ICRA, ICCV, etc.
-
-    Args:
-        query: Free-text query. Searches title, abstract, and index terms.
-               Use quotes for exact phrases: '"digital twin" "battery manufacturing"'
-        max_results: Number of results to return (default 25, max 200).
-        year_from: Optional start year filter.
-        year_to: Optional end year filter.
-        content_type: Optional filter — one of: Journals, Conferences, Books,
-                      Standards, Early Access. Leave blank for all types.
-
-    Returns:
-        JSON with paper metadata including DOI, citation count, PDF link,
-        publication venue, and abstract snippet.
-    """
-    import json
-
-    if not _IEEE_API_KEY:
-        return json.dumps({"error": "IEEEXPLORE_API_KEY not set in environment."})
-
-    params: dict = {
-        "apikey": _IEEE_API_KEY,
-        "querytext": query,
-        "max_records": str(min(max_results, 200)),
-        "start_record": "1",
-        "sort_order": "desc",
-        "sort_field": "article_number",
-        "format": "json",
-    }
-    if year_from:
-        params["start_year"] = str(year_from)
-    if year_to:
-        params["end_year"] = str(year_to)
-    if content_type:
-        params["content_type"] = content_type
-
-    async with httpx.AsyncClient(timeout=30.0) as client:
-        resp = await client.get(
-            IEEE_BASE,
-            params=params,
-            headers={"User-Agent": "ProposalWriter/1.0 (grant proposal writing tool)"},
-        )
-        if resp.status_code in (401, 403):
-            return json.dumps({"error": f"IEEE Xplore API access denied ({resp.status_code}). "
-                               "The key may need IP allowlisting at https://developer.ieee.org — "
-                               "log in, go to My Keys, and add your IP address."})
-        if resp.status_code == 429:
-            return json.dumps({"error": "IEEE Xplore API rate limit exceeded. Wait and retry."})
-        resp.raise_for_status()
-        data = resp.json()
-
-    total = data.get("total_records", 0)
-    articles = data.get("articles", [])
-
-    results = []
-    for a in articles:
-        doi = a.get("doi", "")
-        results.append({
-            "title": a.get("title", ""),
-            "authors": ", ".join(
-                auth.get("full_name", "")
-                for auth in (a.get("authors", {}).get("authors") or [])[:5]
-            ),
-            "year": str(a.get("publication_year", "")),
-            "journal_or_conference": a.get("publication_title", ""),
-            "content_type": a.get("content_type", ""),
-            "doi": doi,
-            "ieee_id": a.get("article_number", ""),
-            "citation_count": a.get("citing_paper_count", 0),
-            "abstract": (a.get("abstract") or "")[:400] + ("..." if len(a.get("abstract") or "") > 400 else ""),
-            "keywords": [
-                kw.get("value", "")
-                for kw in (a.get("index_terms", {}).get("ieee_terms", {}).get("terms") or [])[:8]
-            ],
-            "open_access": a.get("access_type", "") in ("OPEN_ACCESS", "FREE"),
-            "pdf_url": a.get("pdf_url", ""),
-            "url": f"https://doi.org/{doi}" if doi else f"https://ieeexplore.ieee.org/document/{a.get('article_number', '')}",
-        })
-
-    return json.dumps({
-        "total_results": total,
-        "returned": len(results),
-        "query": query,
-        "results": results,
     }, indent=2)
 
 
