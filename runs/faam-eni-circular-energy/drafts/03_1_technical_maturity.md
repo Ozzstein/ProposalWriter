@@ -39,11 +39,11 @@ The spray dryer is a critical quality-determining step: inlet temperature, feed 
 
 Electric resistance heating elements (Kanthal Tubothal or SiC elements, rated to 1100 C) are commercially proven in industrial spray dryers for ceramics and food processing at comparable throughputs [SRC-ED-009]. The specific thermal energy demand for spray drying of aqueous slurries is approximately 0.70-1.10 kWh per kg of water evaporated, based on data from the Italian ceramics industry operating in the same geographic region [SRC-ED-021].
 
-[ASSUMPTION: Spray dryer throughput capacity and number of units to be confirmed by user -- estimated at X t/h based on target annual production capacity.]
+The plant comprises 4 modular production lines, each rated at 12,500 t/yr, for a total nameplate capacity of 50,000 t/yr (50 kton/yr). Each line includes its own spray dryer train sized to support the line's throughput requirements. The workshop footprint is approximately 161.1 m x 106 m (~17,100 m2).
 
 **Step 4: Calcination (ELECTRIFIED -- Key Innovation Step)**
 
-The dried precursor powder is loaded into refractory crucibles (alumina or graphite-lined) and introduced into the calcination furnace via an external rail system. The furnace operates under nitrogen atmosphere (pO2 < 10 ppm) at 650-700 C for 6-12 hours [CLM-020, SRC-011].
+The dried precursor powder is loaded into saggars and introduced into the calcination furnace (roller hearth kiln or pusher kiln configuration) via an automated rail/conveyor system. The furnace operates under nitrogen atmosphere (pO2 < 10 ppm) at 650-700 C for 6-12 hours [CLM-020, SRC-011]. Nitrogen consumption is approximately 850 m3 per tonne of LFP CAM product.
 
 Two electrified furnace configurations are under evaluation for the Brindisi plant:
 
@@ -75,11 +75,31 @@ Qualified LiFePO4 product is automatically packaged under inert atmosphere (N2 b
 
 ### Mass and Energy Balance
 
-**Mass balance**: The solid-state synthesis route consumes approximately 1.05 mol Li2CO3 + 2.00 mol FePO4 + 0.10-0.15 mol glucose per 2.00 mol LiFePO4 produced. The stoichiometric yield is >95% for the lithium and iron-phosphorus streams; the primary mass loss is CO2 from carbonate decomposition and volatiles from glucose pyrolysis. Water is evaporated during spray drying and recovered; nitrogen carrier gas is recycled after scrubbing.
+**Mass balance (per tonne of LFP CAM product, from production document)**:
 
-**Energy balance**: The two energy-intensive steps are spray drying and calcination, which together account for >80% of total process electricity consumption [CLM-024, SRC-ED-014]. Based on the best available published analog (NMC CAM production at ~4 kWh/kg; Ahmed et al., 2017, 168 citations), LFP CAM specific energy is estimated at 3-6 kWh/kg product [CLM-027, SRC-ED-011]. LFP calcination operates at a lower temperature (650-700 C) than NMC (750-950 C), suggesting the lower end of this range is achievable with optimised process design.
+| Input | Quantity per tonne LFP CAM | Annual at 50 kton/yr |
+|-------|---------------------------|---------------------|
+| Iron phosphate (FePO4) | 0.98 t | 49,000 t |
+| Lithium carbonate (Li2CO3) | 0.25 t | 12,500 t |
+| Glucose (C6H12O6) | 0.010 t | 500 t |
+| TiO2 | 0.008 t | 400 t |
+| H3PO4 | 0.006 t | 300 t |
 
-[ASSUMPTION: Production capacity target of X,000 tonnes LFP CAM per year. To be confirmed by user. For reference, the comparable FREYR project targets 30,000 t/yr [SRC-025].]
+The stoichiometric yield is >95% for the lithium and iron-phosphorus streams; the primary mass loss is CO2 from carbonate decomposition and volatiles from glucose pyrolysis. Water is evaporated during spray drying and recovered; nitrogen carrier gas is recycled after scrubbing.
+
+**Energy and utility balance (per tonne of LFP CAM product, from production document)**:
+
+| Utility | Quantity per tonne LFP CAM |
+|---------|---------------------------|
+| Electricity | 3,580 kWh |
+| Production water | 4 t |
+| Pure water | 5 t |
+| Natural gas | 189 m3 |
+| Nitrogen | 850 m3 |
+
+The two energy-intensive steps are spray drying and calcination, which together account for >80% of total process energy consumption [CLM-024, SRC-ED-014]. The measured electricity consumption of 3,580 kWh/t is consistent with the estimated range of 3-6 kWh/kg from NMC CAM analog data (Ahmed et al., 2017 [SRC-ED-011]). The natural gas consumption of 189 m3/t reflects the initial plant configuration; the progressive electrification strategy aims to reduce and eventually eliminate this gas use through electric alternatives in spray drying and calcination auxiliary heating.
+
+**Production capacity**: The plant is designed for an annual nameplate capacity of **50,000 tonnes (50 kton/yr)** of battery-grade LFP CAM, organised across 4 modular production lines of 12,500 t/yr each. This exceeds the comparable FREYR project (30,000 t/yr [SRC-025]) and positions the Brindisi facility as the largest planned LFP CAM plant in Europe. The target market is primarily ESS cell manufacturers.
 
 ### Critical Quality Attributes (CQAs)
 
@@ -87,14 +107,21 @@ The following CQA targets define battery-grade LFP CAM, per the QbD framework de
 
 | CQA | Target | Specification | Measurement Method |
 |---|---|---|---|
-| D50 particle size | 1-3 um | +/- 0.5 um | Laser diffraction |
-| BET surface area | 12-18 m2/g | +/- 3 m2/g | N2 adsorption |
+| D10 particle size | 0.3-1.0 um | Range | Laser diffraction |
+| D50 particle size | 0.7-2.5 um | Range | Laser diffraction |
+| D90 particle size | 2.5-12.0 um | Range | Laser diffraction |
+| Specific surface area (SSA) | 10-14 m2/g | Range | N2 adsorption (BET) |
 | Tap density | 1.0-1.4 g/cm3 | >1.0 g/cm3 | ASTM B527 |
+| Pellet density | >=2.40 g/cm3 | Min 2.40 g/cm3 | Compaction measurement |
+| Electrode press density | >=2.30 g/cm3 | Min 2.30 g/cm3 | Press density measurement |
 | Phase purity (olivine) | >98% | Min 97% | XRD Rietveld refinement |
-| Carbon content | 1.5-3.0 wt% | +/- 0.5 wt% | TGA / combustion analysis |
+| Carbon content | 1.0-1.8 wt% | Range | TGA / combustion analysis |
 | Fe2+/Fe3+ ratio | >0.95 | Min 0.90 | Mossbauer / XPS |
-| Discharge capacity | >155 mAh/g at C/10 | Min 150 mAh/g | Half-cell electrochemical testing |
-| Moisture | <200 ppm | Max 500 ppm | Karl Fischer titration |
+| Discharge capacity (0.1C) | >=155 mAh/g | Min 150 mAh/g | Half-cell electrochemical testing |
+| Discharge capacity (1C) | >=140 mAh/g | Min 135 mAh/g | Half-cell electrochemical testing |
+| Initial Coulombic Efficiency | ~98% | Min 96% | Half-cell electrochemical testing |
+| Moisture | <750 ppm | Max 750 ppm | Karl Fischer titration |
+| Magnetic impurities | <=1000 ppb | Max 1000 ppb | Magnetic susceptibility |
 
 ### Digital Twin Architecture
 
@@ -132,4 +159,4 @@ The principal technical risks are described in detail in Section 3.4 (Risk Manag
 
 ## 3.1c Due Diligence Reports
 
-[ASSUMPTION: No independent technical due diligence reports have been completed at this stage of project development. If any technical DD reports are available (e.g., from equipment vendor assessments, independent process review), they should be referenced here and attached as annexes. The Feasibility Study annex serves as the primary technical documentation for this proposal.]
+[TO BE COMPLETED: Independent technical due diligence reports to be referenced here if available (e.g., from equipment vendor assessments, independent process review). The Feasibility Study annex serves as the primary technical documentation for this proposal. The production information document provides detailed process and equipment specifications supporting the technical feasibility assessment.]

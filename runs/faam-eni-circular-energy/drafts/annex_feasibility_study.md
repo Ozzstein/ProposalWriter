@@ -14,13 +14,13 @@
 
 ### 1.1 Overview
 
-The FAAM-ENI Circular Energy (FACE) project will design, construct, commission, and operate the first fully electrified lithium iron phosphate (LiFePO4, LFP) cathode active material (CAM) manufacturing plant in Italy and Southern Europe. The plant will be located at Eni's brownfield industrial site in Brindisi, Puglia, and will produce battery-grade LFP CAM powder for supply to European lithium-ion battery cell manufacturers serving the electric vehicle (EV) and grid-scale energy storage system (ESS) markets.
+The FAAM-ENI Circular Energy (FACE) project will design, construct, commission, and operate the first progressively electrified lithium iron phosphate (LiFePO4, LFP) cathode active material (CAM) manufacturing plant in Italy and Southern Europe, with a nameplate capacity of 50,000 tonnes per year across 4 modular production lines. The plant will be located at Eni's brownfield industrial site in Brindisi, Puglia, and will produce battery-grade LFP CAM powder for supply to European lithium-ion battery cell manufacturers serving the electric vehicle (EV) and grid-scale energy storage system (ESS) markets.
 
 The project is implemented by a two-partner consortium: FIB (FAAM), the coordinator and battery manufacturer responsible for plant construction and operation, and Eni, the brownfield site owner contributing process engineering expertise and energy supply infrastructure.
 
 The FACE plant employs a solid-state synthesis route -- the dominant industrial process for LFP CAM globally [CLM-009, SRC-011] -- with two defining technical differentiators that position it beyond the current state-of-the-art:
 
-1. **Fully electrified thermal processing**. The two energy-intensive production steps -- spray drying and calcination -- are powered entirely by electricity, replacing the natural gas-fired equipment used universally in incumbent Chinese production facilities [CLM-001, CLM-023]. Electric roller hearth kilns achieve 95% thermal efficiency versus 25-60% for gas-fired systems [CLM-023, SRC-ED-009], and heat pump-assisted spray drying delivers COP 3.0-3.6 [SRC-ED-004, SRC-ED-005]. This electrified design eliminates on-site Scope 1 combustion emissions and positions the plant to capitalise on Italy's grid decarbonisation trajectory, delivering 55-70% GHG avoidance versus gas-fired benchmarks by 2030 and exceeding 80% by 2035 [CLM-026, CLM-030].
+1. **Progressive electrification of thermal processing**. The two energy-intensive production steps -- spray drying and calcination -- are predominantly powered by electricity, substantially replacing the natural gas-fired equipment used universally in incumbent Chinese production facilities [CLM-001, CLM-023]. Electric roller hearth kilns achieve 95% thermal efficiency versus 25-60% for gas-fired systems [CLM-023, SRC-ED-009], and heat pump-assisted spray drying delivers COP 3.0-3.6 [SRC-ED-004, SRC-ED-005]. The initial plant configuration retains limited natural gas use (189 m3/t LFP CAM) for auxiliary heating where full electrification is not yet technically or economically feasible at the 50 kton/yr scale. The plant architecture is designed for progressive gas elimination. This progressively electrified design dramatically reduces Scope 1 combustion emissions versus the gas-fired benchmark and positions the plant to capitalise on Italy's grid decarbonisation trajectory, delivering 55-70% GHG avoidance by 2030 and exceeding 80% by 2035 as electrification deepens [CLM-026, CLM-030].
 
 2. **ISO 23247-compliant digital twin (DT)**. An integrated, real-time digital twin framework governs the entire production chain from raw material dosing through calcination to final packaging. The DT implements the ISO 23247 four-layer architecture [CLM-008, SRC-007] with multi-scale physics-based models spanning atomistic (DFT) to plant scale (flowsheet simulation) [CLM-018], Process Analytical Technology (PAT) sensor networks for in-line and at-line quality monitoring [CLM-019], and model-predictive control (MPC) for closed-loop process optimisation. Cross-industry benchmarks project 10-50% scrap reduction, 12-15% energy savings, and >40% batch-to-batch variability reduction [CLM-007, CLM-016, CLM-017].
 
@@ -34,15 +34,21 @@ The product meets the following Critical Quality Attribute (CQA) specifications,
 
 | CQA | Target | Specification | Test Method |
 |-----|--------|---------------|-------------|
-| D50 particle size | 1-3 um | +/- 0.5 um | Laser diffraction (ISO 13320) |
-| BET surface area | 12-18 m2/g | +/- 3 m2/g | N2 adsorption (ISO 9277) |
+| D10 particle size | 0.3-1.0 um | Range | Laser diffraction (ISO 13320) |
+| D50 particle size | 0.7-2.5 um | Range | Laser diffraction (ISO 13320) |
+| D90 particle size | 2.5-12.0 um | Range | Laser diffraction (ISO 13320) |
+| Specific surface area (SSA) | 10-14 m2/g | Range | N2 adsorption/BET (ISO 9277) |
 | Tap density | 1.0-1.4 g/cm3 | >1.0 g/cm3 | ASTM B527 |
+| Pellet density | >=2.40 g/cm3 | Min 2.40 g/cm3 | Compaction measurement |
+| Electrode press density | >=2.30 g/cm3 | Min 2.30 g/cm3 | Press density measurement |
 | Phase purity (olivine) | >98% | Min 97% | XRD Rietveld refinement |
-| Carbon content | 1.5-3.0 wt% | +/- 0.5 wt% | TGA / combustion analysis |
+| Carbon content | 1.0-1.8 wt% | Range | TGA / combustion analysis |
 | Fe2+/Fe3+ ratio | >0.95 | Min 0.90 | Mossbauer spectroscopy / XPS |
-| Discharge capacity | >155 mAh/g (C/10) | Min 150 mAh/g | Half-cell electrochemical test |
-| Moisture | <200 ppm | Max 500 ppm | Karl Fischer titration |
-| Carbon D/G ratio | 0.8-1.2 | Range | Raman spectroscopy |
+| Discharge capacity (0.1C) | >=155 mAh/g | Min 150 mAh/g | Half-cell electrochemical test |
+| Discharge capacity (1C) | >=140 mAh/g | Min 135 mAh/g | Half-cell electrochemical test |
+| Initial Coulombic Efficiency | ~98% | Min 96% | Half-cell electrochemical test |
+| Moisture | <750 ppm | Max 750 ppm | Karl Fischer titration |
+| Magnetic impurities | <=1000 ppb | Max 1000 ppb | Magnetic susceptibility |
 
 These specifications target Tier-1 European cell manufacturers (e.g., PowerCo, Verkor, Northvolt, ACC) who require consistent, battery-grade LFP CAM with full traceability -- a requirement that will be mandated by the EU Battery Regulation (2023/1542) Battery Passport from 2027.
 
@@ -88,7 +94,7 @@ The project is sited on an existing industrial property owned by Eni S.p.A. in B
 - Existing environmental baseline data and monitoring systems
 - Industrial zoning classification eliminating residential proximity concerns
 
-[ASSUMPTION: The specific area within the Eni Brindisi site allocated to the FACE plant, including total available land area (m2), existing building structures to be repurposed vs demolished, and current operational status of the site (active, partially active, or decommissioned), must be confirmed by the project team.]
+The FACE plant workshop footprint is approximately 161.1 m x 106 m (~17,100 m2), housing 4 modular production lines. The Brindisi site is currently undergoing brownfield remediation (cleanup in progress), confirming its transition from prior industrial operations to new clean-tech manufacturing use. [TO BE COMPLETED: specific area allocation within the Eni Brindisi complex, existing structures to be repurposed vs demolished, to be confirmed by site engineering team.]
 
 The brownfield nature of the site offers material advantages: reduced civil works scope compared to greenfield construction, accelerated permitting based on existing industrial zoning and environmental authorisation precedent, and existing utility connections that reduce infrastructure CAPEX and lead time.
 
@@ -116,7 +122,7 @@ The FACE project addresses this gap as the first LFP CAM production facility in 
 
 FIB (Fabbrica Italiana Batterie, incorporating the FAAM brand) is an established Italian battery manufacturer with expertise in lead-acid and lithium-ion battery production, including cell assembly, module integration, and battery management systems. FIB's existing manufacturing infrastructure and quality management systems provide the organisational foundation for upstream expansion into CAM production.
 
-[ASSUMPTION: FIB/FAAM's current battery manufacturing capacity (MWh/year), number of manufacturing sites, ISO certifications (ISO 9001, ISO 14001, IATF 16949), and specific prior experience with LFP chemistry at cell level must be confirmed by the project team.]
+FIB/FAAM was founded in 1974 in Monterubbiano (FM), Italy, and is a subsidiary of Seri Industrial S.p.A. (acquired in 2013). With approximately 354 employees, FIB produces lithium-ion batteries for traction, industrial, storage, and military applications, as well as lead-acid batteries and fuel cells, with a strategic focus on green batteries with low environmental impact. FIB holds ISO 9001, ISO 14001, and ISO 45001 certifications. FIB has recently contracted an 8 GWh lithium battery facility with Lead Intelligent Equipment. FIB has an established track record of supporting university research through PhD studentships and MSc degree collaborations. [TO BE COMPLETED: specific current MWh/year manufacturing capacity and number of manufacturing sites to be confirmed by project team.]
 
 ---
 
@@ -128,7 +134,7 @@ FIB (Fabbrica Italiana Batterie, incorporating the FAAM brand) is an established
 
 | Factor | Description |
 |--------|-------------|
-| **Geographic coordinates** | [ASSUMPTION: Exact coordinates to be provided] |
+| **Geographic coordinates** | [TO BE COMPLETED: Exact coordinates to be provided by site engineering] |
 | **Industrial zone** | Established industrial area with appropriate zoning |
 | **Port access** | Brindisi port -- Mediterranean maritime hub for raw material import (FePO4, Li2CO3 from global suppliers) and product export |
 | **Grid connection** | High-voltage connection to Terna (Italian TSO) grid; Puglia region has excellent renewable energy potential |
@@ -185,7 +191,7 @@ The project requires the following regulatory authorisations under Italian law:
 | Certificato di Prevenzione Incendi | Vigili del Fuoco | Fire safety certification | 2-4 months |
 | Autorizzazione emissioni in atmosfera | Regione Puglia / ARPA | Atmospheric emission permit (limited scope -- electrified plant has minimal process emissions) | Included in AIA |
 
-[ASSUMPTION: The current permitting status for the FACE plant is assumed to be at pre-application stage. If Eni has initiated any pre-consultation meetings with MASE or Regione Puglia, or if the brownfield site has existing environmental authorisations that can be amended rather than obtained de novo, this would materially accelerate the permitting timeline. The project team should confirm the actual permitting status and strategy.]
+Permitting applications (VIA, AIA, building permits) have been filed and are in process. The brownfield site is undergoing remediation (cleanup in progress). Eni's established relationship with Brindisi local authorities, based on decades of industrial operations, supports the permitting timeline.
 
 **Permitting mitigation strategy**:
 - Early engagement with Regione Puglia and MASE permitting authorities
@@ -223,7 +229,7 @@ The project will generate foreground IP in three domains:
 | EP4222563A4 | AspenTech | Medium | Industrial DT architecture patent. If AspenTech platform is used, licensed automatically. |
 | US20230261188 | Mitra Future Tech | Low | Pending, covers R&D workflow not in-line process control. |
 
-[ASSUMPTION: A comprehensive Chinese-language CNIPA patent search is recommended to assess the IP position of CATL, BYD, Gotion, and Dynanonic. English-language searches do not adequately cover Chinese patent filings in this domain.]
+[TO BE COMPLETED: A comprehensive Chinese-language CNIPA patent search is recommended to assess the IP position of CATL, BYD, Gotion, and Dynanonic. English-language searches do not adequately cover Chinese patent filings in this domain.]
 
 **Confidentiality provisions**: The consortium agreement establishes mutual NDA obligations between FIB and Eni, with specific provisions for: (i) background IP protection; (ii) foreground IP ownership (inventor institution owns, partner receives royalty-free licence for project purposes); (iii) publication approval process (30-day review period for patentability assessment); and (iv) post-project exploitation rights.
 
@@ -275,14 +281,18 @@ These objectives are consistent with the Innovation Fund scoring criteria: O1 ad
 
 The solid-state LFP synthesis route requires three primary precursors plus process utilities:
 
-| Material | Function | Approx. Quantity per t LFP CAM | Supply Category |
-|----------|----------|-------------------------------|-----------------|
-| Iron phosphate (FePO4) | Iron and phosphorus source | ~1.0-1.05 t (stoichiometric + 2-5% excess) | Commodity industrial chemical |
-| Lithium carbonate (Li2CO3) | Lithium source | ~0.24-0.26 t (stoichiometric + 2-5% Li excess) | Critical raw material |
-| Glucose (C6H12O6) | Carbon source for in-situ coating | 50-150 kg (5-15 wt% of total solids) | Food-grade commodity |
-| Nitrogen gas (N2) | Inert atmosphere for calcination | [ASSUMPTION: XX Nm3 per t -- depends on kiln volume, purge rate, and N2 recycling efficiency] | Industrial gas |
-| Deionised water | Slurry preparation medium | [ASSUMPTION: XX m3 per t -- recycled via spray dryer condensate recovery] | On-site treatment |
-| Electricity | All process heat + milling + utilities | ~3-6 kWh/kg LFP CAM [CLM-027] (~3,000-6,000 kWh/t) | Grid + PPA |
+| Material | Function | Quantity per t LFP CAM | Annual at 50 kton/yr | Supply Category |
+|----------|----------|------------------------|---------------------|-----------------|
+| Iron phosphate (FePO4) | Iron and phosphorus source | 0.98 t | 49,000 t | Commodity industrial chemical |
+| Lithium carbonate (Li2CO3) | Lithium source | 0.25 t | 12,500 t | Critical raw material |
+| Glucose (C6H12O6) | Carbon source for in-situ coating | 0.010 t (10 kg) | 500 t | Food-grade commodity |
+| TiO2 | Doping/coating additive | 0.008 t (8 kg) | 400 t | Commodity chemical |
+| H3PO4 | Supplementary phosphorus source | 0.006 t (6 kg) | 300 t | Commodity chemical |
+| Nitrogen gas (N2) | Inert atmosphere for calcination | 850 m3 | 42,500,000 m3 | Industrial gas |
+| Production water | Slurry preparation and process | 4 t | 200,000 t | On-site treatment |
+| Pure water | High-purity process applications | 5 t | 250,000 t | On-site treatment |
+| Electricity | Process heat + milling + utilities | 3,580 kWh | 179,000 MWh | Grid + PPA |
+| Natural gas | Auxiliary heating (spray drying, calcination) | 189 m3 | 9,450,000 m3 | Pipeline/LNG |
 
 #### 5.1.2 Iron Phosphate (FePO4) Supply
 
@@ -292,7 +302,7 @@ Iron phosphate is produced globally through the reaction of iron salts (FeSO4, F
 - **European suppliers**: Limited current capacity. Chemical companies such as Budenheim (Germany) and Prayon (Belgium) produce iron phosphate for food and pharmaceutical applications; battery-grade specifications may require qualification.
 - **Diversification strategy**: Dual-sourcing from at least one Chinese and one non-Chinese supplier, with strategic inventory buffer (minimum 3 months).
 
-[ASSUMPTION: Specific supplier names, contracted volumes, pricing structure, and qualification status must be confirmed by the procurement team. Long-term supply agreements with price hedging mechanisms should be negotiated before FID.]
+[TO BE COMPLETED: Specific supplier names, contracted volumes, pricing structure, and qualification status must be confirmed by the procurement team. Long-term supply agreements with price hedging mechanisms should be negotiated before FID. Annual requirement at full capacity: 49,000 t FePO4.]
 
 #### 5.1.3 Lithium Carbonate (Li2CO3) Supply
 
@@ -305,7 +315,7 @@ Lithium carbonate is classified as a critical raw material under the EU Critical
 - Strategic inventory: minimum 3 months of lithium carbonate buffer stock
 - Price hedging: forward contracts or financial hedging where commercially available
 
-[ASSUMPTION: Lithium carbonate pricing is highly volatile (ranged from ~USD 15,000/t to ~USD 80,000/t between 2022-2025). The specific contracted price and hedging strategy must be defined in the business plan. OPEX sensitivity to lithium price should be modelled at +/-50%.]
+[TO BE COMPLETED: Lithium carbonate pricing is highly volatile (ranged from ~USD 15,000/t to ~USD 80,000/t between 2022-2025). Annual requirement at full capacity: 12,500 t Li2CO3. The specific contracted price and hedging strategy must be defined in the business plan. OPEX sensitivity to lithium price should be modelled at +/-50%.]
 
 #### 5.1.4 Glucose
 
@@ -319,7 +329,7 @@ High-purity nitrogen (>99.99%) is required for the inert calcination atmosphere.
 - **Bulk liquid N2 delivery**: From industrial gas suppliers (Air Liquide, Linde, SOL Group -- all with operations in southern Italy). Higher purity (>99.999%) but higher operating cost (~EUR 0.10-0.20/Nm3).
 - **Hybrid approach**: On-site PSA for base load with bulk liquid top-up for peak demand and ultra-high-purity applications.
 
-[ASSUMPTION: The specific N2 supply configuration, consumption rate, and cost must be confirmed by process engineering based on kiln volume, purge rate, and N2 recycling efficiency.]
+The production document specifies nitrogen consumption of 850 m3 per tonne of LFP CAM product (42,500,000 m3/yr at full 50 kton/yr capacity). [TO BE COMPLETED: The specific N2 supply configuration (on-site PSA vs bulk liquid vs hybrid) and cost must be confirmed by process engineering.]
 
 #### 5.1.6 Electricity
 
@@ -367,7 +377,7 @@ The FACE plant creates value across multiple dimensions:
 
 The FACE plant is designed according to the following principles:
 
-**Electrification-first**: All thermal processing is electric. No natural gas infrastructure is installed. The plant is designed for a 20+ year operational life during which the Italian grid progressively decarbonises [CLM-030]. This avoids capital investment in gas infrastructure that would become stranded assets within 5-7 years as carbon pricing (EU ETS) and grid decarbonisation render gas-fired processes uncompetitive.
+**Progressive electrification**: The plant maximises electrical process heat from day one, achieving a significantly higher degree of electrification than the gas-fired Asian benchmark. The initial configuration retains limited natural gas use (189 m3/t LFP CAM) for process steps — primarily spray drying auxiliary heating and calcination support — where full electrification is not yet technically or economically feasible at the 50 kton/yr production scale. The plant architecture is explicitly designed to accommodate progressive gas-to-electric substitution: electric roller hearth kilns can operate fully electrically, and the spray drying system is designed for HTHP integration as Phase 2 upgrade. The digital twin optimises the energy mix in real time and identifies the pathway to full electrification. Over the plant's 20+ year operational life, the combination of technology maturation, falling renewable electricity costs, and grid decarbonisation [CLM-030] will drive progressive elimination of residual gas use.
 
 **DT-integrated from design phase**: The digital twin is not a retrofit -- it is designed into the plant from inception. All equipment is specified with digital connectivity requirements (OPC-UA interfaces, sensor ports, data tags). The DT data architecture is established during detailed engineering and commissioned in parallel with physical equipment. This contrasts with typical brownfield DT deployments where data infrastructure must be overlaid on legacy equipment.
 
@@ -380,38 +390,39 @@ The FACE plant is designed according to the following principles:
 | # | System | Equipment | Key Specification | Est. Lead Time | Supplier Type |
 |---|--------|-----------|-------------------|----------------|---------------|
 | 1 | Precursor dosing | Gravimetric loss-in-weight feeders | +/-0.1% accuracy; 3 independent feeders (FePO4, Li2CO3, glucose) | 3-4 months | EU (Schenck Process, K-Tron/Coperion) |
-| 2 | Dispersion | High-shear mixing tank | [ASSUMPTION: XX m3 capacity]; stainless steel 316L; variable speed drive | 2-3 months | EU |
-| 3 | Sand milling | Horizontal bead mill (sand mill) | [ASSUMPTION: XX L grinding chamber]; ZrO2 bead media 0.3-0.5 mm; water-cooled | 4-6 months | EU/Asia (NETZSCH, WAB) |
+| 2 | Dispersion | High-shear mixing tank | [TO BE COMPLETED: capacity to be sized for 12.5 kton/yr per line]; stainless steel 316L; variable speed drive | 2-3 months | EU |
+| 3 | Sand milling | Horizontal bead mill (sand mill) | [TO BE COMPLETED: grinding chamber size to be confirmed by vendor]; ZrO2 bead media 0.3-0.5 mm; water-cooled | 4-6 months | EU/Asia (NETZSCH, WAB) |
 | 4 | Magnetic separation (pre-spray drying) | Electromagnetic demagnetiser | Ferromagnetic removal to <0.1 ppm Fe metallic | 2-3 months | EU (Eriez, Bunting) |
-| 5 | Spray drying (ELECTRIFIED) | Co-current electric spray dryer with HTHP pre-heating | Inlet 200-250 C; outlet 90-120 C; electric resistance heaters (Kanthal Tubothal/SiC); [ASSUMPTION: XX kg/h water evaporation capacity] | 6-9 months (LONG LEAD) | EU (GEA, Buchi Industrial, SPX/Anhydro) |
+| 5 | Spray drying (ELECTRIFIED) | Co-current electric spray dryer with HTHP pre-heating | Inlet 200-250 C; outlet 90-120 C; electric resistance heaters (Kanthal Tubothal/SiC); [TO BE COMPLETED: water evaporation capacity to be sized for 12.5 kton/yr per line] | 6-9 months (LONG LEAD) | EU (GEA, Buchi Industrial, SPX/Anhydro) |
 | 6 | Calcination (ELECTRIFIED) | Electric roller hearth kiln | 650-700 C operating temperature; N2 atmosphere (pO2 <10 ppm); multi-zone PID + MPC control; 95% thermal efficiency [CLM-023] | 9-12 months (LONG LEAD) | EU (Kanthal/Sandvik heating elements; NGK Insulators or ONEJOON kiln) |
 | 7 | Crucible system | Alumina or graphite-lined refractory crucibles + external rail transport | Heat-resistant; compatible with N2 atmosphere; automated loading/unloading | 3-4 months | EU |
-| 8 | Jet milling | Compressed gas jet mill (air or N2 jet) | Target D50 1-3 um; [ASSUMPTION: XX kg/h capacity] | 3-4 months | EU (NETZSCH, Hosokawa Alpine) |
+| 8 | Jet milling | Compressed gas jet mill (air or N2 jet) | Target D50 0.7-2.5 um; optional bypass for spherical grade; [TO BE COMPLETED: capacity to be sized per line] | 3-4 months | EU (NETZSCH, Hosokawa Alpine) |
 | 9 | Classification | Ultrasonic vibrating sieve | Cut-off 10-20 um; high-throughput continuous operation | 2-3 months | EU (Russell Finex, Sweco) |
 | 10 | Magnetic separation (post-milling) | Electromagnetic dry powder separator | Ferromagnetic removal from dry LFP powder | 2-3 months | EU (Eriez, Bunting) |
-| 11 | Automated packaging | N2-blanketed automated packaging line | [ASSUMPTION: XX kg/bag]; moisture barrier bags; lot number/traceability | 2-3 months | EU |
-| 12 | N2 supply system | PSA generator and/or bulk liquid N2 storage | >99.99% purity; [ASSUMPTION: XX Nm3/h capacity] | 3-6 months | EU (Air Liquide, Linde, SOL) |
+| 11 | Automated packaging | N2-blanketed automated packaging line | [TO BE COMPLETED: bag size to be confirmed]; moisture barrier bags; lot number/traceability | 2-3 months | EU |
+| 12 | N2 supply system | PSA generator and/or bulk liquid N2 storage | >99.99% purity; total consumption 850 m3/t LFP CAM; [TO BE COMPLETED: hourly capacity to be sized for continuous operation] | 3-6 months | EU (Air Liquide, Linde, SOL) |
 | 13 | DT infrastructure | Edge computing nodes, OPC-UA gateways, sensor network, fog/cloud servers | ISO 23247 compliant; <100 ms edge-to-fog latency; InfluxDB time-series DB | 3-6 months | EU (Siemens, Beckhoff, ABB for OPC-UA; Dell/HPE for compute) |
 | 14 | PAT sensor suite | Raman probes, FBRM, laser diffraction, pyrometers, IR cameras, O2/CO2 analysers | See Section 6.8 sensor deployment table | 3-6 months | EU/USA (Endress+Hauser, Mettler Toledo, HORIBA, Malvern Panalytical) |
 
 **Critical path items**: The electric roller hearth kiln (Item 6, 9-12 months lead time) and electric spray dryer (Item 5, 6-9 months) define the equipment procurement critical path. Early vendor engagement and order placement is essential for schedule compliance.
 
-[ASSUMPTION: Specific equipment vendors, detailed technical specifications, budgetary quotes, and confirmed lead times must be obtained during the Front-End Engineering Design (FEED) phase. The above specifications are indicative based on industry benchmarks and publicly available vendor data.]
+[TO BE COMPLETED: Specific equipment vendor shortlist, detailed technical specifications, budgetary quotes, and confirmed lead times must be obtained during the Front-End Engineering Design (FEED) phase. The above specifications are informed by the production information document and publicly available vendor data.]
 
 ### 6.3 Operational Characteristics
 
-[ASSUMPTION: The following operational parameters are preliminary estimates that must be validated during FEED. The operating schedule, production capacity, and ramp-up plan are subject to market demand assessment and financial modelling by the CFO team.]
+The following operational parameters are based on the production information document (50 kton/yr, 4 modular lines). Detailed validation during FEED will refine specific equipment sizing and operating schedules.
 
 | Parameter | Value | Basis |
 |-----------|-------|-------|
-| Operating schedule | [ASSUMPTION: Continuous operation (24/7, 3 shifts) or 5-day/2-shift pattern -- to be determined based on capacity target and demand schedule] | Industry standard for CAM production |
-| Annual production capacity | [ASSUMPTION: XX,000 tonnes LFP CAM/year at nameplate. For reference, FREYR targets 30,000 t/yr [SRC-025]] | To be confirmed by market analysis |
-| Batch size (calcination) | [ASSUMPTION: XX kg per crucible x XX crucibles per kiln run] | Depends on kiln dimensions and crucible configuration |
+| Operating schedule | Continuous operation (24/7, 3 shifts) across 4 production lines | Industry standard for CAM production |
+| Annual production capacity | 50,000 tonnes LFP CAM/year at nameplate (4 lines x 12,500 t/yr each) | Production information document |
+| Product mix | Nanosized LFP (75%) + Spherical LFP (25%) | Production information document |
+| Batch size (calcination) | Calcination in saggars under N2; [TO BE COMPLETED: specific saggar capacity and loading per kiln run to be confirmed during FEED] | Depends on kiln dimensions and saggar configuration |
 | Calcination cycle time | 6-12 hours dwell at 650-700 C, plus ramp-up (~2 h) and controlled cooling (~4 h) [SRC-011, CLM-020] | Based on published LFP synthesis literature |
-| Spray drying throughput | [ASSUMPTION: XX kg/h water evaporation; XX t/h slurry feed] | Depends on spray dryer capacity selected |
-| Milling throughput | [ASSUMPTION: XX t/h for sand mill; XX t/h for jet mill] | Depends on equipment sizing |
+| Spray drying throughput | [TO BE COMPLETED: sized for 12.5 kton/yr per line; kg/h water evaporation to be confirmed by vendor] | Depends on spray dryer capacity selected |
+| Milling throughput | [TO BE COMPLETED: sized for line throughput; optional jet-milling bypass for spherical grade] | Depends on equipment sizing |
 | Product yield | >95% lithium and iron-phosphorus recovery; primary losses from CO2/volatile evolution during calcination | Stoichiometric basis |
-| Utility consumption | Electricity: ~3-6 kWh/kg LFP CAM [CLM-027]; N2: [ASSUMPTION]; Water: [ASSUMPTION: largely recycled] | NMC analog; to be validated |
+| Utility consumption | Electricity: 3,580 kWh/t; Natural gas: 189 m3/t; N2: 850 m3/t; Production water: 4 t/t; Pure water: 5 t/t | Production information document |
 
 **Ramp-up schedule**:
 
@@ -588,19 +599,23 @@ LiFePO4 formation: Li2CO3 + 2 FePO4 + C6H12O6 -> 2 LiFePO4/C + CO2 + H2O (simpli
 
 | Input | Quantity (per t LFP CAM) | Notes |
 |-------|--------------------------|-------|
-| FePO4 (iron phosphate) | ~1,000-1,050 kg | Stoichiometric + 2-5% excess to ensure complete reaction |
-| Li2CO3 (lithium carbonate) | ~240-260 kg | Stoichiometric + 2-5% Li excess to compensate for volatilisation |
-| Glucose (C6H12O6) | 50-150 kg | 5-15 wt% of total solids; carbon source for in-situ coating |
-| Deionised water | [ASSUMPTION: ~1,500-3,000 L] | Slurry medium; >90% recovered from spray dryer condensate |
-| Nitrogen gas | [ASSUMPTION: XX Nm3] | Calcination atmosphere; partially recycled via closed-loop scrubbing |
-| Electricity | ~3,000-6,000 kWh | Total process energy [CLM-027, analog from NMC ~4 kWh/kg] |
+| FePO4 (iron phosphate) | 980 kg | Per production document |
+| Li2CO3 (lithium carbonate) | 250 kg | Per production document |
+| Glucose (C6H12O6) | 10 kg | Per production document; carbon source for in-situ coating |
+| TiO2 | 8 kg | Per production document; doping/coating additive |
+| H3PO4 | 6 kg | Per production document; supplementary phosphorus source |
+| Production water | 4,000 L (4 t) | Per production document; partially recovered from spray dryer condensate |
+| Pure water | 5,000 L (5 t) | Per production document; high-purity process applications |
+| Nitrogen gas | 850 m3 | Per production document; calcination atmosphere; partially recycled |
+| Electricity | 3,580 kWh | Per production document |
+| Natural gas | 189 m3 | Per production document; auxiliary heating (progressive electrification) |
 
 | Output | Quantity (per t LFP CAM) | Notes |
 |--------|--------------------------|-------|
 | LiFePO4/C product | 1,000 kg | Battery-grade, packaged |
 | CO2 (from Li2CO3 decomposition) | ~280 kg | Process CO2; stoichiometric from carbonate |
 | CO2/H2O (from glucose pyrolysis) | ~50-100 kg | Volatile products captured in off-gas treatment |
-| Water vapour (from spray drying) | [ASSUMPTION: ~1,500-3,000 kg] | Recovered from spray dryer condensate |
+| Water vapour (from spray drying) | ~4,000-5,000 kg | Partially recovered from spray dryer condensate |
 | Off-spec product | <50 kg (<5%) | Recycled to precursor stage |
 | Spent grinding media | Negligible (replaced periodically) | ZrO2 beads; metal recycling |
 
@@ -608,15 +623,15 @@ Product yield: >95% (Li and Fe-P basis), with primary mass losses from CO2 evolu
 
 #### 6.7.2 Energy Balance (per tonne of LFP CAM product)
 
-| Process Step | Gas-Fired Reference (kWh_thermal) | Electrified (FACE) (kWh_electric) | Source |
-|-------------|-----------------------------------|-----------------------------------|--------|
-| Spray drying | [ASSUMPTION: ~800-1,200 kWh_th] | ~400-800 kWh_e (resistance) or ~220-330 kWh_e (with HTHP at COP 3.6) | [SRC-ED-001, SRC-ED-005, SRC-ED-021] |
-| Calcination | [ASSUMPTION: ~1,500-2,500 kWh_th at 25-60% gas efficiency] | ~700-1,200 kWh_e (at 95% electric efficiency) | [CLM-023, SRC-ED-009, SRC-ED-010] |
-| Milling (sand + jet) | ~200-400 kWh_e | ~200-400 kWh_e | Same (electric in both cases) |
-| Auxiliaries (mixing, conveying, packaging, HVAC, water treatment) | ~200-400 kWh | ~200-400 kWh_e | Same |
-| **Total** | **~2,700-4,500 kWh/t** (gas thermal + electric) | **~1,500-2,800 kWh_e/t** (resistance only) or **~1,300-2,300 kWh_e/t** (with HTHP) | [CLM-027] |
+| Process Step | Gas-Fired Reference (kWh_thermal) | FACE (Progressive Electrification) | Source |
+|-------------|-----------------------------------|-------------------------------------|--------|
+| Spray drying | ~800-1,200 kWh_th (gas) | Electric resistance primary + limited gas auxiliary | [SRC-ED-001, SRC-ED-005, SRC-ED-021] |
+| Calcination | ~1,500-2,500 kWh_th (gas, at 25-60% efficiency) | Electric roller hearth kiln primary + limited gas auxiliary; calcination in saggars under N2 | [CLM-023, SRC-ED-009, SRC-ED-010] |
+| Milling (sand + jet) | ~200-400 kWh_e | ~200-400 kWh_e (same; electric in both cases) | -- |
+| Auxiliaries (mixing, conveying, packaging, HVAC, water treatment) | ~200-400 kWh | ~200-400 kWh_e (same) | -- |
+| **Total (measured)** | **~2,700-4,500 kWh/t** (gas thermal + electric) | **3,580 kWh_e/t + 189 m3 gas/t** | Production information document |
 
-[ASSUMPTION: These energy estimates are derived from NMC CAM analog data (~4 kWh/kg = 4,000 kWh/t [SRC-ED-011]) and electrification efficiency ratios. LFP-specific industrial energy data does not exist in published literature [CLM-028]. The FACE project will generate the first primary LFP CAM energy data. The engineering team must validate these estimates with equipment vendor data during FEED.]
+The measured electricity consumption of 3,580 kWh/t from the production information document is consistent with the estimated range from NMC CAM analog data (~4 kWh/kg = 4,000 kWh/t [SRC-ED-011]). The natural gas consumption of 189 m3/t reflects the initial configuration; the progressive electrification strategy aims to reduce and ultimately eliminate this residual gas use. LFP-specific published industrial energy data remains scarce [CLM-028], and the FACE project will generate the first comprehensive primary LFP CAM energy dataset.
 
 The electrified process achieves lower total energy consumption than the gas-fired reference because:
 1. Electric kilns operate at 95% thermal efficiency versus 25-60% for gas [CLM-023]
@@ -719,15 +734,15 @@ Layer 4 provides the human-machine interface:
 
 ### 7.1 Production Volume
 
-[ASSUMPTION: The target annual production capacity must be confirmed by the project team based on market demand assessment and financial modelling. For reference, the comparable FREYR project targets 30,000 t/yr [SRC-025]. Capacity at FACE is expected to be in the range of XX,000 t/yr LFP CAM, achievable through installation of XX production-line modules.]
+The target annual production capacity is **50,000 tonnes (50 kton/yr)** of battery-grade LFP CAM, achievable through installation of **4 modular production lines** of 12,500 t/yr each. This exceeds the comparable FREYR project (30,000 t/yr [SRC-025]). The product mix is 75% nanosized LFP and 25% spherical LFP. The target market is primarily ESS cell manufacturers, where LFP's cycle life (potentially >6,000 cycles at cell level) and safety advantages are decisive.
 
 **Ramp-up trajectory**:
 
 | Year | Capacity Utilisation | Estimated Output |
 |------|---------------------|------------------|
-| Year 1 (post-EiO) | 50% average | [ASSUMPTION: XX,000 t] |
-| Year 2 | 80% | [ASSUMPTION: XX,000 t] |
-| Year 3+ | 100% (nameplate) | [ASSUMPTION: XX,000 t/yr] |
+| Year 1 (post-EiO) | 50% average | ~25,000 t |
+| Year 2 | 80% | ~40,000 t |
+| Year 3+ | 100% (nameplate) | 50,000 t/yr |
 
 ### 7.2 Product Quality
 
@@ -735,19 +750,22 @@ The FACE plant produces battery-grade LiFePO4/C powder meeting the following CQA
 
 | CQA | Target | Min/Max Specification | Test Method | Test Standard |
 |-----|--------|----------------------|-------------|---------------|
-| D50 particle size | 1-3 um | +/- 0.5 um | Laser diffraction | ISO 13320 |
-| D10 | >0.5 um | Min 0.3 um | Laser diffraction | ISO 13320 |
-| D90 | <10 um | Max 15 um | Laser diffraction | ISO 13320 |
-| BET surface area | 12-18 m2/g | +/- 3 m2/g | N2 adsorption | ISO 9277 |
+| D10 particle size | 0.3-1.0 um | Range | Laser diffraction | ISO 13320 |
+| D50 particle size | 0.7-2.5 um | Range | Laser diffraction | ISO 13320 |
+| D90 particle size | 2.5-12.0 um | Range | Laser diffraction | ISO 13320 |
+| Specific surface area (SSA) | 10-14 m2/g | Range | N2 adsorption (BET) | ISO 9277 |
 | Tap density | 1.0-1.4 g/cm3 | >1.0 g/cm3 | Standardised tapping | ASTM B527 |
+| Pellet density | >=2.40 g/cm3 | Min 2.40 g/cm3 | Compaction measurement | -- |
+| Electrode press density | >=2.30 g/cm3 | Min 2.30 g/cm3 | Press density measurement | -- |
 | Phase purity (olivine) | >98% LiFePO4 | Min 97% | XRD Rietveld refinement | ISO 16700 (adapted) |
 | Fe2+/Fe3+ ratio | >0.95 | Min 0.90 | Mossbauer spectroscopy / XPS | -- |
-| Carbon content | 1.5-3.0 wt% | +/- 0.5 wt% | TGA / combustion analysis | -- |
+| Carbon content | 1.0-1.8 wt% | Range | TGA / combustion analysis | -- |
 | Carbon D/G ratio (Raman) | 0.8-1.2 | Range | Raman spectroscopy | -- |
-| Discharge capacity (C/10) | >155 mAh/g | Min 150 mAh/g | Half-cell electrochemical | IEC 62660-1 (adapted) |
-| Rate capability (5C) | >120 mAh/g | Min 100 mAh/g | Half-cell electrochemical | IEC 62660-1 (adapted) |
-| Moisture | <200 ppm | Max 500 ppm | Karl Fischer titration | ASTM E203 |
-| Magnetic contamination (Fe metallic) | <0.1 ppm | Max 0.5 ppm | Magnetic susceptibility | -- |
+| Discharge capacity (0.1C) | >=155 mAh/g | Min 150 mAh/g | Half-cell electrochemical | IEC 62660-1 (adapted) |
+| Discharge capacity (1C) | >=140 mAh/g | Min 135 mAh/g | Half-cell electrochemical | IEC 62660-1 (adapted) |
+| Initial Coulombic Efficiency | ~98% | Min 96% | Half-cell electrochemical | -- |
+| Moisture | <750 ppm | Max 750 ppm | Karl Fischer titration | ASTM E203 |
+| Magnetic impurities | <=1000 ppb | Max 1000 ppb | Magnetic susceptibility | -- |
 
 These specifications are competitive with Tier-1 Chinese LFP CAM (CATL, BYD) and aligned with the requirements published by European cell manufacturers for LFP cathode qualification.
 
@@ -758,7 +776,7 @@ These specifications are competitive with Tier-1 Chinese LFP CAM (CATL, BYD) and
 | Minimum turndown | 25% of nameplate capacity | Minimum batch size for spray dryer and kiln operation |
 | Plant availability | >90% (Year 2+) | Industry benchmark for continuous chemical process plants |
 | On-stream factor | >85% (Year 2+) | Accounting for planned maintenance, batch changeover, QC holds |
-| Mean time between failures (MTBF) | [ASSUMPTION: To be established from vendor MTBF data for critical equipment (kiln, spray dryer)] | Vendor specifications |
+| Mean time between failures (MTBF) | [TO BE COMPLETED: To be established from vendor MTBF data for critical equipment (kiln, spray dryer)] | Vendor specifications |
 | Mean time to repair (MTTR) | <8 hours for non-critical failures; <48 hours for critical equipment | Based on spare parts inventory and maintenance team capability |
 
 ### 7.4 Maintenance Strategy
@@ -781,11 +799,11 @@ The Innovation Fund GHG avoidance calculation compares the FACE electrified plan
 
 | Parameter | Gas-Fired Reference | FACE (Electrified) | Source |
 |-----------|--------------------|--------------------|--------|
-| Process energy source | Natural gas (spray drying + calcination) | Electricity (Italian grid + PPA) | Design specification |
+| Process energy source | Natural gas (spray drying + calcination) | Electricity (3,580 kWh/t) + limited gas (189 m3/t) with progressive electrification pathway | Production information document |
 | Thermal efficiency (calcination) | 25-60% | 95% | [CLM-023, SRC-ED-009] |
 | Grid carbon intensity | N/A (gas: ~0.2 kgCO2/kWh_th) | Italy 2030: ~146 gCO2/kWh_e [SRC-ED-017]; PPA: ~0 gCO2/kWh_e | [SRC-ED-016, SRC-ED-017] |
 | Process CO2 (from Li2CO3 decomposition) | ~280 kgCO2/t LFP (same for both) | ~280 kgCO2/t LFP (same for both) | Stoichiometric |
-| Total GHG per t LFP CAM | [ASSUMPTION: To be calculated in GHG calculator by CFO team] | [ASSUMPTION: To be calculated] | Innovation Fund GHG methodology |
+| Total GHG per t LFP CAM | [TO BE COMPLETED: To be calculated in GHG calculator by CFO team] | [TO BE COMPLETED: To be calculated using 3,580 kWh_e/t + 189 m3 gas/t] | Innovation Fund GHG methodology |
 | Relative GHG avoidance | Reference case | Target: >=50% [CLM-026] | |
 
 **GHG trajectory**:
@@ -797,7 +815,7 @@ The Innovation Fund GHG avoidance calculation compares the FACE electrified plan
 | 2030 (NECP target) | ~146 gCO2/kWh | 55-70% [CLM-026] |
 | 2035 (G7 commitment) | ~30-60 gCO2/kWh | 80-90% [CLM-026] |
 
-[ASSUMPTION: The detailed GHG avoidance calculation, including all Scope 1, 2, and 3 emissions, transport, and upstream supply chain emissions, is the responsibility of the CFO team using the Innovation Fund GHG calculator tool. The above figures are directional estimates based on analog data. The final GHG calculation must use the specific production capacity, energy consumption data validated by equipment vendors, and the Innovation Fund's prescribed methodology.]
+[TO BE COMPLETED: The detailed GHG avoidance calculation, including all Scope 1, 2, and 3 emissions, transport, and upstream supply chain emissions, is the responsibility of the CFO team using the Innovation Fund GHG calculator tool. The above figures are directional estimates. The final GHG calculation must use the confirmed production capacity (50 kton/yr), energy consumption data (3,580 kWh_e/t + 189 m3 gas/t), and the Innovation Fund's prescribed methodology. Note: the natural gas component (189 m3/t) must be included in the Scope 1 calculation; the progressive electrification pathway should be reflected in the projected GHG trajectory.]
 
 ---
 

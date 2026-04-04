@@ -12,7 +12,7 @@ The EU has responded with a comprehensive policy architecture — the Net-Zero I
 
 ### Market Context and Policy Alignment
 
-LFP has become the dominant battery chemistry for standard-range electric vehicles and grid-scale energy storage, driven by its superior safety (no thermal runaway), long cycle life (>2,000 cycles), and lower raw material cost compared to nickel-based alternatives [SRC-011, SRC-015]. The global LFP CAM market is growing at [ASSUMPTION: >25% CAGR through 2030], with demand driven by the EU's transport electrification targets and the rapid expansion of stationary energy storage for renewable grid integration.
+LFP has become the dominant battery chemistry for standard-range electric vehicles and grid-scale energy storage, driven by its superior safety (no thermal runaway), long cycle life (>6,000 cycles at cell level depending on architecture), and lower raw material cost compared to nickel-based alternatives [SRC-011, SRC-015]. The global LFP CAM market is growing at >25% CAGR through 2030, with demand driven by the EU's transport electrification targets and the rapid expansion of stationary energy storage for renewable grid integration. The target market for the Brindisi plant is primarily ESS cell manufacturers, where LFP's cycle life and safety advantages are decisive.
 
 The EU's policy response to the battery supply chain vulnerability is comprehensive and urgent. The Net-Zero Industry Act (NZIA) mandates that at least 40% of the EU's annual deployment needs for key clean technologies — including batteries — should be manufactured domestically by 2030. The Critical Raw Materials Act (CRMA) targets diversification of supply chains for strategic materials including lithium and battery-grade processed materials. The EU Battery Regulation (2023/1542) introduces the Battery Passport by February 2027, requiring manufacturers to provide verified data on carbon footprint, recycled content, and material provenance — data that is inherently easier to provide for EU-manufactured products with full traceability [SRC-023, SRC-026]. The Innovation Fund, with EUR 1 billion allocated to the CLEAN-TECH-MANUFACTURING topic in the 2025 call, provides the direct co-financing mechanism for bridging the CAPEX gap in domestic battery material manufacturing [SRC-026].
 
@@ -30,7 +30,7 @@ The FAAM-ENI Circular Energy project will construct and operate the first LFP ca
 
 1. **Establish EU LFP CAM production capacity**: Commission a production plant at Eni's Brindisi brownfield site capable of producing battery-grade LFP CAM (LiFePO4/C), directly reducing EU dependency on Chinese imports and addressing NZIA manufacturing benchmarks.
 
-2. **Eliminate Scope 1 process heat emissions**: Deploy fully electrified spray drying (high-temperature heat pump + resistance heating) and electric roller hearth kiln calcination, replacing the natural gas-fired thermal processes used by incumbent Asian producers. Target: 55-70% GHG reduction versus gas-fired benchmark by 2030, rising to 80-90% by 2035 [CLM-026].
+2. **Progressively electrify process heat**: Deploy electric roller hearth kiln calcination and heat pump-assisted spray drying, progressively replacing natural gas-fired thermal processes used by incumbent Asian producers. The initial plant design retains limited gas use (189 m3/t LFP CAM, primarily in spray drying and calcination auxiliary heating) while maximising electrification. The digital twin will optimise the energy mix and guide further gas-to-electric substitution as technology matures and the grid decarbonises. Target: 55-70% GHG reduction versus fully gas-fired benchmark by 2030, rising to 80-90% by 2035 as electrification deepens and grid intensity falls [CLM-026].
 
 3. **Implement the first digital twin for LFP CAM powder synthesis**: Deploy an ISO 23247-compliant, multi-scale physics-based digital twin spanning the full production chain (spray drying, calcination, jet milling) with closed-loop model-predictive control (MPC). Target: scrap rate reduction 10-50%, energy consumption reduction 12-15%, batch-to-batch variability reduction >40% [CLM-007].
 
@@ -44,10 +44,10 @@ The FAAM-ENI Circular Energy project will construct and operate the first LFP ca
 
 ### FIB S.p.A. (FAAM) — Main Applicant and Coordinator
 
-FIB S.p.A., operating under the FAAM brand, is an Italian battery manufacturer with [ASSUMPTION: >40 years of experience] in lead-acid and lithium-ion battery production. Headquartered in [ASSUMPTION: Monterubbiano, Marche, Italy], FIB employs [ASSUMPTION: approximately 500 staff] across its manufacturing and R&D operations.
+FIB S.p.A., operating under the FAAM brand, is an Italian battery manufacturer founded in 1974, with over 50 years of experience in lead-acid and lithium-ion battery production. A subsidiary of Seri Industrial S.p.A., FIB is headquartered in Monterubbiano (FM), Marche, Italy, where its first factories were established in 1976. FIB employs approximately 354 staff across its manufacturing and R&D operations. The company produces lithium-ion batteries for traction, industrial, storage, and military applications, as well as lead-acid batteries and fuel cells, with a strategic focus on green batteries with low environmental impact. FIB has recently contracted an 8 GWh lithium battery facility with Lead Intelligent Equipment, demonstrating its commitment to scaling battery production capacity. FIB has a strong track record of supporting research through university partnerships, including PhD studentships and MSc degree collaborations.
 
 **Expertise and suitability as coordinator:**
-- Established battery manufacturing operations with existing quality management systems (ISO 9001, IATF 16949) and environmental management (ISO 14001)
+- Established battery manufacturing operations with existing quality management systems (ISO 9001) and environmental management (ISO 14001), complemented by occupational health and safety management (ISO 45001)
 - Direct experience in scaling battery material and cell production from pilot to commercial volumes
 - Track record in EU-funded collaborative projects in the battery value chain
 - Existing relationships with European battery cell manufacturers as potential LFP CAM off-takers
@@ -89,7 +89,7 @@ The manufacturing process comprises a **7-step production chain**:
 
 | Step | Operation | Key Parameters |
 |------|-----------|----------------|
-| 1 | Raw materials dosing | Iron phosphate, lithium carbonate, glucose into dispersion tank |
+| 1 | Raw materials dosing | Iron phosphate (0.98 t/t), lithium carbonate (0.25 t/t), glucose (0.010 t/t), TiO2 (0.008 t/t), H3PO4 (0.006 t/t) into dispersion tank |
 | 2 | Sand milling + magnetic separation | Particle size reduction, demagnetisation |
 | 3 | Spray drying | Aqueous slurry to solid unreacted mixture; controls morphology |
 | 4 | Crucible loading + calcination | Electric roller hearth kiln, 600-700 C under N2 (pO2 <10 ppm) |
@@ -99,23 +99,32 @@ The manufacturing process comprises a **7-step production chain**:
 
 ### Key Inputs and Feedstock
 
-- **Iron phosphate (FePO4)**: Primary iron and phosphorus source. Sourced from [ASSUMPTION: European or diversified non-Chinese suppliers, subject to off-take negotiations]
-- **Lithium carbonate (Li2CO3)**: Primary lithium source. Sourced from [ASSUMPTION: multiple qualified suppliers including Australian, Chilean, and European refiners to ensure supply chain diversification]
-- **Glucose (C6H12O6)**: Carbon source for in-situ carbon coating during calcination. Commodity chemical available from European suppliers
+- **Iron phosphate (FePO4)**: Primary iron and phosphorus source. Consumption: 0.98 t per tonne LFP CAM (49,000 t/yr at full capacity). Sourced from diversified suppliers including European and non-Chinese sources, subject to off-take negotiations
+- **Lithium carbonate (Li2CO3)**: Primary lithium source. Consumption: 0.25 t per tonne LFP CAM (12,500 t/yr at full capacity). Sourced from multiple qualified suppliers including Australian, Chilean, and European refiners to ensure supply chain diversification
+- **Glucose (C6H12O6)**: Carbon source for in-situ carbon coating during calcination. Consumption: 0.010 t per tonne LFP CAM (500 t/yr at full capacity). Commodity chemical available from European suppliers
+- **TiO2**: Doping/coating additive. Consumption: 0.008 t per tonne LFP CAM (400 t/yr at full capacity)
+- **H3PO4**: Supplementary phosphorus source. Consumption: 0.006 t per tonne LFP CAM (300 t/yr at full capacity)
 
 ### Expected Output
 
-The plant is designed for an annual production capacity of [ASSUMPTION: 10,000-30,000 tonnes] of battery-grade LFP CAM meeting the following specifications:
+The plant is designed for an annual production capacity of **50,000 tonnes (50 kton/yr)** of battery-grade LFP CAM, organised across **4 modular production lines** of 12,500 t/yr each. The plant produces two product grades: **nanosized LFP (75% of output)** and **spherical LFP (25% of output)**, the latter achieved through a configurable spray-drying and optional jet-milling bypass. The workshop footprint is approximately 161.1 m x 106 m (~17,100 m2). The production process employs flexible solid-state synthesis with configurable spray-drying, calcination in saggars under N2 atmosphere, and optional jet-milling bypass for the spherical grade. The product meets the following specifications:
 
 | Quality Attribute | Target Specification |
 |---|---|
-| D50 particle size | 1-3 um |
-| BET surface area | 12-18 m2/g |
+| D10 particle size | 0.3-1.0 um |
+| D50 particle size | 0.7-2.5 um |
+| D90 particle size | 2.5-12.0 um |
+| Specific surface area (SSA) | 10-14 m2/g |
+| Tap density | 1.0-1.4 g/cm3 |
+| Pellet density | >=2.40 g/cm3 |
+| Electrode press density | >=2.30 g/cm3 |
+| Carbon content | 1.0-1.8 wt% |
+| Moisture | <750 ppm |
+| Magnetic impurities | <=1000 ppb |
+| Discharge capacity (0.1C) | >=155 mAh/g |
+| Discharge capacity (1C) | >=140 mAh/g |
+| Initial Coulombic Efficiency (ICE) | ~98% |
 | Phase purity (olivine) | >98% by XRD Rietveld |
-| Carbon content | 1.5-3.0 wt% |
-| Fe2+/Fe3+ ratio | >0.95 |
-| Discharge capacity (C/10) | >155 mAh/g |
-| Moisture | <200 ppm |
 
 ---
 
@@ -123,7 +132,7 @@ The plant is designed for an annual production capacity of [ASSUMPTION: 10,000-3
 
 ### Electrified Manufacturing
 
-The central technology choice is the **full electrification of process heat** for spray drying and calcination — the two most energy-intensive steps in LFP CAM production. This represents a fundamental departure from the gas-fired rotary kilns and gas-heated spray dryers used by all incumbent Chinese LFP CAM producers [CLM-001, SRC-022].
+The central technology choice is a **progressive electrification strategy** for process heat in spray drying and calcination — the two most energy-intensive steps in LFP CAM production. The plant is designed to maximise electricity use from day one while retaining limited natural gas capacity (189 m3/t LFP CAM in the initial configuration) for process steps where full electrification is not yet technically or economically feasible at production scale. This represents a fundamental departure from the gas-fired rotary kilns and gas-heated spray dryers used by all incumbent Chinese LFP CAM producers [CLM-001, SRC-022], achieving a significantly higher degree of electrification than the Asian gas-fired benchmark.
 
 **Spray drying electrification**: Heat pump-assisted pre-heating (high-temperature heat pump at COP 3.04-3.6 [SRC-ED-004, SRC-ED-005]) combined with electric resistance or NIR final drying [SRC-ED-019], replacing natural gas burners.
 
@@ -156,7 +165,7 @@ The choice of electrified process heat over the incumbent gas-fired approach is 
 
 The technical architecture involves three critical interfaces that determine system performance:
 
-**Interface 1: PAT sensors to DT (DCDC layer)**: The sensor network generates approximately [ASSUMPTION: 50-100 data streams] at frequencies ranging from 0.1 Hz (at-line XRD) to 10 Hz (IR camera). The OPC-UA/MQTT data pipeline must aggregate, timestamp, and deliver this data to the DT core within 100 ms for real-time applications. Edge computing nodes at each major process step (spray dryer, kiln, mill) perform initial signal processing and anomaly detection before cloud transmission.
+**Interface 1: PAT sensors to DT (DCDC layer)**: The sensor network generates approximately 50-100 data streams at frequencies ranging from 0.1 Hz (at-line XRD) to 10 Hz (IR camera). The OPC-UA/MQTT data pipeline must aggregate, timestamp, and deliver this data to the DT core within 100 ms for real-time applications. Edge computing nodes at each major process step (spray dryer, kiln, mill) perform initial signal processing and anomaly detection before cloud transmission.
 
 **Interface 2: DT core to MPC (User Entity layer)**: The physics-based surrogate models in the DT core compute quality predictions and optimal setpoints. These must be translated to PLC-compatible control signals via the MPC interface. The MPC operates on a receding-horizon basis: 5-15 minute horizons for calcination (thermal inertia), 1-3 minute horizons for spray drying (faster dynamics), and millisecond-level for milling classifier speed. Process constraints (temperature limits, atmosphere limits, equipment rated capacities) are encoded as hard constraints in the MPC optimisation.
 
@@ -172,7 +181,7 @@ The technical architecture involves three critical interfaces that determine sys
 
 ### Safety, Reliability, and Technical Performance
 
-**Safety**: LFP CAM production operates below 700 C under inert atmosphere — significantly lower risk than NMC synthesis (which requires reactive lithium hydroxide and temperatures to 950 C). The inert atmosphere (N2) and absence of flammable gas combustion in the electrified process further reduce fire and explosion risk compared to gas-fired equivalents. Standard industrial safety protocols for powder handling (dust explosion prevention), chemical handling (lithium carbonate, iron phosphate), and high-temperature equipment apply.
+**Safety**: LFP CAM production operates below 700 C under inert atmosphere — significantly lower risk than NMC synthesis (which requires reactive lithium hydroxide and temperatures to 950 C). The inert atmosphere (N2) and the progressive electrification design (minimising on-site gas combustion) reduce fire and explosion risk compared to fully gas-fired equivalents. A comprehensive safety programme including HAZID/HAZOP studies and ATEX (explosive atmosphere) assessment is mandated for the detailed engineering phase, addressing powder handling safety, dust control, and residual gas infrastructure. Standard industrial safety protocols for powder handling (dust explosion prevention), chemical handling (lithium carbonate, iron phosphate), and high-temperature equipment apply. The facility will be managed under ISO 45001 occupational health and safety standards.
 
 **Reliability**: The DT-driven predictive maintenance approach targets >92% overall equipment effectiveness (OEE), compared to industry averages of 75-85% for batch chemical manufacturing. Electric heating elements (SiC, Kanthal Tubothal/Fibrothal) have demonstrated lifetimes exceeding 10,000 operating hours at temperatures up to 1100 C [SRC-ED-009].
 

@@ -30,7 +30,7 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 | **Lead partner** | FIB (FAAM) |
 | **Contributing partner** | Eni |
 | **Objective** | Reach financial close within 24 months of grant agreement signature through completion of detailed engineering, environmental permitting, supplier qualification, and financing agreements. |
-| **Budget** | [ASSUMPTION: Budget to be confirmed by CFO team. Must not exceed 40% of maximum grant amount.] |
+| **Budget** | [TO BE COMPLETED: Budget to be confirmed by CFO team. Must not exceed 40% of maximum grant amount.] |
 
 #### Activities
 
@@ -152,7 +152,7 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 - Utility commissioning: electricity supply testing, nitrogen purity verification, water quality confirmation
 - Dry commissioning: individual equipment testing without process materials
 - Wet commissioning: process runs with actual raw materials at reduced throughput
-- Production of qualification batches: CQA verification against battery-grade specifications (D50 1-3 um, BET 12-18 m2/g, phase purity >98% olivine, carbon 1.5-3.0 wt%, discharge capacity >155 mAh/g at C/10) [CLM-009]
+- Production of qualification batches: CQA verification against battery-grade specifications (D50 0.7-2.5 um, SSA 10-14 m2/g, phase purity >98% olivine, carbon 1.0-1.8 wt%, discharge capacity >=155 mAh/g at 0.1C, >=140 mAh/g at 1C, ICE ~98%, moisture <750 ppm, magnetic impurities <=1000 ppb) [CLM-009]
 - Performance testing at design throughput
 - Operational readiness review and certificate issuance
 
@@ -383,7 +383,7 @@ The project budget is structured to comply with Innovation Fund requirements:
 - **WP2 (Financial Close to Entry into Operation)**: Largest budget share, covering construction, equipment installation, DT development and integration, and commissioning.
 - **WP3-WP7 (Operational Years 1-5)**: Budget allocation of at least 10% of maximum grant amount post entry into operation, covering production operations, GHG monitoring, knowledge sharing, and final reporting.
 
-[ASSUMPTION: Specific budget figures (total CAPEX, OPEX by WP, grant request amount) to be provided by the CFO team and included in the Financial Information File (Annex 1 to Part B). The detailed budget table uses the mandatory relevant cost calculator template.]
+[TO BE COMPLETED: Specific budget figures (total CAPEX, OPEX by WP, grant request amount) to be provided by the CFO team and included in the Financial Information File (Annex 1 to Part B). The detailed budget table uses the mandatory relevant cost calculator template.]
 
 The principal cost categories are:
 - **CAPEX**: Process equipment (calcination furnace, spray dryer, jet mill, classifier, packaging), building and civil works, utility systems (electrical, N2, water), DCS/SCADA and sensor network, DT software and computing infrastructure
@@ -403,4 +403,4 @@ The Gantt chart shows:
 - Deliverable due dates
 - Parallel tracks: DT development (M12-M42) running in parallel with engineering, procurement, and construction
 
-[ASSUMPTION: Detailed Gantt chart to be prepared using the Portal Reference Documents template or equivalent, and attached as annex to Part B.]
+[TO BE COMPLETED: Detailed Gantt chart to be prepared using the Portal Reference Documents template or equivalent, and attached as annex to Part B.]

@@ -114,16 +114,16 @@ The multi-scale chain does not run in real-time at all scales simultaneously. DF
 - Batch-to-batch variability reduction: >40%
 - Unplanned downtime reduction: 20-50%
 
-#### Innovation Pillar 2: Fully Electrified LFP CAM Manufacturing [NOV-002]
+#### Innovation Pillar 2: Progressively Electrified LFP CAM Manufacturing [NOV-002]
 *Defensibility score: 7/10*
 
-**What is new**: The first LFP CAM production plant designed for fully electrified process heat — eliminating natural gas from spray drying and calcination and delivering a future-proof investment that capitalises on Italy's grid decarbonisation trajectory.
+**What is new**: The first LFP CAM production plant designed with a **progressive electrification strategy** — maximising electricity use for spray drying and calcination while retaining limited natural gas capacity (189 m3/t LFP CAM in the initial configuration) for process steps where full electrification is not yet technically or economically feasible at production scale. This achieves a significantly higher degree of electrification than the fully gas-fired Asian benchmark, and the plant architecture is designed to accommodate further gas-to-electric substitution as technology matures and Italy's grid decarbonises. The digital twin plays a central role in optimising the energy mix and identifying opportunities for progressive gas elimination.
 
-**Electrified calcination**: Electric roller hearth kiln (RHK) operating at 600-700 C under flowing N2 atmosphere. The electric RHK achieves 95% thermal efficiency versus 25-60% for gas-fired rotary kilns [CLM-023, SRC-ED-009]. Electric heating provides superior temperature uniformity (critical for phase-pure olivine formation), eliminates combustion gas contamination of the inert atmosphere, and enables zone-by-zone temperature profile control compatible with DT-driven MPC optimisation. The electric RHK is the established industrial standard for NMC CAM calcination at temperatures to 950 C [SRC-ED-010, SRC-ED-023]; LFP calcination at 600-700 C is well within the proven operating envelope.
+**Electrified calcination**: Electric roller hearth kiln (RHK) operating at 600-700 C under flowing N2 atmosphere, with calcination performed in saggars (consistent with roller hearth or pusher kiln configurations). The electric RHK achieves 95% thermal efficiency versus 25-60% for gas-fired rotary kilns [CLM-023, SRC-ED-009]. Electric heating provides superior temperature uniformity (critical for phase-pure olivine formation), eliminates combustion gas contamination of the inert atmosphere, and enables zone-by-zone temperature profile control compatible with DT-driven MPC optimisation. The electric RHK is the established industrial standard for NMC CAM calcination at temperatures to 950 C [SRC-ED-010, SRC-ED-023]; LFP calcination at 600-700 C is well within the proven operating envelope. The initial plant configuration retains some natural gas use (contributing to the 189 m3/t total gas consumption), particularly for auxiliary heating and drying stages where full electrification requires further technology maturation. The DT will optimise the balance between electric and gas heating to minimise both emissions and cost, while guiding the transition pathway toward full electrification.
 
 **Heat pump-assisted spray drying**: High-temperature heat pump (HTHP) for spray dryer air pre-heating, achieving COP 3.04 at 120 C (Zuhlsdorf et al., 2017 [SRC-ED-004]) to COP 3.6 at 200 C (Zhao et al., 2024 [SRC-ED-005]). This means each kWh of electricity delivers 3.0-3.6 kWh of thermal heat for drying — a 2-3x thermodynamic advantage over direct electric resistance heating and a ~5-10x advantage over gas combustion when accounting for gas-fired dryer efficiency losses [SRC-ED-001]. Final drying stages use direct electric resistance or near-infrared (NIR) heating to reach the outlet temperatures required for complete solvent removal [SRC-ED-019].
 
-**GHG reduction trajectory**: The electrified design is framed as a future-proof infrastructure investment, not an immediate emissions win under today's Italian grid:
+**GHG reduction trajectory**: The progressive electrification design is framed as a future-proof infrastructure investment. The degree of electrification achieved from day one is already substantially higher than the fully gas-fired Asian benchmark, and the plant architecture supports continued gas elimination over time:
 
 | Year | Italy grid intensity (gCO2/kWh) | GHG reduction vs gas-fired benchmark | Basis |
 |------|------|------|------|
@@ -179,15 +179,21 @@ The pharmaceutical industry has spent two decades developing and validating the 
 
 | CQA | Target | Primary CPPs | Monitoring |
 |-----|--------|-------------|------------|
-| D50 particle size | 1-3 um | Spray drying: inlet/outlet T, feed rate, nozzle pressure; Milling: air pressure, classifier speed | FBRM (in-line), laser diffraction (at-line) |
-| BET surface area | 12-18 m2/g | Calcination: T profile, dwell time; Spray drying: droplet size | BET (at-line) |
+| D10 particle size | 0.3-1.0 um | Milling: air pressure, classifier speed | Laser diffraction (at-line) |
+| D50 particle size | 0.7-2.5 um | Spray drying: inlet/outlet T, feed rate, nozzle pressure; Milling: air pressure, classifier speed | FBRM (in-line), laser diffraction (at-line) |
+| D90 particle size | 2.5-12.0 um | Milling: classifier speed, sieve aperture | Laser diffraction (at-line) |
+| Specific surface area (SSA) | 10-14 m2/g | Calcination: T profile, dwell time; Spray drying: droplet size | BET (at-line) |
 | Phase purity (olivine) | >98% | Calcination: T (max 700 C), pO2 (<10 ppm), dwell time | Raman (at-line), XRD (at-line) |
-| Carbon content | 1.5-3.0 wt% | Glucose loading (Step 1), calcination T profile | Raman D/G ratio (at-line), elemental analysis |
+| Carbon content | 1.0-1.8 wt% | Glucose loading (Step 1), calcination T profile | Raman D/G ratio (at-line), elemental analysis |
 | Fe2+/Fe3+ ratio | >0.95 | Calcination: pO2 control, cooling rate | Mossbauer or XPS (at-line) |
-| Discharge capacity | >155 mAh/g at C/10 | All above (integrated quality) | Electrochemical testing (off-line), DT prediction (real-time) |
-| Moisture | <200 ppm | Packaging: N2 environment, sealing | Karl Fischer (at-line) |
-| Carbon quality (D/G ratio) | >0.85 | Calcination T, glucose type, atmosphere | Raman spectroscopy (at-line) |
+| Discharge capacity (0.1C) | >=155 mAh/g | All above (integrated quality) | Electrochemical testing (off-line), DT prediction (real-time) |
+| Discharge capacity (1C) | >=140 mAh/g | All above (integrated quality) | Electrochemical testing (off-line) |
+| ICE | ~98% | Calcination: T profile, atmosphere; Carbon coating quality | Electrochemical testing (off-line) |
+| Moisture | <750 ppm | Packaging: N2 environment, sealing | Karl Fischer (at-line) |
+| Magnetic impurities | <=1000 ppb | Demagnetisation field strength, milling media quality | Magnetic susceptibility (at-line) |
 | Tap density | 1.0-1.4 g/cm3 | Spray drying: morphology control; Milling: classification | Tap density (at-line) |
+| Pellet density | >=2.40 g/cm3 | Calcination: sintering control; Particle morphology | Density measurement (at-line) |
+| Electrode press density | >=2.30 g/cm3 | Particle morphology, PSD control | Press density measurement (at-line) |
 | Particle morphology | Spherical, minimal aggregation | Spray drying: T, feed concentration | SEM/image analysis (off-line), DT prediction |
 
 The QbD framework transforms LFP CAM manufacturing from recipe-based empirical control to model-predictive design-space control. Instead of fixing process parameters and testing the result, the DT continuously predicts product quality from current process state and adjusts parameters to maintain operation within the validated design space. This is the conceptual leap that pharmaceutical manufacturing achieved with PAT — now applied to battery materials for the first time.
@@ -200,10 +206,10 @@ The Innovation Fund evaluation requires evidence of innovation across plant desi
 
 | Dimension | Innovation beyond SOTA | Evidence |
 |-----------|----------------------|----------|
-| **Plant design** | Fully electrified thermal processing (HTHP + electric RHK); ISO 23247 DT architecture integrated from design phase; PAT sensor network embedded in process equipment | No existing LFP CAM plant uses electrified process heat or integrated DT [CLM-005, GAP-003] |
+| **Plant design** | Progressively electrified thermal processing (HTHP + electric RHK, with pathway to full electrification); ISO 23247 DT architecture integrated from design phase; PAT sensor network embedded in process equipment; 4 modular lines x 12.5 kton/yr for 50 kton/yr total capacity | No existing LFP CAM plant uses electrified process heat or integrated DT [CLM-005, GAP-003] |
 | **Operating approach** | Closed-loop MPC replacing recipe-based control; real-time quality prediction from physics-based surrogates; automated process adjustment within design space | Current SOTA: empirical, recipe-based, offline QC [CLM-013, SRC-028] |
 | **Construction** | Brownfield conversion of Eni industrial site; accelerated timeline leveraging existing infrastructure and permitting precedent | Site-specific advantage enabling FC within 2 years, EiO within 4 years |
-| **Performance/quality** | Target CQAs: D50 1-3 um, BET 12-18 m2/g, >155 mAh/g capacity, >98% olivine purity, carbon 1.5-3.0 wt%; achieved through DT-driven process control | DT benchmarks: 10-50% scrap reduction [CLM-007, CLM-017] |
+| **Performance/quality** | Target CQAs: D50 0.7-2.5 um, SSA 10-14 m2/g, >=155 mAh/g capacity (0.1C), >=140 mAh/g (1C), >98% olivine purity, carbon 1.0-1.8 wt%, ICE ~98%; achieved through DT-driven process control | DT benchmarks: 10-50% scrap reduction [CLM-007, CLM-017] |
 | **Reliability/availability** | Predictive maintenance via DT (20-50% unplanned downtime reduction); condition-based equipment monitoring; virtual sensing for inaccessible parameters | Cross-industry DT downtime reduction demonstrated [CLM-007] |
 | **Maintenance** | Condition-based monitoring replacing calendar-based schedules; DT-derived equipment health indicators; degradation prediction for heating elements, sensors | TwinHeat predictive maintenance for furnace elements [CLM-016] |
 | **Economics** | Reduced scrap and energy costs; quality consistency enabling premium pricing; lower total cost of ownership for electrified vs gas equipment (no fuel price volatility) | Energy savings 12-15% [CLM-007]; thermal efficiency advantage 1.6-3.8x [CLM-023] |

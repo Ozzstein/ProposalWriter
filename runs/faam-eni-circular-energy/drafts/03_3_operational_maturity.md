@@ -21,9 +21,9 @@ The implementation timeline covers from grant agreement signature (M0, estimated
 | Final financial model | M0+1 | M1 | Planned | Deliverable D1.2 |
 | Knowledge sharing plan | M0+1 | M1 | Planned | Deliverable D1.3 |
 | Detailed engineering (FEED) completion | Q4 2027 | M9-M12 | In preparation | FEED report |
-| Environmental permit (VIA) obtained | Q1 2028 | M12-M15 | Application in preparation | VIA decree |
-| Integrated environmental authorisation (AIA) | Q2 2028 | M15-M18 | Application in preparation | AIA authorisation |
-| Building permits obtained | Q2 2028 | M15-M18 | Pre-consultation initiated | Municipal permits |
+| Environmental permit (VIA) obtained | Q1 2028 | M12-M15 | Application filed, in process | VIA decree |
+| Integrated environmental authorisation (AIA) | Q2 2028 | M15-M18 | Application filed, in process | AIA authorisation |
+| Building permits obtained | Q2 2028 | M15-M18 | Applications in process | Municipal permits |
 | Equipment supplier contracts signed | Q3 2028 | M18-M21 | Qualification in progress | Signed contracts |
 | **Financial close / FID** | **Q4 2028** | **M21-M24** | **Target: within 2 years** | **FC documentation package** |
 | Start of construction | Q1 2029 | M24 | Planned | Construction notice |
@@ -74,7 +74,7 @@ The project's strategy to achieve the accelerated timelines (FC within 2 years, 
 
 ## 3.3c Due Diligence Reports
 
-[ASSUMPTION: No operational due diligence reports (legal, IP, market studies) have been completed at this stage. If any are available, they should be referenced here. The market analysis conducted as part of the proposal preparation (see SOTA summary and evidence store) provides the basis for the market positioning argument.]
+[TO BE COMPLETED: Operational due diligence reports (legal, IP, market studies) to be referenced here if available. The market analysis conducted as part of the proposal preparation (see SOTA summary and evidence store) provides the basis for the market positioning argument.]
 
 ## 3.3d Permits, Rights, Licences, and Regulatory Procedures
 
@@ -92,7 +92,7 @@ The Brindisi LFP CAM manufacturing plant is subject to the following Italian and
 
 The Brindisi site is an existing Eni industrial facility. Eni has conducted site characterisation and, where required, remediation activities in accordance with Italian contaminated sites regulations (Title V, Part IV of Legislative Decree 152/2006). The site status is:
 
-[ASSUMPTION: Specific site remediation status (completed, in progress, or not required) must be confirmed by Eni. The brownfield nature of the site is confirmed, but the regulatory clearance status for new construction should be documented with reference to any Certificazione di Avvenuta Bonifica or equivalent.]
+The Brindisi site is currently undergoing a brownfield remediation (cleanup) process. The remediation is in progress, confirming the site's brownfield status and Eni's commitment to preparing it for new industrial use. The regulatory clearance status for new construction is being advanced in parallel with the remediation activities, and the permitting applications (VIA, AIA, building permits) are in process.
 
 ### Intellectual Property
 
@@ -101,7 +101,7 @@ The project leverages commercially available manufacturing equipment and open st
 ### Public Acceptance
 
 The Brindisi site is located within an established industrial area with a long history of industrial activity. The project is expected to receive positive public acceptance due to:
-- **Job creation**: Direct employment of [ASSUMPTION: X FTE during construction, Y FTE during operation -- to be confirmed] in the Puglia region, which has above-average unemployment
+- **Job creation**: Direct employment of [TO BE COMPLETED: FTE numbers for construction and operational phases to be confirmed by HR planning] in the Puglia region, which has above-average unemployment
 - **Brownfield reuse**: Converting an existing industrial site to a high-value advanced manufacturing facility, avoiding greenfield land consumption
 - **Clean technology alignment**: LFP CAM manufacturing for the battery sector aligns with EU and Italian decarbonisation objectives and public support for the energy transition
 - **No significant negative environmental impacts**: The process uses non-toxic raw materials (iron phosphate, lithium carbonate, glucose), operates in a closed system under nitrogen atmosphere, and generates minimal waste streams
@@ -125,7 +125,7 @@ The principal environmental impacts of the LFP CAM manufacturing facility and th
 The project is implemented by a two-partner consortium with clearly delineated roles:
 
 **FIB (FAAM) -- Coordinator**
-FIB, the holding company of FAAM (Fabbrica Accumolatori e Accumulatori Montecchio), is an established battery manufacturer with expertise in lead-acid and lithium-ion battery production. FIB assumes the role of project coordinator with responsibility for:
+FIB S.p.A., operating under the FAAM brand, is an Italian battery manufacturer founded in 1974 (Monterubbiano, FM, Italy), a subsidiary of Seri Industrial S.p.A. With approximately 354 employees and over 50 years of experience in lead-acid and lithium-ion battery production for traction, industrial, storage, and military applications, FIB brings established manufacturing expertise and a commitment to green batteries with low environmental impact. FIB operates under ISO 9001, ISO 14001, and ISO 45001 management systems. FIB assumes the role of project coordinator with responsibility for:
 - Overall project management and coordination
 - LFP CAM process engineering and manufacturing operations
 - Quality control and assurance
@@ -162,7 +162,7 @@ The project governance comprises three levels:
 | Site Manager | Eni | Brindisi site operations, infrastructure, utility supply, stakeholder relations |
 | Financial Controller | FIB | Budget management, cost reporting, audit coordination |
 
-[ASSUMPTION: Specific CVs and track records of named individuals for each role must be provided by the project team and included in the Participant Information annex. The proposal should highlight relevant experience in battery manufacturing, industrial plant construction, and digital manufacturing for each key role.]
+[TO BE COMPLETED: Specific CVs and track records of named individuals for each role must be provided by the project team and included in the Participant Information annex. The proposal should highlight relevant experience in battery manufacturing, industrial plant construction, and digital manufacturing for each key role.]
 
 ### Quality Management and Health & Safety
 
