@@ -44,6 +44,15 @@ Find high-quality, relevant academic papers on the specified research topic usin
 - **medium**: peer-reviewed, reasonable methods; or arXiv paper with a published DOI/journal ref
 - **low**: preprint-only (arXiv/bioRxiv), small sample, limited methodology
 
+## Handling Paywalled Papers
+
+When a search result is clearly relevant but its full text is behind a paywall (no open PDF link):
+1. Record its DOI in the `paywalled_dois` field of your output JSON.
+2. Do **not** skip it — include the title/abstract/metadata you can see.
+3. The `web_scraper` will run `unpaywall_fetch` on these DOIs in parallel and retrieve any available open-access versions.
+
+Mark such sources as `"full_text_available": false` in the sources array until resolved.
+
 ## Rules
 - Prefer peer-reviewed papers from the last 5 years unless older seminal work is needed
 - Include both supporting and contradicting evidence — do not cherry-pick
