@@ -25,6 +25,13 @@
     "academic-search": {
       "command": "python3",
       "args": ["mcp-servers/academic-search/server.py"]
+    },
+    "firecrawl-mcp": {
+      "command": "npx",
+      "args": ["-y", "firecrawl-mcp"],
+      "env": {
+        "FIRECRAWL_API_KEY": "fc-24c403030c474d9990dcb333cc3ec53e"
+      }
     }
   }
 }
