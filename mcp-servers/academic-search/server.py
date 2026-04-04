@@ -729,8 +729,16 @@ async def scopus_abstract(doi: str) -> str:
 
         if resp.status_code == 404:
             return json.dumps({"doi": doi, "error": "Paper not found in Scopus."})
-        if resp.status_code == 401:
-            return json.dumps({"error": "Elsevier API key invalid or expired."})
+        if resp.status_code in (401, 403):
+            return json.dumps({
+                "doi": doi,
+                "error": (
+                    "Scopus Abstract Retrieval API requires an institutional network token "
+                    "(X-ELS-Insttoken) in addition to the API key. This is only available via "
+                    "university/company institutional subscriptions. "
+                    "Use scopus_search instead — it returns abstract snippets for any paper."
+                ),
+            })
         resp.raise_for_status()
         data = resp.json()
 
@@ -833,17 +841,25 @@ async def sciencedirect_fetch(doi: str) -> str:
 
         if resp.status_code == 404:
             return json.dumps({"doi": doi, "error": "Article not found in ScienceDirect."})
-        if resp.status_code == 401:
-            return json.dumps({"error": "Elsevier API key invalid or expired."})
-        if resp.status_code == 403:
-            # No institutional access — fall back to abstract
+        if resp.status_code in (401, 403):
             return json.dumps({
                 "doi": doi,
                 "full_text_available": False,
                 "access_status": "no_entitlement",
                 "message": (
-                    "Full text not accessible — no institutional subscription for this journal. "
-                    "Try unpaywall_fetch for an open-access version, or scopus_abstract for the abstract."
+                    "Full text not accessible — no institutional subscription or entitlement for this journal. "
+                    "Try unpaywall_fetch for an open-access version, or scopus_search for the abstract snippet."
+                ),
+            })
+        if resp.status_code == 400:
+            return json.dumps({
+                "doi": doi,
+                "full_text_available": False,
+                "access_status": "bad_request",
+                "message": (
+                    "ScienceDirect rejected the request — the DOI may not be in ScienceDirect, "
+                    "or full-text access requires an institutional token. "
+                    "Try unpaywall_fetch or scopus_search instead."
                 ),
             })
 
@@ -950,8 +966,10 @@ async def ieee_search(
             params=params,
             headers={"User-Agent": "ProposalWriter/1.0 (grant proposal writing tool)"},
         )
-        if resp.status_code == 401:
-            return json.dumps({"error": "IEEE Xplore API key invalid or expired."})
+        if resp.status_code in (401, 403):
+            return json.dumps({"error": f"IEEE Xplore API access denied ({resp.status_code}). "
+                               "The key may need IP allowlisting at https://developer.ieee.org — "
+                               "log in, go to My Keys, and add your IP address."})
         if resp.status_code == 429:
             return json.dumps({"error": "IEEE Xplore API rate limit exceeded. Wait and retry."})
         resp.raise_for_status()
@@ -1144,7 +1162,6 @@ async def europepmc_search(
         "resultType": "core",
         "pageSize": str(min(max_results, 100)),
         "format": "json",
-        "sort": "RELEVANCE",
     }
 
     async with httpx.AsyncClient(timeout=30.0) as client:
