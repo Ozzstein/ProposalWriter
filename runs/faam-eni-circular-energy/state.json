@@ -17,7 +17,7 @@
     "review": { "status": "pending" }
   },
   "gates": {
-    "scope": { "passed": false },
+    "scope": { "passed": true, "checked_at": "2026-04-04" },
     "evidence": { "passed": false },
     "draft": { "passed": false },
     "submission": { "passed": false }
