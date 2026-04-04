@@ -55,19 +55,36 @@ export PATH="/opt/homebrew/opt/node@23/bin:/opt/homebrew/bin:/usr/local/bin:/usr
 export FIRECRAWL_API_KEY="fc-24c403030c474d9990dcb333cc3ec53e"
 ```
 
-**Per-repository search:**
+**Per-repository search** (`--json` outputs JSON to stdout; redirect to file):
 ```bash
 firecrawl search "<topic keywords> site:<repo-domain>" \
-  --scrape --categories research,pdf \
+  --categories research,pdf \
   --limit 10 \
-  -o .firecrawl/search-<repo>-<slug>.json --json
+  --json > .firecrawl/search-<repo>-<slug>.json
 ```
 
-Do **not** re-scrape URLs returned with `--scrape` — the content is already included in the output.
-
-**Extracting results for processing:**
+**Extracting URLs and titles for processing:**
 ```bash
 jq -r '.data.web[] | [.url, .title] | @tsv' .firecrawl/search-<repo>-<slug>.json
+```
+
+**Scraping a specific URL for full content** (outputs markdown to stdout; skip the first "Scrape ID: ..." line):
+```bash
+firecrawl scrape "<url>" --format markdown --only-main-content \
+  | tail -n +2 > .firecrawl/scrape-<slug>.md
+```
+
+**Discovering all pages on a site** (useful for CORDIS project pages):
+```bash
+firecrawl map "<base-url>" --search "<keywords>" --limit 20 \
+  > .firecrawl/map-<slug>.json
+jq -r '.data.links[].url' .firecrawl/map-<slug>.json
+```
+
+**Crawling multiple pages** (async job — use `--wait` to block until done):
+```bash
+firecrawl crawl "<base-url>" --limit 5 --max-depth 2 --wait
+# Results are saved automatically to .firecrawl/
 ```
 
 ### 2. Unlocking paywalled papers (Unpaywall — MCP tool)
@@ -79,7 +96,7 @@ unpaywall_fetch(doi="10.1039/d3ee01234a")
 ```
 
 If `is_oa: true` and `best_oa_url` is returned:
-- Use `firecrawl scrape <best_oa_url>` to retrieve the full text
+- Use `firecrawl scrape <best_oa_url> --format markdown --only-main-content | tail -n +2` to retrieve the full text
 - Set `quality` to `"high"` if `host_type: "publisher"` (gold OA) or `"medium"` if `host_type: "repository"` (green OA)
 
 For batches of DOIs from a search result set, use `unpaywall_batch(dois=[...])` to check many at once, then scrape only those that are open.

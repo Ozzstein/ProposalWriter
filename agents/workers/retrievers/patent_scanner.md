@@ -35,43 +35,37 @@ Use the `firecrawl-search` skill for site-targeted patent searches.
 **Initial landscape search:**
 ```bash
 firecrawl search "<topic keywords> site:patents.google.com" \
-  --scrape \
-  --limit 15 \
-  -o .firecrawl/patents-google-<slug>.json --json
+  --limit 15 --json > .firecrawl/patents-google-<slug>.json
 ```
 
 **Assignee-targeted search** (check if competitors have patents):
 ```bash
 firecrawl search "<technology> assignee:<company name> site:patents.google.com" \
-  --scrape \
-  --limit 10 \
-  -o .firecrawl/patents-assignee-<slug>.json --json
+  --limit 10 --json > .firecrawl/patents-assignee-<slug>.json
+```
+
+**Extract patent URLs from results:**
+```bash
+jq -r '.data.web[] | [.url, .title] | @tsv' .firecrawl/patents-google-<slug>.json
 ```
 
 **Scraping a specific patent for full claims:**
 ```bash
 firecrawl scrape "https://patents.google.com/patent/<patent-id>/en" \
-  -o .firecrawl/patent-<id>.json --json
-```
-
-Extract patent IDs from search results:
-```bash
-jq -r '.data.web[] | [.url, .title] | @tsv' .firecrawl/patents-google-<slug>.json
+  --format markdown --only-main-content | tail -n +2 > .firecrawl/patent-<id>.md
 ```
 
 ### 2. EPO Espacenet — European/PCT filings (Firecrawl)
 
 ```bash
 firecrawl search "<topic keywords> site:worldwide.espacenet.com" \
-  --scrape \
-  --limit 10 \
-  -o .firecrawl/patents-epo-<slug>.json --json
+  --limit 10 --json > .firecrawl/patents-epo-<slug>.json
 ```
 
-For IPC class filtering (useful for narrowing to relevant technology areas):
+For IPC class filtering, scrape the search results page directly:
 ```bash
 firecrawl scrape "https://worldwide.espacenet.com/patent/search?q=<encoded-query>%20ipc%3D<IPC-code>" \
-  -o .firecrawl/patents-epo-ipc-<slug>.json --json
+  --format markdown --only-main-content | tail -n +2 > .firecrawl/patents-epo-ipc-<slug>.md
 ```
 
 Common IPC codes for battery/manufacturing topics:
