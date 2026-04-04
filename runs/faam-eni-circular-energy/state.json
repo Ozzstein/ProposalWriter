@@ -18,7 +18,7 @@
   },
   "gates": {
     "scope": { "passed": true, "checked_at": "2026-04-04" },
-    "evidence": { "passed": false },
+    "evidence": { "passed": true, "checked_at": "2026-04-04" },
     "draft": { "passed": false },
     "submission": { "passed": false }
   },
