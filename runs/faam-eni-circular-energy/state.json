@@ -12,7 +12,7 @@
   "call_template_available": true,
   "stages": {
     "call_parsing": { "status": "complete", "completed_at": "2026-04-04" },
-    "research": { "status": "pending" },
+    "research": { "status": "complete", "completed_at": "2026-04-04" },
     "writing": { "status": "pending" },
     "review": { "status": "pending" }
   },

@@ -1,0 +1,289 @@
+{
+  "task_id": "patent_scan_faam-eni-circular-energy",
+  "topic": "LFP CAM manufacturing + digital twin IP landscape",
+  "scan_date": "2026-04-04",
+  "summary": "Comprehensive IP landscape scan covering: (1) LFP CAM process patents from Asian and Western producers; (2) spray-drying and calcination process patents; (3) digital twin / AI-driven manufacturing optimization patents; (4) electrified thermal processing patents; (5) consortium partner (FIB/FAAM, Eni) IP. Key finding: NO patent has been identified that directly claims a digital twin specifically for LFP CAM manufacturing — this is a patent white space. The strongest IP risk comes from Asian LFP process patents (LG Chem EP2360117, Dynanonic CN110436431B) and generic AI-for-manufacturing IP (Mitra US20230261188). Electrified calcination for battery CAM is also largely unprotected at the specific level, though generic electric kiln IP (KR20200043262A) exists. FAAM/FIB and Eni Storage Systems have NO identified granted patents on LFP CAM manufacturing or digital twin technology — they are technology acquirers, not IP originators in this space. Overall freedom-to-operate for the proposed approach (DT-guided, electrified LFP CAM) is MEDIUM: the core novelty combination is unprotected, but peripheral risks exist from active LFP process patents still in force.",
+  "sources": [
+    {
+      "source_id": "SRC-PAT-001",
+      "title": "Battery Production Workflow Optimization (ML-driven cathode material parameter prediction)",
+      "authors": "Mitra Future Technologies Inc",
+      "year": 2023,
+      "type": "patent",
+      "quality": "medium",
+      "extract": "Claim 1 covers a method that receives customer performance parameters, converts them to cathode material specifications, and uses Bayesian optimization to generate candidate formulations and synthesis parameters. A hierarchical screening workflow reduces experimental iterations from ~3 weeks to 4 days. Applicable to LFP, LMFP, and other polyanion cathodes. This is the closest identified patent to an AI/ML-driven LFP manufacturing optimization system, though it focuses on materials discovery rather than in-line process control or digital twin of a production line.",
+      "limitations": ["Covers materials R&D optimization workflow, not real-time process control or digital twin of production equipment", "Assigned to small startup — limited enforcement capacity", "Application published Aug 2023, grant status pending — claims may narrow"],
+      "relevance_tags": ["lfp_synthesis", "ml_optimization", "bayesian_optimization", "cathode_parameter_prediction", "ai_manufacturing"],
+      "url": "https://patents.justia.com/patent/20230261188",
+      "doi": "",
+      "full_text_available": true,
+      "ip_risk": {
+        "risk_level": "low",
+        "blocks_our_approach": false,
+        "expiry_estimate": "2043",
+        "workaround": "Our DT targets real-time in-line process control (spray dryer, rotary kiln sensor fusion), not materials discovery. Distinct from this patent's R&D workflow focus.",
+        "notes": "Monitor grant status and final claim scope."
+      }
+    },
+    {
+      "source_id": "SRC-PAT-002",
+      "title": "Full-automatic production process of lithium iron phosphate and devices thereof",
+      "authors": "Yichun Tianzhi High-tech New Material Co., Ltd. (originally Zhejiang Meisi Lithium Technology Co. Ltd.)",
+      "year": 2013,
+      "type": "patent",
+      "quality": "medium",
+      "extract": "CN103151525A. Claim 1 describes a fully enclosed, PLC-controlled LFP production system integrating: dispersion tanks, grinding mills (slurry to <500 nm), spray dryer (inlet 180-260°C, outlet 90-150°C), calciner (nitrogen, 500-800°C), pulverizer (3.0-5.0 µm), and vacuum packaging — all under automated control. IPC: Y02E60/10. This is a foundational automation patent for the standard Chinese wet-route LFP process.",
+      "limitations": ["Chinese patent (CN), limited direct enforceability in EU/Italy", "Filed 2013 — approaches 20-year expiry in 2033, already 13 years old", "PLC-based automation, not digital twin or AI-based", "Narrow geographic scope — CN only"],
+      "relevance_tags": ["lfp_synthesis", "spray_drying", "calcination", "process_automation", "plc_control", "industrial_lfp"],
+      "url": "https://patents.google.com/patent/CN103151525A/en",
+      "doi": "",
+      "full_text_available": true,
+      "ip_risk": {
+        "risk_level": "low",
+        "blocks_our_approach": false,
+        "expiry_estimate": "2033",
+        "workaround": "Geographic scope is China only. Our project is in Italy (EU). No European equivalent identified. Approaching expiry.",
+        "notes": "Represents standard prior art for wet-route LFP automation — useful as prior art reference in our own filings."
+      }
+    },
+    {
+      "source_id": "SRC-PAT-003",
+      "title": "Lithium iron phosphate having an olivine structure, and preparation method thereof",
+      "authors": "LG Chem Ltd",
+      "year": 2009,
+      "type": "patent",
+      "quality": "high",
+      "extract": "EP2360117B1. Claim 1 covers olivine-type LFP composed of secondary particles (D50: 5-100 µm) formed by aggregating primary particles (D50: 50-550 nm) bonded via physical forces with 15-40% porosity. Spray drying used in step (3) at controlled conditions. Composition: Li1+aFe1-xMx(PO4-b)Xb. Granted in Europe (EPO). LG Chem is a major battery materials producer. This is a key granted European LFP structural/morphology patent.",
+      "limitations": ["Filed October 2009 — expiry ~2029", "Claims focus on olivine morphology/structure, not specifically on process control or digital twin", "Does not claim the manufacturing process holistically — only the material structure characteristics"],
+      "relevance_tags": ["lfp_synthesis", "olivine_structure", "spray_drying", "morphology", "secondary_particles", "european_patent"],
+      "url": "https://patents.google.com/patent/EP2360117B1/en",
+      "doi": "",
+      "full_text_available": true,
+      "ip_risk": {
+        "risk_level": "medium",
+        "blocks_our_approach": false,
+        "expiry_estimate": "2029",
+        "workaround": "Ensure our CAM product morphology targets different particle size distributions or porosity ranges outside Claim 1 parameters. Alternatively, our process novelty (electrification + DT) is distinct from this structural patent.",
+        "notes": "ACTIVE European patent from major assignee. Key risk if our LFP product falls within the structural claim envelope. Review product specs against Claim 1 parameters before commercialization. Expiring 2029 — low long-term risk."
+      }
+    },
+    {
+      "source_id": "SRC-PAT-004",
+      "title": "Method of producing in-situ carbon coated lithium iron phosphate cathode material for lithium-ion batteries",
+      "authors": "Advanced Research Centre for Powder Metallurgy and New Materials (ARCI), India",
+      "year": 2022,
+      "type": "patent",
+      "quality": "medium",
+      "extract": "WO2022144917A1. Claims a scalable solid-state process using high-energy attrition milling of Li2CO3, FeC2O4, and NH4H2PO4 with citric acid as carbon source and oxidation preventant, followed by annealing at 650-700°C. Produces nano-sized C-LFP (100-300 nm) with 146 mAh/g at 1C and 90-92% retention after 600 cycles. No reducing gases or solvents. PCT application — broad international coverage potential.",
+      "limitations": ["Claims solid-state milling route — different from spray-drying wet route used in FAAM Brindisi project", "Government research institute assignee (ARCI India) — limited commercial enforcement history", "PCT — national phase entry and grant status to be confirmed in EU"],
+      "relevance_tags": ["lfp_synthesis", "carbon_coating", "solid_state_synthesis", "attrition_milling", "calcination", "in_situ_carbon"],
+      "url": "https://patents.google.com/patent/WO2022144917A1/en",
+      "doi": "",
+      "full_text_available": true,
+      "ip_risk": {
+        "risk_level": "low",
+        "blocks_our_approach": false,
+        "expiry_estimate": "2041",
+        "workaround": "Our process uses wet-route spray drying, not solid-state attrition milling. Routes are clearly distinct.",
+        "notes": "Useful prior art for carbon-coated LFP but no direct overlap with proposed Brindisi wet-route process."
+      }
+    },
+    {
+      "source_id": "SRC-PAT-005",
+      "title": "Preparation method of lithium iron phosphate cathode material and lithium ion battery (dual-precursor sintering)",
+      "authors": "Foshan Dynanonic Technology Co., Ltd. and Qujing Defang Nano Technology Co., Ltd.",
+      "year": 2019,
+      "type": "patent",
+      "quality": "medium",
+      "extract": "CN110436431B. Four-step synthesis producing LFP via single-stage sintering by combining two precursors: Precursor I (nano-scale, 0.5-0.6 µm, from heated solution mixing at 400-450°C) and Precursor II (larger particles, 1.5-2.5 µm, from iron phosphate + lithium source + doped metal salts + solvent grinding for 3-8 h). Final material achieves compacted density 2.43-2.52 g/cm³ through air-flow milling. IPC: C01B25/45, H01M10/0525, H01M4/5825. Filed June 2019, granted.",
+      "limitations": ["CN patent — limited direct enforceability in EU", "Claims dual-precursor mixing approach — specific to this process variant", "No digital twin or process intelligence component"],
+      "relevance_tags": ["lfp_synthesis", "dual_precursor", "calcination", "sintering", "high_density_lfp"],
+      "url": "https://patents.google.com/patent/CN110436431B/en",
+      "doi": "",
+      "full_text_available": true,
+      "ip_risk": {
+        "risk_level": "low",
+        "blocks_our_approach": false,
+        "expiry_estimate": "2039",
+        "workaround": "Geographic scope CN only. Our single-stream spray-drying + calcination does not use the dual-precursor mixing architecture claimed here.",
+        "notes": "Foshan Dynanonic is a key Chinese LFP CAM supplier. Monitor for PCT/EP equivalents."
+      }
+    },
+    {
+      "source_id": "SRC-PAT-006",
+      "title": "Lithium Metal Phosphate Electrode Manufacturing (integrated Li extraction + LFP synthesis + recycling)",
+      "authors": "Rivian IP Holdings LLC",
+      "year": 2022,
+      "type": "patent",
+      "quality": "medium",
+      "extract": "US20240113295A1. Claims an integrated system combining lithium extraction (from brine or recycled batteries), metal phosphate precipitation, and LFP synthesis: metal phosphates + lithium phosphate form precursors, then milling and calcination at 550-750°C for 2-12 hours. Integrated recycling loop using gas-solid reactions (NOx, Cl2, SOx). IPC: C01B25/45, C01B25/301, C22B26/12, H01M4/5825, H01M10/0525. Filed Oct 2022.",
+      "limitations": ["Focuses on integrated Li-recovery + synthesis loop — not directly applicable to standalone CAM production", "US patent only — no identified EU equivalent", "Rivian is a vehicle OEM, unusual to enforce process chemistry patents against European CAM producers"],
+      "relevance_tags": ["lfp_synthesis", "lithium_extraction", "recycling_integration", "calcination", "integrated_process"],
+      "url": "https://patents.google.com/patent/US20240113295A1/en",
+      "doi": "",
+      "full_text_available": true,
+      "ip_risk": {
+        "risk_level": "low",
+        "blocks_our_approach": false,
+        "expiry_estimate": "2042",
+        "workaround": "Our project does not claim to integrate lithium extraction from brine; the upstream Li source is conventional. No claim overlap anticipated.",
+        "notes": "Interesting competitive intelligence — Rivian protecting its own supply chain vertical integration. Not a freedom-to-operate concern for FAAM/Eni."
+      }
+    },
+    {
+      "source_id": "SRC-PAT-007",
+      "title": "Alternative One-Pot Process for Making CAM Precursor Using Metal Feedstocks",
+      "authors": "Nano One Materials Corp",
+      "year": 2021,
+      "type": "patent",
+      "quality": "medium",
+      "extract": "WO2022047585A1. Claim 1 covers reacting elemental metals (Ni, Mn, Co, Al) with multi-carboxylic acids (preferably oxalic acid) to form insoluble metal salt precursors, bypassing intermediate sulfate/carbonate formation. Lower calcination temperatures (~300°C for oxalate decomposition). Targets NMC/NCA cathodes primarily, not LFP. PCT application filed Sep 2021. Nano One is collaborating with BASF and Umicore for commercialization.",
+      "limitations": ["Targets NMC/NCA, not LFP — different cathode chemistry", "No digital twin or electrified process heat component", "PCT — EU national phase status uncertain"],
+      "relevance_tags": ["cam_synthesis", "one_pot_process", "metal_feedstock", "low_cost_process", "green_synthesis"],
+      "url": "https://patents.google.com/patent/WO2022047585A1/en",
+      "doi": "",
+      "full_text_available": true,
+      "ip_risk": {
+        "risk_level": "none",
+        "blocks_our_approach": false,
+        "expiry_estimate": "2041",
+        "workaround": "Chemistry is NMC/NCA focused. No overlap with LFP route.",
+        "notes": "Valuable competitive intelligence on alternative low-waste CAM processes. Confirms trend toward fewer process steps. Not an IP threat to our LFP project."
+      }
+    },
+    {
+      "source_id": "SRC-PAT-008",
+      "title": "A rotary kiln suitable for heat treatment of the coating layer of cathode active material",
+      "authors": "Jin Su-gon (individual inventor, South Korea)",
+      "year": 2019,
+      "type": "patent",
+      "quality": "low",
+      "extract": "KR20200043262A. Claims a tubular rotary kiln body with: (a) segmented ribbon screws creating delay zones preventing material from rising to the top during rotation; (b) rod-shaped stirring elements keeping material on the kiln floor without drop impacts, reducing dust; (c) multi-stage heating (Stage 1: ~500°C preheating; Stage 2: ~800°C main treatment; Stage 3: ~400°C cooling) with independent zone temperature control. IPC: F27B7/00, F27B7/14, H01M4/366. Filed May 2019, South Korean patent only.",
+      "limitations": ["Korean patent only — no EU enforcement", "Covers kiln mechanical configuration (ribbon screw geometry), not electrification or digital twin", "Individual inventor — low enforcement risk", "Narrow claims on specific ribbon-screw mechanical configuration"],
+      "relevance_tags": ["rotary_kiln", "calcination", "cathode_active_material", "thermal_processing", "kiln_design"],
+      "url": "https://patents.google.com/patent/KR20200043262A/en",
+      "doi": "",
+      "full_text_available": true,
+      "ip_risk": {
+        "risk_level": "none",
+        "blocks_our_approach": false,
+        "expiry_estimate": "2039",
+        "workaround": "No EU coverage. Claims are on mechanical kiln geometry, not electrification or process intelligence. Our electric kiln design from Kanthal/Therser uses different heating architecture.",
+        "notes": "Confirms that novel kiln configurations for CAM are patentable — supports IP filing strategy for our own electrified kiln + DT integration."
+      }
+    },
+    {
+      "source_id": "SRC-PAT-009",
+      "title": "Chemical production control (data-linked process optimization using object identifiers)",
+      "authors": "BASF SE",
+      "year": 2021,
+      "type": "patent",
+      "quality": "medium",
+      "extract": "US20240012395A1 (filed Sep 2021, published Jan 2024). Claim 1 covers a method for controlling a downstream production process using 'downstream object identifiers' that bundle precursor material data with downstream process parameters and performance metrics, enabling zone-specific equipment control via historical data correlation. Applicable to thermoplastic polyurethane (TPU/ETPU) manufacturing — but the data framework is generic to continuous chemical manufacturing. IPC: G05B19/41875, G05B19/41865, Y02P90/02. BASF is also active in battery CAM (NMC/NCA licensing).",
+      "limitations": ["Specifically implemented for TPU/ETPU — not CAM", "Does not claim a digital twin per se, but a data-linked process control framework", "US only, no identified EP equivalent", "Large assignee (BASF) — potential defensive use against competitors entering adjacent spaces"],
+      "relevance_tags": ["process_control", "digital_manufacturing", "data_traceability", "chemical_production", "ai_manufacturing", "quality_optimization"],
+      "url": "https://patents.google.com/patent/US20240012395A1/en",
+      "doi": "",
+      "full_text_available": true,
+      "ip_risk": {
+        "risk_level": "low",
+        "blocks_our_approach": false,
+        "expiry_estimate": "2041",
+        "workaround": "Implemented for TPU not CAM. Our DT is a physics-informed simulation model + sensor integration, architecturally distinct from BASF's object identifier traceability framework.",
+        "notes": "BASF's broad engagement in both chemical process control patents and battery CAM makes this an entity to monitor. No immediate FTO concern."
+      }
+    },
+    {
+      "source_id": "SRC-PAT-010",
+      "title": "High performance cathode material LiFePO4, its precursors and methods of making thereof",
+      "authors": "Guiqing Huang (individual inventor)",
+      "year": 2011,
+      "type": "patent",
+      "quality": "medium",
+      "extract": "US9139429B2 (filed Feb 2011, granted Sep 2015). Claim 1 covers methods of synthesizing iron phosphate precursors: mixing iron-source and phosphate-source aqueous solutions at controlled molar ratios, pH 1-6.5, heating, filtering, drying to produce fine-particle FePO4 precursor (nanotechnology IPC B82Y30/00). Final cathode material achieves high rate capability via nano-scale iron phosphate. IPC: B82Y30/00, C01B25/375, H01M4/5825.",
+      "limitations": ["US patent, filed 2011 — expires 2031, already past peak relevance", "Claims precursor synthesis route only, not full process line or digital twin", "Individual inventor — limited enforcement risk in EU", "Narrow to nano-scale iron phosphate precursor synthesis"],
+      "relevance_tags": ["lfp_synthesis", "iron_phosphate_precursor", "nano_lfp", "wet_chemistry", "precursor_synthesis"],
+      "url": "https://patents.google.com/patent/US9139429B2/en",
+      "doi": "",
+      "full_text_available": true,
+      "ip_risk": {
+        "risk_level": "low",
+        "blocks_our_approach": false,
+        "expiry_estimate": "2031",
+        "workaround": "US only. No EU equivalent found. Our FePO4 precursor sourcing strategy and particle size targets should be reviewed against this claim scope if considering US market entry.",
+        "notes": "Approaching expiry. Useful prior art for establishing LFP precursor synthesis background."
+      }
+    },
+    {
+      "source_id": "SRC-PAT-011",
+      "title": "Industrial digital twin systems with echelons of executive, advisory and operations messaging",
+      "authors": "AspenTech (Aspen Technology Inc.)",
+      "year": 2022,
+      "type": "patent",
+      "quality": "medium",
+      "extract": "US20220108262A1 (EP4222563A4 — also European). Claims an industrial plant operation management platform integrating 'executive digital twins' from an intelligent data and networking pipeline for role-specific features. Provides real-time optimization via three-tier messaging hierarchy: executive (strategic), advisory (process), operations (equipment). IPC covers manufacturing process control automation. AspenTech is a leading process simulation/digital twin vendor (aspenONE suite) active in chemical, refining, and energy sectors.",
+      "limitations": ["General industrial DT framework — not specific to battery CAM or LFP", "Claims cover the messaging/visualization architecture, not the process physics models", "Large vendor (AspenTech/AVEVA) with broad portfolio — defensive posture more likely than assertion against non-competing manufacturers"],
+      "relevance_tags": ["digital_twin", "industrial_process_control", "real_time_optimization", "executive_advisory_operations", "chemical_manufacturing"],
+      "url": "https://patents.google.com/patent/EP4222563A4/en",
+      "doi": "",
+      "full_text_available": true,
+      "ip_risk": {
+        "risk_level": "medium",
+        "blocks_our_approach": false,
+        "expiry_estimate": "2042",
+        "workaround": "If the FAAM/Eni DT platform is built on AspenTech tools (a common industrial choice), licensing the platform also licenses the underlying IP. If custom-built, avoid replicating the specific three-tier executive/advisory/operations messaging architecture claimed here. Use different architectural terminology and design.",
+        "notes": "IMPORTANT: Check if the DT platform vendor selected for the project (Siemens MindSphere, AspenTech, ABB Ability, or custom) already licenses these foundational DT patents. This is likely the highest practical IP risk — not to the CAM process itself, but to the DT platform architecture."
+      }
+    },
+    {
+      "source_id": "SRC-PAT-012",
+      "title": "Manufacturing system for monitoring and/or controlling chemical plant(s) (layered IoT architecture)",
+      "authors": "BASF SE",
+      "year": 2024,
+      "type": "patent",
+      "quality": "medium",
+      "extract": "US20240402684A1 (filed Jun 2024). Claims a two-layer manufacturing monitoring/control system: first layer tied to physical plants providing process/asset-specific data, second layer providing plant-specific contextualization for external network access, within segregated secure network zones with firewall separation. Containerized applications distributed by latency/criticality. Hybrid local/cloud data management with island-mode capability. IPC: G05B19/4183, G05B19/4185, Y02P90/02.",
+      "limitations": ["Very recent filing (2024) — broad claims expected to narrow during prosecution", "General IoT/IIoT architecture patent applicable to any chemical plant", "Does not claim LFP or battery CAM specifically", "US only at this stage"],
+      "relevance_tags": ["digital_twin", "iiot", "chemical_plant_control", "edge_cloud_architecture", "process_monitoring"],
+      "url": "https://patents.google.com/patent/US20240402684A1/en",
+      "doi": "",
+      "full_text_available": true,
+      "ip_risk": {
+        "risk_level": "low",
+        "blocks_our_approach": false,
+        "expiry_estimate": "2044",
+        "workaround": "Architecture is generic IoT/IIoT — many prior art references exist. Claims likely to be narrowed. Ensure our DT architecture documentation cites relevant prior art to distinguish from BASF framework.",
+        "notes": "Patent is pending. Monitor for EP equivalents given BASF's EU presence. BASF is a CAM competitor (NMC) but not LFP-focused."
+      }
+    }
+  ],
+  "claims": [],
+  "gaps": [
+    "No patent found specifically claiming a digital twin for LFP or broader CAM manufacturing process control — this is a clear patent white space and represents a unique filing opportunity for the FAAM/Eni project",
+    "No patent found combining electrified (electric resistance or induction) thermal processing specifically with LFP CAM manufacturing in the EU jurisdiction",
+    "No patent found combining spray-dryer AI/ML process control with downstream calcination digital twin for battery materials",
+    "FAAM/FIB and Eni have no identified active patents in LFP CAM synthesis, process equipment, or digital manufacturing — both are currently IP takers, not IP makers in this space",
+    "Asian LFP producers (CATL, BYD Gotion) have extensive CN patent portfolios that are not easily searchable in English; a dedicated Chinese patent search (CNIPA in Chinese) is recommended to close this gap",
+    "No patent found on green/renewable-powered calcination specifically for LFP cathode active materials (vs. general cement/industrial kiln electrification)",
+    "Life cycle analysis and circular economy aspects of LFP CAM production appear largely unprotected at the process level"
+  ],
+  "next_steps": [
+    "Conduct Chinese-language CNIPA patent search for CATL, BYD, Gotion LFP CAM process patents (2020-2025) — English search is insufficient for this corpus",
+    "Engage IP attorney to assess FTO (freedom-to-operate) for the specific LFP product morphology against EP2360117B1 (LG Chem) Claim 1 parameters",
+    "Commission patent drafting for the novel combination of: (a) digital twin for spray dryer + calciner integration; (b) electrified rotary kiln for LFP CAM; (c) sensor fusion architecture for real-time process-product quality mapping — these constitute a filing-ready novelty cluster",
+    "Verify whether the selected DT platform vendor (if AspenTech, Siemens, or similar) provides IP indemnification covering their patent portfolio",
+    "Search specifically for Kanthal/Sandvik heating element patents covering SiC and MoSi2 elements in CAM rotary kilns to ensure equipment supplier IP is cleared",
+    "Review US20230261188 (Mitra) grant status and final claim scope once published — this is the closest identified art to our AI-driven process optimization approach"
+  ],
+  "paywalled_dois": [],
+  "ip_risk_summary": {
+    "overall_risk": "medium",
+    "top_concerns": [
+      "EP2360117B1 (LG Chem, expires 2029): Active European granted patent on LFP olivine morphology with spray-drying; product spec review needed to confirm non-infringement",
+      "US20220108262A1 / EP4222563A4 (AspenTech): Broad industrial digital twin architecture patent with EP coverage — most relevant if our DT is built using AspenTech platform or similar three-tier architecture",
+      "US20230261188 (Mitra Future Technologies): Pending patent on ML-driven cathode synthesis optimization; closest identified prior art to our DT-for-CAM concept — monitor claim scope",
+      "CATL/BYD undiscovered CN patents: Major Chinese LFP producers have large unpublished or Chinese-only portfolios; risk of undiscovered blocking patents on LFP process steps"
+    ],
+    "freedom_to_operate_notes": "The core novel combination of this project — electrified spray drying + electric rotary kiln calcination with integrated digital twin for real-time process-quality control specifically for LFP CAM production at industrial scale — has NO identified blocking patent. This represents a genuine patent white space that the consortium should protect through proactive filing. The highest practical IP risk is not from process patents but from platform/tool patents (DT architecture) if commercial software vendors are used. The two expiring risk patents (EP2360117B1, expires 2029; and CN103151525A, expires 2033) reduce the long-term IP burden. Recommend: (1) FTO opinion on LG Chem EP2360117; (2) IP filing strategy for the DT-electrification novelty cluster; (3) Chinese patent landscape audit."
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "project_name": "faam-eni-circular-energy",
+  "generated_at": "2026-04-04",
+  "gap_landscape_summary": "The proposed FAAM-ENI project addresses a convergence of seven interconnected gaps spanning technology, application, research, and strategic/regulatory domains. The most critical gap is the complete absence of European LFP CAM production capacity at commercial scale, with China controlling over 99% of global supply and imposing escalating export controls since July 2025. This strategic vulnerability is compounded by four technical and application gaps: no digital twin exists for upstream CAM powder synthesis (the ARTISTIC, DiBaZ, and TwinHeat platforms each cover adjacent but non-overlapping domains); no ISO 23247 implementation has been demonstrated for thermal/chemical powder manufacturing; electrified LFP calcination and spray drying have not been validated at production scale; and the PAT/QbD framework proven in pharmaceuticals has never been applied to battery cathode materials. A research gap in LFP-specific lifecycle GHG data further complicates the quantitative emissions case. Together, these gaps represent a fundable innovation opportunity that maps directly to the Innovation Fund's highest-weighted evaluation criteria.",
+  "gaps": [
+    {
+      "gap_id": "GAP-001",
+      "type": "technology",
+      "sub_type": "not-studied",
+      "description": "No digital twin for LFP cathode active material powder synthesis exists in the published literature. The ARTISTIC platform (Franco group) covers electrode-level manufacturing (slurry to cell), Fraunhofer DiBaZ covers cell-level production, and TwinHeat (MINES Paris) covers furnace heat treatment -- none addresses upstream CAM synthesis from precursors through spray drying, calcination, and milling.",
+      "evidence_of_gap": ["SRC-001", "SRC-003", "SRC-004", "SRC-007", "SRC-DT-REPORT"],
+      "severity": "critical",
+      "project_solution": "Develop and deploy an ISO 23247-compliant integrated digital twin for the full LFP CAM production chain (spray drying, calcination, jet milling), incorporating physics-based process models (CFD, population balance, reaction kinetics), machine learning surrogates, and real-time sensor fusion. Leverage transferable methods from ARTISTIC (Bayesian optimization), TwinHeat (neural network surrogates for furnace control), and DiBaZ (anomaly detection) while filling the unaddressed upstream CAM synthesis domain.",
+      "addressed_in_section": "Section 1.1",
+      "strategic_importance": 10,
+      "competitor_risk": "ARTISTIC group (U. Picardie) may have unpublished CAM-level work; Chinese producers may have proprietary internal DT systems. No published competitor identified."
+    },
+    {
+      "gap_id": "GAP-002",
+      "type": "technology",
+      "sub_type": "studied-and-open",
+      "description": "No European entity produces LFP cathode active material at commercial scale. China controls over 99% of global LFP CAM production. Chinese export controls on LFP cathode technology (July 2025) and on cells, precursors, anodes, and equipment (October 2025) create an acute and escalating supply chain risk for the EU battery industry. The EU has no operational LFP CAM plant despite policy instruments (NZIA, CRMA, Battery Regulation, Innovation Fund) explicitly targeting this dependency.",
+      "evidence_of_gap": ["SRC-022", "SRC-023", "SRC-024", "SRC-025", "SRC-026"],
+      "severity": "critical",
+      "project_solution": "Construct and operate the first LFP CAM production facility in Italy and Southern Europe at Eni's Brindisi brownfield site, directly reducing EU dependency on Chinese LFP CAM imports. The plant establishes domestic production capacity aligned with NZIA manufacturing benchmarks and CRMA supply chain diversification objectives.",
+      "addressed_in_section": "Section 4.2",
+      "strategic_importance": 10,
+      "competitor_risk": "FREYR Battery (Finland) received EUR 122M Innovation Fund grant for 30,000 t/yr LFP CAM (October 2024). CATL may establish European LFP CAM capacity. FREYR addresses Northern Europe; FAAM addresses Southern Europe/Mediterranean, reducing geographic concentration risk."
+    },
+    {
+      "gap_id": "GAP-003",
+      "type": "technology",
+      "sub_type": "solved-elsewhere-not-applied",
+      "description": "Electrification of LFP calcination (600-700 C) and spray drying has not been validated at production scale for cathode active material manufacturing. Electric resistance heating is proven at TRL 7-9 for kilns in cement and ceramics, and electrified calcination has been demonstrated in cement manufacturing, but no published work validates these technologies specifically for LFP CAM synthesis where strict atmosphere control (pO2 < 10 ppm under N2) and precise temperature uniformity are critical quality determinants.",
+      "evidence_of_gap": ["SRC-016", "SRC-017", "SRC-018", "SRC-019", "SRC-020"],
+      "severity": "major",
+      "project_solution": "Deploy electrified spray drying and electric rotary kiln calcination powered by renewable electricity at the Brindisi plant, eliminating Scope 1 emissions from process heat. Validate the electrified process at production scale with integrated digital twin monitoring to ensure product quality (phase purity, particle size, carbon coating) meets battery-grade specifications. Leverage Italy's lower grid carbon intensity (~200 gCO2/kWh declining to ~100 by 2030) versus China (~550 gCO2/kWh) for substantial GHG avoidance.",
+      "addressed_in_section": "Section 1.1",
+      "strategic_importance": 9,
+      "competitor_risk": "Kanthal (Sandvik) manufactures electric kilns but has no validated LFP CAM process. FREYR's Finland project likely uses electrified heat but details are not public."
+    },
+    {
+      "gap_id": "GAP-004",
+      "type": "application",
+      "sub_type": "solved-elsewhere-not-applied",
+      "description": "ISO 23247 (Digital Twin Framework for Manufacturing) has been implemented and validated only for discrete manufacturing processes -- CNC machining (NIST test bed), automotive assembly (body shop inspection), and additive manufacturing. No published implementation exists for thermal/chemical continuous or batch powder synthesis processes such as CAM production, where the standard's functional decomposition must accommodate reaction kinetics feedback, atmosphere control, and multi-phase transformations.",
+      "evidence_of_gap": ["SRC-007", "SRC-009", "SRC-010", "SRC-DT-REPORT"],
+      "severity": "major",
+      "project_solution": "Implement the first ISO 23247-compliant digital twin for a thermal/chemical powder manufacturing process. Map the four-layer architecture (OME, DCDC, Core DT, User Entity) onto the 7-step LFP CAM production line with OPC-UA/MQTT data exchange, physics-informed DT core entity with real-time simulation capability, and MPC-enabled user entity for closed-loop process optimization. Publish the reference architecture as a replicable framework for chemical/powder manufacturing DTs.",
+      "addressed_in_section": "Section 1.1",
+      "strategic_importance": 8,
+      "competitor_risk": ""
+    },
+    {
+      "gap_id": "GAP-005",
+      "type": "application",
+      "sub_type": "solved-elsewhere-not-applied",
+      "description": "The Quality-by-Design (QbD) framework and Process Analytical Technology (PAT) toolkit, proven and systematically applied in pharmaceutical manufacturing under ICH Q8-Q11, have never been formally applied to battery cathode active material production. Wang et al. (2023) explicitly identified the gap in theoretical models and in-line monitoring for industrial cathode precursor synthesis. Practical sensor challenges (Raman probe fouling at calcination temperatures, FBRM thermal limits, O2 sensor drift) further complicate direct transfer.",
+      "evidence_of_gap": ["SRC-028", "SRC-DT-REPORT"],
+      "severity": "major",
+      "project_solution": "Develop and validate a PAT/QbD framework for LFP CAM production by mapping Critical Quality Attributes (D50, BET, phase purity, carbon content, Fe2+/Fe3+ ratio, discharge capacity, moisture) to Critical Process Parameters across all 7 process steps. Deploy in-line sensors (thermocouples, pyrometers, IR cameras for temperature; FBRM and laser diffraction for particle size; Raman spectroscopy for phase monitoring; zirconia O2 sensors for atmosphere) with at-line backup (XRD, XRF) where in-situ operation is infeasible. Feed sensor data to the DT core for real-time quality prediction and closed-loop control.",
+      "addressed_in_section": "Section 3.1",
+      "strategic_importance": 7,
+      "competitor_risk": ""
+    },
+    {
+      "gap_id": "GAP-006",
+      "type": "research",
+      "sub_type": "not-studied",
+      "description": "No published lifecycle GHG emission data specific to LFP cathode active material production exists. Current estimates for battery supply chain emissions are extrapolated from NMC chemistries or analogized from cement/lime calcination. The specific energy consumption (kWh/t) for electrified versus gas-fired LFP calcination and the thermal efficiency penalty of electric resistance versus gas-fired rotary kilns at 650 C are unknown. This data gap directly impacts the GHG emission avoidance calculation required by the Innovation Fund.",
+      "evidence_of_gap": ["SRC-021", "SRC-019", "SRC-DT-REPORT"],
+      "severity": "moderate",
+      "project_solution": "Generate primary LFP-specific GHG emission data through the Brindisi plant's instrumented production line. Use the digital twin's energy metering and mass balance tracking to produce the first published electrified LFP CAM lifecycle emission factors. During the proposal phase, construct a conservative GHG avoidance estimate using cement calcination analogs (Liu et al. 2023) and grid carbon intensity differentials (Italy ~200 vs. China ~550 gCO2/kWh), with explicit uncertainty bounds.",
+      "addressed_in_section": "Section 2.1",
+      "strategic_importance": 6,
+      "competitor_risk": "FREYR may publish LFP-specific GHG data from their Finland facility before the FAAM plant is operational."
+    },
+    {
+      "gap_id": "GAP-007",
+      "type": "regulatory",
+      "sub_type": "studied-and-open",
+      "description": "The EU faces a critical dependency on China for cathode active materials, explicitly identified in Commission Communication C/2025/3236 as a strategic vulnerability requiring mitigation under the Net-Zero Industry Act. The EU Battery Regulation mandates a Battery Passport by 2027 with carbon footprint and material provenance data, but no EU-based LFP CAM producer exists to provide compliant supply. The DGAP and European Parliament Research Service have framed this as an urgent strategic gap requiring immediate policy and industrial action.",
+      "evidence_of_gap": ["SRC-023", "SRC-024", "SRC-026"],
+      "severity": "critical",
+      "project_solution": "Establish EU-based LFP CAM production with full traceability from raw materials to finished product, enabling Battery Passport compliance from day one. The digital twin's data architecture (edge-fog-cloud with OPC-UA, MQTT, time-series databases) inherently captures the provenance and carbon footprint data required by the Battery Regulation. Position as a direct response to C/2025/3236 dependency mitigation for battery cathode active materials.",
+      "addressed_in_section": "Section 4.2",
+      "strategic_importance": 9,
+      "competitor_risk": "FREYR (Finland), PowerCo (cell-level only), Umicore (NMC only, Poland). No competitor addresses LFP CAM in Southern Europe."
+    }
+  ],
+  "top_gaps_for_proposal": ["GAP-001", "GAP-002", "GAP-003"],
+  "criterion_gap_mapping": {
+    "1.1": ["GAP-001", "GAP-003", "GAP-004", "GAP-005"],
+    "2.1": ["GAP-003", "GAP-006"],
+    "2.2": ["GAP-003", "GAP-006"],
+    "2.3": ["GAP-006"],
+    "3.1": ["GAP-001", "GAP-004", "GAP-005"],
+    "3.2": ["GAP-002", "GAP-007"],
+    "3.3": ["GAP-005"],
+    "4.1": ["GAP-003", "GAP-006"],
+    "4.2": ["GAP-002", "GAP-007"],
+    "5.1": ["GAP-003", "GAP-006"]
+  }
+}
