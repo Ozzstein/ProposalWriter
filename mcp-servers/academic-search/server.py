@@ -24,6 +24,9 @@ UNPAYWALL_BASE = "https://api.unpaywall.org/v2"
 SCOPUS_BASE = "https://api.elsevier.com/content/search/scopus"
 SCOPUS_ABSTRACT_BASE = "https://api.elsevier.com/content/abstract"
 SCIENCEDIRECT_BASE = "https://api.elsevier.com/content/article"
+IEEE_BASE = "https://ieeexploreapi.ieee.org/api/v1/search/articles"
+CROSSREF_BASE = "https://api.crossref.org/works"
+EUROPEPMC_BASE = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 
 # Unpaywall requires a contact email for rate-limit identification (not authentication)
 UNPAYWALL_EMAIL = "proposalwriter@tool.local"
@@ -31,6 +34,7 @@ UNPAYWALL_EMAIL = "proposalwriter@tool.local"
 ARXIV_HEADERS = {"User-Agent": "ProposalWriter/1.0 (grant proposal writing tool; contact via GitHub)"}
 
 _ELSEVIER_API_KEY = os.environ.get("ELSEVIER_API_KEY", "")
+_IEEE_API_KEY = os.environ.get("IEEEXPLORE_API_KEY", "")
 
 def _elsevier_headers(accept: str = "application/json") -> dict:
     """Build Elsevier API request headers."""
@@ -886,6 +890,305 @@ async def sciencedirect_fetch(doi: str) -> str:
         "section_count": len(sections),
         "url": f"https://doi.org/{doi}",
         "sciencedirect_url": f"https://www.sciencedirect.com/science/article/pii/{core.get('pii', '')}",
+    }, indent=2)
+
+
+@mcp.tool()
+async def ieee_search(
+    query: str,
+    max_results: int = 25,
+    year_from: int = 0,
+    year_to: int = 0,
+    content_type: str = "",
+) -> str:
+    """Search IEEE Xplore for engineering and technical papers.
+
+    IEEE Xplore is the primary database for:
+    - Digital twins and cyber-physical systems (IEEE Transactions on Industrial Informatics)
+    - Manufacturing systems and Industry 4.0 (IEEE Transactions on Automation Science)
+    - Battery management systems and energy storage (IEEE Transactions on Energy Conversion)
+    - Control systems, sensors, and IoT (IEEE Sensors Journal)
+    - Conference papers from IECON, ICRA, ICCV, etc.
+
+    Args:
+        query: Free-text query. Searches title, abstract, and index terms.
+               Use quotes for exact phrases: '"digital twin" "battery manufacturing"'
+        max_results: Number of results to return (default 25, max 200).
+        year_from: Optional start year filter.
+        year_to: Optional end year filter.
+        content_type: Optional filter — one of: Journals, Conferences, Books,
+                      Standards, Early Access. Leave blank for all types.
+
+    Returns:
+        JSON with paper metadata including DOI, citation count, PDF link,
+        publication venue, and abstract snippet.
+    """
+    import json
+
+    if not _IEEE_API_KEY:
+        return json.dumps({"error": "IEEEXPLORE_API_KEY not set in environment."})
+
+    params: dict = {
+        "apikey": _IEEE_API_KEY,
+        "querytext": query,
+        "max_records": str(min(max_results, 200)),
+        "start_record": "1",
+        "sort_order": "desc",
+        "sort_field": "article_number",
+        "format": "json",
+    }
+    if year_from:
+        params["start_year"] = str(year_from)
+    if year_to:
+        params["end_year"] = str(year_to)
+    if content_type:
+        params["content_type"] = content_type
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        resp = await client.get(
+            IEEE_BASE,
+            params=params,
+            headers={"User-Agent": "ProposalWriter/1.0 (grant proposal writing tool)"},
+        )
+        if resp.status_code == 401:
+            return json.dumps({"error": "IEEE Xplore API key invalid or expired."})
+        if resp.status_code == 429:
+            return json.dumps({"error": "IEEE Xplore API rate limit exceeded. Wait and retry."})
+        resp.raise_for_status()
+        data = resp.json()
+
+    total = data.get("total_records", 0)
+    articles = data.get("articles", [])
+
+    results = []
+    for a in articles:
+        doi = a.get("doi", "")
+        results.append({
+            "title": a.get("title", ""),
+            "authors": ", ".join(
+                auth.get("full_name", "")
+                for auth in (a.get("authors", {}).get("authors") or [])[:5]
+            ),
+            "year": str(a.get("publication_year", "")),
+            "journal_or_conference": a.get("publication_title", ""),
+            "content_type": a.get("content_type", ""),
+            "doi": doi,
+            "ieee_id": a.get("article_number", ""),
+            "citation_count": a.get("citing_paper_count", 0),
+            "abstract": (a.get("abstract") or "")[:400] + ("..." if len(a.get("abstract") or "") > 400 else ""),
+            "keywords": [
+                kw.get("value", "")
+                for kw in (a.get("index_terms", {}).get("ieee_terms", {}).get("terms") or [])[:8]
+            ],
+            "open_access": a.get("access_type", "") in ("OPEN_ACCESS", "FREE"),
+            "pdf_url": a.get("pdf_url", ""),
+            "url": f"https://doi.org/{doi}" if doi else f"https://ieeexplore.ieee.org/document/{a.get('article_number', '')}",
+        })
+
+    return json.dumps({
+        "total_results": total,
+        "returned": len(results),
+        "query": query,
+        "results": results,
+    }, indent=2)
+
+
+@mcp.tool()
+async def crossref_search(
+    query: str,
+    max_results: int = 20,
+    year_from: int = 0,
+    year_to: int = 0,
+    doc_type: str = "",
+) -> str:
+    """Search CrossRef for published papers by title/keyword with citation metadata.
+
+    CrossRef indexes 150M+ DOI-registered works across all publishers.
+    Particularly useful for:
+    - Verifying DOIs and publication details for papers found elsewhere
+    - Finding citation counts and funder information
+    - Discovering papers from publishers not covered by Scopus/IEEE
+    - Checking whether a preprint has been published (by searching the title)
+
+    Args:
+        query: Title or keyword query.
+        max_results: Number of results (default 20, max 100).
+        year_from: Optional start year.
+        year_to: Optional end year.
+        doc_type: Optional work type — journal-article, proceedings-article,
+                  book-chapter, dataset, report. Leave blank for all.
+
+    Returns:
+        JSON with DOI, title, authors, journal, year, citation count, funder,
+        and open-access license info.
+    """
+    import json
+
+    params: dict = {
+        "query": query,
+        "rows": str(min(max_results, 100)),
+        "sort": "relevance",
+        "mailto": "proposalwriter@tool.local",  # polite pool — faster responses
+    }
+
+    filters = []
+    if year_from:
+        filters.append(f"from-pub-date:{year_from}")
+    if year_to:
+        filters.append(f"until-pub-date:{year_to}")
+    if doc_type:
+        filters.append(f"type:{doc_type}")
+    if filters:
+        params["filter"] = ",".join(filters)
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        resp = await client.get(
+            CROSSREF_BASE,
+            params=params,
+            headers={"User-Agent": "ProposalWriter/1.0 (mailto:proposalwriter@tool.local)"},
+        )
+        resp.raise_for_status()
+        data = resp.json()
+
+    items = data.get("message", {}).get("items", [])
+    total = data.get("message", {}).get("total-results", 0)
+
+    results = []
+    for item in items:
+        doi = item.get("DOI", "")
+        authors_raw = item.get("author", [])
+        authors = ", ".join(
+            f"{a.get('family', '')} {a.get('given', '')[:1]}".strip()
+            for a in authors_raw[:5]
+        )
+        if len(authors_raw) > 5:
+            authors += " et al."
+
+        pub_date = item.get("published", {}).get("date-parts", [[""]])[0]
+        year = str(pub_date[0]) if pub_date else ""
+
+        # Funder info
+        funders = [
+            f.get("name", "")
+            for f in (item.get("funder") or [])[:3]
+        ]
+
+        # License / OA
+        licenses = [lic.get("URL", "") for lic in (item.get("license") or [])[:2]]
+
+        results.append({
+            "title": (item.get("title") or [""])[0],
+            "authors": authors,
+            "journal": (item.get("container-title") or [""])[0],
+            "year": year,
+            "doi": doi,
+            "doc_type": item.get("type", ""),
+            "citation_count": item.get("is-referenced-by-count", 0),
+            "funders": funders,
+            "licenses": licenses,
+            "open_access": bool(licenses),
+            "url": f"https://doi.org/{doi}" if doi else "",
+        })
+
+    return json.dumps({
+        "total_results": total,
+        "returned": len(results),
+        "query": query,
+        "results": results,
+    }, indent=2)
+
+
+@mcp.tool()
+async def europepmc_search(
+    query: str,
+    max_results: int = 20,
+    year_from: int = 0,
+    year_to: int = 0,
+    open_access_only: bool = False,
+) -> str:
+    """Search Europe PMC for biomedical and life-science open-access literature.
+
+    Europe PMC aggregates 45M+ records including PubMed, PubMed Central,
+    preprint servers, and EU-funded research outputs. Particularly useful for:
+    - Finding full-text open-access versions of biomedical papers
+    - Searching EU-funded research (Horizon Europe grantee publications)
+    - Accessing preprints from bioRxiv, medRxiv, ChemRxiv in one query
+
+    Args:
+        query: Search query. Supports field tags:
+               TITLE:term, ABSTRACT:term, AUTH:surname, JOURNAL:name,
+               GRANT_AGENCY:name, HAS_FT:y (full text only)
+        max_results: Number of results (default 20, max 100).
+        year_from: Optional start year filter.
+        year_to: Optional end year filter.
+        open_access_only: If True, restricts to papers with free full text.
+
+    Returns:
+        JSON with paper metadata, full-text availability flag, DOI, PMID,
+        citation count, and grant information.
+    """
+    import json
+
+    q = query
+    if year_from and year_to:
+        q += f" AND (FIRST_PDATE:[{year_from}-01-01 TO {year_to}-12-31])"
+    elif year_from:
+        q += f" AND (FIRST_PDATE:[{year_from}-01-01 TO 3000-12-31])"
+    elif year_to:
+        q += f" AND (FIRST_PDATE:[1900-01-01 TO {year_to}-12-31])"
+    if open_access_only:
+        q += " AND (OPEN_ACCESS:y)"
+
+    params = {
+        "query": q,
+        "resultType": "core",
+        "pageSize": str(min(max_results, 100)),
+        "format": "json",
+        "sort": "RELEVANCE",
+    }
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        resp = await client.get(
+            EUROPEPMC_BASE,
+            params=params,
+            headers={"User-Agent": "ProposalWriter/1.0 (grant proposal writing tool)"},
+        )
+        resp.raise_for_status()
+        data = resp.json()
+
+    result_list = data.get("resultList", {}).get("result", [])
+    total = data.get("hitCount", 0)
+
+    results = []
+    for r in result_list:
+        results.append({
+            "title": r.get("title", ""),
+            "authors": r.get("authorString", ""),
+            "journal": r.get("journalTitle", ""),
+            "year": str(r.get("pubYear", "")),
+            "pmid": r.get("pmid", ""),
+            "pmcid": r.get("pmcid", ""),
+            "doi": r.get("doi", ""),
+            "source": r.get("source", ""),  # MED, PPR (preprint), etc.
+            "citation_count": r.get("citedByCount", 0),
+            "full_text_available": r.get("isOpenAccess") == "Y" or bool(r.get("pmcid")),
+            "open_access": r.get("isOpenAccess") == "Y",
+            "full_text_url": (
+                f"https://europepmc.org/article/{r.get('source', 'MED')}/{r.get('pmid', r.get('pmcid', ''))}"
+                if r.get("pmid") or r.get("pmcid") else ""
+            ),
+            "grant_list": [
+                g.get("agency", "")
+                for g in (r.get("grantsList", {}).get("grant") or [])[:3]
+            ],
+            "url": f"https://doi.org/{r.get('doi')}" if r.get("doi") else "",
+        })
+
+    return json.dumps({
+        "total_results": total,
+        "returned": len(results),
+        "query": q,
+        "results": results,
     }, indent=2)
 
 
