@@ -1,0 +1,497 @@
+[
+  {
+    "section_name": "overall_compliance",
+    "reviewer_type": "compliance",
+    "overall_score": 6.5,
+    "review_date": "2026-04-04",
+    "methodology": "Systematic check of all drafted Part B sections against call_brief.json (template source), evaluation_matrix.json, proposal_outline.md, and eligibility_checklist.json. Word counts used for page estimation at ~500 words/page (Arial 9pt with tables).",
+
+    "structure_compliance": {
+      "sections_present": [
+        "Section 0 (Project and Applicants) — PRESENT",
+        "Section 1 (Degree of Innovation) — PRESENT",
+        "Section 2.3 (DNSH/Minimum Requirements) — PRESENT",
+        "Section 3.1 (Technical Maturity) — PRESENT",
+        "Section 3.3 (Operational Maturity) — PRESENT",
+        "Section 3.4 (Risk Management) — PRESENT",
+        "Section 4 (Replicability) — PRESENT",
+        "Section 6 (Bonus Points) — PRESENT",
+        "Section 7 (Workplan) — PRESENT",
+        "Abstract — PRESENT",
+        "Annex: Feasibility Study — PRESENT (partial draft)"
+      ],
+      "sections_missing_or_incomplete": [
+        "Section 2.1 (Absolute GHG Emission Avoidance) — NOT DRAFTED. Call requires quantified tCO2e calculation using GHG calculator. Only a narrative placeholder exists in 02_3_dnsh.md (covers 2.3 only). 2.1 and 2.2 are entirely absent as separate sections.",
+        "Section 2.2 (Relative GHG Emission Avoidance) — NOT DRAFTED. The 50% minimum threshold demonstration is required as a standalone sub-section. Currently only referenced tangentially in innovation section. No dedicated 2.2 draft file exists.",
+        "Section 3.2 (Financial Maturity) — NOT DRAFTED. No draft file for 3.2 exists (business plan summary, cash flow projections, financing plan, funders commitment). The proposal_outline.md plans 5 pages for 3.2; these pages are entirely absent.",
+        "Section 5 (Cost Efficiency) — NOT DRAFTED. No draft file for 5.x exists. No relevant cost methodology, no grant amount, no cost efficiency ratio calculation.",
+        "Section 8 (Ethics/Security) — NOT DRAFTED. Standard boilerplate 'not applicable' text missing.",
+        "Section 9 (Declarations) — NOT DRAFTED. DNSH compliance commitment, no double funding statement, PDA/national funding scheme/Member State sharing YES/NO answers are all absent.",
+        "Cover page — NOT PRESENT as a discrete file. Proposal outline references it but no cover page draft exists.",
+        "Table of Contents — NOT DRAFTED."
+      ],
+      "notes": "5 of 10 scored sections (2.1, 2.2, 3.2, 5, plus 8 and 9 which are boilerplate) are entirely absent. Of the 10 evaluatable sub-criteria, 4 critical cascade-gate criteria (2.3 quality, 3.2 financial maturity, 5.1 cost efficiency, 5.2 cost quality) lack complete supporting narrative."
+    },
+
+    "page_limit_assessment": {
+      "part_b_limit_pages": 70,
+      "feasibility_study_limit_pages": 60,
+      "estimated_words_per_page_arial_9pt": 500,
+      "drafted_section_word_counts": {
+        "00_project_and_applicants": 3312,
+        "01_innovation": 4871,
+        "02_3_dnsh_only": 1090,
+        "03_1_technical_maturity": 2610,
+        "03_3_operational_maturity": 2474,
+        "03_4_risk_management": 1014,
+        "04_replicability": 3922,
+        "06_bonus": 341,
+        "07_workplan": 3108,
+        "abstract": 254,
+        "annex_feasibility_study_partial": 13505,
+        "total_part_b_words_drafted": 22996,
+        "total_all_words_including_annex": 36501
+      },
+      "estimated_pages": {
+        "part_b_drafted_sections_pages": "~46 pages estimated from 22,996 words / 500 words per page, including table overhead",
+        "missing_sections_planned_pages": "~14 pages missing (2.1: 2p, 2.2: 1p, 3.2: 5p, 5: 4p, 8-9: 1p, cover+ToC: 1.5p)",
+        "total_when_complete_estimate": "~60 pages for Part B narrative",
+        "feasibility_study_current_pages": "~27 pages estimated (13,505 words / 500); feasibility study is clearly incomplete",
+        "status": "LIKELY WITHIN LIMITS when complete, but feasibility study needs substantial completion to approach the mandated depth"
+      },
+      "risk_assessment": "Low page-limit risk — the proposal has significant room (estimated 10+ pages of buffer in Part B). The feasibility study at ~27 pages is well under the 60-page limit but is clearly incomplete (sections 4-10 of the FS template appear unstarted)."
+    },
+
+    "content_completeness": {
+      "wp_structure": {
+        "status": "COMPLIANT",
+        "detail": "WP1 (pre-FC), WP2 (FC-to-EiO), WP3-WP7 (Years 1-5 of operation) all present and correctly structured per mandatory CLEAN-TECH-MANUFACTURING template."
+      },
+      "mandatory_deliverables_wp1": {
+        "status": "MOSTLY COMPLIANT — one gap",
+        "present": [
+          "D1.1 Detailed project management plan (M1)",
+          "D1.2 Final version of financial model (M1)",
+          "D1.3 Knowledge sharing plan (M1)",
+          "D1.4 Knowledge sharing report (M1)",
+          "D1.5 Progress reports every 6 months (M6, M12, M18)",
+          "D1.6 Updated knowledge sharing report at FC (M24)",
+          "D1.7 Updated project management plan at FC (M24)",
+          "D1.8 Financial close documentation package at FC (M24)"
+        ],
+        "gap": "The call requires 'all key documents necessary to verify achievement of financial close (including key financing, supply, off-take and construction/equipment contracts, relevant permits)' to be listed explicitly. D1.8 covers this conceptually but the deliverable description should be made more specific."
+      },
+      "mandatory_deliverables_wp2": {
+        "status": "COMPLIANT",
+        "present": [
+          "D2.1 Annual progress reports (M36, M48)",
+          "D2.2 Statement by independent auditor on correctness of relevant cost calculation",
+          "D2.3 Operational readiness and completion certificate",
+          "D2.4 Updated knowledge sharing report",
+          "D2.5 Updated knowledge sharing plan",
+          "D2.6 GHG monitoring plan",
+          "D2.7 Updated detailed project management plan"
+        ]
+      },
+      "mandatory_deliverables_wp3": {
+        "status": "COMPLIANT",
+        "present": [
+          "D3.1 Annual GHG emission avoidance report",
+          "D3.2 Updated knowledge sharing report and plan"
+        ]
+      },
+      "mandatory_deliverables_wp4_to_wp6": {
+        "status": "COMPLIANT — annual GHG reports present in WP4, WP5, WP6"
+      },
+      "mandatory_deliverables_wp7_final": {
+        "status": "COMPLIANT",
+        "present": [
+          "D7.1 Annual GHG emission avoidance report (Year 5)",
+          "D7.2 Verified GHG emission avoidance report over entire monitoring period",
+          "D7.3 Final report on fulfilment of innovation and replicability claims",
+          "D7.4 DNSH compliance report",
+          "D7.5 Declaration on equipment/components EEA-originating content (CLEAN-TECH-MANUFACTURING specific)",
+          "D7.6 Updated knowledge sharing report and plan"
+        ]
+      },
+      "mandatory_milestones": {
+        "FC": "PRESENT — MS1: Financial Close at M24",
+        "EiO": "PRESENT — MS2: Entry into Operation at M48",
+        "operational_milestones": "PRESENT — MS3-MS7 for Years 1-5"
+      },
+      "dnsh": {
+        "climate_mitigation_2_3_1": "PRESENT and well-argued. Correctly cites Table 2 (no TSC for battery manufacture).",
+        "ets_benchmark_2_3_2": "PRESENT but INCOMPLETE — contains a '[TO BE COMPLETED: ETS benchmark applicability requires formal verification by CFO team]' placeholder. This is a cascade-gate minimum requirement. Evaluators may reject if not resolved.",
+        "biomass_2_3_3": "PRESENT and adequate — correctly argues N/A.",
+        "climate_change_adaptation": "PRESENT in Section 4.1b",
+        "water_marine": "PRESENT in Section 4.1b",
+        "circular_economy": "PRESENT in Section 4.1b",
+        "pollution_prevention": "PRESENT in Section 4.1b",
+        "biodiversity": "PRESENT in Section 4.1b",
+        "gap": "Section 2.3.2 ETS benchmark incomplete — needs CFO resolution before submission."
+      },
+      "innovation_dimensions": {
+        "status": "COMPLIANT",
+        "present": ["plant design", "operating approach", "construction", "performance/quality", "reliability/availability", "maintenance", "economics"],
+        "evidence": "All 7 mandatory dimensions explicitly covered in the innovation dimensions table in Section 1."
+      },
+      "trl_table": {
+        "status": "PRESENT — in both Section 1 (TRL Progression table) and Section 3.1a (Technical Maturity overview table). Before/after TRL shown."
+      },
+      "risk_register": {
+        "status": "PRESENT — 10 risks with probability/impact/risk level/mitigation/residual risk. Covers technical, supply chain, regulatory, market, financial categories.",
+        "gap": "R9 (construction cost overrun) has '[TO BE COMPLETED: Specific contingency percentage to be confirmed by CFO team]' placeholder."
+      },
+      "knowledge_sharing_plan": {
+        "status": "PRESENT — Section 4.2 covers publications, open-source releases, site visits, training programmes, annual KS reports, EU visibility."
+      }
+    },
+
+    "to_be_completed_inventory": [
+      {
+        "location": "Section 2.3.2 (ETS Benchmark)",
+        "placeholder": "[TO BE COMPLETED: ETS benchmark applicability for LFP CAM requires formal verification by CFO team. If an evaluator determines that a fallback heat or fuel benchmark applies...]",
+        "priority": "CRITICAL",
+        "reason": "ETS benchmark compliance is a minimum requirement for Criterion 2.3 (cascade gate). If evaluators apply the chemicals heat benchmark and the project cannot demonstrate compliance, the proposal fails at Step 2 of the cascade. CFO team must calculate process emissions vs applicable benchmark or definitively confirm no benchmark applies."
+      },
+      {
+        "location": "Section 3.1c (Technical Due Diligence)",
+        "placeholder": "[TO BE COMPLETED: Independent technical due diligence reports to be referenced here if available]",
+        "priority": "MEDIUM",
+        "reason": "This is informational — no hard requirement for DD reports. But absence weakens technical maturity score under 3.1. If any vendor assessments or independent process reviews exist, they should be referenced."
+      },
+      {
+        "location": "Section 3.3c (Operational Due Diligence)",
+        "placeholder": "[TO BE COMPLETED: Operational due diligence reports (legal, IP, market studies) to be referenced here if available]",
+        "priority": "LOW",
+        "reason": "Informational. Scoring impact minor."
+      },
+      {
+        "location": "Section 3.3d Public Acceptance",
+        "placeholder": "[TO BE COMPLETED: FTE numbers for construction and operational phases to be confirmed by HR planning]",
+        "priority": "MEDIUM",
+        "reason": "Evaluators assess job creation as part of operational maturity and regional impact. Blank FTE numbers reduce credibility of the public acceptance narrative."
+      },
+      {
+        "location": "Section 3.3e Project Management Team",
+        "placeholder": "[TO BE COMPLETED: Specific CVs and track records of named individuals for each role must be provided by the project team]",
+        "priority": "HIGH",
+        "reason": "CVs are a mandatory annex. Additionally, Section 3.3e requires named individuals with qualifications for Operational Maturity scoring (3.3, min pass 3/5). Without named people and CVs referenced, this section reads as a template framework rather than evidence of real team capability. Evaluators specifically check project management team qualifications."
+      },
+      {
+        "location": "Section 3.4 Risk Management (R9)",
+        "placeholder": "[TO BE COMPLETED: Specific contingency percentage to be confirmed by CFO team]",
+        "priority": "LOW",
+        "reason": "Minor — a specific figure strengthens credibility but absence is not a disqualifier."
+      },
+      {
+        "location": "Section 4.1c Capacity Building",
+        "placeholder": "[TO BE COMPLETED: specific FTE numbers to be provided by FIB HR planning]",
+        "priority": "MEDIUM",
+        "reason": "For a 10-point criterion (EU industrial leadership, min pass 4), concrete job creation numbers strengthen the capacity-building argument."
+      },
+      {
+        "location": "Section 7 — Workplan Budget",
+        "placeholder": "[TO BE COMPLETED: Specific budget figures (total CAPEX, OPEX by WP, grant request amount) to be provided by the CFO team]",
+        "priority": "CRITICAL",
+        "reason": "The workplan budget table is mandatory for evaluation. WP1 budget must demonstrably not exceed 40% of maximum grant; post-operation must be at least 10%. Without any figures, this section is structurally non-compliant. Must be completed."
+      },
+      {
+        "location": "Section 7 — Timetable Annex",
+        "placeholder": "[TO BE COMPLETED: Detailed Gantt chart to be prepared using the Portal Reference Documents template]",
+        "priority": "CRITICAL",
+        "reason": "Timetable/Gantt chart is a mandatory annex. Its absence means the proposal is incomplete at submission."
+      },
+      {
+        "location": "Feasibility Study — Section 2.1 (Brindisi site)",
+        "placeholder": "[TO BE COMPLETED: specific area allocation within the Eni Brindisi complex, existing structures to be repurposed vs demolished, to be confirmed by site engineering team]",
+        "priority": "MEDIUM"
+      },
+      {
+        "location": "Feasibility Study — Section 2.4 / Section 3.1 (FIB capacity)",
+        "placeholder": "[TO BE COMPLETED: specific current MWh/year manufacturing capacity and number of manufacturing sites to be confirmed by project team]",
+        "priority": "MEDIUM"
+      },
+      {
+        "location": "Feasibility Study — Section 3.1 (Site coordinates)",
+        "placeholder": "[TO BE COMPLETED: Exact coordinates to be provided by site engineering]",
+        "priority": "LOW"
+      },
+      {
+        "location": "Feasibility Study — Section 3.5 (CNIPA patent search)",
+        "placeholder": "[TO BE COMPLETED: A comprehensive Chinese-language CNIPA patent search is recommended]",
+        "priority": "MEDIUM",
+        "reason": "Freedom-to-operate risk from CATL/BYD patents. Not a submission blocker but a legal risk."
+      }
+    ],
+
+    "missing_sections_cfo_responsibility": [
+      {
+        "section": "Section 2.1 — Absolute GHG Emission Avoidance",
+        "status": "NOT DRAFTED",
+        "cfo_responsibility": true,
+        "cascade_criticality": "GHG avoidance calculation uses GHG calculator template — primarily a financial/technical modelling task. Must be completed to avoid cascade failure at Step 2.",
+        "notes": "Requires: reference scenario definition (gas-fired Asian benchmark), project scenario definition (electrified Italian grid), 10-year calculation, data traceability sections. Values must be consistent with Part C and cost efficiency ratio."
+      },
+      {
+        "section": "Section 2.2 — Relative GHG Emission Avoidance",
+        "status": "NOT DRAFTED",
+        "cfo_responsibility": true,
+        "cascade_criticality": "Minimum 50% relative avoidance required. If not demonstrated in a dedicated section, the proposal fails the minimum requirement check at Step 2.",
+        "notes": "Must show at least 50% relative avoidance using Innovation Fund methodology. Current narrative in other sections mentions 55-70% by 2030 but no formal calculation exists."
+      },
+      {
+        "section": "Section 3.2 — Financial Maturity",
+        "status": "NOT DRAFTED",
+        "cfo_responsibility": true,
+        "cascade_criticality": "TRIPLE CASCADE GATE — minimum pass 3/5, weight x2 (10 weighted points). If absent or below threshold, proposal is rejected at Step 2.",
+        "notes": "Required: business plan summary, CAPEX/OPEX/revenue parameters, profitability analysis, WACC, sensitivity analysis, financing plan, funders commitment. Business plan annex also mandatory."
+      },
+      {
+        "section": "Section 5 — Cost Efficiency",
+        "status": "NOT DRAFTED",
+        "cfo_responsibility": true,
+        "cascade_criticality": "CASCADE GATE — cost efficiency ratio must be <= 200 EUR/tCO2eq; quality sub-criterion minimum 1.5/3. Absent section = certain cascade failure at Step 3.",
+        "notes": "Required: relevant cost calculation using financial information file template, requested grant amount, cost efficiency ratio. Ratio formula: (grant + additional public support) / absolute GHG avoidance."
+      },
+      {
+        "section": "Annex: Business Plan",
+        "status": "NOT DRAFTED",
+        "cfo_responsibility": true,
+        "cascade_criticality": "MANDATORY ANNEX — required for Section 3.2 and Section 3.4 evaluation. Absence makes 3.2 unevaluable.",
+        "notes": "Max 60 pages. Must cover: business proposition, market, commercialisation, CAPEX/OPEX table, profitability, sensitivity, financing plan, funders, project diagram."
+      },
+      {
+        "section": "Annex: Detailed Budget Table / Relevant Cost Calculator",
+        "status": "NOT PREPARED",
+        "cfo_responsibility": true,
+        "cascade_criticality": "MANDATORY ANNEX — submission is incomplete without it.",
+        "notes": "Must use the portal template. Two options: Option 1 (direct) or Option 2 (reference plant methodology)."
+      },
+      {
+        "section": "Annex: GHG Emission Avoidance Calculator",
+        "status": "NOT PREPARED",
+        "cfo_responsibility": true,
+        "cascade_criticality": "MANDATORY ANNEX — evaluators check all sheets including data traceability sections. Absence = automatic rejection.",
+        "notes": "Must use provided Innovation Fund template. All sheets: reference emissions, project emissions, conversion factors, assumptions, CC credit."
+      },
+      {
+        "section": "Annex: Detailed Financial Model",
+        "status": "NOT PREPARED",
+        "cfo_responsibility": true,
+        "cascade_criticality": "MANDATORY ANNEX for Financial Maturity (3.2) evaluation.",
+        "notes": "Must include formulas (no hard-coded figures, no macros). P&L, cash flow, balance sheet. Sensitivity analysis."
+      },
+      {
+        "section": "Annex: Project Shareholders Financial Resources",
+        "status": "NOT PREPARED",
+        "cfo_responsibility": true,
+        "cascade_criticality": "MANDATORY ANNEX. 3 years of financial statements for FIB and Eni.",
+        "notes": "Consolidated or social accounts for FIB S.p.A./Seri Industrial and Eni S.p.A. Standard for established companies."
+      },
+      {
+        "section": "Annex: Support to Project — Project Funding Support Documentation",
+        "status": "NOT PREPARED",
+        "cfo_responsibility": true,
+        "cascade_criticality": "MANDATORY ANNEX."
+      },
+      {
+        "section": "Annex: Terms of Supply — Project Contract Terms Documentation",
+        "status": "NOT PREPARED",
+        "cfo_responsibility": true,
+        "cascade_criticality": "MANDATORY ANNEX."
+      }
+    ],
+
+    "formatting_issues": [
+      {
+        "issue": "Scoring header lines in draft files",
+        "detail": "Sections 1 and 3 drafts contain scoring meta-information lines (e.g., 'Scoring: 15 pts x 2 weight = 30 weighted pts | Minimum pass: 9/15 | CASCADE GATE'). These are internal notes from the writing agent and MUST be removed before submission — they constitute template-leftover instructions from the perspective of evaluators.",
+        "severity": "HIGH",
+        "files_affected": ["01_innovation.md (line 3)"]
+      },
+      {
+        "issue": "Section 2 draft covers only 2.3 — mislabelled file",
+        "detail": "The file 02_3_dnsh.md only covers Section 2.3. Sections 2.1 and 2.2 are structurally absent from Part B. The draft naming implies they are combined into one file but the content only addresses 2.3.",
+        "severity": "CRITICAL"
+      },
+      {
+        "issue": "Inconsistent section numbering in Feasibility Study",
+        "detail": "The Feasibility Study annex begins sections at 1, 2, 3... but the mandatory Innovation Fund Feasibility Study template has a specific structure. It is unclear whether this follows the official template or is a free-format document. The call states the feasibility study must follow the official template structure.",
+        "severity": "HIGH"
+      },
+      {
+        "issue": "TO BE COMPLETED placeholders visible throughout",
+        "detail": "Multiple [TO BE COMPLETED] items remain in draft text (inventoried above). These are visible in the current draft and must be resolved before submission.",
+        "severity": "CRITICAL"
+      },
+      {
+        "issue": "Innovation pillar numbering inconsistency",
+        "detail": "Section 1 lists Innovation Pillar 1 (NOV-001), Pillar 2 (NOV-002), Pillar 3 (NOV-003), and Pillar 4 (NOV-005) — skipping NOV-004. This suggests a numbering error in the evidence/novelty store that propagates into the draft text.",
+        "severity": "LOW"
+      }
+    ],
+
+    "annex_requirements_status": [
+      {"annex": "Detailed budget table / Relevant cost calculator", "status": "NOT PREPARED", "criticality": "MANDATORY"},
+      {"annex": "Timetable / Gantt chart", "status": "NOT PREPARED", "criticality": "MANDATORY"},
+      {"annex": "GHG emission avoidance calculator", "status": "NOT PREPARED", "criticality": "MANDATORY"},
+      {"annex": "Feasibility study (max 60 pages)", "status": "PARTIAL (~27 pages, incomplete)", "criticality": "MANDATORY"},
+      {"annex": "Business plan (max 60 pages)", "status": "NOT PREPARED", "criticality": "MANDATORY"},
+      {"annex": "Detailed financial model", "status": "NOT PREPARED", "criticality": "MANDATORY"},
+      {"annex": "Project shareholders financial resources (3yr financials)", "status": "NOT PREPARED", "criticality": "MANDATORY"},
+      {"annex": "Support to project / funding support documentation", "status": "NOT PREPARED", "criticality": "MANDATORY"},
+      {"annex": "Terms of supply / contract terms documentation", "status": "NOT PREPARED", "criticality": "MANDATORY"},
+      {"annex": "Participant information including CVs", "status": "NOT PREPARED — named individuals not yet assigned in Section 3.3e", "criticality": "MANDATORY"},
+      {"annex": "Extended Part C form (statistical data)", "status": "NOT PREPARED (online form)", "criticality": "MANDATORY"}
+    ],
+
+    "major_issues": [
+      "SECTIONS 2.1, 2.2, 3.2, 5, 8, 9 ARE ENTIRELY ABSENT: Combined these sections represent cascade gates for 4 different scoring sub-criteria. Without them the proposal cannot pass Steps 2 and 3 of the evaluation cascade and would be automatically rejected.",
+      "ALL FINANCIAL ANNEXES MISSING: Business plan, financial model, GHG calculator, relevant cost calculator, shareholders financial resources, funding support documentation, contract terms documentation — 7 of 11 mandatory annexes are not prepared. This renders the proposal inadmissible.",
+      "TIMETABLE / GANTT CHART MISSING: This is a mandatory annex explicitly required by the portal submission system. Its absence makes the submission incomplete.",
+      "CVs AND PARTICIPANT INFORMATION NOT PREPARED: Section 3.3e contains no named individuals; the CVs annex (mandatory) has not been prepared. Evaluators specifically assess project team qualifications for Operational Maturity (cascade gate, min 3/5).",
+      "ETS BENCHMARK CALCULATION INCOMPLETE: Section 2.3.2 explicitly contains a [TO BE COMPLETED] placeholder for a cascade-gate minimum requirement. If the placeholder survives to submission, it signals incomplete work to evaluators and risks a minimum requirement failure."
+    ],
+
+    "minor_issues": [
+      "Section 3.1c (Technical DD) and 3.3c (Operational DD) contain [TO BE COMPLETED] placeholders — these weaken the maturity narrative if no DD reports exist. If vendor quotes or any independent assessments exist, they should be referenced.",
+      "FTE numbers for job creation are absent in Sections 3.3d and 4.1c. These strengthen both Operational Maturity (3.3) and EU Industrial Leadership (4.2) scoring.",
+      "The Feasibility Study is structurally incomplete. Sections covering financial analysis, risk assessment (full register), environmental assessment (beyond outline), and operational analysis (beyond preliminary timeline) need to be written to the ~60-page limit.",
+      "Section 4.1c mentions collaboration with 'candidate university partners' without signed agreements or even letters of intent. Evaluators expect a higher level of commitment for the 10-point EU industrial leadership criterion.",
+      "Innovation Pillar numbering jumps from NOV-003 to NOV-005 (missing NOV-004). Minor but creates apparent inconsistency with the evidence store.",
+      "The abstract correctly notes ~1634 characters but does not mention financial figures (grant amount, CAPEX), which evaluators often scan for as a quick project sizing check.",
+      "The Feasibility Study Section 3.1 site coordinates placeholder reduces credibility for technical and operational maturity assessment.",
+      "Section 0.4 correctly notes 189 m3/t natural gas use but does not quantify what percentage of total process energy this represents as electricity, which would strengthen the electrification narrative.",
+      "R9 in the risk register has a missing contingency percentage placeholder — a minor gap but signals incomplete CFO input."
+    ],
+
+    "unsupported_claims": [
+      "Claim in Section 0.3 that 'water recovery efficiency estimate' of 70-85% is 'estimate based on industrial spray dryer condensate recovery systems' — no specific citation provided. Acceptable as an engineering estimate but should reference source data.",
+      "Claim in Section 4.1a that LFP uses '20-44% reduction in lithium intensity per unit of stored energy' — documented as a 'stoichiometric calculation' in the text but the comparison source is not cited as a formal reference (CLM or SRC ID).",
+      "Claim in Section 3.3d that 'the electrified process significantly simplifies the atmospheric emissions component of the AIA (no combustion emissions, no NOx/SOx/particulate from gas firing)' — this overstates the 2.3.2 finding; the initial plant retains 189 m3/t natural gas which does generate some combustion emissions. The claim should be qualified.",
+      "Section 3.1b states 'Electric resistance heaters achieve +/-1 C vs. +/-5-10 C for gas burners [SRC-ED-018]' — SRC-ED-018 is cited but not available for verification. This is a key differentiator claim that must be verifiable."
+    ],
+
+    "redundancies": [
+      "The brownfield site description (Brindisi location, infrastructure advantages, Eni relationship) is repeated substantively in Section 0.3, Section 1 (Innovation dimensions table), Section 3.3, Section 3.3d, Section 4.1a, and the Feasibility Study Sections 2.1 and 3.1. This needs consolidation — the innovation section should cross-reference rather than repeat.",
+      "The 50 kton/yr capacity figure and '4 modular production lines of 12,500 t/yr each' appears in full in Sections 0.3, 3.1b, 3.3, and the Feasibility Study. One primary definition; cross-references elsewhere.",
+      "The FREYR competitive positioning (EUR 122M grant, no FID, US priority) appears in full in Sections 0.1, 1.1, 4.1c, and the Feasibility Study 2.3. Consolidate to Section 4.1c and use short cross-references elsewhere.",
+      "The 189 m3/t natural gas figure is stated in full in Sections 0.4, 1 (multiple places), 2.3.1, 3.1b, 3.3, 4.1a, 4.1b (multiple sections), and Feasibility Study. Establish once in Section 0.3/0.4 and refer elsewhere."
+    ],
+
+    "fixes": [
+      {
+        "priority": "critical",
+        "action": "DRAFT Section 2.1 (Absolute GHG Emission Avoidance): Complete the Innovation Fund GHG emission avoidance calculation using the provided calculator template. Define reference scenario (gas-fired Chinese LFP CAM), project scenario (electrified Italian grid), calculate tCO2e over 10 years. Ensure consistency with Part C and cost efficiency ratio. This is a cascade gate."
+      },
+      {
+        "priority": "critical",
+        "action": "DRAFT Section 2.2 (Relative GHG Emission Avoidance): Dedicate a 1-page sub-section showing the relative GHG avoidance calculation. Must demonstrate >= 50% minimum threshold. Reference the GHG calculator output. The 55-70% narrative exists in Innovation but needs a formal calculation section."
+      },
+      {
+        "priority": "critical",
+        "action": "DRAFT Section 3.2 (Financial Maturity — 5 pages): Draft all sub-sections: 3.2a overview, 3.2b business plan summary, 3.2c cash flow/profitability, 3.2d financing plan, 3.2e funders commitment. This is a cascade gate (min 3/5, weight x2 = 10 weighted points). Flag as primary CFO team responsibility but structural draft needed now."
+      },
+      {
+        "priority": "critical",
+        "action": "DRAFT Section 5 (Cost Efficiency — 4 pages): Draft Section 5.1 covering: relevant cost methodology selection (Option 1 or 2), cost efficiency ratio calculation, requested grant amount, comparison to 200 EUR/tCO2eq threshold. Requires Sections 2.1 and financial model to be completed first. Cascade gate at Step 3."
+      },
+      {
+        "priority": "critical",
+        "action": "RESOLVE Section 2.3.2 (ETS Benchmark) placeholder: CFO team must definitively determine whether any EU ETS benchmark applies to LFP CAM production. If no benchmark applies, state this clearly with regulatory reference. If the chemicals heat benchmark could apply, calculate process emissions per unit and confirm compliance. Remove [TO BE COMPLETED] placeholder before submission."
+      },
+      {
+        "priority": "critical",
+        "action": "PREPARE all mandatory financial annexes: (1) Business plan, (2) Detailed financial model (with formulas, no hard-coded figures), (3) GHG emission avoidance calculator (all sheets), (4) Relevant cost calculator / detailed budget table, (5) Project shareholders financial resources (3yr financials for FIB + Eni), (6) Project funding support documentation, (7) Terms of supply documentation. Without these, the submission is inadmissible."
+      },
+      {
+        "priority": "critical",
+        "action": "PREPARE Timetable / Gantt chart annex: Use the Portal Reference Documents template. Cover grant signature (M0) through end of monitoring period (M108). Include all WPs, activities, dependencies, milestones, and deliverable due dates. Mandatory annex — submission is incomplete without it."
+      },
+      {
+        "priority": "critical",
+        "action": "NAME project team members and prepare CVs annex: Section 3.3e currently lists roles without named individuals. Assign named people to all key roles (Project Manager, Technical Director, DT Lead, Quality Manager, EHS Manager, Site Manager, Financial Controller). Prepare CVs annex per mandatory requirements. This directly affects Operational Maturity scoring (cascade gate)."
+      },
+      {
+        "priority": "critical",
+        "action": "DRAFT Sections 8 and 9 (Other / Declarations): Section 8 requires standard 'not applicable' text for Ethics and Security. Section 9 requires explicit YES/NO answers for PDA support, national funding schemes, Member State information sharing; plus DNSH compliance commitment and no double-funding statement. These are admissibility requirements."
+      },
+      {
+        "priority": "critical",
+        "action": "COMPLETE Feasibility Study annex to at least 45-50 pages: The current draft covers Introduction and Background (~27 pages). Missing: full process engineering calculations, mass/energy balance with figures, TRL evidence section, financial viability section, environmental impact assessment section, risk assessment section, permitting status section. Each section has specific mandatory content per call."
+      },
+      {
+        "priority": "high",
+        "action": "COMPLETE WP budget allocation: Add specific budget figures (or indicative ranges) to Section 7.2 for each WP. Confirm WP1 <= 40% of maximum grant; post-EiO >= 10%. Requires CFO team inputs but structural framework is already in place."
+      },
+      {
+        "priority": "high",
+        "action": "ADD FTE numbers to Sections 3.3d and 4.1c: Obtain construction-phase and operational-phase FTE estimates from HR planning. Even indicative ranges (e.g., 80-120 direct FTEs at steady state) strengthen Operational Maturity and EU Industrial Leadership scoring materially."
+      },
+      {
+        "priority": "high",
+        "action": "CREATE cover page and table of contents: Add a Part B cover page (project name, acronym, coordinator contact) and table of contents as the first elements of the Part B document. Required by template structure."
+      },
+      {
+        "priority": "high",
+        "action": "REMOVE scoring metadata from draft files before final assembly: The line 'Scoring: 15 pts x 2 weight = 30 weighted pts | Minimum pass: 9/15 | CASCADE GATE' in 01_innovation.md must be removed. Check all draft files for similar internal notes."
+      },
+      {
+        "priority": "high",
+        "action": "VERIFY Feasibility Study follows official Innovation Fund template structure: The call requires the feasibility study to follow the official template. Compare current FS draft section numbers against the official template sections to ensure structural compliance. Renumber/reorganise if needed."
+      },
+      {
+        "priority": "medium",
+        "action": "RESOLVE CNIPA patent search gap: Commission a Chinese-language CNIPA patent search covering CATL, BYD, Gotion, and Dynanonic patents in LFP CAM synthesis and digital twin manufacturing. Results should be referenced in the IP section of the Feasibility Study and Section 3.3d. Freedom-to-operate risk is medium and needs resolution before submission."
+      },
+      {
+        "priority": "medium",
+        "action": "ADD citations for unsupported claims: Provide SRC IDs for: (a) 70-85% water recovery estimate; (b) lithium intensity comparison (20-44% reduction); (c) +/-1 C vs +/-5-10 C temperature control comparison. These are used as innovation evidence and need defensible citations."
+      },
+      {
+        "priority": "medium",
+        "action": "CONSOLIDATE repetitive content: The brownfield description, FREYR comparison, capacity figures, and 189 m3/t gas figure appear 4-6 times each. Remove inline repetition and replace with cross-references to primary sections to improve readability and free up pages for missing content."
+      },
+      {
+        "priority": "low",
+        "action": "FIX innovation pillar numbering: NOV-004 appears to be missing. Renumber NOV-005 to NOV-004 in Section 1 and ensure consistency with the claim registry (claim_registry.jsonl)."
+      },
+      {
+        "priority": "low",
+        "action": "QUALIFY gas combustion emissions claim in Section 3.3d/Feasibility Study: The statement that the electrified process produces 'no combustion emissions' contradicts the stated 189 m3/t natural gas use. Correct to 'substantially reduced combustion emissions' with the progressive electrification qualification."
+      }
+    ],
+
+    "strengths": [
+      "Section 1 (Innovation) is exceptionally well-developed with 4 well-differentiated innovation pillars, a complete TRL table, barriers analysis, and explicit coverage of all 7 mandatory innovation dimensions. This is the proposal's strongest section and would likely score 12-14/15 if evaluated in isolation.",
+      "The DNSH analysis for climate change mitigation (Section 2.3.1) is correctly positioned — the Table 2 exemption for 'Manufacture of batteries' is properly cited and could significantly simplify evaluator DNSH review.",
+      "All 5 additional DNSH environmental objectives are addressed in Section 4.1b with specific mitigation measures for each — this is thorough relative to many Innovation Fund proposals.",
+      "Section 7 (Workplan) correctly implements the mandatory CLEAN-TECH-MANUFACTURING WP structure (WP1-WP7), includes the CLEAN-TECH-MANUFACTURING-specific EEA originating content declaration as WP7 final deliverable (D7.5), and correctly targets Financial Close at M24 and EiO at M48 for the positive scoring consideration.",
+      "Section 4 (Replicability) provides strong content for the EU industrial leadership criterion (10 points, min pass 4) — detailed treatment of C/2025/3236 Chinese dependency, patent strategy, university partnerships, supply chain due diligence, and EEA originating content.",
+      "The feasibility study draft, while incomplete, shows a rigorous engineering approach with detailed mass/energy balance, CQA specifications with measurement methods, 7-step process description, and site analysis. The foundation for a strong feasibility study annex exists.",
+      "Section 3.4 (Risk Management) includes all major risk categories with well-defined mitigation strategies. The risk register format (probability/impact/risk level/mitigation/residual) is appropriate for evaluation.",
+      "The project's brownfield brownfield conversion narrative is compelling and well-evidenced — it directly addresses construction timeline risk (FC within 2 years claim) and strengthens the scoring bonus consideration for accelerated timelines.",
+      "Section 0 provides a strong strategic framing with precise policy citations (C/2025/3236, NZIA, CRMA, EU Battery Regulation) that align the project with evaluator expectations for strategic relevance."
+    ],
+
+    "submission_readiness_summary": {
+      "overall_readiness": "NOT READY FOR SUBMISSION",
+      "estimated_completion_percentage": 45,
+      "days_to_deadline": "Deadline: 23 April 2026 — approximately 19 days from review date of 2026-04-04",
+      "critical_path_items": [
+        "1. GHG calculator completion (Sections 2.1 + 2.2) — requires process/engineering team + CFO",
+        "2. Section 3.2 Financial Maturity draft — requires CFO team",
+        "3. Section 5 Cost Efficiency draft — requires CFO + GHG calculator output",
+        "4. Business plan preparation (max 60pp) — requires CFO team",
+        "5. Financial model preparation — requires CFO team",
+        "6. Relevant cost calculator / budget table — requires CFO team",
+        "7. CVs and participant information preparation — requires HR/project team",
+        "8. Timetable/Gantt chart preparation — requires project management team",
+        "9. ETS benchmark resolution in Section 2.3.2 — requires CFO/technical team",
+        "10. Sections 8 and 9 boilerplate completion"
+      ],
+      "feasibility_window": "19 days is extremely tight given the volume of missing financial sections and mandatory annexes. Immediate action on CFO-owned deliverables is required to meet the 23 April 2026 deadline. The technical narrative sections are substantially complete and strong."
+    }
+  }
+]

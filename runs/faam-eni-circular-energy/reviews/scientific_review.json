@@ -1,0 +1,362 @@
+[
+  {
+    "section_name": "abstract",
+    "reviewer_type": "scientific",
+    "overall_score": 7.0,
+    "major_issues": [
+      "Claims 'progressive electrification' but the abstract says 'electric roller hearth kiln calcination' without disclosing the 189 m3/t natural gas residual. An evaluator reading only the abstract would assume fully electric calcination. This is materially misleading.",
+      "The phrase 'substantially higher electrification than the gas-fired Asian benchmark' is vague and unquantified. What percentage of total thermal energy is electric vs gas? This number is never stated anywhere in the proposal."
+    ],
+    "minor_issues": [
+      "Character count (~1634) leaves 366 characters unused. Could add the actual electrification percentage or the 189 m3/t gas disclosure to improve honesty.",
+      "'50+ years of battery manufacturing expertise' — FIB makes lead-acid and Li-ion cells/packs, not cathode active materials. This experience is only partially transferable to CAM powder synthesis."
+    ],
+    "unsupported_claims": [
+      "No CLM-XXX reference provided for the abstract, but the claim '55-70% GHG avoidance by 2030' relies on CLM-026 which itself has only 0.85 confidence and depends entirely on Italy meeting its NECP grid targets — a policy assumption, not a technical certainty."
+    ],
+    "redundancies": [],
+    "fixes": [
+      {"priority": "critical", "action": "Disclose the 189 m3/t residual gas use in the abstract. Replace 'electric roller hearth kiln calcination' with 'predominantly electric calcination with limited residual gas use (189 m3/t), designed for progressive elimination'. An evaluator who discovers the gas use later will penalise for perceived dishonesty."},
+      {"priority": "high", "action": "Quantify the electrification fraction: state the percentage of total process thermal energy supplied by electricity vs gas in the initial configuration."},
+      {"priority": "medium", "action": "Clarify FIB's CAM-specific experience (or lack thereof) rather than implying 50 years of relevant experience."}
+    ],
+    "strengths": [
+      "Concise and well-structured within the 2000-character limit.",
+      "Correctly positions all three innovation pillars.",
+      "References C/2025/3236 which is the strongest policy hook."
+    ]
+  },
+  {
+    "section_name": "00_project_and_applicants",
+    "reviewer_type": "scientific",
+    "overall_score": 6.5,
+    "major_issues": [
+      "CRITICAL INCONSISTENCY: Section 0.2 says 'the first LFP cathode active material production facility in Italy and Southern Europe' [CLM-022] but Section 0.4 says 'progressive electrification strategy... retaining limited natural gas capacity (189 m3/t)'. The word 'first' implies a fully novel facility, but the electrification is partial. The framing toggles between 'fully electrified' and 'progressively electrified' within the same document, which will confuse evaluators.",
+      "FIB/FAAM has ZERO demonstrated experience in cathode active material powder synthesis. The section describes them as 'battery manufacturer' with '50 years of experience in lead-acid and lithium-ion battery production'. Cell/pack assembly is fundamentally different from high-temperature powder metallurgy and chemical synthesis. No evidence is provided that FIB has the in-house expertise to operate a spray drying + calcination + milling production chain. This is a major credibility gap.",
+      "The LFP cycle life claim '>6,000 cycles at cell level depending on architecture' in Section 0.1 has no CLM reference and no SRC reference. This is an unsupported technical claim.",
+      "The '>25% CAGR through 2030' market growth claim has no source reference."
+    ],
+    "minor_issues": [
+      "Objective 2 states '55-70% GHG reduction versus fully gas-fired benchmark by 2030' but the baseline is undefined. What is the gas-fired benchmark? Which facility? Which country's grid? The reference scenario needs explicit definition.",
+      "The CQA table lists D50 as '0.7-2.5 um' (range), but in Section 3.1 the technical maturity section the target for D50 after jet milling is '1-3 um'. These are different ranges (0.7-2.5 vs 1-3). Which is the actual specification?",
+      "Objective 3 claims 'scrap rate reduction 10-50%' which is an absurdly wide range. The lower bound (10%) and upper bound (50%) represent fundamentally different levels of achievement. This looks like hedging rather than engineering."
+    ],
+    "unsupported_claims": [
+      "'>6,000 cycles at cell level' — no CLM or SRC reference",
+      "'>25% CAGR through 2030' — no source reference",
+      "'ESS cell manufacturers, where LFP's cycle life and safety advantages are decisive' — assertion without evidence"
+    ],
+    "redundancies": [
+      "The China dependency narrative (CLM-001, CLM-002, CLM-003) is repeated almost identically in Sections 0.1, 1.1, 4.1c, and the feasibility study. The repetition is excessive and wastes page budget."
+    ],
+    "fixes": [
+      {"priority": "critical", "action": "Add specific evidence of FIB/FAAM's capability to operate CAM synthesis (spray drying, calcination, milling). If FIB lacks this, identify the technology licensor or key hire who provides it. An evaluator will flag the capability gap immediately."},
+      {"priority": "critical", "action": "Harmonise CQA D50 specification across all sections: choose either 0.7-2.5 um or 1-3 um and use it consistently."},
+      {"priority": "high", "action": "Add source references for the cycle life and CAGR claims."},
+      {"priority": "high", "action": "Define the GHG baseline scenario explicitly: country, facility type, gas consumption, grid carbon intensity."},
+      {"priority": "medium", "action": "Narrow the scrap reduction target range or explain why the range is 10-50%."}
+    ],
+    "strengths": [
+      "Comprehensive coverage of policy landscape (NZIA, CRMA, Battery Regulation, C/2025/3236).",
+      "The FREYR competitive analysis with CLM-029 is well-handled.",
+      "The 7-step process table is clear and informative.",
+      "Honest about the 189 m3/t gas residual in Objective 2 (unlike the abstract)."
+    ]
+  },
+  {
+    "section_name": "01_innovation",
+    "reviewer_type": "scientific",
+    "overall_score": 7.5,
+    "major_issues": [
+      "THE ELECTRIFICATION HONESTY PROBLEM: The section uses 'progressively electrified' and 'first fully electrified LFP CAM production plant' inconsistently. The 189 m3/t gas figure means this is NOT fully electrified. At 50 kton/yr, that is 9.45 million m3 of natural gas per year — approximately 18,900 MWh thermal (at ~10 kWh/m3). Total electricity is 3,580 kWh/t = 179,000 MWh. So gas is roughly 10% of total energy input. This is material. The text must consistently say 'predominantly electrified with ~90% electric thermal share' (or whatever the actual number is) rather than alternating between 'fully' and 'progressively'.",
+      "DT TRL PROGRESSION: Claiming TRL 3-4 to TRL 6-7 for the CAM synthesis DT in 4 years (M12-M48) is aggressive. TRL 3 means 'analytical and experimental critical function proof of concept'. TRL 6-7 means 'technology demonstrated/prototyped in relevant/operational environment'. That is 3-4 TRL levels in one project. The text provides no evidence that this pace is achievable — the ARTISTIC platform took >5 years of ERC funding to reach TRL 5-6 for electrode manufacturing. TwinHeat is an industrial chair (typically 4-6 year programme). The DiBaZ project ran for multiple years. What makes this project faster? The workplan should address this.",
+      "The 'first DT for CAM synthesis' claim [CLM-005] carries a confidence of 0.90 and the novelty map explicitly warns about 'unpublished internal DT implementations by Chinese LFP producers'. The text acknowledges this in one sentence but does not adequately address it. An evaluator from the battery industry will know that CATL and BYD have massive R&D budgets and may well have proprietary DTs. The defence needs strengthening."
+    ],
+    "minor_issues": [
+      "The multi-scale modelling table (DFT to Plant) is impressive but the DFT/atomistic row is decorative rather than functional. DFT calculations for LFP olivine are routine and available in the literature (Materials Project, AFLOW). Claiming DFT as part of the DT suggests more novelty than exists. Be honest: the DFT is for parameter lookup, not for real-time control.",
+      "Innovation Pillar 2 states 'the first LFP CAM production plant designed with a progressive electrification strategy'. The word 'designed with' is doing heavy lifting. Any new plant could be 'designed with' electrification. The innovation is in the implementation and integration, not the design intent.",
+      "The PAT sensor table lists Raman spectroscopy at 'post-calcination (at-line)' with 30-60 sec update rate. But the text earlier claims 'in-line Raman spectroscopy' [CLM-019]. The table correctly says at-line, but the narrative is inconsistent. At-line and in-line are technically different (at-line = sample taken to instrument; in-line = sensor in the process stream).",
+      "The TRL table shows 'Electrified calcination (electric RHK)' starting at TRL 5-6. This is too conservative. Electric RHKs are commercially sold by NGK and used in NMC production. The correct starting TRL is 7. The LFP-specific application might be TRL 5-6, but the equipment itself is TRL 9."
+    ],
+    "unsupported_claims": [
+      "CLM-007 (DT delivers 10-50% scrap reduction) — this is a cross-industry aggregate from a project internal report [SRC-DT-REPORT], not peer-reviewed evidence specific to CAM. The range is too wide to be meaningful.",
+      "'Batch-to-batch variability reduction >40%' — no specific source is cited for this target. CLM-007 references general DT benefits, not a 40% variability reduction."
+    ],
+    "redundancies": [
+      "The ARTISTIC platform description appears in full in both Section 1.1 and the feasibility study Section 6. This is wasteful.",
+      "The cross-industry DT benchmarks table appears in Section 1 and is repeated in Section 2.3 and referenced again in Section 4."
+    ],
+    "fixes": [
+      {"priority": "critical", "action": "Calculate and state the actual electrification percentage (% of total thermal energy from electricity vs gas) in the initial configuration. Use this number consistently. Stop alternating between 'fully' and 'progressively' electrified."},
+      {"priority": "critical", "action": "Add a credible timeline and resource plan for the DT TRL advancement from 3-4 to 6-7. Show the specific milestones, the team size, and the model validation steps. Reference comparable DT development timelines (ARTISTIC, TwinHeat, DiBaZ) and explain how this project achieves similar progress in less time."},
+      {"priority": "high", "action": "Strengthen the defence against Chinese unpublished DTs. Options: (a) commission a Chinese-language CNIPA patent and literature search before submission; (b) reframe the claim from 'first DT' to 'first published/documented DT' or 'first standards-compliant DT'; (c) argue that even if Chinese DTs exist, they are proprietary and not accessible to European manufacturers, making an EU-developed DT independently valuable."},
+      {"priority": "high", "action": "Correct the Raman spectroscopy description: consistently say 'at-line' for post-calcination sampling, not 'in-line'. The distinction matters to PAT experts."},
+      {"priority": "medium", "action": "Remove DFT from the real-time DT narrative. Present it honestly as offline parameter generation, not as a DT component."}
+    ],
+    "strengths": [
+      "The SOTA review is genuinely comprehensive with well-chosen references (ARTISTIC, TwinHeat, DiBaZ, Ma et al.).",
+      "The ISO 23247 gap analysis (all implementations in discrete manufacturing) is a strong novelty argument.",
+      "The CQA-CPP mapping table is detailed and demonstrates real domain knowledge.",
+      "The 'Why This Scale' argument is well-reasoned.",
+      "The barriers section is honest about sensor reliability and surrogate model fidelity."
+    ]
+  },
+  {
+    "section_name": "02_3_dnsh",
+    "reviewer_type": "scientific",
+    "overall_score": 6.0,
+    "major_issues": [
+      "INCOMPLETE: The ETS benchmark section contains a '[TO BE COMPLETED]' placeholder. This is a mandatory compliance section. Submitting with a placeholder will result in automatic failure or a request for information that delays evaluation.",
+      "The DNSH section claims 'no TSC, therefore not required' for climate change mitigation under Section 3.4 (Manufacture of batteries). This classification needs verification. An evaluator may argue that LFP CAM production is an upstream chemical manufacturing activity, not 'manufacture of batteries'. If reclassified to Section 3.6 (Manufacture of other low carbon technologies) or Section 3.17 (Cogeneration), different TSC may apply."
+    ],
+    "minor_issues": [
+      "The biomass sustainability section correctly identifies glucose as a chemical precursor, not an energy feedstock. However, at 500 t/yr glucose, some evaluators may question whether agricultural sourcing impacts should be addressed under DNSH for biodiversity, even if the formal biomass criterion does not apply.",
+      "Carbon content specification is listed as '1.5-3.0 wt%' in the DNSH section but '1.0-1.8 wt%' in the CQA tables elsewhere. This is a direct inconsistency."
+    ],
+    "unsupported_claims": [],
+    "redundancies": [
+      "The electrification narrative and 95% vs 25-60% thermal efficiency comparison is repeated here for the third time."
+    ],
+    "fixes": [
+      {"priority": "critical", "action": "COMPLETE the ETS benchmark section before submission. This is non-negotiable."},
+      {"priority": "critical", "action": "Fix carbon content inconsistency: 1.5-3.0 wt% (DNSH) vs 1.0-1.8 wt% (CQA tables). Which is correct?"},
+      {"priority": "high", "action": "Verify the EU Taxonomy classification. Confirm with legal counsel that LFP CAM manufacturing falls under Section 3.4 'Manufacture of batteries' rather than a chemical manufacturing category."},
+      {"priority": "medium", "action": "Address agricultural sourcing of glucose briefly under DNSH for biodiversity, even if not formally required."}
+    ],
+    "strengths": [
+      "The Section 3.4 classification argument is logically structured.",
+      "The voluntary disclosure of climate mitigation credentials is a smart strategic move."
+    ]
+  },
+  {
+    "section_name": "03_1_technical_maturity",
+    "reviewer_type": "scientific",
+    "overall_score": 7.0,
+    "major_issues": [
+      "TRL INCONSISTENCY: The TRL table here shows different starting TRLs than Section 1. Section 1 says 'DT for CAM synthesis: TRL 3-4'. Section 3.1 says 'ISO 23247 digital twin framework: TRL 5-6' and 'Multi-scale process models: TRL 4-5'. These are components of the same DT system but with different TRLs. The evaluator will be confused. Which TRL applies to the integrated DT system?",
+      "MISSING: The section references 'the Feasibility Study annex' repeatedly but contains no independent technical analysis. It reads as a summary rather than a standalone section. If the feasibility study is weak, this section falls apart.",
+      "The mass/energy balance shows 3,580 kWh/t electricity and 189 m3/t gas. But no calculation shows what fraction of energy goes to each process step. The text claims 'spray drying and calcination together account for >80% of total process energy consumption [CLM-024, SRC-ED-014]' but CLM-024 references Lin et al. (2024) which discusses LFP BATTERY manufacturing, not LFP CAM manufacturing. This is a misattribution."
+    ],
+    "minor_issues": [
+      "The '[TO BE COMPLETED]' placeholder for due diligence reports is concerning. Independent technical DD would significantly strengthen the maturity argument.",
+      "The CQA table here shows phase purity target '>98%' with specification 'Min 97%'. The innovation section says '>98%'. The abstract says '>98% olivine purity'. The feasibility study CQA table says target '>98%' with specification 'Min 97%'. At least this is internally consistent between 3.1 and feasibility, but the target vs specification distinction should be clearer.",
+      "Electricity consumption of 3,580 kWh/t is stated as 'consistent with the estimated range of 3-6 kWh/kg from NMC CAM analog data'. But 3,580 kWh/t = 3.58 kWh/kg, which is at the lower end of the 3-6 range. The text should acknowledge this is an optimistic estimate."
+    ],
+    "unsupported_claims": [
+      "CLM-024 is misattributed: it refers to LFP battery manufacturing GWP, not LFP CAM process energy breakdown. The claim that spray drying + calcination account for >80% of process energy has no direct source for LFP CAM specifically."
+    ],
+    "redundancies": [
+      "The 7-step process description is repeated almost verbatim from Section 0.3.",
+      "The CQA table appears for the third time (Sections 0.3, 1, 3.1)."
+    ],
+    "fixes": [
+      {"priority": "critical", "action": "Harmonise TRL tables across Sections 1 and 3.1. Use a single consistent TRL assessment with clear distinction between component TRLs and integrated system TRL."},
+      {"priority": "high", "action": "Fix the CLM-024 misattribution. Either find a proper source for the >80% energy claim for CAM specifically, or change the claim to say 'estimated based on NMC analog'."},
+      {"priority": "high", "action": "Add process energy breakdown by step: how much of the 3,580 kWh/t goes to spray drying, calcination, milling, and auxiliaries? This is essential for the GHG calculation and currently missing."},
+      {"priority": "medium", "action": "Complete the due diligence reports section or explain the plan to obtain them."}
+    ],
+    "strengths": [
+      "The step-by-step process description is technically detailed and credible.",
+      "The DT Layer 1-4 architecture mapping is well-structured.",
+      "Honest acknowledgment of sensor reliability risks.",
+      "The mass balance per tonne of LFP CAM is clearly presented."
+    ]
+  },
+  {
+    "section_name": "03_3_operational_maturity",
+    "reviewer_type": "scientific",
+    "overall_score": 5.5,
+    "major_issues": [
+      "MULTIPLE '[TO BE COMPLETED]' PLACEHOLDERS: FTE numbers for employment, CVs for key roles, and due diligence reports are all incomplete. These are fundamental elements of an operational maturity assessment. An evaluator cannot score operational maturity without knowing who will run the plant.",
+      "FIB's capability gap is even more apparent here. The section describes FIB as responsible for 'LFP CAM process engineering and manufacturing operations' and 'digital twin system specification and operation', but FIB has never operated a CAM synthesis facility. No technology licensing agreement, no key hire with CAM experience, and no pilot-scale validation are mentioned. How will FIB operate a 50 kton/yr chemical synthesis plant without relevant experience?",
+      "The permitting section says 'permitting applications (VIA, AIA, building permits) have been filed and are in process' but also says the site is 'currently undergoing brownfield remediation (cleanup in progress)'. If the site remediation is incomplete, can building permits even be applied for? The regulatory status is unclear and potentially contradictory.",
+      "Financial close within 24 months requires FID from both FIB and Eni boards, debt facility negotiation, and all permits obtained. The timeline shows permits at M15-M18 and equipment orders at M18-M21, with FC at M21-24. This leaves essentially zero float for permitting delays. Risk R5 acknowledges permitting delay risk as 'Medium probability, Medium impact' with only a 3-month buffer. For Italian infrastructure permitting, 3 months of buffer is unrealistic."
+    ],
+    "minor_issues": [
+      "The milestone table shows 'Entry into Operation' at M48 (Q1 2031) but the DT integration and commissioning runs from M42-M45 and plant commissioning from M45-M48. That leaves only 3 months for plant commissioning including wet commissioning with actual materials. Industrial plant commissioning typically takes 6-12 months. This is extremely aggressive.",
+      "No discussion of workforce recruitment timeline. Operating a 50 kton/yr continuous manufacturing plant requires significant staffing. When does recruitment start? What is the training programme?",
+      "The governance structure describes a 'DT Working Group' meeting bi-weekly but does not describe a production operations team structure."
+    ],
+    "unsupported_claims": [],
+    "redundancies": [
+      "The consortium description repeats Section 0.2 almost verbatim."
+    ],
+    "fixes": [
+      {"priority": "critical", "action": "Fill ALL '[TO BE COMPLETED]' placeholders. FTE numbers, key personnel CVs, and due diligence reports are essential for scoring."},
+      {"priority": "critical", "action": "Address the FIB CAM experience gap explicitly. Options: (a) name a technology licensing partner or equipment vendor providing process know-how; (b) identify key hires with CAM synthesis experience; (c) describe the technology transfer mechanism from the Chinese equipment supplier (Lead Intelligent Equipment) mentioned in Section 0.2."},
+      {"priority": "high", "action": "Extend the commissioning timeline. 3 months for wet commissioning of a first-of-kind chemical synthesis plant is not credible. Either extend to 6 months (accepting M51-M54 EiO) or justify the 3-month timeline with evidence from comparable plant startups."},
+      {"priority": "high", "action": "Clarify the relationship between site remediation status and permitting. Can permits be obtained while remediation is ongoing?"},
+      {"priority": "medium", "action": "Add a workforce recruitment and training plan with timeline."}
+    ],
+    "strengths": [
+      "The milestone table is comprehensive.",
+      "The parallel DT development track (starting at M12) is a sensible de-risking strategy.",
+      "The brownfield advantage is well-articulated.",
+      "The three-pillar strategy for accelerated timelines is logical."
+    ]
+  },
+  {
+    "section_name": "03_4_risk_management",
+    "reviewer_type": "scientific",
+    "overall_score": 6.5,
+    "major_issues": [
+      "MISSING RISK: There is no risk entry for 'Product qualification failure with customers'. The plant must produce material that European cell manufacturers actually want to buy. Cell manufacturer qualification typically takes 6-18 months of sample testing. If the LFP CAM does not meet customer specifications (which may differ from the CQA targets), the plant has no market. This is the single largest commercial risk and it is absent.",
+      "MISSING RISK: No risk for 'Lithium carbonate price volatility'. The text mentions lithium price in the feasibility study (USD 15,000-80,000/t range) but the risk register does not include it as a financial risk. At 12,500 t/yr lithium carbonate consumption, a USD 30,000/t price swing represents EUR ~375M/yr revenue impact. This dwarfs R6 (electricity cost).",
+      "MISSING RISK: No risk for 'Chinese competitor dumping in EU market'. Chinese LFP CAM producers have massive scale advantages and could undercut Brindisi pricing. EU anti-dumping mechanisms take years to implement.",
+      "R1 (calcination scale-up) mitigation includes 'pilot-scale trials at furnace vendor facility (M6-M12)'. But Section 3.3 shows equipment orders at M18-M21. If pilot trials reveal problems at M12, there is only 6 months to redesign before ordering. And if the pilot trials fail, the entire project timeline collapses."
+    ],
+    "minor_issues": [
+      "R9 contingency budget says '[TO BE COMPLETED: Specific contingency percentage to be confirmed by CFO team]'. A risk register with undefined contingency is incomplete.",
+      "All residual risks are rated Low or Very Low. This is unrealistic for a first-of-kind industrial plant. At least R1 (calcination scale-up) and R2 (DT model accuracy) should retain Medium residual risk after mitigation."
+    ],
+    "unsupported_claims": [],
+    "redundancies": [],
+    "fixes": [
+      {"priority": "critical", "action": "Add risk entry for product qualification failure with cell manufacturer customers. Include mitigation: early customer engagement, sample provision programme, flexible CQA targets."},
+      {"priority": "critical", "action": "Add risk entry for lithium carbonate price volatility with quantified impact and hedging strategy."},
+      {"priority": "high", "action": "Add risk entry for Chinese competitor pricing pressure / dumping."},
+      {"priority": "high", "action": "Reassess residual risk ratings. A first-of-kind plant cannot have all risks at Low/Very Low residual. Be honest about Medium residual risks."},
+      {"priority": "medium", "action": "Complete the contingency budget percentage for R9."},
+      {"priority": "medium", "action": "Address the 6-month gap between pilot trial results (M12) and equipment order (M18) — is this sufficient to redesign if trials reveal issues?"}
+    ],
+    "strengths": [
+      "The risk register format is clear and complete (probability, impact, level, mitigation, residual).",
+      "R7 (competitor entry) correctly identifies FREYR schedule risk from CLM-029.",
+      "The observation that the DT itself is a risk mitigation instrument is insightful.",
+      "The edge-fog-cloud architecture for latency management (R8) is well-designed."
+    ]
+  },
+  {
+    "section_name": "04_replicability",
+    "reviewer_type": "scientific",
+    "overall_score": 7.0,
+    "major_issues": [
+      "The section claims 'fully electrified design and contained atmosphere processing eliminate the principal pollution sources' under DNSH Pollution Prevention. But the plant uses 189 m3/t natural gas. It is NOT fully electrified. This is the same misleading language flagged in the abstract. An evaluator who has read to Section 4 and sees 'fully electrified' when they know gas is used will mark down for inconsistency.",
+      "The DNSH Climate Change Adaptation assessment claims flood resilience with '0.5 m elevation above 500-year flood level including sea level rise projections to 2070'. But no source is cited for the flood risk assessment. Brindisi is a low-lying coastal Mediterranean city. Where is the site-specific flood risk study?",
+      "The 'Contribution to Europe's Industrial Leadership' subsection claims the Brindisi plant will supply named customers (ACC, Northvolt, PowerCo, Samsung SDI, SK On, CATL). These are aspirational customers, not contracted off-takers. Listing them implies commercial relationships that may not exist."
+    ],
+    "minor_issues": [
+      "The lithium efficiency claim '42 g Li per kWh' vs '50-75 g/kWh for NMC' has no source reference.",
+      "The '70-85% water recovery' figure is described as an 'estimate based on industrial spray dryer condensate recovery systems' — this needs a source or engineering calculation.",
+      "Knowledge sharing commits to '3 peer-reviewed publications' which is modest for a EUR 100M+ project over 9 years. Comparable Innovation Fund projects commit to 5-10 publications.",
+      "The open-source DT framework commitment is vague: 'where commercially non-sensitive' gives the consortium complete discretion to release nothing."
+    ],
+    "unsupported_claims": [
+      "'42 g Li per kWh of cell capacity compared to 50-75 g/kWh for NMC' — no source",
+      "'70-85% water recovery' — no source",
+      "'NOx approximately 0.5-2.0 kg per tonne of product' for gas-fired kilns — no source"
+    ],
+    "redundancies": [
+      "The China dependency narrative appears again in 4.1c, fourth time in the proposal.",
+      "The FREYR competitive analysis is repeated from Sections 0.1 and 1.1."
+    ],
+    "fixes": [
+      {"priority": "critical", "action": "Replace 'fully electrified design' with 'predominantly electrified design' throughout Section 4. Be consistent with Sections 0 and 1."},
+      {"priority": "high", "action": "Add source references for lithium efficiency, water recovery, and NOx emission claims."},
+      {"priority": "high", "action": "Either provide evidence of customer engagement (LOIs, MOUs) or remove named customer references. Listing aspirational customers without evidence is a red flag."},
+      {"priority": "medium", "action": "Cite a source for the flood risk assessment or commit to completing one during FEED."},
+      {"priority": "medium", "action": "Strengthen the open-source commitment: define what will be released and what will not, rather than leaving it discretionary."}
+    ],
+    "strengths": [
+      "The DNSH assessment across all five environmental objectives is thorough.",
+      "The circular economy argument for LFP (no Co/Ni, simplified recycling) is strong.",
+      "The EU Battery Passport compliance argument via DT data infrastructure is compelling.",
+      "The knowledge sharing programme structure is comprehensive even if publication targets are modest."
+    ]
+  },
+  {
+    "section_name": "06_bonus",
+    "reviewer_type": "scientific",
+    "overall_score": 7.5,
+    "major_issues": [],
+    "minor_issues": [
+      "Bonus 3 (Maritime) dismissal is correct but could be stronger — LFP for ESS supports port electrification and shore power, which is maritime-adjacent. A brief argument could be made for partial applicability.",
+      "Bonus 2 (SME): The statement that 'FIB is a subsidiary within the FAAM group, a large enterprise' could be verified. FIB has 354 employees. The EU SME threshold is 250 employees. However, as a subsidiary of Seri Industrial S.p.A., the group-level headcount likely exceeds 250, making the non-SME classification correct. But the reasoning should explicitly reference the group-level assessment."
+    ],
+    "unsupported_claims": [],
+    "redundancies": [],
+    "fixes": [
+      {"priority": "low", "action": "Clarify the SME assessment by referencing Seri Industrial S.p.A. group-level metrics explicitly."},
+      {"priority": "low", "action": "Consider whether a marginal maritime argument could be made for Bonus 3, given ESS applications for port/shore power."}
+    ],
+    "strengths": [
+      "Clear and correct identification of applicable vs non-applicable bonuses.",
+      "Honest — does not try to claim bonuses that are not warranted."
+    ]
+  },
+  {
+    "section_name": "07_workplan",
+    "reviewer_type": "scientific",
+    "overall_score": 6.0,
+    "major_issues": [
+      "MULTIPLE '[TO BE COMPLETED]' PLACEHOLDERS: Budget figures, Gantt chart, and resource allocation are all missing. A workplan without a budget is not a workplan. These must be completed before submission.",
+      "WP3-WP7 (operational years 2-5) are nearly empty. Each contains 'steady-state production operations' and 'annual GHG monitoring and reporting'. There is no substantive content about DT continuous improvement, process optimisation targets, knowledge sharing milestones, or customer qualification activities. An evaluator will see this as padding.",
+      "The DT development timeline (M12-M42, 30 months) is insufficiently detailed. What are the intermediate milestones? When is the first physics-based model validated? When is the first surrogate model trained? When is the first closed-loop test? Without intermediate milestones, there is no way to track progress or identify delays.",
+      "The commissioning period (M42-M48) must accomplish: DT integration testing, plant commissioning (dry and wet), production of qualification batches, performance testing, and operational readiness. Six months for all of this on a first-of-kind plant is extremely aggressive. The DiBaZ project at Fraunhofer took years of commissioning and calibration."
+    ],
+    "minor_issues": [
+      "D1.3 (Knowledge sharing plan) and D1.4 (Knowledge sharing report) are both due at M1. How can there be a report on knowledge sharing at Month 1? D1.4 should be at M6 or later.",
+      "No explicit deliverable for the GHG baseline calculation methodology, which is critical for the Innovation Fund GHG avoidance scoring.",
+      "WP2 Activity A2.2 shows DT development starting at M12 (in WP1) and running to M42. This crosses WP boundaries without clear hand-off points."
+    ],
+    "unsupported_claims": [],
+    "redundancies": [
+      "WP4, WP5, WP6 are structurally identical with no differentiation. They could be collapsed into a single WP with annual milestones."
+    ],
+    "fixes": [
+      {"priority": "critical", "action": "Complete ALL budget figures and the Gantt chart before submission. These are mandatory."},
+      {"priority": "critical", "action": "Add intermediate milestones for DT development: model validation checkpoints at M18, M24, M30, M36; surrogate model training at M30-M36; first closed-loop test at M42."},
+      {"priority": "high", "action": "Add substantive content to WP3-WP7: DT performance targets per year, progressive electrification milestones, customer qualification activities, publication milestones."},
+      {"priority": "high", "action": "Extend commissioning period or provide detailed evidence that 6 months is feasible. Reference comparable plant commissioning timelines."},
+      {"priority": "medium", "action": "Fix D1.3/D1.4 timing — a knowledge sharing report at M1 is not credible."},
+      {"priority": "medium", "action": "Add a deliverable for GHG baseline calculation methodology."}
+    ],
+    "strengths": [
+      "The mandatory WP structure (WP1: to FC, WP2: to EiO, WP3-7: operations) is correctly applied.",
+      "The parallel DT development track is well-conceived.",
+      "Deliverable types are appropriate (reports, certificates, audit statements).",
+      "The FC and EiO milestones are clearly defined with means of verification."
+    ]
+  },
+  {
+    "section_name": "annex_feasibility_study",
+    "reviewer_type": "scientific",
+    "overall_score": 6.0,
+    "major_issues": [
+      "EXTENSIVE '[TO BE COMPLETED]' PLACEHOLDERS: The feasibility study has numerous incomplete sections including: specific site coordinates, existing structures to be repurposed, mixing tank capacity, grinding chamber size, spray dryer capacity, milling capacity, saggar capacity, bag size for packaging, N2 supply configuration, FIB manufacturing capacity, hourly N2 capacity, and specific supplier names/pricing/qualification status. A feasibility study with this many gaps will be scored poorly.",
+      "NO FINANCIAL ANALYSIS: A feasibility study without CAPEX estimates, OPEX projections, NPV/IRR analysis, or revenue projections is fundamentally incomplete. This section covers technology and process but contains no financial feasibility assessment. The call requires demonstration that the project is financially viable.",
+      "PROCESS CO2 NOT QUANTIFIED: The text mentions 'stoichiometric, ~0.28 t CO2 per t LFP CAM' from Li2CO3 decomposition, which is 14,000 t CO2/yr at full capacity. This process CO2 is unavoidable regardless of electrification. It should be explicitly included in the GHG avoidance calculation. Is it? The GHG methodology section is absent.",
+      "The composite starting TRL of 4 for the integrated system is stated but not formally derived. How was this calculated? The EU TRL methodology requires the integrated system TRL to be assessed, not just the component TRLs averaged.",
+      "IP RISK: The LG Chem patent EP2360117B1 covers LFP olivine with D50 5-100 um. The CQA specification includes D50 up to 2.5 um (or 3 um in some sections), which is below 5 um and therefore outside the patent claims. But the text says 'assessed and confirmed as non-overlapping' without providing the analysis. The D50 range inconsistency across sections (0.7-2.5 vs 1-3 um) could inadvertently push the product into the patent range if the upper bound is actually 3 um."
+    ],
+    "minor_issues": [
+      "The HTHP scale-up section honestly notes that COP 3.6 at 200C 'requires emerging transcritical heat pump systems' and the initial design uses proven electric resistance heating. This is good honesty but undermines Pillar 2's claim of HTHP spray drying as an innovation — it is actually a future aspiration, not a day-one feature.",
+      "The CNIPA patent search recommendation appears as a '[TO BE COMPLETED]' item in the IP section. This should be completed before submission, as the novelty claims rest on the absence of Chinese prior art.",
+      "Italian permitting consultants are mentioned (ERM, Arcadis) but no engagement is confirmed. Are they contracted?"
+    ],
+    "unsupported_claims": [
+      "'~0.28 t CO2 per t LFP CAM' from Li2CO3 decomposition — the stoichiometry should be shown (Li2CO3 -> Li2O + CO2; 0.25 t Li2CO3/t LFP; MW CO2/MW Li2CO3 = 44/74 = 0.595; 0.25 x 0.595 = 0.149 t CO2/t LFP). The stated 0.28 t is approximately double the stoichiometric calculation. Where does the extra CO2 come from? Glucose pyrolysis? This needs clarification."
+    ],
+    "redundancies": [
+      "The market context section repeats Sections 0.1 and 1.1 almost verbatim.",
+      "The CQA table appears for the fourth time.",
+      "The FREYR competitive analysis appears for the third time."
+    ],
+    "fixes": [
+      {"priority": "critical", "action": "Complete ALL '[TO BE COMPLETED]' placeholders. The feasibility study cannot be submitted with blank equipment specifications."},
+      {"priority": "critical", "action": "Add a financial feasibility section: CAPEX estimate (even order-of-magnitude), OPEX projections, revenue assumptions, NPV/IRR at base case and sensitivities."},
+      {"priority": "critical", "action": "Verify the process CO2 calculation: reconcile the 0.28 t/t claim with stoichiometry. Show the calculation including both Li2CO3 decomposition and glucose pyrolysis CO2 contributions."},
+      {"priority": "high", "action": "Complete the CNIPA patent search before submission."},
+      {"priority": "high", "action": "Add a GHG avoidance methodology section: define baseline, define project emissions (including process CO2), show the calculation that achieves >=50% avoidance."},
+      {"priority": "medium", "action": "Formally derive the integrated system TRL 4 using EU TRL methodology."},
+      {"priority": "medium", "action": "Clarify that HTHP is a Phase 2 upgrade, not a day-one feature, and adjust the innovation claims accordingly."}
+    ],
+    "strengths": [
+      "The process step descriptions (Steps 1-7) are technically detailed and demonstrate domain knowledge.",
+      "The supply chain analysis for each precursor is thorough.",
+      "The EU Battery Regulation compliance mapping is well-structured.",
+      "The IP strategy section (background/foreground/freedom-to-operate) is professionally structured.",
+      "Equipment vendor identification with lead times shows practical engineering awareness."
+    ]
+  }
+]
