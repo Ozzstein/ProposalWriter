@@ -19,7 +19,7 @@
   "gates": {
     "scope": { "passed": true, "checked_at": "2026-04-04" },
     "evidence": { "passed": true, "checked_at": "2026-04-04" },
-    "draft": { "passed": false },
+    "draft": { "passed": false, "checked_at": "2026-04-04", "blockers": ["6 Part B sections exceed 2 ASSUMPTION markers — need user input on production capacity, site status, FIB details, university partners, job numbers"] },
     "submission": { "passed": false }
   },
   "scoring_summary": {
