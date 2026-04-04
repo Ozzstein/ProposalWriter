@@ -9,3 +9,5 @@ runs/*/reviews/
 runs/*/final/
 .claude/plans/
 .claude/settings.local.json
+call_documents/*
+!call_documents/.gitkeep
