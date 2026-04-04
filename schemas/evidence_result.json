@@ -21,7 +21,10 @@
           "extract": { "type": "string", "description": "Key findings or relevant excerpt" },
           "limitations": { "type": "array", "items": { "type": "string" } },
           "relevance_tags": { "type": "array", "items": { "type": "string" } },
-          "url": { "type": "string" }
+          "url": { "type": "string" },
+          "doi": { "type": "string" },
+          "full_text_available": { "type": "boolean", "description": "False if only abstract/metadata retrieved (paywall)" },
+          "oa_url": { "type": "string", "description": "Open-access PDF URL resolved via Unpaywall or ResearchGate" }
         },
         "required": ["source_id", "title", "year", "type", "quality", "extract"]
       }
@@ -39,7 +42,12 @@
       }
     },
     "gaps": { "type": "array", "items": { "type": "string" } },
-    "next_steps": { "type": "array", "items": { "type": "string" } }
+    "next_steps": { "type": "array", "items": { "type": "string" } },
+    "paywalled_dois": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "DOIs of relevant papers where only abstract was available; passed to web_scraper for Unpaywall resolution"
+    }
   },
   "required": ["task_id", "topic", "summary", "sources"]
 }

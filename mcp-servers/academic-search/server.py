@@ -14,6 +14,9 @@ from fastmcp import FastMCP
 
 PUBMED_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 ARXIV_BASE = "https://export.arxiv.org/api/query"
+UNPAYWALL_BASE = "https://api.unpaywall.org/v2"
+# Unpaywall requires a contact email for rate-limit identification (not authentication)
+UNPAYWALL_EMAIL = "proposalwriter@tool.local"
 # arXiv asks that API clients identify themselves via User-Agent
 ARXIV_HEADERS = {"User-Agent": "ProposalWriter/1.0 (grant proposal writing tool; contact via GitHub)"}
 
@@ -411,6 +414,146 @@ async def fetch_arxiv_paper(arxiv_id: str) -> str:
         "comment": comment,
         "url": f"https://arxiv.org/abs/{clean_id}",
         "pdf_url": f"https://arxiv.org/pdf/{clean_id}",
+    }, indent=2)
+
+
+@mcp.tool()
+async def unpaywall_fetch(doi: str) -> str:
+    """Check whether a paywalled paper has a free legal open-access version via Unpaywall.
+
+    Unpaywall indexes 50M+ papers and finds author manuscripts, PubMed Central
+    copies, institutional repositories, and publisher open-access versions.
+    This is the primary tool for accessing papers found in PubMed/arXiv results
+    that are behind a paywall.
+
+    Args:
+        doi: Digital Object Identifier (e.g., "10.1038/s41586-021-03819-2").
+             Strip any "https://doi.org/" prefix before passing.
+
+    Returns:
+        JSON string with open-access status, best PDF URL (if available),
+        all known OA locations, and full paper metadata.
+    """
+    import json
+
+    # Normalise DOI — strip URL prefix if present
+    doi = doi.strip()
+    if doi.startswith("https://doi.org/"):
+        doi = doi[len("https://doi.org/"):]
+    elif doi.startswith("http://doi.org/"):
+        doi = doi[len("http://doi.org/"):]
+
+    url = f"{UNPAYWALL_BASE}/{doi}"
+    params = {"email": UNPAYWALL_EMAIL}
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        resp = await client.get(url, params=params)
+
+        if resp.status_code == 404:
+            return json.dumps({
+                "doi": doi,
+                "is_oa": False,
+                "best_oa_url": None,
+                "message": "DOI not found in Unpaywall database.",
+            })
+
+        resp.raise_for_status()
+        data = resp.json()
+
+    best_oa = data.get("best_oa_location") or {}
+    all_locations = data.get("oa_locations", [])
+
+    # Build a clean list of all available free URLs
+    free_urls = []
+    for loc in all_locations:
+        entry = {
+            "url": loc.get("url_for_pdf") or loc.get("url") or "",
+            "host_type": loc.get("host_type", ""),  # "publisher", "repository"
+            "version": loc.get("version", ""),       # "publishedVersion", "acceptedVersion"
+            "license": loc.get("license") or "",
+            "repository_institution": loc.get("repository_institution") or "",
+        }
+        if entry["url"]:
+            free_urls.append(entry)
+
+    return json.dumps({
+        "doi": doi,
+        "title": data.get("title", ""),
+        "authors": ", ".join(
+            f"{a.get('family', '')}, {a.get('given', '')}"
+            for a in (data.get("z_authors") or [])[:5]
+        ),
+        "year": data.get("year"),
+        "journal": data.get("journal_name", ""),
+        "publisher": data.get("publisher", ""),
+        "is_oa": data.get("is_oa", False),
+        "oa_status": data.get("oa_status", "closed"),  # gold/green/hybrid/bronze/closed
+        "best_oa_url": best_oa.get("url_for_pdf") or best_oa.get("url"),
+        "best_oa_host_type": best_oa.get("host_type", ""),
+        "best_oa_version": best_oa.get("version", ""),
+        "all_free_urls": free_urls,
+        "total_free_locations": len(free_urls),
+        "data_standard": data.get("data_standard"),
+        "updated": data.get("updated"),
+    }, indent=2)
+
+
+@mcp.tool()
+async def unpaywall_batch(dois: list[str]) -> str:
+    """Check open-access availability for a batch of DOIs via Unpaywall.
+
+    More efficient than calling unpaywall_fetch repeatedly when you have
+    multiple DOIs from a literature search to check at once.
+
+    Args:
+        dois: List of DOIs to check (max 50). Strip "https://doi.org/" prefixes.
+
+    Returns:
+        JSON string with a summary table: DOI, is_oa, oa_status, best_oa_url
+        for each paper. Papers without a free version are listed with is_oa=false.
+    """
+    import json
+    import asyncio
+
+    dois = [
+        d.strip().removeprefix("https://doi.org/").removeprefix("http://doi.org/")
+        for d in dois[:50]
+        if d.strip()
+    ]
+
+    async def check_one(client: httpx.AsyncClient, doi: str) -> dict:
+        try:
+            resp = await client.get(
+                f"{UNPAYWALL_BASE}/{doi}",
+                params={"email": UNPAYWALL_EMAIL},
+                timeout=20.0,
+            )
+            if resp.status_code == 404:
+                return {"doi": doi, "is_oa": False, "oa_status": "not_found", "best_oa_url": None}
+            resp.raise_for_status()
+            data = resp.json()
+            best = data.get("best_oa_location") or {}
+            return {
+                "doi": doi,
+                "title": data.get("title", ""),
+                "year": data.get("year"),
+                "is_oa": data.get("is_oa", False),
+                "oa_status": data.get("oa_status", "closed"),
+                "best_oa_url": best.get("url_for_pdf") or best.get("url"),
+                "host_type": best.get("host_type", ""),
+            }
+        except Exception as e:
+            return {"doi": doi, "is_oa": False, "oa_status": "error", "error": str(e), "best_oa_url": None}
+
+    async with httpx.AsyncClient() as client:
+        results = await asyncio.gather(*[check_one(client, doi) for doi in dois])
+
+    oa_count = sum(1 for r in results if r.get("is_oa"))
+    return json.dumps({
+        "total_checked": len(results),
+        "open_access_count": oa_count,
+        "closed_count": len(results) - oa_count,
+        "results": list(results),
     }, indent=2)
 
 
