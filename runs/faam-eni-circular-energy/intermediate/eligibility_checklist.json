@@ -1,0 +1,384 @@
+{
+  "call_name": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
+  "funder": "CINEA / Innovation Fund",
+  "call_opening_date": "2025-12-04",
+  "deadline_submission": "2026-04-23 17:00:00 CET",
+  "applicant_eligibility": [
+    {
+      "criterion": "Legal entity status",
+      "requirement": "Applicants must be legal entities (public or private bodies). Natural persons are NOT eligible with the exception of self-employed persons (sole traders) where the company does not have legal personality separate from that of the natural person.",
+      "mandatory": true,
+      "status_for_applicant": "likely_met",
+      "note": "Both FIB (FAAM) and Eni are established legal entities registered in Italy. No issue expected."
+    },
+    {
+      "criterion": "Country of establishment",
+      "requirement": "Applicants may be established in any country in the world.",
+      "mandatory": true,
+      "status_for_applicant": "likely_met",
+      "note": "FIB and Eni are both established in Italy, an EU Member State. Fully eligible."
+    },
+    {
+      "criterion": "Participant Register registration",
+      "requirement": "Beneficiaries and affiliated entities must register in the Participant Register before submitting the proposal and will have to be validated by the Central Validation Service (REA Validation).",
+      "mandatory": true,
+      "status_for_applicant": "needs_verification",
+      "note": "Must ensure both FIB and Eni are registered in the Participant Register and receive 9-digit Participant Identification Code (PIC) before submission deadline."
+    },
+    {
+      "criterion": "Financial capacity",
+      "requirement": "Applicants must have stable and sufficient resources to successfully implement the projects and contribute their share. Financial capacity will be assessed on the basis of documents (profit and loss account, balance sheet, audit reports, etc.) requested by the Central Validation Service during grant preparation.",
+      "mandatory": true,
+      "status_for_applicant": "needs_verification",
+      "note": "FIB and Eni are large established companies, but must prepare 3 years of financial statements. Since Eni is a large multinational (not SME), financial capacity check will apply. Likely to pass given size of both entities."
+    },
+    {
+      "criterion": "Operational capacity",
+      "requirement": "Applicants must have the know-how, qualifications and resources to successfully implement the projects and contribute their share, including sufficient experience in projects of comparable size and nature. This includes general profiles of staff (with CVs) and description of consortium participants with previous project experience.",
+      "mandatory": true,
+      "status_for_applicant": "likely_met",
+      "note": "Both FIB (battery manufacturer) and Eni (major energy company) have relevant operational experience. Will need to document CVs and previous relevant projects."
+    },
+    {
+      "criterion": "Exclusion criteria - no bankruptcy/insolvency",
+      "requirement": "Applicants subject to bankruptcy, winding up, affairs administered by courts, arrangement with creditors, suspended business activities or similar procedures are NOT eligible.",
+      "mandatory": true,
+      "status_for_applicant": "likely_met",
+      "note": "Both FIB and Eni must confirm they are not under any such procedures. Likely not an issue for established companies."
+    },
+    {
+      "criterion": "Exclusion criteria - no fraud/corruption",
+      "requirement": "Applicants guilty of fraud, corruption, links to criminal organisations, money laundering, terrorism-related crimes, child labour or human trafficking are NOT eligible.",
+      "mandatory": true,
+      "status_for_applicant": "likely_met",
+      "note": "Standard exclusion criterion. Both companies must certify compliance."
+    },
+    {
+      "criterion": "Exclusion criteria - EU restrictive measures",
+      "requirement": "Entities subject to EU restrictive measures under Article 29 TEU and Article 215 TFEU are not eligible to participate in any capacity.",
+      "mandatory": true,
+      "status_for_applicant": "likely_met",
+      "note": "Must verify neither FIB nor Eni appear on the EU Official Journal sanctions list."
+    },
+    {
+      "criterion": "Exclusion criteria - EU conditionality measures",
+      "requirement": "Entities subject to measures adopted on the basis of Regulation 2020/2092 are not eligible. Currently such measures are in place for Hungarian public interest trusts.",
+      "mandatory": true,
+      "status_for_applicant": "likely_met",
+      "note": "Does not apply to Italian companies FIB and Eni."
+    },
+    {
+      "criterion": "SME bonus eligibility (not applicable)",
+      "requirement": "No SME bonus under this call. The Innovation Fund treats large enterprises the same as SMEs in evaluation scoring.",
+      "mandatory": false,
+      "status_for_applicant": "not_applicable",
+      "note": "Both FIB and Eni are large enterprises (>250 employees, >EUR 50M revenue). No SME bonus available, but not a disqualifier."
+    }
+  ],
+  "consortium_requirements": {
+    "min_partners": "n/a - consortia optional",
+    "max_partners": "unlimited",
+    "lead_partner_rules": "In multi-beneficiary grants, a coordinator must be chosen to manage the project and represent the consortium. In mono-beneficiary grants, the single beneficiary is automatically coordinator.",
+    "country_rules": "Beneficiaries and affiliated entities may be from any country. Geographic location of project activity (not consortium) must be in EU/EEA.",
+    "notes": "FIB-Eni consortium: FIB likely coordinator (project lead), Eni as beneficiary or affiliated entity. Both must be registered in Participant Register before submission."
+  },
+  "eligible_activities": {
+    "topic_scope": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING: Construction and operation of manufacturing facilities to produce specific components for hydrogen production/consumption, renewable energy and energy storage.",
+    "specific_scope_for_lfp_cam": "Energy storage solutions: production of batteries and other storage solutions for stationary and mobile use. The topic also targets manufacturing of components and materials (except mining activities) that are a significant factor in the final equipment's performance and/or cost.",
+    "lfp_cam_eligibility": "CONFIRMED ELIGIBLE - LFP cathode active material (CAM) is a critical component for battery manufacturing, significant in performance and cost. Falls under 'Energy storage solutions: production of batteries and other storage solutions'.",
+    "eligible_product_categories": [
+      "Renewable energy: photovoltaics, concentrated solar power, wind power, ocean energy, geothermal, solar thermal systems",
+      "Electrolysers and fuel cells: manufacturing for hydrogen production and consumption",
+      "Energy storage solutions: batteries and other storage solutions (INCLUDES LFP CATHODE ACTIVE MATERIAL)",
+      "Heat pumps: development and production",
+      "Critical materials recycling/reuse for above equipment"
+    ],
+    "innovation_requirements": "Project must demonstrate innovation in: (1) Products (lower cost when mature, higher performance, better system integration, durability, etc.), or (2) Production processes (increased use of recycled materials, more efficient critical material use, lower environmental/carbon footprint, improved automation, digital technologies).",
+    "digital_twin_eligibility": "Digital twin for process optimization/automation qualifies as 'improved automation and use of digital technologies' under production process innovation.",
+    "not_eligible": [
+      "Ship or plane building/refurbishment outside EU/EEA",
+      "Activities that do not comply with 'do no significant harm' principle",
+      "Activities primarily aimed at electricity generation from non-recycled fossil fuels",
+      "Fuel production based on non-recycled fossil feedstocks (except low-carbon fuels)",
+      "Services/software aimed at improving efficient use of ETS Annex I/III products (mobility activities excluded)"
+    ]
+  },
+  "geographic_location": {
+    "requirement": "Projects must be located in EU Member States or EEA countries (Norway, Iceland, Liechtenstein). Northern Ireland eligible only for electricity generation/supply projects.",
+    "applicant_location": "Brindisi, Italy (Eni brownfield site) - ELIGIBLE. Fully within EU.",
+    "status_for_applicant": "likely_met"
+  },
+  "duration": {
+    "financial_close_deadline": "Within 4 years after grant signature (MANDATORY)",
+    "ghg_monitoring_period": "Minimum 5 years after entry into operation (for all topics except SSP/PILOTS)",
+    "project_duration_range": "Normally 3 to 15 years from grant signature to final payment. Longer durations may be accepted if duly justified.",
+    "status_for_applicant": "likely_met",
+    "note": "FAAM brownfield conversion is feasible within 4-year financial close window. LFP CAM plant typically takes 2-3 years construction + ramp-up."
+  },
+  "budget_thresholds": {
+    "topic": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
+    "minimum_capital_expenditure": "EUR 2,500,000",
+    "maximum_capital_expenditure": "No ceiling stated",
+    "definition_capital_expenditure": "All project costs incurred before entry into operation relating to: construction costs, site infrastructure, development costs, intangible assets, contingencies.",
+    "maximum_funding_rate": "60% of relevant costs (maximum grant amount must not exceed 60% of relevant costs)",
+    "minimum_grant_eligible": "Projects with relevant costs > EUR 0 are eligible",
+    "status_for_applicant": "likely_met",
+    "note": "FAAM LFP CAM plant CapEx likely EUR 150-300M+, well above EUR 2.5M minimum. Will require detailed financial modeling using provided cost calculator."
+  },
+  "relevant_costs_methodology": {
+    "requirement": "Project budgets must be calculated using the Guidance on the relevant cost methodology and the provided relevant cost calculator. Lump sum grant structure.",
+    "lump_sum_requirements": [
+      "Estimated lump sum must relate to and be proportional to activities in each work package",
+      "Portion budgeted until financial close must not exceed 40% of maximum grant amount",
+      "Portion budgeted after entry into operation should be at least 10% of maximum grant amount",
+      "Maximum grant only paid if project reaches at least 75% of total planned GHG emission avoidance over entire duration"
+    ],
+    "cost_eligibility_rule": "Costs incurred before the first day of the month after proposal submission date are NOT eligible",
+    "status_for_applicant": "needs_verification",
+    "note": "Submission 23 April 2026, so costs before 01 May 2026 are ineligible. Costs from May 2026 onwards are potentially eligible. Retroactive starting date possible (back to 01 May 2026) with justification."
+  },
+  "deadlines": [
+    {
+      "stage": "Call opening",
+      "date": "2025-12-04",
+      "note": "Call is now open"
+    },
+    {
+      "stage": "Proposal submission deadline",
+      "date": "2026-04-23 17:00:00 CET (Brussels time)",
+      "note": "HARD DEADLINE - proposals submitted after this time will be rejected. No extensions. System closes automatically. Must submit well in advance to avoid technical issues."
+    },
+    {
+      "stage": "Evaluation",
+      "date": "April-September 2026",
+      "note": "Timeline for evaluation committee assessment"
+    },
+    {
+      "stage": "Evaluation results notification",
+      "date": "October-November 2026",
+      "note": "Applicants informed of evaluation outcome"
+    },
+    {
+      "stage": "Grant Agreement signature",
+      "date": "November 2026 - March 2027",
+      "note": "Time-to-grant estimated up to 11 months from call closure (longer than standard 9 months due to volume and project complexity)"
+    }
+  ],
+  "admissibility_requirements": {
+    "submission_method": "Electronic submission ONLY via Funding & Tenders Portal Electronic Submission System. Paper submissions are NOT accepted.",
+    "submission_format": [
+      "Part A (Application Form): Administrative information about participants and summarised budget - filled online",
+      "Part B (Technical description): Downloaded Word template, completed, converted to PDF and uploaded",
+      "Part C: Additional project data - filled online",
+      "Mandatory annexes as PDF: detailed budget table, participant information/CVs, timetable/Gantt chart, GHG emission avoidance calculator, feasibility study, business plan, detailed financial model, shareholder financial resources, support documentation, supply contracts documentation, extended Part C for statistics",
+      "Supporting documents: due diligence reports (if any), permits/licences/authorisations (if any)"
+    ],
+    "page_limits": {
+      "part_b_proposal": "Maximum 70 pages - excess pages disregarded",
+      "feasibility_study": "Maximum 60 pages",
+      "business_plan": "Maximum 60 pages"
+    },
+    "font_and_formatting": "Must be readable, accessible and printable. Specific font requirements not stated in main document, but Arial 9pt minimum is typical for EU calls.",
+    "file_format": "PDF format required for most documents",
+    "submission_portal": "EU Funding & Tenders Portal Electronic Submission System (Funding & Tenders Portal)",
+    "participant_registration": "All beneficiaries, affiliated entities and associated partners must be registered in Participant Register BEFORE proposal submission with valid PIC code",
+    "confirmation": "Confirmation email will be sent with submission date/time. No confirmation email = proposal NOT submitted. If technical fault suspected, file complaint immediately via IT Helpdesk.",
+    "status_for_applicant": "needs_verification",
+    "note": "FIB and Eni must complete registration in Participant Register and obtain PICs well before 23 April 2026 deadline. Allow 2-3 weeks for registration validation."
+  },
+  "compliance_requirements": {
+    "page_limit": 70,
+    "page_limit_context": "Part B (technical description) limited to 70 pages maximum; excess pages will not be considered",
+    "font": "Not explicitly specified in main call document (typical EU requirement is Arial 9pt minimum)",
+    "page_size": "A4 (typical EU requirement, 15mm margins minimum)",
+    "margins": "Minimum 15mm (typical EU requirement)",
+    "file_format": "PDF",
+    "submission_portal": "EU Funding & Tenders Portal",
+    "language": "Any official EU language. English strongly advised for efficiency. Project abstract/summary should be in English.",
+    "annexes_required": [
+      "Detailed budget table/relevant cost calculator (financial information file)",
+      "Participant information including CVs and previous projects",
+      "Timetable/Gantt chart",
+      "GHG emission avoidance calculator",
+      "Feasibility study (max 60 pages)",
+      "Business plan (max 60 pages)",
+      "Detailed financial model with project assumptions, funding sources/uses, forecasted financial statements (P&L, cash flow, balance sheet), sensitivity analysis",
+      "Project shareholders' financial resources (3 years of financial statements)",
+      "Project funding support documentation",
+      "Terms of supply/contract terms documentation",
+      "Extended Part C form (statistical data)",
+      "Supporting documents: due diligence reports (if any), permits/licences/authorisations (if any)"
+    ],
+    "no_documents_after_deadline": "After the call deadline, the submission system closes and no proposals can be submitted"
+  },
+  "dnsh_compliance_requirements": {
+    "regulatory_basis": "Article 10f of EU ETS Directive 2003/87: from 1 January 2025, economic activities with technical screening criteria shall comply with 'do no significant harm' (DNSH) criteria in Article 17 of Regulation (EU) 2020/852 (EU Taxonomy Regulation).",
+    "applicable_regulations": "Commission Delegated Regulation (EU) 2021/2139 (Climate Delegated Regulation) and (EU) 2023/2486 (Environment Delegated Regulation). Version in force at call closing (23 April 2026) applies for entire project lifetime.",
+    "six_environmental_objectives": [
+      "Climate change mitigation",
+      "Climate change adaptation",
+      "Protection of water and marine resources",
+      "Transition to a circular economy",
+      "Pollution prevention and control regarding use and presence of chemicals",
+      "Protection and restoration of biodiversity and ecosystems"
+    ],
+    "lfp_cam_manufacturing_dnsh_status": "CRITICAL FINDING: Section 3.4 'Manufacture of batteries' is listed in Table 2 (Economic activities for which additional justification of alignment to DNSH 'climate change mitigation' objective is NOT required) with status 'No TSC, Therefore Not Required'. This is HIGHLY FAVORABLE for LFP CAM manufacturing.",
+    "dnsh_assessment_timing": "DNSH compliance will be assessed during proposal evaluation. If shortcomings identified but not general non-compliance, proposal may pass evaluation. Applicant then required during grant agreement preparation to submit further documentation and/or include measures.",
+    "dnsh_monitoring": "If awarded, deliverables may be added to monitor DNSH compliance. At end of project, must submit DNSH Compliance Report demonstrating compliance with relevant TSC throughout project lifetime.",
+    "non_compliance_consequences": "If project found non-compliant with TSC after grant signature, project may be terminated and/or grant may be reduced.",
+    "application_requirements": [
+      "Identify the relevant technical screening criteria (TSC) for the project's economic activities",
+      "For 'Manufacture of batteries' (Section 3.4): No additional justification required for DNSH climate change mitigation objective per Table 2",
+      "For other environmental objectives (if applicable): Provide relevant justification",
+      "Complete DNSH compliance section of Application Form Part B Section 2.4"
+    ],
+    "status_for_applicant": "likely_compliant",
+    "note": "Excellent position: LFP CAM manufacturing as 'Manufacture of batteries' has no TSC requirement for climate change mitigation - the principal DNSH objective. May need to address other objectives (water, biodiversity, circular economy, pollution) depending on site and process specifics. Brindisi site location (Southern Italy, coastal industrial area) may have water/environmental considerations."
+  },
+  "financial_close_requirement": {
+    "critical_criterion": "Only projects that have not reached financial close at proposal submission date can be funded.",
+    "submission_date": "23 April 2026",
+    "implication": "FIB-Eni project MUST NOT achieve financial close (full project financing committed) before 23 April 2026.",
+    "risk_level": "HIGH",
+    "applicant_status": "needs_urgent_verification",
+    "note": "CRITICAL DISQUALIFIER if violated. If FIB and Eni secure project financing and reach financial close before 23 April 2026, the entire proposal becomes ineligible. Project development timeline must ensure financial close decision is AFTER proposal submission.",
+    "recommendation": "Coordinate with lenders/equity investors to ensure financial close commitment decision is held until AFTER 23 April 2026 proposal submission. This is a hard eligibility requirement, not negotiable."
+  },
+  "disqualifiers": [
+    {
+      "criterion": "Financial close already reached",
+      "exact_text": "Only projects that have not reached financial close at proposal submission date can be funded.",
+      "risk_level": "HIGH",
+      "applies_to_this_project": true,
+      "note": "CRITICAL: If FIB-Eni have already secured full project financing and reached financial close decision before 23 April 2026, proposal is automatically ineligible and will be rejected. Must verify no financing commitment has been made."
+    },
+    {
+      "criterion": "DNSH non-compliance for main economic activity",
+      "exact_text": "Economic activities that do not comply with the 'do no significant harm' principle... are not considered as eligible for funding under this call.",
+      "risk_level": "MEDIUM",
+      "applies_to_this_project": false,
+      "note": "Low risk: LFP CAM manufacturing (Section 3.4 'Manufacture of batteries') has no TSC requirement for climate change mitigation. However, may need to address other environmental objectives depending on site-specific factors (water use, biodiversity impacts, circular economy, pollution)."
+    },
+    {
+      "criterion": "Ship/plane manufacturing outside EU/EEA",
+      "exact_text": "Ship or plane building or refurbishment outside of the EU/EEA",
+      "risk_level": "LOW",
+      "applies_to_this_project": false,
+      "note": "Not applicable - FAAM LFP CAM plant is battery manufacturing in Italy (EU), not maritime/aviation manufacturing."
+    },
+    {
+      "criterion": "Non-recycled fossil fuel activities",
+      "exact_text": "Activities primarily aimed at electricity generation from non-recycled fossil fuels, as well as activities primarily aimed at fuel production based on non-recycled fossil feedstocks, excluding the production of low-carbon fuels.",
+      "risk_level": "LOW",
+      "applies_to_this_project": false,
+      "note": "Not applicable - LFP CAM is clean-tech manufacturing for energy storage, not fossil fuel related."
+    },
+    {
+      "criterion": "Ineligible support activities",
+      "exact_text": "Activities focused on services, including software, that primarily aim to improve the efficient use of products listed under Annex I and Annex III of the EU ETS.",
+      "risk_level": "LOW",
+      "applies_to_this_project": false,
+      "note": "Digital twin component is for manufacturing process optimization (automation, efficiency), NOT for improving end-user product efficiency. Therefore eligible."
+    },
+    {
+      "criterion": "Subject to EU restrictive measures",
+      "exact_text": "Entities subject to EU restrictive measures under Article 29 TEU and Article 215 TFEU are not eligible to participate in any capacity.",
+      "risk_level": "LOW",
+      "applies_to_this_project": "needs_verification",
+      "note": "Must verify neither FIB nor Eni appear on official EU sanctions lists. Standard compliance check."
+    },
+    {
+      "criterion": "Bankruptcy or insolvency procedures",
+      "exact_text": "Bankruptcy, winding up, affairs administered by the courts, arrangement with creditors, suspended business activities or other similar procedures",
+      "risk_level": "LOW",
+      "applies_to_this_project": false,
+      "note": "Not expected for established companies like FIB (battery manufacturer) and Eni (major energy corporation)."
+    },
+    {
+      "criterion": "Fraud, corruption, or criminal activity",
+      "exact_text": "Guilty of fraud, corruption, links to a criminal organisation, money laundering, terrorism-related crimes, child labour or human trafficking",
+      "risk_level": "LOW",
+      "applies_to_this_project": false,
+      "note": "Standard exclusion. Both companies must certify compliance."
+    }
+  ],
+  "flags": [
+    {
+      "type": "disqualifier",
+      "text": "Only projects that have not reached financial close at proposal submission date can be funded.",
+      "note": "CRITICAL: If FIB-Eni secure full financing before 23 April 2026, entire proposal is ineligible. Financing timeline must be coordinated to delay final close until AFTER submission date. Contact lenders/equity investors immediately to confirm no financial close commitment before 23 April 2026."
+    },
+    {
+      "type": "compliance",
+      "text": "Manufacture of batteries (Section 3.4) listed in Table 2: Economic activities for which additional justification of alignment to DNSH 'climate change mitigation' objective is NOT required.",
+      "note": "FAVORABLE: LFP CAM manufacturing does NOT require additional DNSH justification for climate change mitigation. However, may need to address other environmental objectives (water, biodiversity, circular economy, pollution) depending on Brindisi site specifics. Plan for potential site-level environmental assessments."
+    },
+    {
+      "type": "compliance",
+      "text": "Energy storage solutions: production of batteries and other storage solutions for stationary and mobile use, covering both intra-day and long duration storage.",
+      "note": "LFP cathode active material is a critical component for batteries. Eligible under CLEAN-TECH-MANUFACTURING topic. Confirm in proposal that CAM is 'significant factor in the final equipment's performance and/or cost' to validate scope alignment."
+    },
+    {
+      "type": "ambiguous",
+      "text": "Components also include final equipment such as wind turbines, solar panels, batteries, heat pumps or electrolysers. The topic also targets the manufacturing of components and materials (except mining activities) that are a significant factor in the final equipment's performance and/or cost.",
+      "note": "LFP CAM qualifies as a 'component and material that is a significant factor' in battery performance and cost. Should be clearly positioned as such in the proposal to avoid any ambiguity about scope alignment."
+    },
+    {
+      "type": "financial_close",
+      "text": "Maximum time to financial close: within 4 years after grant signature",
+      "note": "Feasible for FAAM plant (2-3 year construction + 1-1.5 years ramp-up = ~4 years to financial stability). Ensure project timeline is realistic and documented in application."
+    },
+    {
+      "type": "ethics",
+      "text": "Projects must comply with EU policy interests and priorities (such as environment, social, security, industrial and trade policy, etc). Projects must also respect EU values and European Commission policy regarding reputational matters.",
+      "note": "FAAM LFP CAM manufacturing in Italy aligns well with EU's battery supply chain resilience and clean-tech manufacturing priorities. Industrial policy support expected. No reputational concerns expected if both companies have clean track records."
+    },
+    {
+      "type": "compliance",
+      "text": "Deadline for submission: 23 April 2026 – 17:00:00 CET. Proposals submitted after this deadline will be rejected. Call deadlines can NOT be extended.",
+      "note": "HARD DEADLINE. Must submit well in advance (recommend by 20 April at latest) to avoid last-minute technical issues. System closes automatically at deadline. Late submissions will be rejected without exception."
+    },
+    {
+      "type": "compliance",
+      "text": "Part B (description of the action) covers the technical content of the proposal... The proposal must keep to the page limits (see section 5); excess pages will be disregarded.",
+      "note": "Maximum 70 pages for Part B. Feasibility study and business plan max 60 pages each. Plan content carefully - excess pages simply ignored, not penalised, but may compromise evaluation if key information is cut."
+    },
+    {
+      "type": "compliance",
+      "text": "Beneficiaries and affiliated entities must register in the Participant Register — before submitting the proposal — and will have to be validated by the Central Validation Service (REA Validation).",
+      "note": "Both FIB and Eni must complete Participant Register registration and obtain 9-digit PIC codes BEFORE 23 April 2026 deadline. Registration validation can take 1-3 weeks. Initiate immediately - do not wait until March 2026."
+    },
+    {
+      "type": "compliance",
+      "text": "Mandatory annexes: detailed budget table/relevant cost calculator, participant information (including CVs and previous projects, if any), timetable/Gantt chart, GHG emission avoidance calculator, feasibility study, business plan, detailed financial model, project shareholders financial resources.",
+      "note": "Comprehensive documentation requirement. Detailed financial model must include project assumptions (formulas, not hard-coded), funding sources/uses, forecasted P&L/cash flow/balance sheet, sensitivity analysis. GHG calculator specific to Innovation Fund methodology - must use provided template."
+    }
+  ],
+  "summary_assessment": {
+    "overall_eligibility": "LIKELY ELIGIBLE - with critical conditions",
+    "key_strengths": [
+      "LFP CAM manufacturing clearly falls under 'Energy storage solutions' - manufacturing of battery components",
+      "DNSH compliance: Manufacture of batteries has NO TSC requirement for climate change mitigation",
+      "Geographic location: Brindisi, Italy fully within EU",
+      "Budget scale: EUR 2.5M minimum threshold likely easily met",
+      "Consortium: Both FIB (lead) and Eni (established major company) are capable entities",
+      "Innovation: Digital twin + advanced LFP CAM process likely qualifies on automation/digitalization innovation"
+    ],
+    "critical_risks": [
+      "FINANCIAL CLOSE TIMING (HIGH): If FIB-Eni reach financial close before 23 April 2026, entire proposal becomes ineligible. Must coordinate with lenders/equity to delay financial close decision until after submission.",
+      "Participant Register registration (MEDIUM): Both companies must be registered and validated before submission deadline. Initiate immediately.",
+      "DNSH site-specific assessment (MEDIUM): While Manufacture of batteries has no TSC for climate mitigation, Brindisi site may have water/environmental sensitivities requiring assessment under other DNSH objectives.",
+      "Relevant costs calculation (MEDIUM): Requires detailed financial modeling using Innovation Fund methodology and provided cost calculator. Standard EU grants experience helps but specific to Innovation Fund approach."
+    ],
+    "next_steps": [
+      "1. URGENT: Verify financial close timeline with project financiers - confirm no commitment before 23 April 2026",
+      "2. Register both FIB and Eni in Participant Register immediately (allow 2-3 weeks for validation)",
+      "3. Secure internal approval from both companies for consortium structure (FIB lead, Eni beneficiary/affiliate)",
+      "4. Begin detailed financial modeling using Innovation Fund relevant cost calculator and guidance",
+      "5. Conduct site-level environmental/DNSH assessment for Brindisi location (water, biodiversity, circular economy, pollution)",
+      "6. Develop detailed feasibility study and business plan (60-page limits each)",
+      "7. Prepare GHG emission avoidance calculation using provided Innovation Fund calculator",
+      "8. Submit proposal by 20 April 2026 to allow safety margin before 23 April 2026 deadline"
+    ]
+  }
+}
