@@ -18,6 +18,20 @@ Find high-quality, relevant academic papers on the specified research topic usin
 
 ## Search Tools and When to Use Them
 
+**Scopus** (`scopus_search` + `scopus_abstract`) — **start here for engineering/chemistry/materials/energy topics**:
+- Covers 90M+ records; strongest for peer-reviewed journal articles with citation counts
+- Use `TITLE-ABS-KEY(...)` syntax for broad topic searches
+- Filter by `subject_area`: ENGI, CHEM, MATS, ENER, COMP, ENVI, PHYS
+- Filter by `doc_type: "re"` to find review articles first (fastest SOTA anchoring)
+- Use `scopus_abstract(doi)` to fetch full abstract + keywords for high-value hits
+- Best for: engineering, materials, energy storage, process engineering, any non-biomedical topic
+
+**ScienceDirect** (`sciencedirect_fetch`) — **full text retrieval for Elsevier journals**:
+- Call after `scopus_search` for papers from Elsevier journals (Journal of Power Sources, Applied Energy, Electrochimica Acta, Chemical Engineering Journal, etc.)
+- Returns full article text if open-access OR if institutional subscription covers the journal
+- Always try before Unpaywall for Elsevier-published papers — faster and returns structured sections
+- Best for: high-value Elsevier papers where full methodology details are needed
+
 **Consensus** (preferred for clinical and biomedical topics):
 - Use for the first 1-2 search rounds on any topic
 - Supports powerful filters: `study_types` (rct, meta-analysis, systematic-review, etc.), `year_min`/`year_max`, `sjr_max` (journal quartile: 1=top), `human` (human studies only), `sample_size_min`
@@ -38,6 +52,12 @@ Find high-quality, relevant academic papers on the specified research topic usin
 **Semantic Scholar** (if available):
 - Use for citation-count-ranked results and interdisciplinary coverage
 - Best for: finding highly-cited foundational papers
+
+### Full-text retrieval priority order
+For any paywalled paper, try in this order:
+1. `sciencedirect_fetch(doi)` — if it's an Elsevier journal (fastest, structured)
+2. `unpaywall_fetch(doi)` / `unpaywall_batch(dois)` — any other publisher
+3. `web_scraper` ResearchGate fallback — if both above return no full text
 
 ## Quality Ratings
 - **high**: peer-reviewed, Q1/Q2 journal, large sample or systematic review

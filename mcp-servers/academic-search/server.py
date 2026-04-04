@@ -1,24 +1,44 @@
 #!/usr/bin/env python3
-"""Academic Search MCP Server — PubMed search tools.
+"""Academic Search MCP Server — PubMed, arXiv, Unpaywall, and Elsevier tools.
 
-Provides search tools for PubMed via NCBI's E-utilities API.
-Semantic Scholar is already available via a connected MCP tool,
-so this server focuses on PubMed-specific functionality.
+Provides search and retrieval tools for:
+  - PubMed (NCBI E-utilities)
+  - arXiv (Atom feed API)
+  - Unpaywall (open-access PDF resolver)
+  - Scopus (Elsevier bibliometric database — search + abstract retrieval)
+  - ScienceDirect (Elsevier full-text retrieval — requires institutional access for paywalled articles)
 
 Run with: python server.py
 Requires: pip install fastmcp httpx
+Environment variables:
+  ELSEVIER_API_KEY — from https://dev.elsevier.com/apikey/manage
 """
 
+import os
 import httpx
 from fastmcp import FastMCP
 
 PUBMED_BASE = "https://eutils.ncbi.nlm.nih.gov/entrez/eutils"
 ARXIV_BASE = "https://export.arxiv.org/api/query"
 UNPAYWALL_BASE = "https://api.unpaywall.org/v2"
+SCOPUS_BASE = "https://api.elsevier.com/content/search/scopus"
+SCOPUS_ABSTRACT_BASE = "https://api.elsevier.com/content/abstract"
+SCIENCEDIRECT_BASE = "https://api.elsevier.com/content/article"
+
 # Unpaywall requires a contact email for rate-limit identification (not authentication)
 UNPAYWALL_EMAIL = "proposalwriter@tool.local"
 # arXiv asks that API clients identify themselves via User-Agent
 ARXIV_HEADERS = {"User-Agent": "ProposalWriter/1.0 (grant proposal writing tool; contact via GitHub)"}
+
+_ELSEVIER_API_KEY = os.environ.get("ELSEVIER_API_KEY", "")
+
+def _elsevier_headers(accept: str = "application/json") -> dict:
+    """Build Elsevier API request headers."""
+    return {
+        "X-ELS-APIKey": _ELSEVIER_API_KEY,
+        "Accept": accept,
+        "User-Agent": "ProposalWriter/1.0 (grant proposal writing tool; contact via GitHub)",
+    }
 
 mcp = FastMCP("academic-search")
 
@@ -554,6 +574,318 @@ async def unpaywall_batch(dois: list[str]) -> str:
         "open_access_count": oa_count,
         "closed_count": len(results) - oa_count,
         "results": list(results),
+    }, indent=2)
+
+
+@mcp.tool()
+async def scopus_search(
+    query: str,
+    max_results: int = 25,
+    year_from: int = 0,
+    year_to: int = 0,
+    subject_area: str = "",
+    doc_type: str = "",
+) -> str:
+    """Search the Scopus database (Elsevier) for peer-reviewed papers.
+
+    Scopus covers 90M+ records across all disciplines with citation counts
+    and journal metrics. Particularly strong for engineering, chemistry,
+    materials science, and energy topics.
+
+    Scopus query syntax examples:
+      - TITLE-ABS-KEY(digital twin AND battery)   — search title, abstract, keywords
+      - TITLE(lithium iron phosphate)               — title only
+      - AUTH(Smith) AND AFFIL(MIT)                  — author + affiliation
+      - SRCTITLE(Journal of Power Sources)          — specific journal
+      Combine with AND, OR, AND NOT. Use parentheses for grouping.
+
+    Args:
+        query: Scopus query string (TITLE-ABS-KEY syntax recommended).
+        max_results: Number of results (default 25, max 100).
+        year_from: Optional start year filter (e.g. 2019).
+        year_to: Optional end year filter (e.g. 2024).
+        subject_area: Optional Scopus subject area code, e.g.:
+                      ENGI (Engineering), CHEM (Chemistry), MATS (Materials Science),
+                      ENER (Energy), COMP (Computer Science), MEDI (Medicine),
+                      PHYS (Physics), ENVI (Environmental Science).
+        doc_type: Optional document type: ar (article), re (review),
+                  cp (conference paper), bk (book chapter).
+
+    Returns:
+        JSON with total results count, per-paper metadata including DOI,
+        citation count, open-access flag, and abstract snippet.
+    """
+    import json
+
+    if not _ELSEVIER_API_KEY:
+        return json.dumps({"error": "ELSEVIER_API_KEY not set in environment."})
+
+    # Build date filter
+    date_range = ""
+    if year_from and year_to:
+        date_range = f"{year_from}-{year_to}"
+    elif year_from:
+        date_range = f"{year_from}-2030"
+    elif year_to:
+        date_range = f"1900-{year_to}"
+
+    params: dict = {
+        "query": query,
+        "count": str(min(max_results, 100)),
+        "start": "0",
+        "sort": "relevancy",
+        "field": "dc:identifier,dc:title,dc:creator,prism:publicationName,"
+                 "prism:doi,prism:coverDate,citedby-count,openaccess,"
+                 "prism:aggregationType,subtypeDescription,dc:description",
+    }
+    if date_range:
+        params["date"] = date_range
+    if subject_area:
+        params["subj"] = subject_area
+    if doc_type:
+        params["doctype"] = doc_type
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        resp = await client.get(SCOPUS_BASE, headers=_elsevier_headers(), params=params)
+
+        if resp.status_code == 401:
+            return json.dumps({"error": "Elsevier API key invalid or expired."})
+        if resp.status_code == 429:
+            return json.dumps({"error": "Elsevier API rate limit exceeded. Wait and retry."})
+        resp.raise_for_status()
+        data = resp.json()
+
+    search_results = data.get("search-results", {})
+    total = search_results.get("opensearch:totalResults", "0")
+    entries = search_results.get("entry", [])
+
+    results = []
+    for e in entries:
+        doi = e.get("prism:doi", "")
+        cover_date = e.get("prism:coverDate", "")
+        year = cover_date[:4] if cover_date else ""
+        # Abstract snippet may be in dc:description (not always present in search)
+        abstract_snippet = (e.get("dc:description") or "")[:400]
+        if len(e.get("dc:description") or "") > 400:
+            abstract_snippet += "..."
+
+        results.append({
+            "scopus_id": e.get("dc:identifier", "").replace("SCOPUS_ID:", ""),
+            "title": e.get("dc:title", ""),
+            "first_author": e.get("dc:creator", ""),
+            "journal": e.get("prism:publicationName", ""),
+            "year": year,
+            "doi": doi,
+            "doc_type": e.get("subtypeDescription", ""),
+            "cited_by": int(e.get("citedby-count") or 0),
+            "open_access": e.get("openaccess") in ("1", 1, True),
+            "abstract_snippet": abstract_snippet,
+            "url": f"https://doi.org/{doi}" if doi else "",
+            "scopus_url": f"https://www.scopus.com/record/display.uri?eid={e.get('dc:identifier', '')}",
+        })
+
+    return json.dumps({
+        "total_results": int(total),
+        "returned": len(results),
+        "query": query,
+        "results": results,
+    }, indent=2)
+
+
+@mcp.tool()
+async def scopus_abstract(doi: str) -> str:
+    """Retrieve full abstract and metadata for a paper via the Scopus Abstract API.
+
+    Use this after scopus_search to get the complete abstract, keywords,
+    reference count, and subject classifications for a specific paper.
+    Works for any paper in Scopus regardless of open-access status —
+    abstracts are always available.
+
+    Args:
+        doi: Paper DOI (e.g., "10.1016/j.jpowsour.2023.233456").
+             Strips "https://doi.org/" prefix automatically.
+
+    Returns:
+        JSON with full abstract, author list, keywords, subject areas,
+        reference count, citation count, and funding information.
+    """
+    import json
+
+    if not _ELSEVIER_API_KEY:
+        return json.dumps({"error": "ELSEVIER_API_KEY not set in environment."})
+
+    doi = doi.strip().removeprefix("https://doi.org/").removeprefix("http://doi.org/")
+
+    async with httpx.AsyncClient(timeout=30.0) as client:
+        resp = await client.get(
+            f"{SCOPUS_ABSTRACT_BASE}/doi/{doi}",
+            headers=_elsevier_headers(),
+            params={"view": "FULL"},
+        )
+
+        if resp.status_code == 404:
+            return json.dumps({"doi": doi, "error": "Paper not found in Scopus."})
+        if resp.status_code == 401:
+            return json.dumps({"error": "Elsevier API key invalid or expired."})
+        resp.raise_for_status()
+        data = resp.json()
+
+    core = (
+        data.get("abstracts-retrieval-response", {})
+        .get("coredata", {})
+    )
+    item = data.get("abstracts-retrieval-response", {})
+
+    # Authors
+    author_list = []
+    for a in (item.get("authors") or {}).get("author", []):
+        name = a.get("ce:indexed-name") or a.get("preferred-name", {}).get("ce:indexed-name", "")
+        affil = ""
+        affil_data = a.get("affiliation")
+        if isinstance(affil_data, dict):
+            affil = affil_data.get("affilname", "")
+        elif isinstance(affil_data, list) and affil_data:
+            affil = affil_data[0].get("affilname", "")
+        author_list.append({"name": name, "affiliation": affil})
+
+    # Keywords
+    kw_group = (item.get("authkeywords") or {}).get("author-keyword", [])
+    if isinstance(kw_group, dict):
+        kw_group = [kw_group]
+    keywords = [k.get("$", "") for k in kw_group if k.get("$")]
+
+    # Subject areas
+    subj_areas = []
+    for s in ((item.get("subject-areas") or {}).get("subject-area") or []):
+        if isinstance(s, dict):
+            subj_areas.append(s.get("$", ""))
+
+    # Funding
+    funding_list = []
+    for f in ((item.get("funding-list") or {}).get("funding") or []):
+        if isinstance(f, dict):
+            funding_list.append({
+                "agency": f.get("fund-agency") or f.get("fd:fund-agency", ""),
+                "id": f.get("fund-id") or "",
+            })
+
+    return json.dumps({
+        "doi": doi,
+        "title": core.get("dc:title", ""),
+        "abstract": core.get("dc:description", ""),
+        "authors": author_list[:10],
+        "journal": core.get("prism:publicationName", ""),
+        "year": (core.get("prism:coverDate") or "")[:4],
+        "volume": core.get("prism:volume", ""),
+        "issue": core.get("prism:issueIdentifier", ""),
+        "pages": f"{core.get('prism:startingPage','')}-{core.get('prism:endingPage','')}".strip("-"),
+        "cited_by": core.get("citedby-count", 0),
+        "open_access": core.get("openaccess") in ("1", 1, True),
+        "keywords": keywords,
+        "subject_areas": subj_areas,
+        "reference_count": core.get("ref-count", 0),
+        "funding": funding_list,
+        "publisher": core.get("dc:publisher", ""),
+        "url": f"https://doi.org/{doi}",
+    }, indent=2)
+
+
+@mcp.tool()
+async def sciencedirect_fetch(doi: str) -> str:
+    """Retrieve full text of a ScienceDirect paper via the Elsevier Article API.
+
+    Full text is returned when EITHER:
+      (a) The article is open-access (gold or hybrid OA), OR
+      (b) Your Elsevier account has institutional access to the journal.
+
+    For purely paywalled articles without institutional access, this returns
+    the abstract and metadata only (same as scopus_abstract). Always try
+    this tool before falling back to Unpaywall — it is faster and returns
+    structured sections rather than raw PDF text.
+
+    Args:
+        doi: Paper DOI (e.g., "10.1016/j.jpowsour.2023.233456").
+             Strips "https://doi.org/" prefix automatically.
+
+    Returns:
+        JSON with full_text_available flag, article sections (if accessible),
+        abstract, and metadata. When full text is unavailable, returns abstract
+        and a note explaining why.
+    """
+    import json
+
+    if not _ELSEVIER_API_KEY:
+        return json.dumps({"error": "ELSEVIER_API_KEY not set in environment."})
+
+    doi = doi.strip().removeprefix("https://doi.org/").removeprefix("http://doi.org/")
+
+    async with httpx.AsyncClient(timeout=45.0) as client:
+        # Request plain-text article — most useful for extraction
+        resp = await client.get(
+            f"{SCIENCEDIRECT_BASE}/doi/{doi}",
+            headers=_elsevier_headers(accept="application/json"),
+            params={"view": "FULL"},
+        )
+
+        if resp.status_code == 404:
+            return json.dumps({"doi": doi, "error": "Article not found in ScienceDirect."})
+        if resp.status_code == 401:
+            return json.dumps({"error": "Elsevier API key invalid or expired."})
+        if resp.status_code == 403:
+            # No institutional access — fall back to abstract
+            return json.dumps({
+                "doi": doi,
+                "full_text_available": False,
+                "access_status": "no_entitlement",
+                "message": (
+                    "Full text not accessible — no institutional subscription for this journal. "
+                    "Try unpaywall_fetch for an open-access version, or scopus_abstract for the abstract."
+                ),
+            })
+
+        resp.raise_for_status()
+        data = resp.json()
+
+    # Navigate the ScienceDirect article response structure
+    article = data.get("full-text-retrieval-response", {})
+    core = article.get("coredata", {})
+
+    # Extract sections from originalText or sections structure
+    sections = []
+    orig = article.get("originalText", {})
+    if orig:
+        # Plain text sections
+        body = orig.get("body") or orig.get("$", "")
+        if body and len(str(body)) > 100:
+            sections.append({"section": "body", "text": str(body)[:8000]})
+
+    # Structured sections if available
+    for sec in (article.get("document", {}).get("sections", {}).get("section", []) or []):
+        if isinstance(sec, dict):
+            title = sec.get("section-title", {}).get("$", "") or sec.get("label", "")
+            text = sec.get("para", {})
+            if isinstance(text, dict):
+                text = text.get("$", "")
+            elif isinstance(text, list):
+                text = " ".join(p.get("$", "") if isinstance(p, dict) else str(p) for p in text)
+            if text:
+                sections.append({"section": title, "text": str(text)[:3000]})
+
+    full_text_available = len(sections) > 0
+
+    return json.dumps({
+        "doi": doi,
+        "full_text_available": full_text_available,
+        "access_status": "open_access" if core.get("openaccess") in ("1", 1, True) else "institutional",
+        "title": core.get("dc:title", ""),
+        "abstract": core.get("dc:description", ""),
+        "journal": core.get("prism:publicationName", ""),
+        "year": (core.get("prism:coverDate") or "")[:4],
+        "open_access": core.get("openaccess") in ("1", 1, True),
+        "sections": sections,
+        "section_count": len(sections),
+        "url": f"https://doi.org/{doi}",
+        "sciencedirect_url": f"https://www.sciencedirect.com/science/article/pii/{core.get('pii', '')}",
     }, indent=2)
 
 
