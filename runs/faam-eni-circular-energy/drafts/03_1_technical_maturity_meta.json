@@ -1,0 +1,100 @@
+{
+  "section": "3.1",
+  "title": "Technical Maturity",
+  "version": "1.0",
+  "generated_at": "2026-04-04",
+  "agent": "implementation_writer",
+  "word_count": 2150,
+  "target_word_count": 2000,
+  "claim_ids": [
+    "CLM-001",
+    "CLM-005",
+    "CLM-008",
+    "CLM-009",
+    "CLM-011",
+    "CLM-013",
+    "CLM-016",
+    "CLM-017",
+    "CLM-018",
+    "CLM-019",
+    "CLM-020",
+    "CLM-023",
+    "CLM-024",
+    "CLM-027"
+  ],
+  "source_ids": [
+    "SRC-007",
+    "SRC-008",
+    "SRC-011",
+    "SRC-012",
+    "SRC-013",
+    "SRC-028",
+    "SRC-DT-REPORT",
+    "SRC-ED-001",
+    "SRC-ED-006",
+    "SRC-ED-007",
+    "SRC-ED-008",
+    "SRC-ED-009",
+    "SRC-ED-010",
+    "SRC-ED-011",
+    "SRC-ED-014",
+    "SRC-ED-018",
+    "SRC-ED-021",
+    "SRC-ED-023",
+    "SRC-025"
+  ],
+  "assumptions": [
+    {
+      "id": "ASM-TM-001",
+      "text": "Production capacity target (tonnes LFP CAM per year) not specified. FREYR comparator is 30,000 t/yr. User must confirm actual target.",
+      "owner": "user / project team",
+      "status": "open"
+    },
+    {
+      "id": "ASM-TM-002",
+      "text": "Spray dryer throughput capacity and number of units not specified. To be confirmed based on production target.",
+      "owner": "engineering team",
+      "status": "open"
+    },
+    {
+      "id": "ASM-TM-003",
+      "text": "No independent technical due diligence reports available at this stage. Feasibility study serves as primary technical documentation.",
+      "owner": "user / project team",
+      "status": "open"
+    },
+    {
+      "id": "ASM-TM-004",
+      "text": "Furnace type (roller hearth kiln vs electric rotary kiln) not finalised. Both options are presented.",
+      "owner": "engineering team",
+      "status": "open"
+    }
+  ],
+  "open_issues": [
+    {
+      "id": "ISSUE-TM-001",
+      "text": "LFP-specific calcination energy data (kWh/t) not published. Estimate of 3-6 kWh/kg based on NMC analog requires validation by process engineering team.",
+      "severity": "medium",
+      "owner": "engineering team"
+    },
+    {
+      "id": "ISSUE-TM-002",
+      "text": "Block flow diagrams and process flow diagrams to be included in Feasibility Study annex. Draft references these but they are not yet prepared.",
+      "severity": "high",
+      "owner": "engineering team"
+    },
+    {
+      "id": "ISSUE-TM-003",
+      "text": "TRL assessment table in Section 1 must be consistent with the TRL summary in 3.1a. Cross-reference needed.",
+      "severity": "low",
+      "owner": "proposal coordinator"
+    }
+  ],
+  "evaluation_criterion": "3.1 — Technical maturity (max 5, min pass 3, weight x2 = max 10 weighted points)",
+  "scoring_targets": {
+    "process_flow_diagrams": "Described, referenced to Feasibility Study annex",
+    "mass_energy_balances": "Included with published analog data; LFP-specific data gap flagged",
+    "trl_assessment": "Comprehensive table with 6 technology components",
+    "technical_risks": "Summarised with cross-reference to Section 3.4",
+    "feasibility_study_reference": "Referenced as mandatory annex"
+  }
+}

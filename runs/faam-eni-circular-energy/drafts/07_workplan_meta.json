@@ -1,0 +1,85 @@
+{
+  "section": "7",
+  "title": "Workplan, Work Packages, Activities, Milestones, Deliverables and Timing",
+  "version": "1.0",
+  "generated_at": "2026-04-04",
+  "agent": "implementation_writer",
+  "word_count": 3200,
+  "target_word_count": 4000,
+  "claim_ids": [
+    "CLM-007",
+    "CLM-008",
+    "CLM-009",
+    "CLM-020"
+  ],
+  "source_ids": [
+    "SRC-007",
+    "SRC-ED-010",
+    "SRC-DT-REPORT"
+  ],
+  "assumptions": [
+    {
+      "id": "ASM-WP-001",
+      "text": "Budget figures for each WP to be provided by CFO team. WP1 must not exceed 40% of max grant; post-operation (WP3-WP7) must be at least 10% of max grant.",
+      "owner": "CFO team",
+      "status": "open"
+    },
+    {
+      "id": "ASM-WP-002",
+      "text": "Grant agreement signature estimated Q1 2027. All milestone dates are relative to M0.",
+      "owner": "proposal coordinator",
+      "status": "low_risk"
+    },
+    {
+      "id": "ASM-WP-003",
+      "text": "Gantt chart annex to be prepared separately using the EU Portal template.",
+      "owner": "project manager",
+      "status": "open"
+    },
+    {
+      "id": "ASM-WP-004",
+      "text": "Equipment lead times (furnace 9-12 months, spray dryer 6-9 months) are estimates based on current market conditions. Supply chain disruptions could extend these.",
+      "owner": "procurement team",
+      "status": "medium_risk"
+    }
+  ],
+  "open_issues": [
+    {
+      "id": "ISSUE-WP-001",
+      "text": "Specific budget figures needed from CFO team for each WP to verify 40% WP1 cap and 10% post-operation minimum.",
+      "severity": "high",
+      "owner": "CFO team"
+    },
+    {
+      "id": "ISSUE-WP-002",
+      "text": "Gantt chart annex not yet prepared. Must be consistent with this section.",
+      "severity": "high",
+      "owner": "project manager"
+    },
+    {
+      "id": "ISSUE-WP-003",
+      "text": "GHG performance clause: maximum grant only paid if project reaches at least 75% of planned total GHG emission avoidance. Monitoring methodology needs to be detailed in GHG monitoring plan (D2.6).",
+      "severity": "medium",
+      "owner": "environmental team"
+    },
+    {
+      "id": "ISSUE-WP-004",
+      "text": "Word count (3200) is below target (4000). WP2 activities could be expanded with more construction detail, and WP3 ramp-up activities could include more DT calibration specifics.",
+      "severity": "low",
+      "owner": "implementation_writer"
+    }
+  ],
+  "evaluation_criterion": "Section 7 contributes to Operational Maturity scoring (3.3) — implementation plan consistency",
+  "compliance_checks": {
+    "mandatory_wp_structure": "PASS — WP1 (FC), WP2 (EiO), WP3-WP7 (5 operational years) all present",
+    "wp1_budget_cap": "PENDING — budget figures not yet provided; requirement noted",
+    "post_operation_budget_minimum": "PENDING — budget figures not yet provided; requirement noted",
+    "mandatory_deliverables_wp1": "PASS — all 8 mandatory deliverables included (D1.1-D1.8)",
+    "mandatory_deliverables_wp2": "PASS — all 7 mandatory deliverables included (D2.1-D2.7)",
+    "mandatory_deliverables_wp3": "PASS — GHG report and KS report included",
+    "mandatory_deliverables_wpn": "PASS — verified GHG report, innovation report, DNSH report, EEA declaration all included",
+    "fc_within_2_years": "PASS — FC targeted at M24",
+    "eio_within_4_years": "PASS — EiO targeted at M48",
+    "milestone_means_of_verification": "PASS — all milestones have means of verification"
+  }
+}

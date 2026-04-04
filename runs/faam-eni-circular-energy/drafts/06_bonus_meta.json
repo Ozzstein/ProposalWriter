@@ -1,0 +1,39 @@
+{
+  "section": "6",
+  "title": "Bonus Points",
+  "version": "1.0",
+  "generated_at": "2026-04-04",
+  "agent": "impact_writer",
+  "word_count": 350,
+  "target_word_count": 500,
+  "claim_ids": ["CLM-009"],
+  "source_ids": [],
+  "assumptions": [],
+  "open_issues": [
+    {
+      "id": "ISSUE-BONUS-001",
+      "text": "Consider whether a credible maritime angle could be argued (LFP for port equipment electrification, short-sea shipping batteries). Currently assessed as a stretch that risks credibility. Recommend leaving as not applicable unless project team identifies a concrete maritime offtake agreement.",
+      "severity": "low",
+      "owner": "project coordinator"
+    }
+  ],
+  "evaluation_criteria_addressed": {
+    "B1_net_carbon_removals": {
+      "max_score": 1,
+      "applicable": false,
+      "rationale": "LFP manufacturing does not remove carbon from atmosphere"
+    },
+    "B2_sme": {
+      "max_score": 1,
+      "applicable": false,
+      "rationale": "FIB and Eni are both large enterprises"
+    },
+    "B3_maritime": {
+      "max_score": 1,
+      "applicable": false,
+      "rationale": "Project targets general battery market, not specifically maritime decarbonisation"
+    }
+  },
+  "expected_bonus_points": 0,
+  "strategic_note": "Zero bonus points expected. This is consistent with the proposal outline strategy: effort is better invested in maximising scores on weighted criteria (Innovation x2, Maturity x2, EU Leadership 10pts) rather than pursuing marginal bonus arguments."
+}

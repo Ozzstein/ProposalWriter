@@ -1,0 +1,94 @@
+{
+  "section": "3.3",
+  "title": "Operational Maturity",
+  "version": "1.0",
+  "generated_at": "2026-04-04",
+  "agent": "implementation_writer",
+  "word_count": 2050,
+  "target_word_count": 2000,
+  "claim_ids": [
+    "CLM-001",
+    "CLM-003",
+    "CLM-008",
+    "CLM-011",
+    "CLM-014",
+    "CLM-015",
+    "CLM-022",
+    "CLM-030"
+  ],
+  "source_ids": [
+    "SRC-007",
+    "SRC-023",
+    "SRC-025",
+    "SRC-ED-009",
+    "SRC-DT-REPORT"
+  ],
+  "assumptions": [
+    {
+      "id": "ASM-OM-001",
+      "text": "Grant agreement signature estimated Q1 2027. Actual date depends on Innovation Fund evaluation timeline.",
+      "owner": "proposal coordinator",
+      "status": "low_risk"
+    },
+    {
+      "id": "ASM-OM-002",
+      "text": "No operational due diligence reports available. Market analysis from SOTA summary used for market positioning.",
+      "owner": "user / project team",
+      "status": "open"
+    },
+    {
+      "id": "ASM-OM-003",
+      "text": "Brindisi site remediation status (completed, in progress, not required) must be confirmed by Eni.",
+      "owner": "Eni",
+      "status": "open"
+    },
+    {
+      "id": "ASM-OM-004",
+      "text": "FTE employment figures (construction and operation) not specified. To be confirmed by project team.",
+      "owner": "project team",
+      "status": "open"
+    },
+    {
+      "id": "ASM-OM-005",
+      "text": "CVs and track records of named key personnel must be provided for Participant Information annex.",
+      "owner": "FIB / Eni HR",
+      "status": "open"
+    },
+    {
+      "id": "ASM-OM-006",
+      "text": "Permit timeline assumes typical Italian regulatory processing times. Actual timelines may vary.",
+      "owner": "regulatory team",
+      "status": "medium_risk"
+    }
+  ],
+  "open_issues": [
+    {
+      "id": "ISSUE-OM-001",
+      "text": "Project organisation diagram (copy from business plan) to be prepared and included in this section.",
+      "severity": "medium",
+      "owner": "project team"
+    },
+    {
+      "id": "ISSUE-OM-002",
+      "text": "Gantt chart annex to be prepared showing all milestones consistent with this implementation plan.",
+      "severity": "high",
+      "owner": "project manager"
+    },
+    {
+      "id": "ISSUE-OM-003",
+      "text": "Permitting pre-consultation status with Regione Puglia and Comune di Brindisi should be documented with letters/minutes if available.",
+      "severity": "medium",
+      "owner": "Eni regulatory team"
+    }
+  ],
+  "evaluation_criterion": "3.3 — Operational maturity (max 5, min pass 3, weight x2 = max 10 weighted points)",
+  "scoring_targets": {
+    "implementation_timeline": "Comprehensive M0-M108 timeline with FC within 2yr and EiO within 4yr",
+    "current_development_status": "Pre-FID with key activities underway",
+    "permitting_plan": "Italian VIA/AIA/building permits with timeline estimates",
+    "team_qualifications": "Roles defined; CVs flagged as outstanding",
+    "governance": "Three-tier governance (steering, technical, DT working group)",
+    "public_acceptance": "Industrial area, brownfield reuse, job creation argument",
+    "consistency_with_wp": "Timeline consistent with WP1-WP7 structure in Section 7"
+  }
+}

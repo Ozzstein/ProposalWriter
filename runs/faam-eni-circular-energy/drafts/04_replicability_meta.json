@@ -1,0 +1,126 @@
+{
+  "section": "4",
+  "title": "Replicability",
+  "version": "1.0",
+  "generated_at": "2026-04-04",
+  "agent": "impact_writer",
+  "word_count": 3400,
+  "target_word_count": 3500,
+  "subsection_word_counts": {
+    "4.1a_efficiency_gains": 900,
+    "4.1b_dnsh_other_objectives": 1100,
+    "4.1c_eu_leadership": 1050,
+    "4.2_knowledge_sharing": 450
+  },
+  "claim_ids": [
+    "CLM-001", "CLM-002", "CLM-003", "CLM-004", "CLM-007", "CLM-008",
+    "CLM-009", "CLM-011", "CLM-013", "CLM-014", "CLM-017", "CLM-018",
+    "CLM-022", "CLM-024", "CLM-028", "CLM-029"
+  ],
+  "source_ids": [
+    "SRC-001", "SRC-003", "SRC-007", "SRC-008", "SRC-009", "SRC-010",
+    "SRC-011", "SRC-012", "SRC-014", "SRC-015", "SRC-022", "SRC-023",
+    "SRC-024", "SRC-025", "SRC-026", "SRC-028",
+    "SRC-DT-REPORT",
+    "SRC-ED-009", "SRC-ED-010", "SRC-ED-011", "SRC-ED-015", "SRC-ED-016",
+    "SRC-ED-017", "SRC-ED-019", "SRC-ED-023", "SRC-ED-024",
+    "SRC-PAT-001", "SRC-PAT-011", "SRC-PAT-014"
+  ],
+  "assumptions": [
+    {
+      "id": "ASM-REP-001",
+      "text": "Phosphate supply diversification claim based on general geological data; specific reserve figures should be verified against USGS Mineral Commodity Summaries.",
+      "owner": "research team",
+      "status": "open"
+    },
+    {
+      "id": "ASM-REP-002",
+      "text": "Lithium intensity comparison (42 g/kWh LFP vs 50-75 g/kWh NMC) based on stoichiometric calculations; exact figures depend on cell design parameters.",
+      "owner": "technical team",
+      "status": "low_risk"
+    },
+    {
+      "id": "ASM-REP-003",
+      "text": "Water recovery efficiency of 70-85% based on industrial spray dryer condensate recovery benchmarks; exact recovery rate to be determined during detailed engineering.",
+      "owner": "engineering team",
+      "status": "open"
+    },
+    {
+      "id": "ASM-REP-004",
+      "text": "Specific university partnerships to be confirmed by project coordinator.",
+      "owner": "project coordinator",
+      "status": "open"
+    },
+    {
+      "id": "ASM-REP-005",
+      "text": "Specific direct employment numbers to be provided by FIB HR planning.",
+      "owner": "FIB HR",
+      "status": "open"
+    },
+    {
+      "id": "ASM-REP-006",
+      "text": "Climate adaptation measures (flood level, drainage design criteria) based on standard Italian engineering practice; site-specific climate risk assessment to be completed during detailed engineering.",
+      "owner": "engineering team",
+      "status": "open"
+    }
+  ],
+  "open_issues": [
+    {
+      "id": "ISSUE-REP-001",
+      "text": "Section 4.1c EU Leadership: Need concrete job creation numbers for Brindisi plant (direct + indirect employment). Request from FIB HR planning.",
+      "severity": "medium",
+      "owner": "FIB"
+    },
+    {
+      "id": "ISSUE-REP-002",
+      "text": "Section 4.1c EU Leadership: Confirm specific Italian university collaborations for DT development to name in the proposal.",
+      "severity": "medium",
+      "owner": "project coordinator"
+    },
+    {
+      "id": "ISSUE-REP-003",
+      "text": "Section 4.1b DNSH Adaptation: Brindisi site-specific climate risk assessment (flood mapping, heat projection, sea level rise) should be completed to substantiate adaptation measures.",
+      "severity": "medium",
+      "owner": "engineering team"
+    },
+    {
+      "id": "ISSUE-REP-004",
+      "text": "Section 4.1a: Quantify the exact production capacity (tonnes/year) to support material efficiency claims with absolute numbers.",
+      "severity": "low",
+      "owner": "technical team"
+    },
+    {
+      "id": "ISSUE-REP-005",
+      "text": "Section 4.1c: Verify that Kanthal/Sandvik heating elements and NGK kiln systems are available from EU/EEA sources for EEA-originating content declaration.",
+      "severity": "medium",
+      "owner": "procurement team"
+    }
+  ],
+  "evaluation_criteria_addressed": {
+    "4.1_efficiency_environment": {
+      "max_score": 5,
+      "min_pass": null,
+      "key_points": [
+        "Critical raw material efficiency: LFP eliminates cobalt/nickel dependency",
+        "Circular economy: LFP recyclability, brownfield reuse, DT waste minimisation",
+        "Water management: closed-loop spray dryer water recovery",
+        "Pollution prevention: zero combustion, HEPA filtration, contained atmosphere",
+        "Biodiversity: brownfield = zero habitat conversion"
+      ]
+    },
+    "4.2_eu_leadership": {
+      "max_score": 10,
+      "min_pass": 4,
+      "key_points": [
+        "First LFP CAM plant in Italy/Southern Europe",
+        "Directly addresses C/2025/3236 China dependency (>99% LFP from China)",
+        "DT framework as transferable EU IP (ISO 23247 reference implementation)",
+        "University cooperation for DT development",
+        "Job creation in Puglia convergence region",
+        "Transparent EU-based supply chain; Battery Passport readiness",
+        "EEA-originating content: manufactured in Italy",
+        "FREYR competitive assessment: Vaasa has no FID, US pivot"
+      ]
+    }
+  }
+}

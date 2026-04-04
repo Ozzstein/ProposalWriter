@@ -1,0 +1,45 @@
+{
+  "section": "2.3",
+  "title": "Minimum Requirements — DNSH",
+  "version": "1.0",
+  "generated_at": "2026-04-04",
+  "agent": "impact_writer",
+  "word_count": 1050,
+  "target_word_count": 1500,
+  "claim_ids": ["CLM-007", "CLM-009", "CLM-016", "CLM-022", "CLM-023", "CLM-024", "CLM-026", "CLM-030"],
+  "source_ids": ["SRC-ED-009", "SRC-ED-015", "SRC-ED-016", "SRC-ED-017", "SRC-023", "SRC-024", "SRC-025", "SRC-026", "SRC-DT-REPORT"],
+  "assumptions": [
+    {
+      "id": "ASM-DNSH-001",
+      "text": "ETS benchmark applicability for LFP CAM requires formal verification by CFO team. If a fallback heat or fuel benchmark applies, contingency calculation using chemicals heat benchmark should be prepared.",
+      "owner": "CFO team",
+      "status": "open"
+    },
+    {
+      "id": "ASM-DNSH-002",
+      "text": "Glucose used as carbon precursor is classified as a chemical input rather than a biomass energy feedstock under Renewable Energy Directive 2018/2001.",
+      "owner": "legal/regulatory team",
+      "status": "low_risk"
+    }
+  ],
+  "open_issues": [
+    {
+      "id": "ISSUE-DNSH-001",
+      "text": "Confirm with evaluator guidance that Section 3.4 'Manufacture of batteries' Table 2 status definitively exempts upstream CAM production from DNSH climate mitigation TSC.",
+      "severity": "low",
+      "owner": "proposal coordinator"
+    },
+    {
+      "id": "ISSUE-DNSH-002",
+      "text": "Prepare contingency ETS benchmark calculation using chemicals heat benchmark as conservative fallback in case evaluator requests it.",
+      "severity": "medium",
+      "owner": "CFO team"
+    }
+  ],
+  "evaluation_criterion": "2.3 — Quality of GHG emission avoidance calculation and minimum requirements (max 5, min pass 3)",
+  "compliance_status": {
+    "dnsh_climate_mitigation": "compliant — no TSC required (Table 2)",
+    "ets_benchmark": "likely not applicable — no benchmark product match; assumption pending verification",
+    "biomass_sustainability": "not applicable — no biomass feedstocks"
+  }
+}

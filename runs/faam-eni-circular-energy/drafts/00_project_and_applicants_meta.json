@@ -1,0 +1,59 @@
+{
+  "section_name": "Section 0: Project and Applicants",
+  "target_audience": "Innovation Fund industrial/policy evaluators",
+  "claim_ids": [
+    "CLM-001",
+    "CLM-002",
+    "CLM-003",
+    "CLM-004",
+    "CLM-005",
+    "CLM-007",
+    "CLM-008",
+    "CLM-009",
+    "CLM-018",
+    "CLM-019",
+    "CLM-022",
+    "CLM-023",
+    "CLM-025",
+    "CLM-026",
+    "CLM-028",
+    "CLM-029",
+    "CLM-030"
+  ],
+  "source_ids": [
+    "SRC-007",
+    "SRC-008",
+    "SRC-011",
+    "SRC-022",
+    "SRC-023",
+    "SRC-024",
+    "SRC-025",
+    "SRC-026",
+    "SRC-DT-REPORT",
+    "SRC-ED-004",
+    "SRC-ED-005",
+    "SRC-ED-009",
+    "SRC-ED-010",
+    "SRC-ED-016",
+    "SRC-ED-017",
+    "SRC-ED-019",
+    "SRC-ED-023"
+  ],
+  "assumptions_used": [
+    "FIB (FAAM) has >40 years of experience — exact founding year and history not confirmed",
+    "FIB headquarters in Monterubbiano, Marche — location not confirmed in evidence store",
+    "FIB employs approximately 500 staff — employee count not confirmed in evidence store",
+    "Iron phosphate and lithium carbonate sourced from European or diversified non-Chinese suppliers — specific supplier agreements not in evidence",
+    "Annual production capacity 10,000-30,000 tonnes — exact design capacity not specified in project context",
+    "OEE target >92% — benchmark estimate based on DT-enabled manufacturing, not confirmed for this specific plant"
+  ],
+  "open_issues": [
+    "FIB/FAAM corporate details (founding year, exact employee count, headquarters location, revenue) need to be confirmed by the applicant",
+    "Eni Brindisi site details (exact location coordinates, site area, existing infrastructure specifics, brownfield remediation status) need to be provided",
+    "Exact production capacity (tonnes/year) needs to be confirmed — this affects GHG calculations and cost efficiency ratio",
+    "Specific raw material supplier agreements and off-take contracts are not evidenced",
+    "Key personnel CVs and track records need to be incorporated",
+    "FIB-Eni governance structure and contractual framework details to be provided"
+  ],
+  "word_count": 2838
+}
