@@ -1,0 +1,447 @@
+{
+  "topic": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
+  "max_points_unweighted": 72,
+  "max_points_weighted": 102,
+  "max_points_weighted_with_bonus": 105,
+  "weighting_note": "Degree of Innovation (x2) and Project Maturity (x2) are doubled for CLEAN-TECH-MANUFACTURING and PILOTS topics. All other criteria remain at x1.",
+  "evaluation_cascade_order": [
+    "1. Degree of Innovation — if below minimum threshold, evaluation stops",
+    "2. GHG Emission Avoidance Potential AND Project Maturity — if any maturity sub-criterion or GHG Quality sub-criterion is below minimum, evaluation stops",
+    "3. Cost Efficiency — if Quality of cost calculation sub-criterion is below minimum, evaluation stops",
+    "4. Replicability and Bonus points"
+  ],
+  "criteria": [
+    {
+      "name": "Degree of Innovation",
+      "criterion_id": "1",
+      "cascade_stop_on_fail": true,
+      "total_unweighted_max": 15,
+      "total_weighted_max": 30,
+      "weight": 2,
+      "minimum_pass_raw": 9,
+      "sub_criteria": [
+        {
+          "id": "1.1",
+          "name": "Innovation in relation to the state of the art",
+          "max_score": 15,
+          "weight": 2,
+          "weighted_max": 30,
+          "min_pass": 9,
+          "min_pass_note": "If score < 9, evaluation is stopped and proposal is rejected",
+          "description": "Degree to which the project goes beyond incremental innovation on a scale from intermediate to breakthrough innovation, including scaling-up (see Annex 1 for examples), taking into account the European level as reference point.",
+          "what_evaluators_look_for": [
+            "Does the project go beyond incremental improvement? (e.g. disruptive vs. step-by-step improvement)",
+            "Quality, soundness and reliability of the information provided in the proposal",
+            "Evidence from feasibility study on: plant design, operating approach, construction, performance/quality, reliability/availability, maintenance, economics — all compared to commercial and technological state-of-the-art",
+            "Expected progression in TRL (Technology Readiness Level), SRL (System Readiness Level) and/or CRL (Commercial Readiness Level)",
+            "Technological and economical barriers to be overcome",
+            "Why the proposed scale is the most appropriate",
+            "For previously Innovation-Fund-funded technologies: clear justification of new innovative elements (scale, application type, specific differences)",
+            "Reference to Annex 1 of the Call document for scoring scale examples"
+          ],
+          "scoring_guide": {
+            "low_intermediate": "Score 9–10: Innovation clearly beyond incremental but limited in degree",
+            "high_intermediate": "Score 11–12: Significant innovation with substantial technical advance",
+            "breakthrough": "Score 13–15: Breakthrough innovation with major departure from state-of-the-art"
+          }
+        }
+      ]
+    },
+    {
+      "name": "GHG Emission Avoidance Potential",
+      "criterion_id": "2",
+      "cascade_stop_on_fail": "Stops only if 'Quality of GHG emission avoidance calculation and minimum requirements' sub-criterion is below minimum threshold",
+      "total_unweighted_max": 12,
+      "total_weighted_max": 12,
+      "weight": 1,
+      "sub_criteria": [
+        {
+          "id": "2.1",
+          "name": "Absolute GHG emission avoidance",
+          "max_score": 2,
+          "weight": 1,
+          "weighted_max": 2,
+          "min_pass": null,
+          "description": "Difference between expected GHG emissions of the project and GHG emissions in the reference scenario during 10 years after entry into operation.",
+          "scoring_rule": "Median-based scoring within sector and topic. Proposals with absolute emission avoidance equal to the sector's median in the respective topic receive 1 point. All other proposals are scored 0–2 (rounded to nearest 0.5) proportional to their avoidance relative to the median. If only 1 proposal meets all thresholds in a given sector/topic, it receives 2 points. If only 1 proposal total in the sector/topic, it receives 2 points.",
+          "what_evaluators_look_for": [
+            "Absolute GHG emission avoidance (tCO2e) during 10 years post entry into operation",
+            "Calculated using the GHG emission avoidance calculator and Guidance methodology",
+            "Consistency with values in Part C and cost efficiency calculation"
+          ]
+        },
+        {
+          "id": "2.2",
+          "name": "Relative GHG emission avoidance",
+          "max_score": 5,
+          "weight": 1,
+          "weighted_max": 5,
+          "min_pass": null,
+          "description": "Absolute GHG emission avoidance divided by GHG emissions in the reference scenario over the same 10-year period.",
+          "scoring_rule": "Proportional to the relative GHG avoidance percentage, rounded to the nearest 0.5 point. Score 0 = 0%; Score 5 = 100% or above. Formula: 5 * (relative_avoidance_pct / 100), capped at 5. Minimum requirement: at least 50% for CLEAN-TECH-MANUFACTURING topic.",
+          "what_evaluators_look_for": [
+            "Relative GHG emission avoidance (%) during 10 years post entry into operation",
+            "Must be at least 50% — if < 50%, proposal is rejected at step 2 of cascade",
+            "Consistency with values in Part C",
+            "Robustness of reference scenario assumptions"
+          ]
+        },
+        {
+          "id": "2.3",
+          "name": "Quality of the GHG emission avoidance calculation and minimum requirements",
+          "max_score": 5,
+          "weight": 1,
+          "weighted_max": 5,
+          "min_pass": 3,
+          "min_pass_note": "If score < 3, evaluation is stopped and proposal is rejected",
+          "description": "Quality and credibility of the calculation of GHG emission avoidance potential; compliance with minimum requirements.",
+          "minimum_requirements": {
+            "relative_ghg_avoidance": "At least 50% (for all topics except PILOTS where it is 75%)",
+            "ets_benchmark": "Process emissions per unit of product (including CCS/CCU credits) must be below EU ETS benchmark applicable at call opening (Commission Implementing Regulation (EU) 2021/447)",
+            "dnsh_climate_change_mitigation": "Compliance with DNSH technical screening criteria (TSC) set out in Annex II to Delegated Regulations 2021/2139 and/or 2023/2486 for 'climate change mitigation'",
+            "biomass_sustainability": "For bio-economy projects: biomass must meet sustainability requirements of Renewable Energy Directive 2018/2001 (Part A of Annex IX or certified low ILUC-risk per Commission Regulation 2019/807)"
+          },
+          "what_evaluators_look_for": [
+            "Correct and complete use of the GHG emission avoidance calculator template (all sheets including data traceability sections)",
+            "Credibility, reliability and margin of uncertainty of key parameters and assumptions",
+            "Correct application of the GHG emission avoidance calculation methodology",
+            "Demonstration that relative GHG avoidance >= 50%",
+            "Demonstration that process emissions are below EU ETS benchmark at call opening (where applicable)",
+            "Credible DNSH compliance plan for 'climate change mitigation'",
+            "For biomass: credible evidence of sourcing from low ILUC-risk certified or certifiable producers",
+            "Consistency between GHG calculator, Part B narrative, and Part C values"
+          ],
+          "rejection_triggers": [
+            "Calculation methodology incorrectly applied",
+            "GHG emission avoidance assumptions or calculations are not credible",
+            "Minimum requirements not met (relative avoidance < 50%, ETS benchmark not met, DNSH not demonstrated)",
+            "Application Form Part B or GHG emission avoidance calculator not filled correctly"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Project Maturity",
+      "criterion_id": "3",
+      "cascade_stop_on_fail": "Stops if any maturity sub-criterion is below its individual minimum threshold",
+      "total_unweighted_max": 15,
+      "total_weighted_max": 30,
+      "weight": 2,
+      "sub_criteria": [
+        {
+          "id": "3.1",
+          "name": "Technical maturity",
+          "max_score": 5,
+          "weight": 2,
+          "weighted_max": 10,
+          "min_pass": 3,
+          "min_pass_note": "If score < 3, evaluation is stopped and proposal is rejected",
+          "description": "Technical feasibility of achieving the expected project outputs within the project's operational environment; understanding of technology and related technical risks and proposed risk mitigation measures; quality, soundness and reliability of the information provided.",
+          "what_evaluators_look_for": [
+            "Quality and completeness of the feasibility study",
+            "Demonstrated TRL of the core technology and justification of readiness",
+            "Process flow diagrams, block flow diagrams, schematic layouts, capacities",
+            "Mass and energy balances (before and after project)",
+            "Technical feasibility of reaching target production volumes",
+            "Credibility of technical assumptions used for GHG calculations",
+            "Identification and assessment of all significant technical risks",
+            "Quality and realism of risk mitigation measures",
+            "Independence and quality of any due diligence reports",
+            "Consistency between technical claims in narrative and supporting annexes"
+          ]
+        },
+        {
+          "id": "3.2",
+          "name": "Financial maturity",
+          "max_score": 5,
+          "weight": 2,
+          "weighted_max": 10,
+          "min_pass": 3,
+          "min_pass_note": "If score < 3, evaluation is stopped and proposal is rejected",
+          "description": "Ability to reach financial close as soon as possible and no later than 48 months after signing the grant agreement; credibility of business model, business plan and financial model; expected project profitability; credibility of shareholder support; robustness and credibility of strategy to secure key contractual framework; soundness of financing plan; understanding of financial risks and quality of mitigation measures.",
+          "what_evaluators_look_for": [
+            "Robustness and credibility of the business model and business plan",
+            "Credibility of revenue projections, CAPEX and OPEX assumptions",
+            "Expected project profitability before and after Innovation Fund grant",
+            "Quality of WACC calculation",
+            "Results and robustness of sensitivity analysis",
+            "Credibility of financing plan: breakdown of funding sources and uses",
+            "Degree of advancement in securing equity and debt financing",
+            "Quality and credibility of proposed debt terms and capital structure",
+            "Evidence of shareholders' commitment and financial standing",
+            "Strategy to secure key off-take, supply and construction contracts",
+            "Understanding of financial risks (including dependencies on external projects) and mitigation measures",
+            "Quality and completeness of the detailed financial model (formulas not hard-coded, no macros)",
+            "For CLEAN-TECH-MANUFACTURING: ability to reach financial close within 2 years is considered positively"
+          ]
+        },
+        {
+          "id": "3.3",
+          "name": "Operational maturity",
+          "max_score": 5,
+          "weight": 2,
+          "weighted_max": 10,
+          "min_pass": 3,
+          "min_pass_note": "If score < 3, evaluation is stopped and proposal is rejected",
+          "description": "Credibility and level of detail of the project implementation plan covering all project milestones; relevance and track record of the project management/team and soundness of the project organisation; state of play and credibility of the permitting plan; ability to reach entry into operation in line with or faster than market standards; understanding of implementation risks and credibility of risk mitigation measures.",
+          "what_evaluators_look_for": [
+            "Level of detail and credibility of the implementation timeline (from grant signature to end of monitoring period)",
+            "Current state of project development (e.g. completed FEED study, initial permits obtained)",
+            "Planned date for FID, start of construction, commissioning, entry into operation",
+            "Strategy to reach financial close and entry into operation milestones",
+            "Strategy for regular operation during monitoring period (maintenance, downtime, quality assurance)",
+            "Adequacy of timeline relative to market standards",
+            "Qualifications and relevant track record of the project management team (CVs)",
+            "Quality of governance structure and decision-making mechanisms",
+            "Evidence of management and sponsors' commitment",
+            "Quality management and health and safety processes",
+            "State of play of permitting (permits obtained vs. still needed)",
+            "Credibility of permitting timeline and measures to ensure timely granting",
+            "Assessment of environmental impacts and mitigation measures",
+            "Public acceptance status and measures",
+            "Understanding of implementation risks (including external dependencies) and mitigation measures",
+            "Consistency between work plan/WP structure and implementation plan",
+            "For CLEAN-TECH-MANUFACTURING: ability to reach entry into operation within 4 years is considered positively"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Replicability",
+      "criterion_id": "4",
+      "cascade_stop_on_fail": false,
+      "total_unweighted_max": 15,
+      "total_weighted_max": 15,
+      "weight": 1,
+      "sub_criteria": [
+        {
+          "id": "4.1",
+          "name": "Replicability in terms of efficiency gains and multiple environmental impacts",
+          "max_score": 5,
+          "weight": 1,
+          "weighted_max": 5,
+          "min_pass": null,
+          "description": "Efficient use of resources or other ways to address resource constraints (critical raw materials, sustainable biomass, scarce resources, circularity, recycling and recyclability); potential to address multiple environmental impacts (biodiversity protection, land/air/water pollution reduction); DNSH compliance for environmental objectives other than climate change mitigation.",
+          "what_evaluators_look_for": [
+            "Reduction and/or more efficient use of critical raw materials in the manufacturing process",
+            "Use of recycled materials and circular economy elements (recyclability of produced components)",
+            "Reduction of resource waste in the production process",
+            "Potential to reduce biodiversity impacts, land pollution, air pollution, water pollution",
+            "DNSH compliance for all environmental objectives other than climate change mitigation (water, circular economy, pollution prevention, biodiversity)",
+            "Quality, soundness and reliability of the information provided"
+          ]
+        },
+        {
+          "id": "4.2",
+          "name": "Contribution to Europe's industrial leadership and competitiveness",
+          "max_score": 10,
+          "weight": 1,
+          "weighted_max": 10,
+          "min_pass": 4,
+          "min_pass_note": "There is a minimum threshold of 4 but this does NOT stop the evaluation (evaluated at step 4 of cascade after other criteria pass)",
+          "description": "Contribution to European industrial ecosystems and/or integration with strategic energy infrastructure; building European know-how; creation and retention of IP within EU/EEA; cooperation with EU/EEA research actors; capacity-building; knowledge sharing; supply chain due diligence; mitigating critical raw material dependencies; mitigating critical product dependencies from third countries identified in C/2025/3236.",
+          "what_evaluators_look_for": [
+            "Contribution to European industrial ecosystems (clusters, European suppliers, supply chain integration)",
+            "Integration with strategic energy infrastructure (e.g. Projects of Common Interest)",
+            "Creation and retention of intellectual property (patents, trade secrets) within EU/EEA",
+            "Cooperation with EU/EEA universities, research institutions and industry actors",
+            "Capacity-building activities: trainings, apprenticeships, skill development during implementation and operation",
+            "Quality and ambition of knowledge sharing plan",
+            "Due diligence on supply chain governance, conflict risk, human and social rights, environmental performance, water risk",
+            "Strategy to reduce or diversify sourcing of critical raw materials",
+            "Mitigation of critical dependencies on: solar PV systems/modules/cells/inverters/wafers; permanent magnets for wind turbines; battery packs/modules/cells; anode active materials — all from China (per C/2025/3236 Commission Communication of 18.6.2025)",
+            "EEA-originating content of manufactured equipment/components",
+            "Quality, soundness and reliability of the information provided"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Cost Efficiency",
+      "criterion_id": "5",
+      "cascade_stop_on_fail": "Stops only if 'Quality of cost calculation and minimum requirements' sub-criterion is below minimum threshold",
+      "total_unweighted_max": 15,
+      "total_weighted_max": 15,
+      "weight": 1,
+      "sub_criteria": [
+        {
+          "id": "5.1",
+          "name": "Cost efficiency ratio",
+          "max_score": 12,
+          "weight": 1,
+          "weighted_max": 12,
+          "min_pass": null,
+          "description": "Cost effectiveness: ratio between requested grant (plus any additional public support in financial model) and absolute GHG emission avoidance during first 10 years of operation.",
+          "formula": "(Requested Innovation Fund grant + additional public support from financial model) / Absolute GHG emission avoidance (tCO2eq over 10 years post entry into operation)",
+          "scoring_rule": {
+            "formula": "12 - (12 * cost_efficiency_ratio / 200)",
+            "cap": "if cost_efficiency_ratio > 200 EUR/tCO2eq, score = 0 and proposal is rejected",
+            "rounding": "rounded to nearest 0.5 point",
+            "min_score": 0,
+            "max_score": 12,
+            "examples": {
+              "0_EUR_per_tCO2": 12,
+              "100_EUR_per_tCO2": 6,
+              "150_EUR_per_tCO2": 3,
+              "200_EUR_per_tCO2": 0
+            }
+          },
+          "numerator_rules": {
+            "include": [
+              "Requested Innovation Fund grant",
+              "EU support or State aid in the form of CAPEX or OPEX grants, for which the amount can be estimated at application, and which are included in the financial model (including first 10 years of operational support only)"
+            ],
+            "exclude": [
+              "Fiscal or parafiscal measures",
+              "Tariff reductions resulting in lower operating costs (e.g. exemption of levy/tax on power prices)",
+              "Contracts-for-difference",
+              "Feed-in-tariffs",
+              "Indirect CO2 cost compensation measures"
+            ],
+            "maximum_requested_grant": "Cannot exceed 60% of relevant costs; applicants may request less and use the lower amount as numerator"
+          },
+          "what_evaluators_look_for": [
+            "Cost efficiency ratio <= 200 EUR/tCO2eq",
+            "Consistency between requested grant amount, relevant costs, and GHG avoidance calculations",
+            "All relevant public support correctly identified and included"
+          ]
+        },
+        {
+          "id": "5.2",
+          "name": "Quality of the cost calculation and minimum requirements",
+          "max_score": 3,
+          "weight": 1,
+          "weighted_max": 3,
+          "min_pass": 1.5,
+          "min_pass_note": "If score < 1.5, evaluation is stopped and proposal is rejected",
+          "description": "Quality and credibility of the calculation of the relevant costs; minimum requirement: cost efficiency ratio must be <= 200 EUR/tCO2eq.",
+          "minimum_requirements": {
+            "cost_efficiency_max_eur_per_tco2": 200
+          },
+          "what_evaluators_look_for": [
+            "Compliance with the Guidance on the relevant cost methodology",
+            "Completeness and correctness of the financial information file (relevant costs calculator)",
+            "No inclusion of non-eligible costs",
+            "Credibility and reliability of cost calculation assumptions",
+            "Correct calculation of the cost efficiency ratio",
+            "Consistency between the financial information file, Part B narrative, and Part A budget"
+          ],
+          "rejection_triggers": [
+            "Cost efficiency ratio > 200 EUR/tCO2eq",
+            "Substantial errors in calculation of relevant costs",
+            "Application Form Part B or relevant costs calculator template not filled completely",
+            "Incorrect calculation of the cost efficiency ratio"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Bonus Points",
+      "criterion_id": "6",
+      "cascade_stop_on_fail": false,
+      "total_max": 3,
+      "weight": 1,
+      "sub_criteria": [
+        {
+          "id": "B1",
+          "name": "Bonus 1: Potential to deliver net carbon removals",
+          "max_score": 1,
+          "weight": 1,
+          "weighted_max": 1,
+          "min_pass": null,
+          "description": "The project has potential to deliver net carbon removals (negative emissions).",
+          "what_evaluators_look_for": [
+            "Credible description of the mechanism for net carbon removal (e.g. bioenergy with CCS — BECCS, direct air capture)",
+            "Quantified estimate of net carbon removal potential",
+            "Evidence from feasibility study or GHG calculation supporting the claim"
+          ]
+        },
+        {
+          "id": "B2",
+          "name": "Bonus 2: SME-coordinated and implemented project",
+          "max_score": 1,
+          "weight": 1,
+          "weighted_max": 1,
+          "min_pass": null,
+          "description": "The project is coordinated and implemented only by small and medium-sized enterprises (SMEs) as defined in EU SME Recommendation 2003/361. All beneficiaries and affiliated entities in the consortium must be SMEs.",
+          "what_evaluators_look_for": [
+            "All beneficiaries and affiliated entities registered in the Participant Register with positive SME self-assessment result (not older than 2 years)",
+            "None of the consortium partners are large enterprises",
+            "The coordinator is an SME"
+          ]
+        },
+        {
+          "id": "B3",
+          "name": "Bonus 3: Maritime sector projects only",
+          "max_score": 1,
+          "weight": 1,
+          "weighted_max": 1,
+          "min_pass": null,
+          "description": "FOR MARITIME SECTOR PROJECTS ONLY: demonstrated potential for decarbonising the maritime sector and reducing its climate impacts.",
+          "note": "Not applicable to CLEAN-TECH-MANUFACTURING topic unless the project manufactures components specifically for maritime decarbonisation"
+        }
+      ]
+    }
+  ],
+  "scoring_summary_clean_tech_manufacturing": {
+    "criterion_breakdown": [
+      {"criterion": "Degree of Innovation (1.1)", "raw_max": 15, "weight": 2, "weighted_max": 30, "min_pass_raw": 9},
+      {"criterion": "Absolute GHG avoidance (2.1)", "raw_max": 2, "weight": 1, "weighted_max": 2, "min_pass_raw": null},
+      {"criterion": "Relative GHG avoidance (2.2)", "raw_max": 5, "weight": 1, "weighted_max": 5, "min_pass_raw": null},
+      {"criterion": "GHG Quality + Min. Requirements (2.3)", "raw_max": 5, "weight": 1, "weighted_max": 5, "min_pass_raw": 3},
+      {"criterion": "Technical maturity (3.1)", "raw_max": 5, "weight": 2, "weighted_max": 10, "min_pass_raw": 3},
+      {"criterion": "Financial maturity (3.2)", "raw_max": 5, "weight": 2, "weighted_max": 10, "min_pass_raw": 3},
+      {"criterion": "Operational maturity (3.3)", "raw_max": 5, "weight": 2, "weighted_max": 10, "min_pass_raw": 3},
+      {"criterion": "Replicability — efficiency/environment (4.1)", "raw_max": 5, "weight": 1, "weighted_max": 5, "min_pass_raw": null},
+      {"criterion": "Contribution to European leadership (4.2)", "raw_max": 10, "weight": 1, "weighted_max": 10, "min_pass_raw": 4},
+      {"criterion": "Cost efficiency ratio (5.1)", "raw_max": 12, "weight": 1, "weighted_max": 12, "min_pass_raw": null},
+      {"criterion": "Cost quality + min. requirements (5.2)", "raw_max": 3, "weight": 1, "weighted_max": 3, "min_pass_raw": 1.5},
+      {"criterion": "Bonus 1 (net carbon removals)", "raw_max": 1, "weight": 1, "weighted_max": 1, "min_pass_raw": null},
+      {"criterion": "Bonus 2 (SME)", "raw_max": 1, "weight": 1, "weighted_max": 1, "min_pass_raw": null},
+      {"criterion": "Bonus 3 (maritime — NA for most)", "raw_max": 1, "weight": 1, "weighted_max": 1, "min_pass_raw": null}
+    ],
+    "total_weighted_without_bonus": 102,
+    "total_weighted_with_bonus": 105,
+    "no_overall_threshold": true,
+    "note": "Proposals that pass all individual thresholds will be considered for funding within available budget. Ranking is by total weighted score."
+  },
+  "minimum_requirements": {
+    "relative_ghg_avoidance_pct": 50,
+    "cost_efficiency_max_eur_per_tco2": 200,
+    "dnsh_compliance": true,
+    "ets_benchmark": "Process emissions per unit of product must be below EU ETS benchmark applicable at call opening (4 December 2025) per Commission Implementing Regulation (EU) 2021/447 (2021–2025 period benchmarks)",
+    "biomass_sustainability": "If biomass used: must meet Renewable Energy Directive 2018/2001 sustainability requirements (Part A Annex IX or certified low ILUC-risk)"
+  },
+  "scoring_rules": {
+    "absolute_ghg": "Median-based scoring within sector and topic. Median calculated from proposals passing all minimum thresholds for Degree of Innovation, Project Maturity, and GHG Quality sub-criteria. Score = 2 * (proposal_absolute_avoidance / median), capped at 2, rounded to nearest 0.5.",
+    "relative_ghg": "Proportional to percentage: Score = 5 * (relative_avoidance_pct / 100), capped at 5 (for >=100%), rounded to nearest 0.5. Minimum: 0 (for 0%).",
+    "cost_efficiency_ratio": "Score = 12 - (12 * cost_efficiency_ratio / 200). If ratio > 200: score = 0 and proposal rejected. Rounded to nearest 0.5."
+  },
+  "priority_tiebreaking_order": [
+    "1. Country with lower number of higher-ranked proposals (based on 'main project location' in Part C)",
+    "2. Maritime sector proposals are prioritised (if proposals are from different sectors)",
+    "3. Wind energy sector proposals are prioritised (if proposals are from different sectors)",
+    "4. Higher ranking within respective sector (based on total points across all criteria)",
+    "5. Higher score for 'Degree of Innovation' criterion",
+    "6. Lower requested grant amount",
+    "7. Higher score for 'Replicability' criterion"
+  ],
+  "strategic_scoring_implications": {
+    "highest_leverage_sections": [
+      "Innovation (Section 1): x2 weight = 30 points max. This is the cascade gate. Score < 9/15 = instant rejection. Maximising this section has double impact.",
+      "Project Maturity (Section 3): x2 weight = 30 points max across 3 sub-criteria, each a cascade gate at 3/5. Every sub-criterion failure = instant rejection."
+    ],
+    "medium_leverage_sections": [
+      "European leadership/competitiveness (Section 4.2): 10 points max, threshold 4. Strong emphasis on supply chain from China dependencies for solar PV, wind magnets, batteries.",
+      "Cost efficiency ratio (Section 5.1): 12 points max. Every EUR saved relative to GHG avoidance counts. A 100 EUR/tCO2 ratio scores 6 points; 50 EUR/tCO2 scores 9 points.",
+      "GHG Quality (Section 2.3): 5 points max, threshold 3. Cascade gate — errors in methodology = rejection."
+    ],
+    "clean_tech_manufacturing_specific": [
+      "Financial close within 2 years and entry into operation within 4 years: explicitly mentioned as positive differentiator for Project Maturity scoring",
+      "EEA-originating content declaration is a mandatory final deliverable",
+      "Supply chain de-risking from China dependencies (solar, wind, batteries) is explicitly named in evaluation criteria",
+      "Circular economy and recycling of critical materials is doubly relevant: for Replicability score AND aligns with topic scope",
+      "No absolute cap on grant amount (unlike PILOTS topic at EUR 40M cap) — scale matters for absolute GHG avoidance sub-criterion"
+    ]
+  }
+}

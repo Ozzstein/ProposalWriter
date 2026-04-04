@@ -1,0 +1,41 @@
+{
+  "project_name": "faam-eni-circular-energy",
+  "project_title": "FAAM-ENI Circular Energy: Digital Twin-Driven LFP Active Material Manufacturing",
+  "funding_agency": "Innovation Fund (CINEA)",
+  "mechanism": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
+  "created_at": "2026-04-04",
+  "deadline": "2026-04-23T17:00:00+02:00",
+  "main_applicant": "FIB (FAAM)",
+  "co_investigator": "Eni",
+  "location": "Brindisi, Italy (Eni brownfield site)",
+  "call_documents_available": true,
+  "call_template_available": true,
+  "stages": {
+    "call_parsing": { "status": "complete", "completed_at": "2026-04-04" },
+    "research": { "status": "pending" },
+    "writing": { "status": "pending" },
+    "review": { "status": "pending" }
+  },
+  "gates": {
+    "scope": { "passed": false },
+    "evidence": { "passed": false },
+    "draft": { "passed": false },
+    "submission": { "passed": false }
+  },
+  "scoring_summary": {
+    "topic": "CLEAN-TECH-MANUFACTURING",
+    "max_points": 105,
+    "weighted_criteria": {
+      "degree_of_innovation": { "max": 15, "weight": 2, "weighted_max": 30, "min_pass": 9 },
+      "ghg_emission_avoidance": { "max": 12, "weight": 1, "weighted_max": 12 },
+      "project_maturity": { "max": 15, "weight": 2, "weighted_max": 30 },
+      "replicability": { "max": 15, "weight": 1, "weighted_max": 15 },
+      "cost_efficiency": { "max": 15, "weight": 1, "weighted_max": 15 },
+      "bonus_points": { "max": 3, "weight": 1 }
+    },
+    "minimum_requirements": {
+      "relative_ghg_avoidance_min_pct": 50,
+      "cost_efficiency_ratio_max_eur_per_tco2": 200
+    }
+  }
+}

@@ -1,0 +1,521 @@
+{
+  "template_source": "uploaded",
+  "call_title": "Innovation Fund call 2025 Net Zero Technologies",
+  "call_identifier": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
+  "funder": "CINEA / Innovation Fund (CINEA.C.04)",
+  "deadline": "23 April 2026, 17:00:00 CET (Brussels)",
+  "call_opening": "4 December 2025",
+  "total_call_budget": "EUR 2,900,000,000 (may be increased by up to 20%)",
+  "topic_budget": "EUR 1,000,000,000",
+  "max_grant_per_project": "60% of relevant costs (no stated absolute cap for this topic; minimum CAPEX EUR 2,500,000)",
+  "funding_rate": "60% of relevant costs (lump sum grant)",
+  "capex_minimum": "EUR 2,500,000",
+  "page_limit": 70,
+  "feasibility_study_page_limit": 60,
+  "business_plan_page_limit": 60,
+  "formatting": {
+    "font": "Arial 9 points minimum",
+    "page_size": "A4",
+    "margins": "at least 15 mm top/bottom/left/right (not including headers and footers)"
+  },
+  "submission_portal": "EU Funding & Tenders Portal Electronic Submission System",
+  "application_form_version": "V5.0 – 01.12.2025",
+  "topic_scope": {
+    "description": "Construction and operation of manufacturing facilities to produce specific components for: renewable energy (PV, CSP, onshore/offshore wind, ocean, geothermal, solar thermal); electrolysers and fuel cells; energy storage solutions (batteries, other stationary and mobile); heat pumps. Components include final equipment and materials (except mining) that are a significant factor in final equipment performance/cost. Recycling/reusing critical materials for these categories is also eligible.",
+    "innovation_must_demonstrate": [
+      "Products: lower cost when mature, higher performance, more energy efficiency, better system integration, higher durability, flexibility, reliability, convenience vs. state-of-the-art",
+      "Production processes: increased use of recycled materials, more efficient use of critical materials, lower environmental/carbon footprint, improved automation, digital technologies"
+    ],
+    "not_in_scope": "Use of innovative components in power/heat generation, energy storage, or H2 production/consumption (those belong to GENERAL or PILOTS topics)",
+    "financial_close_requirement": "Project must not have reached financial close at proposal submission date"
+  },
+  "part_b_sections": [
+    {
+      "number": "0",
+      "title": "Project and Applicants",
+      "subsections": [
+        {
+          "name": "Background and objectives",
+          "instructions": "Describe the background and rationale of the project as well as its specific objectives."
+        },
+        {
+          "name": "Consortium: beneficiaries and other participants",
+          "instructions": "Brief presentation of applicant(s) including affiliated entities: areas of expertise, number of employees, founding year, geographical locations. Explain why the applicant is most suitable. Describe relationships between participants."
+        },
+        {
+          "name": "Technical characteristics and scope",
+          "instructions": "Outline technical characteristics and scope: project location and site; technology and why chosen over alternatives; expected source of key inputs and feedstock; expected output in terms of volume of main product(s)."
+        },
+        {
+          "name": "Technology scope and the chosen technological solution",
+          "instructions": "Describe in detail the technology/solution applied and expected impacts. Cover construction, operation and maintenance plan including operation assumptions and sensitivities. Address safety, reliability, technical performance and relevant standards. Describe critical interfaces between technical components."
+        }
+      ],
+      "evaluation_criterion": "Not formally scored — contextual framing section",
+      "page_allocation_suggestion": 6
+    },
+    {
+      "number": "1",
+      "title": "Degree of Innovation",
+      "subsections": [
+        {
+          "name": "1.1 Innovation in relation to the state of the art",
+          "sub_subsections": [
+            {
+              "name": "State-of-the-art",
+              "instructions": "Describe the state-of-the-art of the solution(s) the project aims to demonstrate. Cover: commercial state-of-the-art (most similar commercially available process/service); technological state-of-the-art (highest TRL demonstrated); innovative elements already used in other Innovation Fund projects. Focus on European level."
+            },
+            {
+              "name": "Innovation beyond state-of-the-art",
+              "instructions": "Describe how the project goes beyond both commercial and technological state-of-the-art. Evidence from feasibility study covering: plant design, operating approach, construction, performance/quality, reliability/availability, maintenance, economics. Describe how it goes beyond incremental innovation: expected TRL/SRL/CRL increases; technological and economical barriers to overcome. Explain why the proposed scale is most appropriate. See examples in Annex 1 of the Call document."
+            }
+          ]
+        }
+      ],
+      "evaluation_criterion": "Degree of Innovation — max 15 points, minimum pass 9, weight 2x for CLEAN-TECH-MANUFACTURING (weighted max 30)",
+      "page_allocation_suggestion": 10
+    },
+    {
+      "number": "2",
+      "title": "GHG Emission Avoidance Potential",
+      "subsections": [
+        {
+          "name": "2.1 Absolute GHG emission avoidance",
+          "instructions": "Provide potential absolute GHG emission avoidance (tCO2e) during 10 years after entry into operation using the GHG emission avoidance methodology. Explain: assumptions for reference scenario; assumptions for project scenario; any deviations from methodology. Support with GHG emission calculator template (complete all sheets including data traceability sections). Values must be consistent with Part C and cost efficiency calculation."
+        },
+        {
+          "name": "2.2 Relative GHG emission avoidance",
+          "instructions": "Provide the potential relative GHG emission avoidance during 10 years after entry into operation. Result must be included in Part C. Must be at least 50% for CLEAN-TECH-MANUFACTURING topic."
+        },
+        {
+          "name": "2.3 Minimum requirements",
+          "sub_subsections": [
+            {
+              "name": "Compliance with DNSH TSC criteria for 'climate change mitigation'",
+              "instructions": "Explain how compliance with DNSH technical screening criteria (Annex II to Delegated Regulations 2021/2139 and/or 2023/2486) for 'climate change mitigation' will be ensured. Where relevant TSCs exist, demonstrate compliance with quantitative emission limits and all other requirements."
+            },
+            {
+              "name": "ETS benchmark emissions",
+              "instructions": "For projects producing products with an EU ETS benchmark: calculate process emissions per unit of product after project implementation (including CCS/CCU credits) and confirm they are below EU ETS benchmark applicable at call opening (Commission Implementing Regulation (EU) 2021/447)."
+            },
+            {
+              "name": "Sustainability of biomass",
+              "instructions": "For projects using biomass feedstocks: confirm biomass meets sustainability requirements of Renewable Energy Directive 2018/2021 (Part A of Annex IX or certified low ILUC-risk per Commission Delegated Regulation (EU) 2019/807). Provide evidence of agreement in principle with qualifying producers."
+            }
+          ]
+        }
+      ],
+      "evaluation_criterion": "GHG Emission Avoidance Potential — Absolute (max 2), Relative (max 5), Quality+Minimum Requirements (max 5, min pass 3) — total max 12, weight 1x",
+      "page_allocation_suggestion": 6
+    },
+    {
+      "number": "3",
+      "title": "Project Maturity",
+      "subsections": [
+        {
+          "name": "3.1 Technical maturity",
+          "sub_subsections": [
+            {
+              "name": "Technical maturity — overview",
+              "instructions": "Detailed description of project's technical maturity: degree of technology readiness; technical feasibility of delivering expected outputs; possible technical risks and mitigation measures. Attach: feasibility study (mandatory); due diligence reports (if any)."
+            },
+            {
+              "name": "Technical feasibility",
+              "instructions": "Summarise feasibility study: project description including block flow diagrams, technical/operational requirements; technical maturity including assumptions for operational characteristics, TRL, process flow diagrams, schematic layouts and designs (including capacities), mass and energy balances, volume of final product(s), technical assumptions for GHG emissions."
+            },
+            {
+              "name": "Due diligence reports",
+              "instructions": "Describe relevant main conclusions of technical due diligence reports (if any)."
+            }
+          ]
+        },
+        {
+          "name": "3.2 Financial maturity",
+          "sub_subsections": [
+            {
+              "name": "Financial maturity — overview",
+              "instructions": "Overview of financial maturity: robustness of business plan, financing structure, commitments of project funders. Attach: detailed budget table/relevant costs calculator (mandatory); business plan annex (mandatory); detailed financial model (mandatory); project shareholders financial resources (mandatory); support to project — project funding support documentation (mandatory); terms of supply — project contract terms documentation (mandatory); due diligence reports (if any)."
+            },
+            {
+              "name": "Project business plan",
+              "instructions": "Summarise from business plan: business proposition (product/concept, targeted market/potential, commercialisation strategy, competitive landscape); table with overview of main parameters for revenue/CAPEX/OPEX projections; overview of project counterparties and strategy to secure contracts."
+            },
+            {
+              "name": "Detailed cash flow projections and project profitability",
+              "instructions": "Summarise from business plan: expected project profitability before/after Innovation Fund grant (including WACC calculation); main results of sensitivity analysis."
+            },
+            {
+              "name": "Financing plan",
+              "instructions": "Summarise from business plan: breakdown and description of funding sources and uses; project financing structure and debt terms; allocation of Innovation Fund grant and any other public funding."
+            },
+            {
+              "name": "Project funders and investors commitment",
+              "instructions": "Summarise from business plan: financing parties and their contributions; degree of advancement in securing funding; conditions for final investment decision and milestones to achieve targeted financial close date."
+            }
+          ]
+        },
+        {
+          "name": "3.3 Operational maturity",
+          "sub_subsections": [
+            {
+              "name": "Operational maturity — overview",
+              "instructions": "Detailed description of operational maturity: sufficiently developed, comprehensive and realistic implementation plan. Attach: feasibility study (mandatory); due diligence reports (if any); permits/licences/authorisations (if any)."
+            },
+            {
+              "name": "Project implementation plan",
+              "instructions": "Describe implementation plan and key milestones. Timeline must cover from grant signature to end of monitoring/reporting period. Include: status of project development, steps concluded so far, planned date for FID, start of construction, commissioning/testing, entry into operation; strategy to reach financial close and entry into operation milestones; planned timing of activities; strategy for regular operation during monitoring period. Must be consistent with WPs in section 7."
+            },
+            {
+              "name": "Due diligence reports",
+              "instructions": "Describe relevant main conclusions of operational due diligence reports (if any; e.g. legal due diligence on IP, market studies)."
+            },
+            {
+              "name": "Permits, rights, licences and regulatory procedures",
+              "instructions": "Summarise from feasibility study: IP rights/licences and regulatory procedures; relevant permitting processes (permits obtained and needed, timeline for applications and reception, measures for timely granting); degree of public acceptance and steps to ensure it; main environmental impacts throughout lifecycle and mitigation measures."
+            },
+            {
+              "name": "Project management team and project organisation",
+              "instructions": "Describe project management team: key qualifications and track records; ability to operate without key individuals; coverage of required skills (technical, commercialisation, business/financial/environmental management); need for outside resources. Describe project organisation: management structure; governance, responsibilities, decision-making; management commitment; quality management and health and safety processes. Include the project diagram (copy from business plan)."
+            }
+          ]
+        },
+        {
+          "name": "3.4 Risk management",
+          "instructions": "Critical risks and risk management strategy. See business plan annex and feasibility study annex.",
+          "special_note": "For CLEAN-TECH-MANUFACTURING: projects demonstrating ability to reach financial close within TWO YEARS and entry into operation within FOUR YEARS after grant agreement signature will be considered positively and may receive a higher score."
+        }
+      ],
+      "evaluation_criterion": "Project Maturity — Technical (max 5, min pass 3), Financial (max 5, min pass 3), Operational (max 5, min pass 3) — total max 15, weight 2x for CLEAN-TECH-MANUFACTURING (weighted max 30)",
+      "page_allocation_suggestion": 14
+    },
+    {
+      "number": "4",
+      "title": "Replicability",
+      "subsections": [
+        {
+          "name": "4.1 Replicability",
+          "sub_subsections": [
+            {
+              "name": "Replicability in terms of efficiency gains and multiple environmental impacts",
+              "instructions": "Describe how the project will contribute to efficiency gains and multiple environmental impacts as described in section 9 of the Call document. Cover: efficient use of resources; reduction/more efficient use of critical raw materials, sustainable biomass, scarce resources; circularity, recycling and recyclability; potential to address multiple environmental impacts (biodiversity, land/air/water pollution reduction)."
+            },
+            {
+              "name": "Compliance with DNSH TSC criteria for environmental objectives other than climate change mitigation",
+              "instructions": "Explain how compliance with DNSH technical screening criteria (Annex II to Delegated Regulations 2021/2139 and/or 2023/2486) will be ensured for ALL environmental objectives other than climate change mitigation. Note: 'climate change mitigation' was covered in section 2.3."
+            },
+            {
+              "name": "Contribution to Europe's industrial leadership and competitiveness",
+              "instructions": "Describe contribution to European industrial leadership and competitiveness: contribution to European industrial ecosystems (clusters, European suppliers), integration with strategic energy infrastructure (PCIs); building European know-how: creation/retention of IP and technologies within EU/EEA; cooperation with EU/EEA universities, research institutions, industry; capacity-building activities; knowledge sharing plan outline; due diligence on supply chain (governance, conflict risk, human/social rights, environmental performance, water risk); mitigating critical dependencies on critical raw materials; mitigating critical dependencies on final products or main specific components from third countries with identified EU dependency (C/2025/3236 — linked to Net Zero Industry Act, especially solar PV, wind turbine permanent magnets, batteries, anode active materials)."
+            }
+          ]
+        },
+        {
+          "name": "4.2 Knowledge sharing — Communication, dissemination and visibility",
+          "instructions": "Outline activities, content, tools, channels and target groups for knowledge-sharing beyond mandatory requirements. Can include: technical/scientific events, trainings, lectures, work groups, discussion forums, site visits, visitors centre. Describe how EU funding visibility will be ensured. Note: detailed knowledge sharing plan will be required later as a grant deliverable."
+        }
+      ],
+      "evaluation_criterion": "Replicability — Efficiency gains/multiple environmental impacts (max 5, no minimum); Contribution to European industrial leadership (max 10, min pass 4) — total max 15, weight 1x",
+      "page_allocation_suggestion": 7
+    },
+    {
+      "number": "5",
+      "title": "Cost Efficiency",
+      "subsections": [
+        {
+          "name": "5.1 Relevant costs and cost efficiency ratio",
+          "instructions": "Calculate cost efficiency ratio: (requested Innovation Fund grant + any additional public support reflected in financial model) / absolute GHG emission avoidance during first 10 years of operation [EUR/tCO2eq]. Attach: detailed calculation of relevant costs using financial information file template; cost efficiency calculation using financial information file; maximum requested grant amount (financial information file — max 60% of relevant costs). Explain how relevant costs are calculated per Guidance on the relevant cost methodology. If using Option 2 (reference plant methodology): explain how you meet the conditions and why you chose this methodology."
+        }
+      ],
+      "evaluation_criterion": "Cost Efficiency — Cost efficiency ratio (max 12, no minimum); Quality of cost calculation + minimum requirements (max 3, min pass 1.5) — total max 15, weight 1x",
+      "page_allocation_suggestion": 4
+    },
+    {
+      "number": "6",
+      "title": "Bonus Points",
+      "subsections": [
+        {
+          "name": "Bonus points",
+          "instructions": "Where relevant, address one or multiple bonus points indicated in section 9 of the Call document. Clearly substantiate claims and reference other relevant parts of the proposal."
+        }
+      ],
+      "evaluation_criterion": "Bonus points — max 3 points (1 per bonus), weight 1x",
+      "page_allocation_suggestion": 2
+    },
+    {
+      "number": "7",
+      "title": "Workplan, Work Packages, Activities, Milestones, Deliverables and Timing",
+      "subsections": [
+        {
+          "name": "7.1 Work plan",
+          "instructions": "Provide brief description of overall work plan structure (list or graphical Pert chart). Table must list: work packages, duration (month YX to month YX, relative to project start), deliverables and milestones per WP. Must be consistent with detailed WP descriptions in section 7.2. Add more rows as needed; add means of verification for each milestone."
+        },
+        {
+          "name": "7.2 Work packages, activities, resources and timing",
+          "instructions": "Detailed description of project activities grouped into work packages. Mandatory sequential WPs for CLEAN-TECH-MANUFACTURING (not SSP or PILOTS): WP1 Up to Financial Close; WP2 Between Financial Close and Entry into Operation; WP3–WP7 Year 1–5 of Operation (annual reporting). Additional WPs may subdivide WP1 or WP2. Payments are lump-sum per completed WP (pre-operation) and verified GHG reductions (post-operation). Budget for each WP must be proportional to activities. WP1 budget must not exceed 40% of maximum grant. Post-operation budget must be at least 10% of maximum grant.",
+          "mandatory_work_packages": [
+            {
+              "wp": "WP1",
+              "title": "Up to Financial Close",
+              "objective": "Reaching financial close within the timeframe defined in section 6 of the Call document.",
+              "payment_milestone": "Financial Close",
+              "mandatory_deliverables": [
+                "detailed project management plan (month 1)",
+                "final version of the financial model (month 1)",
+                "knowledge sharing plan (month 1)",
+                "knowledge sharing report (month 1)",
+                "progress reports (every 6 months except when there is an interim payment)",
+                "updated knowledge sharing report (at financial close)",
+                "first update to the detailed project management plan (at financial close)",
+                "all key documents necessary to verify achievement of financial close (including key financing, supply, off-take and construction/equipment contracts, relevant permits)"
+              ]
+            },
+            {
+              "wp": "WP2",
+              "title": "From Financial Close to Entry into Operation",
+              "objective": "Reaching entry into operation.",
+              "payment_milestone": "Entry into Operation",
+              "mandatory_deliverables": [
+                "annual progress reports (every year, except when there is an interim payment)",
+                "statement by independent auditor on correctness of relevant cost calculation",
+                "operational readiness and completion certificate (at entry into operation)",
+                "updated knowledge sharing report and updated knowledge sharing plan (at entry into operation)",
+                "GHG monitoring plan (at entry into operation)",
+                "second update to the detailed project management plan (at entry into operation)"
+              ]
+            },
+            {
+              "wp": "WP3",
+              "title": "Year 1 of Operation",
+              "objective": "Achievement of expected GHG emissions savings.",
+              "payment_milestone": "End of first year of operation",
+              "mandatory_deliverables": [
+                "annual GHG emission avoidance report",
+                "updated knowledge sharing report and updated knowledge sharing plan (at end of first year of operation)"
+              ]
+            },
+            {
+              "wp": "WP4",
+              "title": "Year 2 of Operation",
+              "objective": "Achievement of expected GHG emissions savings.",
+              "payment_milestone": "End of second year of operation",
+              "mandatory_deliverables": ["annual GHG emission avoidance report"]
+            },
+            {
+              "wp": "WP5/6/7",
+              "title": "Years 3/4/5 of Operation (copy WP4 as needed)",
+              "objective": "Achievement of expected GHG emissions savings.",
+              "payment_milestone": "End of year N of operation"
+            },
+            {
+              "wp": "WPN (Last year)",
+              "title": "Last Year of Operation",
+              "objective": "Achievement of expected GHG emissions savings.",
+              "payment_milestone": "End of last year of operation",
+              "mandatory_deliverables": [
+                "annual GHG emission avoidance report",
+                "verified GHG emission avoidance report over the entire monitoring period",
+                "updated knowledge sharing report and updated knowledge sharing plan",
+                "final report on the fulfilment of claims made under 'Degree of Innovation' and 'Replicability' criteria",
+                "DNSH compliance report demonstrating compliance with TSC throughout project lifetime",
+                "declaration on equipment/components EEA-originating content (CLEAN-TECH-MANUFACTURING specific)"
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Estimated budget — Resources",
+          "instructions": "See detailed budget table/relevant cost calculator (financial information file — annex 1 to Part B)."
+        },
+        {
+          "name": "Timetable",
+          "instructions": "Fill in the timetable for the project using either the template available on Portal Reference Documents or a Gantt chart meeting minimum requirements. Attach as annex to Part B."
+        }
+      ],
+      "evaluation_criterion": "Contributes to Project Maturity scoring (Operational maturity — implementation plan consistency)",
+      "page_allocation_suggestion": 8
+    },
+    {
+      "number": "8",
+      "title": "Other",
+      "subsections": [
+        {
+          "name": "8.1 Ethics",
+          "instructions": "Not applicable (standard text)."
+        },
+        {
+          "name": "8.2 Security",
+          "instructions": "Not applicable (standard text)."
+        }
+      ],
+      "evaluation_criterion": "Not scored",
+      "page_allocation_suggestion": 1
+    },
+    {
+      "number": "9",
+      "title": "Declarations",
+      "subsections": [
+        {
+          "name": "Do No Significant Harm (DNSH)",
+          "instructions": "Confirm compliance with DNSH technical screening criteria throughout project implementation."
+        },
+        {
+          "name": "Cumulation of funding / Double funding",
+          "instructions": "Confirm no double EU funding; disclose any other EU grants or applications."
+        },
+        {
+          "name": "Financial support to third parties",
+          "instructions": "Not applicable."
+        },
+        {
+          "name": "PDA support",
+          "instructions": "State whether you agree to have your proposal shared with the EIB for PDA assessment (YES/NO)."
+        },
+        {
+          "name": "National funding schemes",
+          "instructions": "State whether you wish to be proposed for a national funding scheme (YES/NO). Agreement constitutes explicit consent to share proposal (including Part B and all annexes and evaluation summary report) with national granting authority."
+        },
+        {
+          "name": "Information to Member States",
+          "instructions": "State whether you agree to have project participant information shared with Member States of the project's country (YES/NO)."
+        }
+      ],
+      "evaluation_criterion": "Admissibility / compliance check",
+      "page_allocation_suggestion": 1
+    }
+  ],
+  "part_b_page_allocation_total": 59,
+  "part_b_page_notes": "Total suggested allocations sum to 59 pages, leaving ~11 pages margin within the 70-page limit. Sections 1 (Innovation) and 3 (Maturity) are the highest-weighted and should receive the most pages. The remaining pages are reserve for figures, tables, and potential expansion of any section.",
+  "required_annexes": [
+    {
+      "name": "Detailed budget table / Relevant cost calculator",
+      "reference": "Annex 1 to Part B",
+      "status": "MANDATORY",
+      "notes": "Financial information file; use required template from Portal Submission System. Two options for relevant cost calculation: Option 1 (direct) or Option 2 (reference plant methodology)."
+    },
+    {
+      "name": "Timetable / Gantt chart",
+      "reference": "Annex X to Part B",
+      "status": "MANDATORY",
+      "notes": "Use template from Portal Reference Documents or a compliant Gantt chart. Must cover grant signature to end of monitoring period."
+    },
+    {
+      "name": "GHG emission avoidance calculator",
+      "reference": "Annex to Part B",
+      "status": "MANDATORY",
+      "notes": "Use provided template. Complete all sheets including data traceability sections ('reference emissions', 'project emissions', 'conversion factors', 'assumptions', 'CC credit')."
+    },
+    {
+      "name": "Feasibility study",
+      "reference": "Annex to Part B",
+      "status": "MANDATORY",
+      "notes": "Must not exceed 60 pages. Must cover: project description (block flow diagrams, technical/operational requirements); technical maturity (assumptions, TRL, process flow diagrams, schematic layouts, mass/energy balances, volumes, technical assumptions for GHG calculations); risk analysis; environmental impacts; permitting status.",
+      "linked_to_sections": ["3.1", "3.3"]
+    },
+    {
+      "name": "Business plan",
+      "reference": "Annex to Part B",
+      "status": "MANDATORY",
+      "notes": "Must not exceed 60 pages. Must cover: business proposition, targeted market and potential, commercialisation strategy, competitive landscape; table with main parameters for revenue/CAPEX/OPEX projections; project counterparties and strategy for contracts; project profitability (pre/post grant, WACC); sensitivity analysis; financing plan; project funders/investors commitment; project diagram.",
+      "linked_to_sections": ["3.2", "3.3", "3.4"]
+    },
+    {
+      "name": "Detailed financial model",
+      "reference": "Annex to Part B",
+      "status": "MANDATORY",
+      "notes": "Must include: detailed project assumptions (with formulas, no hard-coded figures, no macros); funding sources and uses; forecasted financial statements (P&L, cash flow, balance sheet for project); sensitivity analysis. If using reference plant methodology (Option 2): must include all relevant data and calculations for the reference plant."
+    },
+    {
+      "name": "Project shareholders financial resources",
+      "reference": "Annex 3 to Call document",
+      "status": "MANDATORY",
+      "notes": "Description of financial standing of project company and shareholders (equity funding providers): cash flow, P&L and balance sheet statements over last three years (consolidated or social accounts)."
+    },
+    {
+      "name": "Support to project — project funding support documentation",
+      "reference": "Annex 3 to Call document",
+      "status": "MANDATORY",
+      "notes": "Documentation of all public and private funding support committed or under negotiation."
+    },
+    {
+      "name": "Terms of supply — project contract terms documentation",
+      "reference": "Annex 3 to Call document",
+      "status": "MANDATORY",
+      "notes": "Documentation of supply and off-take contract terms and status."
+    },
+    {
+      "name": "Participant information (CVs and previous projects)",
+      "reference": "Annex to Part B",
+      "status": "MANDATORY",
+      "notes": "Includes CVs of key staff; description of previous relevant projects."
+    },
+    {
+      "name": "Extended Part C form",
+      "reference": "Annex to application",
+      "status": "MANDATORY",
+      "notes": "For statistical data collection."
+    },
+    {
+      "name": "Due diligence reports",
+      "reference": "Annex to Part B",
+      "status": "OPTIONAL (if any)",
+      "notes": "Technical, financial, legal (e.g. IP) due diligence reports."
+    },
+    {
+      "name": "Permits, licences, authorisations",
+      "reference": "Annex to Part B",
+      "status": "OPTIONAL (if any)",
+      "notes": "Any permits or authorisations already obtained."
+    },
+    {
+      "name": "Other annexes for reference plant methodology",
+      "reference": "Annex to Part B",
+      "status": "OPTIONAL (only if using Option 2 relevant cost methodology)",
+      "notes": "Documents to assess credibility of reference plant data: proof of planning such a plant as an alternative, formal board documents, financial reports, internal business plans or studies. Must include assumptions, calculations, supported by supplier quotes and market studies where available."
+    }
+  ],
+  "eligibility_summary": {
+    "applicants": "Any legal entity (public or private body) established in any country worldwide; must be registered in the Participant Register before submission and validated by REA Validation",
+    "project_location": "EU Member States or EEA countries (Norway, Iceland, Liechtenstein); Northern Ireland allowed only for electricity projects",
+    "consortium": "No minimum number of participants required (single applicant allowed)",
+    "financial_close_constraint": "Projects that have already reached financial close at proposal submission date are NOT eligible",
+    "capex_eligibility": "CAPEX above EUR 2,500,000",
+    "not_eligible": [
+      "Activities not complying with the DNSH principle",
+      "Activities primarily aimed at electricity generation from non-recycled fossil fuels",
+      "Activities primarily aimed at fuel production based on non-recycled fossil feedstocks (excluding low-carbon fuels)",
+      "Activities focused on services (incl. software) primarily to improve efficient use of ETS Annex I/III products (except direct mobility climate impact reduction)",
+      "Ship or plane building/refurbishment outside EU/EEA",
+      "Use of innovative components in power/heat generation, energy storage, or H2 production/consumption (those belong to other topics)"
+    ]
+  },
+  "project_duration": {
+    "financial_close_deadline": "Within 4 years after grant signature (maximum time to financial close)",
+    "monitoring_period": "At least 5 years after entry into operation",
+    "grant_duration": "Normally 3 to 15 years from grant signature to final payment",
+    "special_note_clean_tech": "Projects demonstrating ability to reach financial close within 2 years and entry into operation within 4 years will be considered positively for Project Maturity scoring"
+  },
+  "payment_structure": {
+    "pre_financing": "None",
+    "wP1_budget_cap": "Up to 40% of maximum grant amount budgeted until financial close",
+    "post_operation_minimum": "At least 10% of maximum grant amount budgeted after entry into operation",
+    "ghg_performance_clause": "Maximum grant only paid if project reaches at least 75% of planned total GHG emission avoidance over entire project duration; if < 75% reached, grant paid after financial close is proportionally reduced"
+  },
+  "evaluation_cascade": [
+    "Step 1: Degree of Innovation — minimum threshold applies; failure stops evaluation",
+    "Step 2: GHG Emission Avoidance Potential AND Project Maturity — minimum thresholds on each maturity sub-criterion and on 'Quality of GHG emission avoidance calculation'; failure stops evaluation",
+    "Step 3: Cost Efficiency — minimum threshold on 'Quality of cost calculation and minimum requirements'; failure stops evaluation",
+    "Step 4: Replicability and Bonus points"
+  ],
+  "notes": [
+    "The call is version 1.1 (14 January 2026); key correction: EU ETS benchmark applicable at CALL OPENING (4 Dec 2025), not at deadline",
+    "STEP Seal awarded to eligible proposals exceeding evaluation thresholds",
+    "Project Development Assistance (PDA) by EIB available for proposals that pass innovation and GHG thresholds but are not funded",
+    "National funding schemes ('grants as a service') can complement or substitute Innovation Fund support for eligible proposals",
+    "All proposals must be submitted electronically via the EU Funding & Tenders Portal; paper submissions are not accepted",
+    "Proposals must use the official templates downloaded from the Portal Submission System",
+    "Feasibility study and business plan must not exceed 60 pages each",
+    "Part B must not exceed 70 pages; excess pages will be made invisible to evaluators",
+    "For CLEAN-TECH-MANUFACTURING: in the last WP (last year of operation), a declaration on equipment/components EEA-originating content is a mandatory deliverable",
+    "Maximum grant may be requested at 60% of relevant costs; applicants may request less, and a lower requested grant reduces the cost efficiency ratio numerator"
+  ]
+}
