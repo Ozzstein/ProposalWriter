@@ -26,8 +26,7 @@
       "command": "python3",
       "args": ["mcp-servers/academic-search/server.py"],
       "env": {
-        "ELSEVIER_API_KEY": "cdc6d872f255bf8786432485e84ba5af",
-        "IEEEXPLORE_API_KEY": "zdmqwy8mge66rnyetg9sesqm"
+        "ELSEVIER_API_KEY": "cdc6d872f255bf8786432485e84ba5af"
       }
     },
     "firecrawl-mcp": {
