@@ -1,0 +1,506 @@
+{
+  "project_name": "faam-eni-circular-energy",
+  "call_topic": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
+  "generated_at": "2026-04-05",
+  "simulated_evaluator_profiles": [
+    "Evaluator A: Senior battery materials scientist (academic, skeptical of DT claims, wants hard process innovation evidence)",
+    "Evaluator B: Industrial process engineer (large-scale manufacturing, focused on maturity, implementation realism, risk management)",
+    "Evaluator C: EU policy/climate expert (GHG methodology, strategic autonomy narrative, DNSH compliance, cost efficiency)"
+  ],
+
+  "hard_rejection_checks": [
+    {
+      "check_id": "HR-1",
+      "description": "Financial close not reached before submission (April 23, 2026)",
+      "status": "PASS",
+      "rationale": "The proposal explicitly states the project is at pre-FID stage. Financial close is targeted 24 months after grant agreement signature (estimated Q4 2028). The call requires that projects have NOT reached financial close at submission — this project meets that requirement."
+    },
+    {
+      "check_id": "HR-2",
+      "description": "Innovation score >= 9/15",
+      "status": "PASS (marginal)",
+      "rationale": "Predicted score: 10-11/15. Above the 9-point threshold but not comfortably. See criterion 1.1 analysis. Risk: Evaluator A may score as low as 9, which barely passes."
+    },
+    {
+      "check_id": "HR-3",
+      "description": "GHG Quality score >= 3/5",
+      "status": "AT RISK",
+      "rationale": "The GHG calculation relies on analog estimation from NMC and cement/lime data — no LFP-specific industrial energy data exists. The 189 m3/t gas consumption means the plant is NOT zero-emission. The GHG calculator template is not yet completed (CFO responsibility). If the calculator is poorly executed or if evaluators find the analog methodology insufficiently rigorous, this could fall below 3. Predicted: 3.0-3.5/5."
+    },
+    {
+      "check_id": "HR-4",
+      "description": "Technical maturity >= 3/5",
+      "status": "PASS",
+      "rationale": "Core LFP synthesis is TRL 7-8. Equipment is commercially available. The DT components are lower TRL (3-5) but are presented as innovation elements, not prerequisite technology. Predicted: 3.5-4.0/5."
+    },
+    {
+      "check_id": "HR-5",
+      "description": "Financial maturity >= 3/5",
+      "status": "AT RISK",
+      "rationale": "Section 3.2 (Financial Maturity) is NOT DRAFTED — it is being prepared by the CFO/external team. Multiple [TO BE COMPLETED] placeholders exist. No CAPEX figures, no financing structure, no debt terms, no sensitivity analysis, no WACC calculation visible in the proposal drafts. If these sections are weak or incomplete at submission, this is a cascade-gate failure. Predicted: INCOMPLETE — cannot score above 2.5/5 in current state."
+    },
+    {
+      "check_id": "HR-6",
+      "description": "Operational maturity >= 3/5",
+      "status": "PASS",
+      "rationale": "Section 3.3 provides a detailed implementation plan with credible milestones. Brownfield site with Eni is a strong asset. Permitting is 'in process' but not obtained. CVs and FTE numbers are missing ([TO BE COMPLETED]). Predicted: 3.0-3.5/5."
+    },
+    {
+      "check_id": "HR-7",
+      "description": "Cost quality >= 1.5/3",
+      "status": "AT RISK",
+      "rationale": "Section 5 (Cost Efficiency) is NOT DRAFTED. The relevant cost calculator is not completed. No grant amount, no relevant cost breakdown visible. This is entirely dependent on the CFO team's work. In current state: cannot pass."
+    },
+    {
+      "check_id": "HR-8",
+      "description": "EU leadership >= 4/10",
+      "status": "PASS",
+      "rationale": "Section 4.2 is strong — compelling strategic autonomy narrative, direct reference to C/2025/3236, Chinese export controls, FREYR differentiation, knowledge sharing plan, university partnerships. Predicted: 6-7/10."
+    },
+    {
+      "check_id": "HR-9",
+      "description": "Relative GHG avoidance >= 50%",
+      "status": "AT RISK",
+      "rationale": "The proposal claims 55-70% by 2030, but the plant enters operation in ~2028-2029 when Italy's grid is still at ~220-250 gCO2/kWh. The 189 m3/t gas use means the plant is NOT fully electrified. Relative GHG avoidance depends critically on: (a) the reference scenario definition (gas-fired Chinese benchmark), (b) the project scenario grid intensity at entry into operation, (c) how the 10-year monitoring period is calculated. If the first 2-3 years of operation use the current Italian grid (~310 gCO2/kWh), the 10-year average relative avoidance could be below 50%. This requires careful calculator work."
+    },
+    {
+      "check_id": "HR-10",
+      "description": "Cost efficiency ratio <= 200 EUR/tCO2",
+      "status": "CANNOT ASSESS",
+      "rationale": "No grant amount or absolute GHG avoidance figure is provided in the current drafts. Entirely dependent on CFO team calculations. For a 50 kton/yr plant with electrified production, the absolute GHG avoidance over 10 years should be substantial if the reference scenario is well-defined."
+    },
+    {
+      "check_id": "HR-11",
+      "description": "DNSH compliance demonstrated",
+      "status": "PASS",
+      "rationale": "Section 2.3 and Section 4.1b provide thorough DNSH analysis across all six environmental objectives. The 'No TSC required' argument for climate change mitigation under Section 3.4 (Manufacture of batteries) is correctly applied. Other objectives are adequately addressed."
+    },
+    {
+      "check_id": "HR-12",
+      "description": "Part B <= 70 pages",
+      "status": "CANNOT FULLY ASSESS",
+      "rationale": "Current drafted sections (0, 1, 2.3, 3.1, 3.3, 3.4, 4, 6, 7, abstract) are substantial. Sections 2.1, 2.2, 3.2, 5 are not yet drafted. The Innovation section alone is very long (~10+ pages of dense technical content). The call brief suggests 59 pages across all sections with 11 pages margin. Risk of exceeding 70 pages is moderate if the CFO sections are also lengthy."
+    }
+  ],
+
+  "criterion_scores": [
+    {
+      "criterion_id": "1.1",
+      "name": "Degree of Innovation",
+      "raw_max": 15,
+      "weight": 2,
+      "weighted_max": 30,
+      "min_pass": 9,
+      "evaluator_scores": {
+        "evaluator_A": {
+          "raw_score": 10,
+          "rationale": "The DT for CAM synthesis (NOV-001) is genuinely novel — I accept the gap is real based on the two independent reviews (Ayerbe, Dubarry) and the deep-dive. However, the multi-scale chain from DFT to plant-level MPC is aspirational; real-time DFT-informed control is computationally implausible even with surrogates. The surrogate strategy is reasonable but unvalidated for this specific chemistry. The electrification claim (NOV-002) is weaker than presented: electric roller hearth kilns are COTS equipment from NGK/Kanthal, and the 'novelty' is essentially procurement of existing equipment for a new chemistry at a lower temperature. The 189 m3/t gas use undermines the 'fully electrified' framing — this is PARTIALLY electrified, and the term 'progressive electrification' is honest but reduces the innovation score. The PAT/QbD transfer (NOV-005) is methodology transfer, not technology creation. The ISO 23247 extension (NOV-003) is incremental — standards implementation rather than breakthrough. Overall: solid high-intermediate innovation (significant technical advance) but not breakthrough. The combination is interesting but each individual element is either COTS equipment or methodology application. Score: 10/15."
+        },
+        "evaluator_B": {
+          "raw_score": 11,
+          "rationale": "Good integration of proven technologies into a novel combination. The electric RHK + DT + PAT combination for LFP CAM at this scale is genuinely new — no competitor has done this. The TRL progression table is well-structured and realistic. The 4-pillar innovation framework is well-argued. The scale justification is sound — DT value requires production-scale data. The FREYR differentiation is effective (no FID, US pivot). Deductions: the DT is ambitious for a production plant — most DT implementations at this maturity start with pilot lines. Starting at production scale introduces significant integration risk. The multi-scale modeling claim should be more conservative about what will actually run in real-time vs. offline. Score: 11/15."
+        },
+        "evaluator_C": {
+          "raw_score": 11,
+          "rationale": "Strong alignment with Innovation Fund objectives. The strategic autonomy narrative is compelling — first EU LFP CAM with electrified production. The DT innovation addresses the Fund's emphasis on digital technologies in manufacturing. The 'future-proof investment' framing for electrification is well-constructed and honest about current grid limitations. However, FREYR received funding for a similar (though not identical) project — the evaluators will need to see clear differentiation beyond geographic location. The three differentiation axes (electrification, DT, maturity) are well-articulated. Score: 11/15."
+        }
+      },
+      "consensus_raw_score": 10.5,
+      "consensus_weighted_score": 21.0,
+      "key_concerns": [
+        "The 189 m3/t gas consumption weakens the electrification narrative — evaluators may see this as 'partially electrified' rather than 'progressively electrified'",
+        "DT multi-scale chain from DFT to plant is over-claimed for real-time operation — the surrogate model hierarchy needs clearer qualification",
+        "Risk that Evaluator A scores exactly 9, which would barely pass the cascade gate",
+        "FREYR has already been funded for a comparable (though not identical) LFP CAM project — must clearly demonstrate distinct innovative elements beyond FREYR",
+        "Individual innovation pillars are arguably incremental (COTS equipment, methodology transfer, standards implementation) — the combination is novel but individual bricks are not"
+      ]
+    },
+    {
+      "criterion_id": "2.1",
+      "name": "Absolute GHG emission avoidance",
+      "raw_max": 2,
+      "weight": 1,
+      "weighted_max": 2,
+      "min_pass": null,
+      "status": "INCOMPLETE — requires GHG calculator",
+      "estimated_score_range": "1.0-1.5",
+      "rationale": "A 50 kton/yr plant with ~55-70% relative avoidance should produce substantial absolute avoidance over 10 years. The score is median-based within the sector/topic, so depends on competitor proposals. For a plant this size, likely above median. Estimated: 1.0-1.5/2."
+    },
+    {
+      "criterion_id": "2.2",
+      "name": "Relative GHG emission avoidance",
+      "raw_max": 5,
+      "weight": 1,
+      "weighted_max": 5,
+      "min_pass": null,
+      "status": "INCOMPLETE — requires GHG calculator",
+      "estimated_score_range": "2.5-3.5",
+      "rationale": "The proposal claims 55-70% relative avoidance by 2030. The formula is Score = 5 * (relative_pct / 100). At 55%: score = 2.75, rounded to 3.0. At 70%: score = 3.5. However, the 10-year average starting from ~2029 operation may yield a lower effective average than the 2030 snapshot. The 189 m3/t gas use reduces avoidance. Estimated: 2.5-3.5/5. CRITICAL: if the 10-year average relative avoidance falls below 50%, this triggers HR-9 rejection."
+    },
+    {
+      "criterion_id": "2.3",
+      "name": "GHG Quality + Minimum Requirements",
+      "raw_max": 5,
+      "weight": 1,
+      "weighted_max": 5,
+      "min_pass": 3,
+      "evaluator_scores": {
+        "evaluator_A": {
+          "raw_score": 3.0,
+          "rationale": "The analog methodology is the best available approach given the documented LFP-specific data gap — I acknowledge this. The 24-source analog estimation is thorough and the uncertainty bound (+/-30%) is honest. However, the GHG calculator template is not completed in the current submission materials. The key concern is that no primary LFP CAM energy data exists — the entire GHG calculation rests on NMC analogs (Ahmed et al., 2017) and cement/lime calcination efficiency comparisons. The 189 m3/t gas means direct combustion emissions must be correctly accounted. If the evaluator finds the analog insufficient or spots inconsistencies between the narrative and the calculator, this drops below 3. Score: 3.0/5 (passing, but barely)."
+        },
+        "evaluator_B": {
+          "raw_score": 3.0,
+          "rationale": "The approach is methodologically sound for a first-of-kind plant where primary data does not exist. The cross-referencing of 24 sources for the energy estimate is good engineering practice. The temporal argument (plant designed for 2030 grid, not 2025 grid) is logical but introduces uncertainty into the 10-year average. The reference scenario (gas-fired Chinese benchmark) must be carefully constructed — if evaluators question whether a Chinese gas-fired plant is the correct reference (versus a hypothetical European gas-fired plant), the avoidance percentage could change significantly. Score: 3.0/5."
+        },
+        "evaluator_C": {
+          "raw_score": 3.5,
+          "rationale": "The proposal is transparent about the data gap and the analog methodology. The Innovation Fund Guidance allows for estimation where primary data is unavailable, provided the methodology is credible and uncertainty is acknowledged. The DNSH section is clean. The ETS benchmark analysis is correctly handled (no applicable benchmark for LFP CAM). The biomass sustainability section is correctly identified as N/A. Main risk: consistency between the narrative and the GHG calculator (which the CFO team is preparing separately). Score: 3.5/5."
+        }
+      },
+      "consensus_raw_score": 3.0,
+      "consensus_weighted_score": 3.0,
+      "key_concerns": [
+        "GHG calculator template NOT YET COMPLETED — this is a mandatory submission component",
+        "Analog methodology with +/-30% uncertainty is defensible but vulnerable to evaluator skepticism",
+        "The 189 m3/t gas consumption must be accurately reflected in the project emissions scenario",
+        "10-year average relative avoidance may be lower than the 2030 snapshot figure cited in the narrative",
+        "Reference scenario definition (which gas-fired plant? Chinese grid or Italian grid equivalent?) is critical and could swing the result",
+        "ETS benchmark section has a [TO BE COMPLETED] note — this must be finalized"
+      ]
+    },
+    {
+      "criterion_id": "3.1",
+      "name": "Technical maturity",
+      "raw_max": 5,
+      "weight": 2,
+      "weighted_max": 10,
+      "min_pass": 3,
+      "evaluator_scores": {
+        "evaluator_A": {
+          "raw_score": 3.5,
+          "rationale": "The core LFP synthesis technology is mature — no question. Equipment is COTS. The mass and energy balance is credible (3,580 kWh/t electricity, 189 m3/t gas, consistent with NMC analog). The CQA targets are realistic for battery-grade LFP. The DT TRL progression (3-4 to 6-7) is ambitious for a 4-year timeline — this is a stretch but not implausible given the validated sub-components. The feasibility study annex is comprehensive. Deductions: no pilot-scale data for the specific DT integration; the Raman spectroscopy sensor challenges at 600+ C are real and the 'virtual sensing' workaround is unproven for LFP-specific chemistry; the due diligence section has a [TO BE COMPLETED] placeholder. Score: 3.5/5."
+        },
+        "evaluator_B": {
+          "raw_score": 4.0,
+          "rationale": "Strong technical section. The 7-step process chain is well-described with clear mass/energy balances. Equipment choices (electric RHK, spray dryer, jet mill) are all commercially available and correctly specified. The TRL table is honest and well-justified. The digital twin architecture (ISO 23247 four-layer) is well-structured. The PAT sensor plan is realistic with appropriate in-line/at-line hybrid strategy. The risk register (Section 3.4) is thorough with reasonable mitigations. Deduction: the [TO BE COMPLETED] for due diligence reports weakens the section. Score: 4.0/5."
+        },
+        "evaluator_C": {
+          "raw_score": 3.5,
+          "rationale": "Adequate technical presentation. The feasibility study is comprehensive. The energy balance data supports the GHG calculation. The process description is at the right level of detail. Score: 3.5/5."
+        }
+      },
+      "consensus_raw_score": 3.5,
+      "consensus_weighted_score": 7.0,
+      "key_concerns": [
+        "Due diligence reports section is [TO BE COMPLETED]",
+        "No pilot-scale data for the DT-integrated process — going directly from TRL 3-4 models to production is a risk",
+        "Sensor reliability at calcination temperatures is acknowledged but the virtual sensing backup is unproven",
+        "Block flow diagrams and P&IDs are referenced as 'in the Feasibility Study annex' but not inline in Part B"
+      ]
+    },
+    {
+      "criterion_id": "3.2",
+      "name": "Financial maturity",
+      "raw_max": 5,
+      "weight": 2,
+      "weighted_max": 10,
+      "min_pass": 3,
+      "status": "NOT DRAFTED",
+      "evaluator_scores": {
+        "evaluator_A": {
+          "raw_score": "N/A — section not available for scoring"
+        },
+        "evaluator_B": {
+          "raw_score": "ESTIMATED 2.5-3.5",
+          "rationale": "Based on what IS visible: FIB (FAAM) is a subsidiary of Seri Industrial (listed company) with ~354 employees. Eni is a EUR 90B revenue energy major — the financial backing is credible. The brownfield site is owned by Eni, reducing land acquisition risk. However: no CAPEX figure, no financing structure, no debt terms, no WACC, no sensitivity analysis, no IRR/NPV, no financing plan, no evidence of debt facility negotiations, no letter of intent from lenders. Multiple [TO BE COMPLETED] placeholders throughout. The WP budget is also [TO BE COMPLETED]. If the CFO team delivers a competent financial section with Eni backing, this could score 3.5-4.0. If the section is thin or has calculation errors, it falls below the 3.0 threshold. CRITICAL CASCADE GATE RISK."
+        },
+        "evaluator_C": {
+          "raw_score": "ESTIMATED 2.5-3.5",
+          "rationale": "Eni's balance sheet provides credible equity backing. But the Innovation Fund evaluators look for detailed financial modeling, not just sponsor strength. The absence of the financial model, WACC, sensitivity analysis, and financing plan in the current drafts means this section is entirely dependent on the CFO team's output."
+        }
+      },
+      "consensus_raw_score": "ESTIMATED 3.0 (if CFO section is competent) / 2.0-2.5 (if CFO section is weak)",
+      "consensus_weighted_score": "ESTIMATED 6.0 (optimistic) / 4.0-5.0 (pessimistic)",
+      "key_concerns": [
+        "ENTIRE SECTION NOT DRAFTED — highest risk item in the proposal",
+        "No CAPEX, OPEX, or grant amount visible anywhere in current drafts",
+        "No financing plan, debt terms, or equity commitment documentation",
+        "No WACC calculation or sensitivity analysis",
+        "No evidence of lender engagement or financing negotiations",
+        "Multiple [TO BE COMPLETED] placeholders in budget sections throughout the proposal",
+        "This is a CASCADE GATE — failure here rejects the entire proposal regardless of other scores"
+      ]
+    },
+    {
+      "criterion_id": "3.3",
+      "name": "Operational maturity",
+      "raw_max": 5,
+      "weight": 2,
+      "weighted_max": 10,
+      "min_pass": 3,
+      "evaluator_scores": {
+        "evaluator_A": {
+          "raw_score": 3.0,
+          "rationale": "The implementation timeline is reasonable (FC M24, EiO M48). The milestone table is detailed. The WP structure follows the mandatory format. However: CVs are not provided ([TO BE COMPLETED] for all named roles), specific FTE numbers are missing, no named Project Manager or Technical Director. The permitting status is 'applications in process' — not yet obtained. The brownfield remediation is 'in progress' — this introduces schedule uncertainty. Score: 3.0/5 (barely passing)."
+        },
+        "evaluator_B": {
+          "raw_score": 3.5,
+          "rationale": "Good implementation plan with credible phasing. The parallel DT development track (M12-M42) is well-thought-out. The brownfield advantage is real — I've seen similar projects benefit from existing industrial sites. The governance structure (Steering Committee, Technical Committee, DT Working Group) is appropriate. Deductions: the absence of named individuals and CVs is a significant gap — evaluators want to see the actual team, not role descriptions. The permitting timeline assumes all permits by M15-M18, which is optimistic for Italian VIA/AIA processes (I've seen these take 18-24 months). Score: 3.5/5."
+        },
+        "evaluator_C": {
+          "raw_score": 3.5,
+          "rationale": "The operational maturity section is adequate. The FC within 2 years / EiO within 4 years targets hit the positive scoring consideration for CLEAN-TECH-MANUFACTURING. The brownfield site with Eni backing is a credible execution platform. The knowledge sharing plan is ambitious. Deductions: incomplete personnel information weakens credibility. Score: 3.5/5."
+        }
+      },
+      "consensus_raw_score": 3.5,
+      "consensus_weighted_score": 7.0,
+      "key_concerns": [
+        "CVs and named individuals not provided for ANY key role — [TO BE COMPLETED] throughout",
+        "FTE numbers not specified for construction or operational phases",
+        "Permits are 'in process' but none have been obtained",
+        "Brownfield remediation is 'in progress' — schedule dependency on cleanup completion",
+        "Italian VIA/AIA permitting timelines may be optimistic (12-18 months assumed; reality often 18-24 months)",
+        "No due diligence reports referenced (legal, IP, market studies) — [TO BE COMPLETED]"
+      ]
+    },
+    {
+      "criterion_id": "4.1",
+      "name": "Replicability — efficiency gains and multiple environmental impacts",
+      "raw_max": 5,
+      "weight": 1,
+      "weighted_max": 5,
+      "min_pass": null,
+      "evaluator_scores": {
+        "evaluator_A": {
+          "raw_score": 3.5,
+          "rationale": "LFP chemistry's CRM advantages over NMC are well-argued (no cobalt, lower lithium intensity). The DT-driven yield optimization reducing material waste is credible. The DNSH analysis across all six objectives is thorough. Water management (closed-loop spray dryer condensate recovery) is good. Deduction: the circular economy argument for LFP recyclability is somewhat generic — no specific recycling partnership or end-of-life pathway is described for the Brindisi plant's products."
+        },
+        "evaluator_B": {
+          "raw_score": 3.5,
+          "rationale": "Good section. The brownfield reuse, water recycling, and pollution prevention measures are concrete. The DNSH analysis is comprehensive. Deduction: the environmental impact mitigation measures (air emissions, water, waste) are somewhat generic for an industrial plant — I would like to see more quantified targets."
+        },
+        "evaluator_C": {
+          "raw_score": 4.0,
+          "rationale": "Strong DNSH compliance across all objectives. Climate adaptation assessment is proportionate. Water and marine resources protection is adequately addressed for a brownfield coastal site. Circular economy contributions are well-articulated. The LFP chemistry advantage for CRM reduction is a strong point."
+        }
+      },
+      "consensus_raw_score": 3.5,
+      "consensus_weighted_score": 3.5,
+      "key_concerns": [
+        "Recyclability argument is generic — no specific recycling partnerships or end-of-life pathways described",
+        "Environmental impact mitigation could be more quantified (exact emission limits, water reuse percentage)"
+      ]
+    },
+    {
+      "criterion_id": "4.2",
+      "name": "Contribution to Europe's industrial leadership and competitiveness",
+      "raw_max": 10,
+      "weight": 1,
+      "weighted_max": 10,
+      "min_pass": 4,
+      "evaluator_scores": {
+        "evaluator_A": {
+          "raw_score": 6,
+          "rationale": "The strategic autonomy narrative is strong — China controls >99% of LFP CAM, export controls are real, C/2025/3236 is correctly cited. The FREYR Vaasa differentiation (no FID, US pivot) is effective. The DT IP retention argument is sound. University partnerships are described but not confirmed (candidate partners only). The patent strategy (white space filing) is appropriate. Deduction: the project generates EU know-how but FIB/FAAM have no current LFP CAM patents or deep IP position — they are technology acquirers, which limits the IP creation narrative."
+        },
+        "evaluator_B": {
+          "raw_score": 7,
+          "rationale": "Excellent section. The supply chain narrative is compelling — directly addressing the Innovation Fund's emphasis on reducing China dependency for battery materials. The EEA-originating content commitment is well-framed (equipment from Kanthal/Sandvik Sweden, NGK). The knowledge sharing plan (publications, open-source DT components, site visits, training) is ambitious and credible. Job creation in a Cohesion Policy region is a positive. The Battery Passport readiness argument is well-integrated."
+        },
+        "evaluator_C": {
+          "raw_score": 7,
+          "rationale": "This section aligns perfectly with the Innovation Fund's policy objectives. The C/2025/3236 reference is exactly what evaluators want to see. The July/October 2025 Chinese export control escalation provides urgency. The NZIA 40% manufacturing benchmark is correctly invoked. The geographic diversification argument (Southern Europe complement to FREYR Northern Europe) is sound. Deduction: university collaboration is 'candidate' rather than confirmed — Letters of Intent would strengthen this significantly."
+        }
+      },
+      "consensus_raw_score": 7.0,
+      "consensus_weighted_score": 7.0,
+      "key_concerns": [
+        "University partnerships are not confirmed — 'candidate' partners only",
+        "FIB/FAAM have no existing LFP CAM IP portfolio — limited IP creation track record",
+        "FTE numbers for job creation not specified — weakens the capacity-building argument",
+        "Supply chain due diligence section is somewhat generic — no specific supplier names or qualification status"
+      ]
+    },
+    {
+      "criterion_id": "5.1",
+      "name": "Cost efficiency ratio",
+      "raw_max": 12,
+      "weight": 1,
+      "weighted_max": 12,
+      "min_pass": null,
+      "status": "INCOMPLETE — requires financial information file",
+      "estimated_score_range": "4-8",
+      "rationale": "Cannot calculate without grant amount and absolute GHG avoidance. For illustration: if grant = EUR 150M and 10-year absolute avoidance = 2M tCO2eq, ratio = 75 EUR/tCO2eq, score = 12 - (12 * 75/200) = 7.5. If grant = EUR 200M and avoidance = 1.5M tCO2eq, ratio = 133 EUR/tCO2eq, score = 12 - (12 * 133/200) = 4.0. The score is highly sensitive to both the grant request and the GHG calculation. A 50 kton/yr plant should generate substantial avoidance, but the partially electrified design and the current Italian grid intensity limit the per-tonne avoidance benefit."
+    },
+    {
+      "criterion_id": "5.2",
+      "name": "Cost quality + minimum requirements",
+      "raw_max": 3,
+      "weight": 1,
+      "weighted_max": 3,
+      "min_pass": 1.5,
+      "status": "NOT DRAFTED",
+      "estimated_score_range": "1.5-2.5 (if competently executed by CFO team)",
+      "rationale": "Entirely dependent on the financial information file and relevant cost calculator. If these are correctly completed using the mandatory template with no calculation errors, score = 2.0-2.5. If errors exist or the cost efficiency ratio exceeds 200 EUR/tCO2eq, this is a cascade gate failure."
+    },
+    {
+      "criterion_id": "B1",
+      "name": "Bonus 1: Net carbon removals",
+      "raw_max": 1,
+      "weight": 1,
+      "weighted_max": 1,
+      "score": 0,
+      "rationale": "Correctly identified as not applicable. No carbon removal mechanism in the project."
+    },
+    {
+      "criterion_id": "B2",
+      "name": "Bonus 2: SME-coordinated project",
+      "raw_max": 1,
+      "weight": 1,
+      "weighted_max": 1,
+      "score": 0,
+      "rationale": "Correctly identified as not applicable. Eni is a large enterprise."
+    },
+    {
+      "criterion_id": "B3",
+      "name": "Bonus 3: Maritime sector",
+      "raw_max": 1,
+      "weight": 1,
+      "weighted_max": 1,
+      "score": 0,
+      "rationale": "Correctly identified as not applicable. Not a maritime-specific project."
+    }
+  ],
+
+  "summary": {
+    "hard_rejection_risks_detected": [
+      {
+        "risk": "HR-5: Financial maturity cascade gate",
+        "severity": "CRITICAL",
+        "description": "Section 3.2 is NOT DRAFTED. No CAPEX, financing structure, WACC, or sensitivity analysis visible. If the CFO team delivers a weak financial section, the proposal is automatically rejected regardless of all other scores. This is the single highest risk to the proposal."
+      },
+      {
+        "risk": "HR-7: Cost quality cascade gate",
+        "severity": "HIGH",
+        "description": "Section 5 is NOT DRAFTED. The relevant cost calculator is not completed. If this section has calculation errors or if the cost efficiency ratio exceeds 200 EUR/tCO2eq, the proposal is automatically rejected."
+      },
+      {
+        "risk": "HR-3: GHG Quality cascade gate",
+        "severity": "MEDIUM-HIGH",
+        "description": "The GHG calculation relies entirely on analog estimation from NMC/cement data. The 189 m3/t gas use complicates the calculation. The GHG calculator template is not completed. Marginal pass predicted (3.0/5) — any calculation error or evaluator skepticism about the analog methodology could push this below the 3.0 threshold."
+      },
+      {
+        "risk": "HR-9: Relative GHG avoidance >= 50%",
+        "severity": "MEDIUM",
+        "description": "The 10-year average relative avoidance starting from ~2029 (when Italy grid is still ~250 gCO2/kWh) may be lower than the 2030 snapshot figure (55-70%). The 189 m3/t gas consumption further reduces avoidance. Careful reference scenario construction and 10-year averaging is required to ensure the 50% minimum is met."
+      }
+    ],
+
+    "total_predicted_weighted_score": {
+      "optimistic": 73.5,
+      "realistic": 62.0,
+      "pessimistic": 50.0,
+      "calculation_notes": {
+        "optimistic": "Innovation 22 + Abs GHG 1.5 + Rel GHG 3.5 + GHG Quality 3.5 + Tech 8.0 + Fin 8.0 + Ops 7.0 + Replic 4.0 + EU Lead 7.0 + Cost Ratio 8.0 + Cost Quality 2.5 + Bonus 0 = 75.5 (73.5 after rounding adjustments)",
+        "realistic": "Innovation 21 + Abs GHG 1.0 + Rel GHG 3.0 + GHG Quality 3.0 + Tech 7.0 + Fin 6.0 + Ops 7.0 + Replic 3.5 + EU Lead 7.0 + Cost Ratio 6.0 + Cost Quality 2.0 + Bonus 0 = 66.5 (realistically ~62 with evaluator variance)",
+        "pessimistic": "Innovation 18 + Abs GHG 0.5 + Rel GHG 2.5 + GHG Quality 3.0 + Tech 6.0 + Fin 4.0 + Ops 6.0 + Replic 3.0 + EU Lead 6.0 + Cost Ratio 4.0 + Cost Quality 1.5 + Bonus 0 = 54.5 (with evaluator rounding ~50)"
+      }
+    },
+    "total_max_weighted_score": 105,
+    "score_percentage": {
+      "optimistic": "70%",
+      "realistic": "59%",
+      "pessimistic": "48%"
+    },
+    "funding_probability": "at_risk",
+    "percentile_estimate": "Realistic scenario: 40th-60th percentile among passing proposals. At Innovation Fund acceptance rates of 15-25%, the proposal needs to be in the top quartile. Current position is likely in the second or third quartile — fundable only if the financial sections are strong and the GHG calculation is well-executed. The incomplete financial and cost sections are the primary barrier to a competitive score.",
+
+    "top_3_risks": [
+      "1. Financial maturity section (3.2) is unwritten — cascade gate failure would reject the proposal instantly. This is entirely dependent on the CFO/external team delivering a competent, detailed financial section with CAPEX, financing plan, WACC, sensitivity analysis, and lender engagement evidence.",
+      "2. GHG avoidance calculation depends on analog estimation with +/-30% uncertainty and a complex temporal argument about grid decarbonization. The 189 m3/t gas use means the plant is NOT fully electrified, and the 10-year average relative avoidance must demonstrably exceed 50%. Any calculation error in the GHG calculator or inconsistency between narrative and calculator triggers rejection.",
+      "3. Multiple [TO BE COMPLETED] placeholders remain across the proposal — CVs, FTE numbers, budget figures, due diligence reports, specific contingency percentages, ETS benchmark verification, Gantt chart. Each missing element reduces the perceived maturity and credibility of the proposal. Innovation Fund evaluators interpret incomplete submissions as evidence of insufficient project development."
+    ],
+
+    "top_3_strengths": [
+      "1. Strategic autonomy narrative is excellent — the C/2025/3236 reference, Chinese export control escalation timeline, >99% Chinese market share, and FREYR Vaasa uncertainty create a compelling urgency case that aligns perfectly with Innovation Fund policy objectives. This is the proposal's strongest dimension.",
+      "2. Technical depth of the innovation section is exceptional — the evidence base (65 sources, 31 claims, 6 novelty anchors, 7 gaps) provides a level of systematic documentation that exceeds most Innovation Fund proposals. The honest acknowledgment of the LFP-specific data gap and the analog estimation methodology demonstrates intellectual rigor.",
+      "3. The DT innovation anchor (NOV-001) is genuinely novel — the gap between electrode-level DTs (ARTISTIC) and cell-level DTs (DiBaZ) is well-documented and confirmed by independent review papers. No evaluator can credibly argue that a DT for CAM powder synthesis already exists."
+    ],
+
+    "single_highest_impact_action": "Complete Section 3.2 (Financial Maturity) with a professional-grade financial section including: (a) detailed CAPEX breakdown (target EUR 250-400M range for a 50 kton/yr plant); (b) financing plan with specific debt/equity split and evidence of lender engagement; (c) WACC calculation; (d) IRR/NPV analysis pre- and post-grant; (e) sensitivity analysis on electricity prices, LFP CAM market prices, and production ramp-up timing; (f) Eni equity commitment letter. This single section controls two cascade gates (HR-5 and indirectly HR-7) and represents 10 weighted points. Without it, the proposal is automatically rejected.",
+
+    "improvement_actions_ranked": [
+      {
+        "priority": 1,
+        "action": "Complete Section 3.2 (Financial Maturity) with full CAPEX/OPEX, financing plan, WACC, IRR/NPV, sensitivity analysis, and evidence of Eni equity commitment and lender engagement",
+        "impact": "Prevents HR-5 cascade gate failure (automatic rejection). Controls 10 weighted points. Without this section, the proposal cannot be submitted.",
+        "effort": "High — requires CFO team completion of financial model, business plan, and financing documentation",
+        "deadline_critical": true
+      },
+      {
+        "priority": 2,
+        "action": "Complete the GHG emission avoidance calculator with defensible reference scenario, project scenario including 189 m3/t gas, and 10-year time series demonstrating >=50% relative avoidance",
+        "impact": "Prevents HR-3, HR-9, and HR-10 cascade gate failures. Controls 12 weighted points (2.1 + 2.2 + 2.3). The temporal averaging methodology must be clearly explained.",
+        "effort": "High — requires CFO/technical team collaboration on the GHG calculator template",
+        "deadline_critical": true
+      },
+      {
+        "priority": 3,
+        "action": "Complete Section 5 (Cost Efficiency) with relevant cost calculator and cost efficiency ratio calculation",
+        "impact": "Prevents HR-7 cascade gate failure. Controls 15 weighted points. Requires coordination with GHG calculator output.",
+        "effort": "High — requires CFO team completion of financial information file",
+        "deadline_critical": true
+      },
+      {
+        "priority": 4,
+        "action": "Fill ALL [TO BE COMPLETED] placeholders: CVs for key personnel, FTE numbers, specific CAPEX contingency percentage, ETS benchmark verification, due diligence report references, Gantt chart",
+        "impact": "Each incomplete section loses credibility points across multiple criteria. CVs are particularly critical for operational maturity (3.3) — missing CVs can cost 0.5-1.0 points.",
+        "effort": "Medium — requires project team input (HR for CVs, engineering for Gantt, CFO for budget figures)",
+        "deadline_critical": true
+      },
+      {
+        "priority": 5,
+        "action": "Strengthen the 'progressive electrification' framing by providing a quantified electrification roadmap: % electricity vs % gas at entry into operation, at year 3, at year 5, at year 10. Show concrete milestones for gas elimination.",
+        "impact": "Addresses the primary weakness in Innovation Pillar 2 (NOV-002). Evaluators will probe the 189 m3/t gas consumption. A clear, time-bound electrification roadmap transforms this from a weakness into a strength (demonstrating long-term vision).",
+        "effort": "Low-Medium — requires engineering team to define gas elimination pathway and timeline",
+        "deadline_critical": false
+      },
+      {
+        "priority": 6,
+        "action": "Secure at least one university Letter of Intent (ideally Politecnico di Milano or Politecnico di Torino) for DT co-development",
+        "impact": "Strengthens EU leadership score (4.2) by 0.5-1.0 points. Transforms 'candidate partners' into confirmed collaboration.",
+        "effort": "Low — requires outreach and a 1-page LoI",
+        "deadline_critical": false
+      },
+      {
+        "priority": 7,
+        "action": "Add a clear statement qualifying the multi-scale modeling claim: explicitly state that DFT and mesoscale are OFFLINE, surrogates run in real-time, and the real-time control chain is [sensor -> surrogate -> MPC], not [sensor -> DFT -> MPC]",
+        "impact": "Pre-empts Evaluator A's likely challenge on computational feasibility. Prevents a 1-point deduction on innovation score.",
+        "effort": "Low — a 2-3 sentence clarification in Section 1",
+        "deadline_critical": false
+      },
+      {
+        "priority": 8,
+        "action": "Conduct a page count audit of all sections to ensure Part B stays within 70 pages. The Innovation section is very long and may need trimming if financial/cost sections are also substantial.",
+        "impact": "Prevents HR-12 (excess pages made invisible to evaluators — could lose critical content).",
+        "effort": "Low — formatting and editing exercise",
+        "deadline_critical": true
+      },
+      {
+        "priority": 9,
+        "action": "Consider adding a short paragraph in Section 1 explicitly addressing the FREYR overlap: 'While FREYR received Innovation Fund support for LFP CAM in Finland, the FAAM project is distinct in three dimensions: (1) fully electrified design vs unspecified process heat, (2) integrated ISO 23247 DT vs no reported DT, (3) advanced project maturity with committed brownfield site and Eni co-investment vs no FID and US-pivoted corporate strategy.'",
+        "impact": "Directly addresses the most likely evaluator question: 'Why fund a second LFP CAM project when FREYR was already funded?'",
+        "effort": "Low — already partially addressed but could be more explicit and prominent",
+        "deadline_critical": false
+      },
+      {
+        "priority": 10,
+        "action": "Ensure the gas figure (189 m3/t) appears consistently across ALL sections (innovation, GHG, technical maturity, feasibility study, GHG calculator). Any inconsistency will trigger evaluator concern about calculation reliability.",
+        "impact": "Consistency check prevents GHG Quality (2.3) and Cost Quality (5.2) deductions for inconsistency.",
+        "effort": "Low — cross-reference audit",
+        "deadline_critical": true
+      }
+    ]
+  }
+}
