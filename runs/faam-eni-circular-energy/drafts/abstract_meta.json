@@ -1,0 +1,40 @@
+{
+  "section_name": "Abstract",
+  "target_audience": "Innovation Fund evaluators",
+  "claim_ids": [
+    "CLM-001",
+    "CLM-002",
+    "CLM-003",
+    "CLM-005",
+    "CLM-007",
+    "CLM-008",
+    "CLM-009",
+    "CLM-016",
+    "CLM-017",
+    "CLM-022",
+    "CLM-023",
+    "CLM-026"
+  ],
+  "source_ids": [
+    "SRC-007",
+    "SRC-ED-004",
+    "SRC-ED-005",
+    "SRC-ED-009",
+    "SRC-ED-010",
+    "SRC-ED-017",
+    "SRC-023"
+  ],
+  "assumptions_used": [
+    "Production capacity not stated in abstract (kept intentionally vague pending CFO confirmation of plant scale)",
+    "GHG reduction percentages (55-70% by 2030, 80-90% by 2035) are based on Italy NECP grid trajectory (CLM-026); formal GHG calculation to be confirmed in Section 2 and the GHG calculator annex",
+    "Financial close within 24 months and entry into operation within 48 months are project targets, not yet confirmed by FID or financing agreements"
+  ],
+  "open_issues": [
+    "Exact production capacity (t/yr) not included in abstract — should be inserted once confirmed by user/CFO team",
+    "Absolute GHG avoidance figure (tCO2eq over 10 years) not included — should be added once GHG calculator is complete to strengthen the impact statement",
+    "Grant amount not stated — could be referenced if confirmed",
+    "Innovation Fund Part A character limit should be confirmed against the final version of the application form downloaded from the Portal Submission System (form version V5.0 – 01.12.2025 states 2000 characters for Part A abstract)"
+  ],
+  "word_count": 248,
+  "character_count": 1835
+}

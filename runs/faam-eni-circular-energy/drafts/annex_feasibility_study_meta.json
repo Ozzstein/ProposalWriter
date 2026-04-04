@@ -1,0 +1,132 @@
+{
+  "section_id": "annex_feasibility_study",
+  "title": "Feasibility Study (Mandatory Annex)",
+  "project": "faam-eni-circular-energy",
+  "call": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
+  "version": "1.0",
+  "date": "2026-04-04",
+  "author": "Program Director (automated draft)",
+  "status": "draft",
+  "page_limit": 60,
+  "estimated_pages": 38,
+  "notes": "Estimated 38 pages of text/tables (~13,500 words). Remaining ~22 pages allocated to: figures (block flow diagram, process flow diagram, risk heat map ~4 pages), Section 8 techno-economic analysis (CFO team ~8-10 pages), expanded tables and formatting in Word (~4 pages), and margin.",
+  "sections": [
+    {
+      "number": "1",
+      "title": "Project Description",
+      "estimated_pages": 4,
+      "status": "complete"
+    },
+    {
+      "number": "2",
+      "title": "Background Information (Existing Situation)",
+      "estimated_pages": 2.5,
+      "status": "complete"
+    },
+    {
+      "number": "3",
+      "title": "Location Analysis and Strategic Approach",
+      "estimated_pages": 5,
+      "status": "complete"
+    },
+    {
+      "number": "4",
+      "title": "Objectives",
+      "estimated_pages": 2,
+      "status": "complete"
+    },
+    {
+      "number": "5",
+      "title": "Resources and Feedstock Availability",
+      "estimated_pages": 4,
+      "status": "complete"
+    },
+    {
+      "number": "6",
+      "title": "Technical Assessment",
+      "estimated_pages": 15,
+      "status": "complete",
+      "subsections": [
+        "6.1 Design Philosophy and Basic Engineering",
+        "6.2 Main Systems and Long Lead Items",
+        "6.3 Operational Characteristics",
+        "6.4 Scale-Up Considerations",
+        "6.5 Technology Readiness Assessment",
+        "6.6 Process Flow Description (7 steps detailed)",
+        "6.7 Mass and Energy Balances",
+        "6.8 Digital Twin Architecture (ISO 23247 4-layer)"
+      ]
+    },
+    {
+      "number": "7",
+      "title": "Expected Project Output",
+      "estimated_pages": 3,
+      "status": "complete"
+    },
+    {
+      "number": "8",
+      "title": "Techno-Economic Analysis",
+      "estimated_pages": 1,
+      "status": "placeholder",
+      "owner": "CFO team",
+      "required_inputs": [
+        "CAPEX estimation with AACE cost class",
+        "OPEX breakdown",
+        "Technology supplier quotes",
+        "Comparison with gas-fired alternative",
+        "Environmental and socio-economic impacts",
+        "Tabular summary consistent with business plan annex"
+      ]
+    },
+    {
+      "number": "9",
+      "title": "Risk Analysis and Management",
+      "estimated_pages": 4,
+      "status": "complete"
+    }
+  ],
+  "sources_referenced": [
+    "CLM-001", "CLM-002", "CLM-003", "CLM-004", "CLM-005", "CLM-007",
+    "CLM-008", "CLM-009", "CLM-013", "CLM-014", "CLM-015", "CLM-016",
+    "CLM-017", "CLM-018", "CLM-019", "CLM-020", "CLM-021", "CLM-023",
+    "CLM-024", "CLM-026", "CLM-027", "CLM-028", "CLM-029", "CLM-030",
+    "SRC-004", "SRC-007", "SRC-008", "SRC-011", "SRC-015", "SRC-022",
+    "SRC-023", "SRC-024", "SRC-025", "SRC-028",
+    "SRC-ED-001", "SRC-ED-004", "SRC-ED-005", "SRC-ED-009", "SRC-ED-010",
+    "SRC-ED-011", "SRC-ED-013", "SRC-ED-015", "SRC-ED-016", "SRC-ED-017",
+    "SRC-ED-018", "SRC-ED-019", "SRC-ED-021", "SRC-ED-023",
+    "SRC-DT-REPORT", "SRC-PAT-005"
+  ],
+  "assumptions_flagged": [
+    "Specific Eni Brindisi site area, existing buildings, and operational status",
+    "FIB/FAAM current manufacturing capacity and ISO certifications",
+    "Exact site coordinates",
+    "Spray dryer throughput capacity",
+    "Production capacity target (XX,000 t/yr)",
+    "Operating schedule (24/7 or shift pattern)",
+    "Equipment vendor selections and confirmed specifications",
+    "Specific supplier names and contracts for precursors",
+    "Lithium carbonate pricing and hedging strategy",
+    "N2 consumption rate and supply configuration",
+    "Per-step energy values for mass/energy balance validation",
+    "Permitting status (pre-application assumed)",
+    "Chinese-language patent search not conducted",
+    "Contingency budget percentage",
+    "Equipment MTBF from vendor data",
+    "All Section 8 (Techno-Economic) content"
+  ],
+  "figures_to_create_in_word": [
+    "Figure 1: Block flow diagram (7-step process with electrification and DT integration points)",
+    "Figure 2: Annotated process flow diagram with detailed unit operations",
+    "Figure 3: Risk heat map (5x5 probability/impact matrix)",
+    "Figure 4: ISO 23247 four-layer architecture diagram",
+    "Figure 5: GHG avoidance trajectory chart (2025-2035)"
+  ],
+  "consistency_checks": {
+    "part_b_section_1_innovation": "Consistent -- TRL table, CQA specifications, novelty anchors aligned",
+    "part_b_section_3_1_technical_maturity": "Consistent -- process description, equipment, DT architecture aligned",
+    "part_b_section_3_4_risk_management": "Consistent -- risk register expanded from 10 to 18 risks with same numbering logic and consistent mitigation strategies",
+    "evidence_store": "All CLM and SRC references verified against evidence_store.jsonl and claim_registry.jsonl",
+    "novelty_map": "NOV-001 through NOV-006 referenced where applicable"
+  }
+}
