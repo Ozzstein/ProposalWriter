@@ -49,6 +49,12 @@ Select based on the research domain:
 
 Use Firecrawl CLI for site-targeted searches. Write all output to `.firecrawl/` to avoid context window bloat.
 
+**Always prefix firecrawl commands with the correct PATH** (Node 23 is required):
+```bash
+export PATH="/opt/homebrew/opt/node@23/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+export FIRECRAWL_API_KEY="fc-24c403030c474d9990dcb333cc3ec53e"
+```
+
 **Per-repository search:**
 ```bash
 firecrawl search "<topic keywords> site:<repo-domain>" \

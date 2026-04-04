@@ -33,7 +33,8 @@
       "command": "npx",
       "args": ["-y", "firecrawl-mcp"],
       "env": {
-        "FIRECRAWL_API_KEY": "fc-24c403030c474d9990dcb333cc3ec53e"
+        "FIRECRAWL_API_KEY": "fc-24c403030c474d9990dcb333cc3ec53e",
+        "PATH": "/opt/homebrew/opt/node@23/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
       }
     }
   }
