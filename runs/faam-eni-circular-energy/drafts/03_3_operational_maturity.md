@@ -70,7 +70,7 @@ The project's strategy to achieve the accelerated timelines (FC within 2 years, 
 
 2. **Brownfield site advantage**: The Brindisi site is an existing Eni industrial facility with available land, utility connections (grid electricity, water), transport infrastructure (port and rail access), and established relationships with local authorities. This eliminates greenfield site development time (typically 6-12 months for site acquisition, access roads, utility connections).
 
-3. **Strong sponsor commitment**: FIB (FAAM) and Eni bring complementary capabilities (manufacturing expertise and site/energy management, respectively) and the financial resources to advance project development in parallel with the Innovation Fund application process.
+3. **Strong sponsor commitment and guaranteed offtake**: FIB (FAAM) and Eni bring complementary capabilities (manufacturing expertise and site/energy management, respectively) and the financial resources to advance project development in parallel with the Innovation Fund application process. Critically, Eni is the direct internal customer for the LFP CAM output through the co-located FIB-Eni joint venture battery cell and BESS manufacturing facility at Brindisi. Eni will deploy the manufactured BESS on the Italian electricity grid, creating a guaranteed offtake pathway that eliminates market risk and secures revenue from entry into operation. This vertically integrated value chain — LFP CAM (this project) to battery cells (JV factory) to BESS (JV factory) to Italian grid deployment (Eni) — massively de-risks the business case and aligns all consortium partners' commercial incentives.
 
 ## 3.3c Due Diligence Reports
 
@@ -132,13 +132,14 @@ FIB S.p.A., operating under the FAAM brand, is an Italian battery manufacturer f
 - Digital twin system specification and operation
 - Knowledge sharing and dissemination
 
-**Eni -- Co-Investigator**
+**Eni -- Co-Investigator and Guaranteed Offtaker**
 Eni S.p.A. is a global energy company with extensive experience in industrial site management, process engineering, and energy supply. Eni contributes:
 - Brindisi industrial site (land, existing infrastructure, utility connections)
 - Process engineering support (leveraging Eni's refining and chemicals expertise)
 - Energy supply management (grid electricity procurement, potential on-site renewable capacity)
 - Environmental management and site remediation expertise
 - Stakeholder relations and permitting support
+- **Direct internal customer**: Partner in the co-located FIB-Eni JV battery cell and BESS factory; deployer of BESS systems on the Italian electricity grid for grid stabilisation and decarbonisation. The Brindisi site hosts both the CAM plant and the JV cell/BESS factory, with the implementation plan coordinating parallel development of both facilities.
 
 ### Governance Structure
 

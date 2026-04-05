@@ -4,12 +4,14 @@
 **FAAM-ENI Circular Energy: Digital Twin-Driven LFP Active Material Manufacturing**
 
 ## Research Topic
-Development and implementation of a digital twin (DT) framework to enable LFP cathode active material (CAM) production in a new production plant — the first in Italy and southern Europe — at Eni's Brindisi brownfield site.
+Development and implementation of a digital twin (DT) framework to enable LFP cathode active material (CAM) production in a new production plant — the first in Italy and southern Europe — at Eni's Brindisi brownfield site, as part of a vertically integrated clean energy value chain from cathode material to grid-deployed battery energy storage.
 
 Key differentiators:
 - **Electrified manufacturing**: LFP production using electrical energy (especially during spray drying and calcination), in contrast to the state-of-the-art Asian suppliers who rely predominantly on natural gas
 - **Digital twin integration**: ISO 23247-compliant real-time process twin, predictive quality monitoring, and new-generation material discovery
 - **Brownfield conversion**: Repurposing an existing Eni industrial site in Brindisi, Italy
+- **Vertically integrated value chain**: LFP CAM (this project) feeds a co-located FIB-Eni JV battery cell and BESS factory at Brindisi; Eni deploys the BESS on the Italian electricity grid for grid stabilisation and decarbonisation. Eni is the guaranteed internal offtaker.
+- **GHG classification**: ES / Manufacturing of Components (Section 1.3.2). GHG avoidance calculated on BESS use-phase displacing fossil peakers, not on manufacturing plant emissions.
 
 ## Funding Agency and Instrument
 - **Call**: INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING
@@ -29,7 +31,8 @@ Using electricity instead of gas in LFP CAM manufacturing, coupled with an integ
 | Partner | Role | Description |
 |---------|------|-------------|
 | **FIB (FAAM)** | Main applicant / Coordinator | Battery manufacturer, responsible for LFP CAM plant construction and operation |
-| **Eni** | Co-investigator | Energy company, brownfield site owner (Brindisi), expertise in process engineering and energy supply |
+| **Eni** | Co-investigator and guaranteed offtaker | Energy company, brownfield site owner (Brindisi), expertise in process engineering and energy supply. Partner in co-located JV battery cell and BESS factory. Will deploy BESS on Italian electricity grid. |
+| **FIB-Eni JV** | Co-located battery factory | Joint venture battery cell and BESS manufacturing facility at Brindisi site; direct internal customer for LFP CAM output |
 
 ## Preliminary Data and Prior Work
 
@@ -83,7 +86,10 @@ Comprehensive technical analysis covering:
 
 ### Strategic Positioning
 - **First LFP CAM plant in Italy/Southern Europe** — strong EU strategic autonomy argument
+- **Vertically integrated value chain** — LFP CAM to cells to BESS to Italian grid, mine-to-grid within one consortium/site
+- **Eni as guaranteed internal offtaker** — eliminates offtake risk; BESS deployed on Italian grid
+- **GHG classification: ES / Manufacturing of Components** — avoidance calculated on BESS use-phase displacing fossil peakers
 - **Reducing dependency on Chinese LFP supply** — directly addresses NZIA/STEP objectives
 - **Brownfield site reuse** — circular economy alignment
-- **Electrification of process heat** — direct GHG reduction vs gas-fired benchmark
+- **Electrification of process heat** — innovation and replicability argument (NOT the GHG argument)
 - **Digital twin** — innovation beyond state-of-the-art in manufacturing process control

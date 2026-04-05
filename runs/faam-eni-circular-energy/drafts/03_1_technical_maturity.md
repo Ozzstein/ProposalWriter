@@ -13,7 +13,11 @@ The FAAM-ENI Circular Energy project integrates two proven technology domains --
 | Multi-scale process models (CFD, PBM, DEM) | TRL 4-5 | TRL 6-7 | Individual models validated in analogous processes; integration into unified DT is the novel step [CLM-018, SRC-DT-REPORT] |
 | PAT/QbD sensor integration | TRL 5-6 | TRL 7-8 | Sensors commercially proven; pharmaceutical PAT framework transferable but not yet demonstrated for CAM [CLM-013, SRC-028] |
 
-The core manufacturing process (solid-state LFP synthesis via spray drying and calcination) is at industrial maturity, with the electrification of process heat being the primary technical advancement. The digital twin components represent the higher-risk, higher-innovation elements of the project, but are built upon validated sub-systems and established standards. Detailed technical feasibility is described below and supported by the Feasibility Study annex.
+The core manufacturing process (solid-state LFP synthesis via spray drying and calcination) is at industrial maturity, with the electrification of process heat being the primary technical advancement. The digital twin components represent the higher-risk, higher-innovation elements of the project, but are built upon validated sub-systems and established standards.
+
+**Co-located JV factory as technical de-risking mechanism.** The LFP CAM plant is co-located with a planned FIB-Eni joint venture battery cell and BESS manufacturing facility at the same Brindisi site. This co-location creates an immediate feedback loop from cell manufacturing to CAM quality: cell performance data from the JV factory feeds directly into the DT's quality prediction models, enabling rapid identification of CAM quality parameters that impact downstream cell performance. This closed-loop quality feedback cycle — from CAM synthesis through cell testing and back to process optimisation — is a unique technical advantage unavailable to standalone CAM producers selling to external customers. The co-located JV factory also secures internal offtake, eliminating market risk for the CAM product and ensuring continuous production data for DT model calibration.
+
+Detailed technical feasibility is described below and supported by the Feasibility Study annex.
 
 **Reference**: Full feasibility study attached as mandatory annex (max 60 pages), covering process flow diagrams, schematic layouts, mass and energy balances, and technical risk analysis.
 

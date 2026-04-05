@@ -113,11 +113,16 @@ The DNSH compliance assessment for the five remaining environmental objectives u
 
 The FAAM-ENI Circular Energy project establishes the **first LFP cathode active material production facility in Italy and Southern Europe** [CLM-022], directly filling a critical gap in the European battery value chain. As of late 2025, no EU-based company has brought LFP CAM production online [CLM-003], despite LFP being the fastest-growing cathode chemistry globally and the dominant choice for standard-range EVs and grid-scale storage applications.
 
-The Brindisi plant is positioned to supply European battery cell manufacturers — including the growing gigafactory ecosystem across Germany, France, Hungary, Poland, and Scandinavia — with domestically produced, EU-traceable LFP cathode material. This creates a new node in the EU battery supply chain that currently does not exist, connecting:
+**End-to-End European Battery Value Chain: From Raw Materials to Grid Deployment.** The Brindisi plant is not a standalone CAM factory — it is the anchor of a **vertically integrated clean energy manufacturing hub** that delivers the complete battery value chain within a single consortium and industrial site:
 
 - **Upstream**: European and allied-nation suppliers of lithium carbonate, iron phosphate, and industrial-grade glucose
-- **Midstream**: FAAM Brindisi LFP CAM production (this project)
-- **Downstream**: European battery cell manufacturers (e.g., ACC, Northvolt, PowerCo, Samsung SDI Hungary, SK On Hungary, CATL Germany/Hungary) requiring LFP cathode material for next-generation LFP cells
+- **Midstream 1**: FAAM Brindisi LFP CAM production (this project) — 50 kton/yr battery-grade cathode material
+- **Midstream 2**: FIB-Eni joint venture battery cell and BESS manufacturing facility (co-located at Brindisi) — converting LFP CAM into cells and grid-scale battery energy storage systems
+- **Downstream**: Eni grid deployment — BESS systems deployed on the Italian electricity grid for grid stabilisation and decarbonisation
+
+This mine-to-grid vertical integration is unprecedented in the European battery sector. The co-located JV factory is the direct and guaranteed internal customer for the LFP CAM output. Eni, as the deployer of BESS on the Italian grid, closes the value chain from raw material to grid service. This structure directly addresses the Innovation Fund evaluation criterion regarding "contribution to European industrial ecosystems, integration with strategic energy infrastructure": the project does not merely produce a component — it delivers grid-deployed energy storage that stabilises and decarbonises the Italian electricity system. The integration with Italian grid infrastructure represents a potential connection to Projects of Common Interest (PCI) in the energy storage domain.
+
+The plant also serves external European battery cell manufacturers — including the growing gigafactory ecosystem across Germany, France, Hungary, Poland, and Scandinavia — with domestically produced, EU-traceable LFP cathode material.
 
 The plant's location in Puglia — a Cohesion Policy convergence region — provides geographic diversification within the emerging EU LFP supply map, complementing FREYR's Northern European site (Vaasa, Finland) and ensuring Mediterranean access for Southern European cell manufacturers and export markets.
 
@@ -131,10 +136,11 @@ The urgency of this dependency has escalated sharply:
 - **October 2025**: China broadened export controls to include battery cells, precursors, anode materials, and production equipment [CLM-002].
 - **Strategic implication**: The EU battery industry faces a dual risk — dependency on Chinese LFP CAM imports for current production AND dependency on Chinese technology and equipment for any future EU-based LFP CAM manufacturing.
 
-The FAAM Brindisi plant addresses both dimensions of this dependency:
+The FAAM Brindisi plant addresses all three dimensions of this dependency:
 
 1. **Product supply**: Domestic LFP CAM production reduces import dependency for the material itself.
 2. **Technology sovereignty**: The project develops an EU-originated DT-integrated manufacturing process, generating proprietary know-how within the EU/EEA that is not subject to Chinese export control restrictions.
+3. **Full value chain sovereignty**: Through the vertically integrated value chain (CAM to cells to BESS to grid), Italian-made BESS systems are deployed on the Italian electricity grid by an Italian energy company (Eni). This represents complete strategic sovereignty — from raw material processing to grid-deployed energy storage — without any dependency on Chinese technology, components, or deployment infrastructure at any stage of the value chain.
 
 **Competitive landscape assessment.** FREYR Battery received a EUR 122M Innovation Fund grant for a 30,000 t/yr LFP CAM facility in Vaasa, Finland [CLM-004]. However, FREYR's current corporate strategy prioritises its US Giga America facility. FREYR has stated it is "evaluating options" for its Norwegian and European asset base, and the Vaasa CAM facility has not reached Final Investment Decision (FID). Vaasa competes internally with FREYR's US operations for capital and management bandwidth [CLM-029]. Realistic assessment: FREYR Vaasa is a medium-term option with non-trivial schedule and financing risk — not a near-term locked-in LFP CAM production line. The FAAM Brindisi project, backed by FIB's manufacturing expertise and Eni's industrial site and energy infrastructure, represents the more credible near-term pathway to operational EU LFP CAM capacity.
 
@@ -147,6 +153,8 @@ The project generates intellectual property and technical know-how that remains 
 **Multi-scale modeling framework.** The integrated modeling chain spanning DFT/atomistic thermodynamics (CALPHAD) through continuum CFD and population balance models to plant-level flowsheet simulation [CLM-018] provides a transferable computational methodology for process optimisation in adjacent EU manufacturing sectors (e.g., catalysts, pigments, functional ceramics, pharmaceutical granulation).
 
 **Patent strategy.** The core novel combination — electrified spray drying + electric roller hearth kiln calcination with integrated ISO 23247 digital twin for real-time process-quality control for LFP CAM — occupies a patent white space with no identified blocking patent [CLM-014]. The consortium intends to file EU patent applications protecting the DT-integrated electrified CAM manufacturing process, ensuring this IP remains within the EU/EEA.
+
+**Vertically integrated model as replicable EU industrial template.** Beyond the technology IP, the vertically integrated model itself — co-located CAM production, cell manufacturing, BESS assembly, and grid deployment within a single consortium — represents a replicable industrial architecture for EU battery sovereignty. This model can be replicated at other European brownfield sites where energy companies seek to combine clean-tech manufacturing with grid services, accelerating the EU's transition from component-level manufacturing to integrated clean energy value chains.
 
 ### Cooperation with EU Research Institutions
 

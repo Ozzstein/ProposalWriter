@@ -81,7 +81,8 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 - Finalise project financing structure (Innovation Fund grant + equity + debt)
 - Negotiate and execute debt facility agreements
 - Confirm equity commitments from FIB and Eni
-- Execute key commercial agreements (off-take agreements, supply contracts)
+- Execute key commercial agreements (off-take agreements, supply contracts). Note: primary offtake is secured internally through the co-located FIB-Eni JV battery cell and BESS factory — Eni is the guaranteed internal customer. External offtake agreements with European cell manufacturers represent additional upside.
+- Coordinate timeline with the parallel development of the FIB-Eni JV battery cell and BESS factory at the Brindisi site, ensuring the CAM plant entry into operation aligns with JV factory readiness to receive LFP CAM feedstock
 - Prepare and assemble all financial close documentation
 - Obtain Financial Investment Decision (FID) from FIB and Eni boards
 
@@ -124,6 +125,7 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 - Piping, electrical, and instrumentation installation
 - DCS/SCADA system installation and configuration
 - Sensor network installation (thermocouples, pyrometers, Raman probes, FBRM probes, O2 sensors, flow meters)
+- Coordination with parallel construction of the co-located FIB-Eni JV battery cell and BESS factory, including shared utility infrastructure and site logistics planning
 
 **A2.2 DT System Development (M12-M42, parallel track starting in WP1)**
 - Develop and validate physics-based models:

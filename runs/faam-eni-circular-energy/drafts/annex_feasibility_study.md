@@ -16,7 +16,7 @@
 
 The FAAM-ENI Circular Energy (FACE) project will design, construct, commission, and operate the first progressively electrified lithium iron phosphate (LiFePO4, LFP) cathode active material (CAM) manufacturing plant in Italy and Southern Europe, with a nameplate capacity of 50,000 tonnes per year across 4 modular production lines. The plant will be located at Eni's brownfield industrial site in Brindisi, Puglia, and will produce battery-grade LFP CAM powder for supply to European lithium-ion battery cell manufacturers serving the electric vehicle (EV) and grid-scale energy storage system (ESS) markets.
 
-The project is implemented by a two-partner consortium: FIB (FAAM), the coordinator and battery manufacturer responsible for plant construction and operation, and Eni, the brownfield site owner contributing process engineering expertise and energy supply infrastructure.
+The project is implemented by a two-partner consortium: FIB (FAAM), the coordinator and battery manufacturer responsible for plant construction and operation, and Eni, the brownfield site owner contributing process engineering expertise, energy supply infrastructure, and the role of guaranteed internal offtaker through a co-located FIB-Eni joint venture battery cell and BESS manufacturing facility. The LFP CAM produced by this project feeds directly into the JV factory, which manufactures cells and BESS systems that Eni deploys on the Italian electricity grid — creating a vertically integrated value chain from cathode material to grid-deployed energy storage.
 
 The FACE plant employs a solid-state synthesis route -- the dominant industrial process for LFP CAM globally [CLM-009, SRC-011] -- with two defining technical differentiators that position it beyond the current state-of-the-art:
 
@@ -153,7 +153,9 @@ The FACE project is positioned within a broader ecosystem of EU battery supply c
 
 - **IPCEI on Batteries (Hy2Use, EuBatIn)**: While FACE is not an IPCEI project, it complements IPCEI-funded cell manufacturing facilities by providing a domestic CAM supply source.
 
-- **Eni's Energy Transition Strategy**: The Brindisi site conversion from fossil fuel operations to clean-tech manufacturing directly implements Eni's strategic pivot toward decarbonisation. Eni's investment provides co-financing leverage and demonstrates energy company commitment to the battery value chain.
+- **FIB-Eni JV Battery Cell and BESS Factory (Brindisi)**: The FACE LFP CAM plant is the direct upstream supplier to the co-located FIB-Eni joint venture battery cell and BESS manufacturing facility on the same Brindisi site. The JV factory converts FACE LFP CAM into cells and grid-scale BESS systems. Eni deploys the BESS on the Italian electricity grid. This creates a vertically integrated value chain where the FACE project's output is consumed internally, eliminating offtake risk and providing immediate quality feedback from cell manufacturing to CAM optimisation.
+
+- **Eni's Energy Transition Strategy**: The Brindisi site conversion from fossil fuel operations to an integrated clean energy manufacturing hub directly implements Eni's strategic pivot toward decarbonisation. Eni's investment provides co-financing leverage and demonstrates energy company commitment to the complete battery value chain — from cathode material production through grid deployment.
 
 - **FREYR Battery (Finland)**: FACE and FREYR together would establish a two-node European LFP CAM supply base with geographic diversification (Nordic + Mediterranean), reducing single-point-of-failure risk in EU supply chains.
 
@@ -343,31 +345,55 @@ Electricity is the primary energy input for the electrified plant, consumed acro
 
 ### 5.2 Value Chain Analysis
 
-#### 5.2.1 Primary Activities
+#### 5.2.1 Vertically Integrated Value Chain
+
+The FACE project is the anchor of a **vertically integrated clean energy value chain** that extends from raw material processing to grid-deployed energy storage within a single consortium and industrial site:
+
+| Stage | Activity | Entity | Location |
+|-------|----------|--------|----------|
+| **Raw materials** | Precursor procurement (FePO4, Li2CO3, glucose) from EU and allied suppliers | FIB procurement | Global sourcing to Brindisi |
+| **CAM production** | 7-step solid-state LFP CAM synthesis (this project) | FIB (FAAM) | Brindisi, Eni site |
+| **Cell manufacturing** | LFP CAM converted to battery cells | FIB-Eni JV factory | Brindisi, Eni site (co-located) |
+| **BESS assembly** | Battery cells assembled into grid-scale BESS systems | FIB-Eni JV factory | Brindisi, Eni site (co-located) |
+| **Grid deployment** | BESS deployed for Italian grid stabilisation and decarbonisation | Eni | Italian electricity grid |
+
+This vertically integrated structure is unprecedented in the European battery sector. The co-located JV factory is the direct and guaranteed internal customer for the LFP CAM output, eliminating offtake risk and providing immediate quality feedback from cell manufacturing to CAM process optimisation.
+
+#### 5.2.2 Primary Activities
 
 | Activity | Description | Value Creation |
 |----------|-------------|----------------|
 | **Inbound logistics** | Precursor procurement, maritime/land transport to Brindisi, warehouse management | EU-sourced where possible; reduced transport carbon vs Asian supply |
 | **CAM production** | 7-step solid-state synthesis: dosing -> milling -> spray drying -> calcination -> jet milling -> classification -> packaging | Electrified production with DT-optimised quality; battery-grade LFP CAM |
 | **Quality control** | In-line PAT + at-line laboratory analysis + DT-predicted quality disposition | Superior batch consistency; full CQA traceability |
-| **Outbound logistics** | Packaged LFP CAM delivery to European cell manufacturers via road/rail | Short supply chain to Southern/Central European customers |
+| **Internal offtake** | LFP CAM delivered directly to co-located FIB-Eni JV battery cell and BESS factory | Zero logistics cost for primary customer; immediate quality feedback loop |
+| **External sales** | Packaged LFP CAM delivery to additional European cell manufacturers via road/rail | Short supply chain to Southern/Central European customers (upside opportunity) |
 | **Customer service** | Technical support for cell integration; custom product specifications; Battery Passport data provision | Differentiated service vs commodity Chinese supply |
 
-#### 5.2.2 Value Proposition
+#### 5.2.3 Value Proposition
 
 The FACE plant creates value across multiple dimensions:
 
+- **Guaranteed offtake and eliminated market risk**: Eni is the direct internal customer through the co-located JV factory, providing captive demand for the LFP CAM output. This eliminates the offtake risk that typically constrains new entrant CAM producers and provides revenue certainty from entry into operation.
 - **Supply chain security**: EU-produced LFP CAM eliminates single-source dependency on China [CLM-001]. European cell manufacturers gain a domestic supply option resilient to Chinese export controls [CLM-002].
 - **Carbon footprint advantage**: Electrified production with Italian grid electricity delivers a materially lower product carbon footprint than gas-fired Chinese production, increasingly important under Battery Regulation carbon footprint performance class requirements.
-- **Quality consistency**: DT-driven process control delivers superior batch-to-batch consistency versus empirical Chinese production methods [CLM-007, CLM-013].
+- **Quality consistency**: DT-driven process control delivers superior batch-to-batch consistency versus empirical Chinese production methods [CLM-007, CLM-013]. The co-located JV factory provides immediate cell-level quality feedback, enabling rapid closed-loop optimisation.
 - **Traceability and compliance**: Full digital traceability from precursor receipt to product shipment, natively supporting Battery Passport and due diligence requirements.
+- **End-to-end GHG avoidance**: The vertically integrated value chain enables direct traceability from CAM production to grid-deployed BESS displacing fossil peakers — maximising the GHG avoidance claim under the Innovation Fund methodology.
 
-#### 5.2.3 Market Drivers
+#### 5.2.4 Offtake Strategy
+
+**Primary offtake (internal)**: The co-located FIB-Eni JV battery cell and BESS manufacturing facility is the guaranteed internal customer for the LFP CAM output. Eni will deploy the BESS on the Italian electricity grid. This internal offtake pathway provides revenue certainty without dependency on external customer negotiations.
+
+**Secondary offtake (external)**: Additional sales to European cell manufacturers (PowerCo, Verkor, Northvolt, ACC, and others) represent upside revenue. The DT-driven quality consistency, EU Battery Passport compliance, and low-carbon footprint provide competitive differentiation versus Chinese commodity CAM.
+
+#### 5.2.5 Market Drivers
 
 - **EV growth**: European EV sales growing at ~25% CAGR; LFP chemistry gaining share in standard-range vehicles due to cost and safety advantages [SRC-015].
-- **ESS demand**: Grid-scale energy storage deploying rapidly across Europe; LFP is the dominant chemistry for stationary storage (>2,000 cycle life).
+- **ESS demand**: Grid-scale energy storage deploying rapidly across Europe; LFP is the dominant chemistry for stationary storage (>2,000 cycle life). Eni's own grid deployment programme creates guaranteed demand for BESS.
 - **Battery Regulation**: Carbon footprint declaration and performance class requirements create a market premium for low-carbon CAM.
 - **NZIA**: EU policy actively promotes domestic manufacturing of clean-tech components.
+- **Italian grid stabilisation**: Italy requires substantial new energy storage capacity to integrate increasing renewable generation; Eni-deployed BESS contributes directly to this national objective.
 
 ---
 
@@ -797,6 +823,18 @@ DT-enabled predictive maintenance is projected to reduce unplanned downtime by 2
 
 ### 7.5 GHG Emission Avoidance
 
+**GHG Methodology Classification: ES / Manufacturing of Components.** Per the Innovation Fund GHG emission avoidance methodology, the project is classified as **Energy Storage (ES) / Manufacturing of Components** (Section 1.3.2). LFP CAM is a specialised battery-grade cathode material — a "component" as exemplified in the methodology. The GHG system boundary therefore encompasses the **use phase of the BESS systems** in which the LFP CAM is deployed, not the manufacturing plant itself. The manufacturing plant's own emissions (Scope 1 and 2) fall outside the GHG calculation boundary.
+
+**GHG avoidance calculation framework (for CFO team):**
+- **Use phase**: BESS systems containing FACE LFP CAM displacing fossil fuel peaking plants on the Italian electricity grid
+- **Reference scenario**: Conventional electricity generation from gas peaking plants (CCGT or OCGT)
+- **Project scenario**: BESS charged from grid (increasingly renewable) providing grid stabilisation services
+- **Cost share (CScomponent)**: Fraction of CAM cost in total BESS cost. CAM is typically 30-40% of cell cost, and cells are 60-70% of BESS cost, giving CScomponent of approximately 20-28% of total BESS cost. However, if the co-located FIB-Eni JV factory is treated as part of the same project consortium, the CScomponent could be significantly higher (potentially covering the full cell or even the full BESS if the JV is an affiliated entity). [CFO TEAM: this CScomponent determination is critical for the GHG calculator and requires careful analysis of the JV structure.]
+- **Use period**: 5 years per methodology, or component lifetime if shorter
+- **Output volume**: 50,000 t/yr LFP CAM. At approximately 3 kWh/kg cell energy density, this could produce approximately 150 GWh/yr of battery capacity — a potentially massive GHG avoidance if the BESS displaces gas peakers.
+
+**Note on plant-level GHG**: The following plant-level comparison is provided for context (innovation and replicability argument) but is NOT the basis of the scored GHG avoidance calculation, which is based on BESS use-phase as described above.
+
 The Innovation Fund GHG avoidance calculation compares the FACE electrified plant against a gas-fired reference case (Asian benchmark technology). The key parameters are:
 
 | Parameter | Gas-Fired Reference | FACE (Electrified) | Source |
@@ -817,7 +855,17 @@ The Innovation Fund GHG avoidance calculation compares the FACE electrified plan
 | 2030 (NECP target) | ~146 gCO2/kWh | 55-70% [CLM-026] |
 | 2035 (G7 commitment) | ~30-60 gCO2/kWh | 80-90% [CLM-026] |
 
-[TO BE COMPLETED: The detailed GHG avoidance calculation, including all Scope 1, 2, and 3 emissions, transport, and upstream supply chain emissions, is the responsibility of the CFO team using the Innovation Fund GHG calculator tool. The above figures are directional estimates. The final GHG calculation must use the confirmed production capacity (50 kton/yr), energy consumption data (3,580 kWh_e/t + 189 m3 gas/t), and the Innovation Fund's prescribed methodology. Note: the natural gas component (189 m3/t) must be included in the Scope 1 calculation; the progressive electrification pathway should be reflected in the projected GHG trajectory.]
+[TO BE COMPLETED BY CFO TEAM — CRITICAL GHG CALCULATION ITEMS:
+
+1. **PRIMARY GHG CALCULATION (scored)**: Use-phase BESS displacing fossil peakers. Classification: ES / Manufacturing of Components (Section 1.3.2). The CFO team must calculate GHG avoidance based on BESS displacing gas peaking plants (CCGT/OCGT) on the Italian grid, NOT on plant-level manufacturing emissions.
+
+2. **CScomponent determination**: The cost share of LFP CAM in the total BESS system cost is critical. Baseline estimate: 20-28% (CAM as 30-40% of cell cost, cells as 60-70% of BESS cost). HOWEVER: if the FIB-Eni JV factory qualifies as an affiliated entity within the project boundary, the CScomponent could be substantially higher. This determination could significantly increase the GHG avoidance claim. Legal/structural analysis of the JV is needed.
+
+3. **Production volume to GWh conversion**: 50,000 t/yr LFP CAM at ~3 kWh/kg cell energy density = ~150 GWh/yr of battery capacity. This is the basis for calculating use-phase GHG avoidance.
+
+4. **Reference emission factor**: Italian grid marginal emission factor for gas peakers (CCGT: ~350-400 gCO2/kWh; OCGT: ~500-600 gCO2/kWh). The choice of reference technology significantly affects the GHG avoidance.
+
+5. **Plant-level GHG (contextual only)**: The above plant-level figures are directional estimates for the innovation/replicability argument. The natural gas component (189 m3/t) must be included in Scope 1 but this is NOT the scored GHG calculation.]
 
 ---
 
@@ -909,7 +957,7 @@ Required: Summary table consistent with the Business Plan annex, showing:
 | OR2 | **Permitting delays**: VIA or AIA permitting exceeds expected timeline | Medium | Medium | **Medium** | Eni (Regulatory Affairs) | (a) Early engagement with Regione Puglia and MASE; (b) leverage Eni's established Brindisi regulatory relationships; (c) experienced environmental permitting consultants; (d) 3-month schedule buffer; (e) electrified process simplifies air emissions assessment |
 | OR3 | **Workforce recruitment**: Difficulty recruiting qualified process engineers, DT specialists, and production operators in Brindisi | Medium | Medium | **Medium** | FIB (HR Director) | (a) Recruitment campaign starting M0; (b) partnerships with Politecnico di Bari and Universita del Salento for graduate recruitment; (c) training programme for existing FIB employees to cross-skill into CAM production; (d) competitive salary packages for DT specialists |
 | OR4 | **Commissioning challenges**: Extended commissioning period due to integration complexity of electrified equipment + DT | Medium | Medium | **Medium** | FIB (Commissioning Manager) | (a) Phased commissioning: equipment mechanical completion -> cold commissioning -> hot commissioning with non-critical material -> production trials with actual precursors; (b) DT commissioning in parallel (digital commissioning before physical); (c) vendor technical support during commissioning |
-| OR5 | **Market timing**: Delay in European EV/ESS market growth or LFP chemistry adoption may reduce demand below plant capacity | Low | Medium | **Low-Medium** | FIB (Commercial Director) | (a) Growing EU LFP demand driven by EV and ESS growth [SRC-015]; (b) Battery Regulation carbon footprint requirements create preference for EU-manufactured CAM; (c) off-take agreements or LOIs with cell manufacturers before FID; (d) plant design allows capacity modulation (turndown to 25%) |
+| OR5 | **Market timing**: Delay in European EV/ESS market growth or LFP chemistry adoption may reduce demand below plant capacity | Very Low | Medium | **Very Low** | FIB (Commercial Director) | (a) **Offtake risk eliminated**: Eni is the guaranteed internal customer through the co-located FIB-Eni JV battery cell and BESS factory — captive demand absorbs production regardless of external market dynamics; (b) growing EU LFP demand driven by EV and ESS growth [SRC-015]; (c) Battery Regulation carbon footprint requirements create preference for EU-manufactured CAM; (d) external off-take agreements or LOIs with additional cell manufacturers represent upside; (e) plant design allows capacity modulation (turndown to 25%) |
 | OR6 | **Regulatory changes**: Changes to EU Battery Regulation, NZIA, or Innovation Fund rules during project implementation | Low | Low | **Low** | FIB (Legal / Regulatory) | (a) Project aligned with long-term EU strategic direction; (b) regulatory risk is downside-limited (any changes likely to increase, not decrease, demand for EU-manufactured low-carbon CAM); (c) monitoring of regulatory developments |
 | OR7 | **Supply chain disruption**: Extended interruption of precursor supply (FePO4, Li2CO3) due to geopolitical events, logistics failures, or supplier insolvency | Low | High | **Medium** | FIB (Procurement Director) | (a) Dual-sourcing strategy; (b) minimum 3-month strategic inventory; (c) long-term supply agreements; (d) supplier financial health monitoring; (e) emergency spot market access |
 | OR8 | **Quality certification delay**: Customer qualification of FACE LFP CAM takes longer than expected, delaying commercial revenue | Medium | Medium | **Medium** | FIB (Quality / Commercial) | (a) Early customer engagement with sample material from vendor trial batches (M24-M36); (b) qualification programme aligned with customer timelines; (c) DT-enabled consistency accelerates qualification (fewer qualification batches needed); (d) multiple customer qualification tracks in parallel |
