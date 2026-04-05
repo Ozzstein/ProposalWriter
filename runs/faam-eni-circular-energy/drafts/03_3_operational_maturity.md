@@ -96,7 +96,7 @@ The Brindisi site is currently undergoing a brownfield remediation (cleanup) pro
 
 ### Intellectual Property
 
-The project leverages commercially available manufacturing equipment and open standards (ISO 23247). No third-party IP licences are required for the core LFP synthesis process, which uses well-established solid-state chemistry [CLM-014]. The LG Chem patent EP2360117B1 on LFP olivine morphology has been assessed and confirmed as non-overlapping with the project's product specification [DEC-005]. The digital twin architecture will be developed as proprietary FIB/Eni intellectual property, with the intent to file patent protection for the novel DT-electrification combination [CLM-015].
+The project leverages commercially available manufacturing equipment, open standards (ISO 23247), and a technology licensor for the LFP CAM solid-state synthesis process. FIB has secured a technology licensor — [TO BE COMPLETED: technology licensor name] — providing process know-how, recipe optimisation, equipment specification support, and commissioning assistance for the solid-state synthesis route. The licensor relationship is governed by a technology licence agreement covering process recipe transfer, technical support during FEED and commissioning, and ongoing optimisation support. The well-established solid-state chemistry [CLM-014] is complemented by the licensor's proven industrial experience. The LG Chem patent EP2360117B1 on LFP olivine morphology has been assessed and confirmed as non-overlapping with the project's product specification [DEC-005]. The digital twin architecture will be developed as proprietary FIB/Eni intellectual property, with the intent to file patent protection for the novel DT-electrification combination [CLM-015].
 
 ### Public Acceptance
 
@@ -161,6 +161,7 @@ The project governance comprises three levels:
 | EHS Manager | FIB + Eni | Environmental, health & safety management, permitting support |
 | Site Manager | Eni | Brindisi site operations, infrastructure, utility supply, stakeholder relations |
 | Financial Controller | FIB | Budget management, cost reporting, audit coordination |
+| Technology Licensor | [TO BE COMPLETED: technology licensor name] | LFP CAM process know-how, recipe optimisation, equipment specification support, commissioning assistance |
 
 [TO BE COMPLETED: Specific CVs and track records of named individuals for each role must be provided by the project team and included in the Participant Information annex. The proposal should highlight relevant experience in battery manufacturing, industrial plant construction, and digital manufacturing for each key role.]
 

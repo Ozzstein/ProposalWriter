@@ -209,7 +209,7 @@ Permitting applications (VIA, AIA, building permits) have been filed and are in 
 | FIB (FAAM) | Battery manufacturing know-how; cell assembly and testing protocols; quality management systems | Contributed to project under consortium agreement; no royalties |
 | Eni | Process engineering expertise; brownfield site engineering; energy systems design; industrial digitalisation capabilities | Contributed to project under consortium agreement; no royalties |
 
-Neither FIB/FAAM nor Eni holds active patents in LFP CAM synthesis, process equipment, or digital twin manufacturing [CLM-015]. Both partners are technology acquirers in this specific domain, which eliminates intra-consortium IP conflicts.
+Neither FIB/FAAM nor Eni holds active patents in LFP CAM synthesis, process equipment, or digital twin manufacturing [CLM-015]. FIB has secured a technology licensor — [TO BE COMPLETED: technology licensor name] — for the LFP CAM solid-state synthesis process, providing process know-how, recipe optimisation, and equipment specification support under a technology licence agreement. The licensor provides the process knowledge bridge from established industrial practice to the specific Brindisi plant configuration. Both consortium partners are technology acquirers in the CAM synthesis domain, which eliminates intra-consortium IP conflicts.
 
 **Foreground IP**:
 
@@ -266,7 +266,7 @@ The FACE project pursues five SMART objectives that collectively define the tech
 | O1 | Commission the first electrified LFP CAM production line in Italy | Entry into Operation (EiO) | Operational plant producing saleable product | M48 (4 years from grant agreement) | Independent third-party commissioning verification |
 | O2 | Deploy an ISO 23247-compliant digital twin achieving real-time process control | DT latency: sensor-to-prediction | <1 second at edge nodes; <5 second prediction-to-actuation for all MPC loops | M42 (DT operational before full plant EiO) | Performance testing against ISO 23247 conformance criteria |
 | O3 | Demonstrate >=50% relative GHG emission avoidance versus gas-fired reference | Relative GHG avoidance (Innovation Fund methodology) | >=50% by Year 1 of operation (using projected grid intensity at EiO) | Year 1 post-EiO (verified annually) | Innovation Fund GHG calculator; third-party LCA verification |
-| O4 | Achieve product quality meeting battery-grade CQA specifications | CQA compliance rate | D50 1-3 um, capacity >155 mAh/g, phase purity >98% -- >=95% batch compliance | M54 (6 months post-EiO) | Statistical process capability analysis (Cpk > 1.33 for all CQAs) |
+| O4 | Achieve product quality meeting battery-grade CQA specifications | CQA compliance rate | D50 0.7-2.5 um, capacity >155 mAh/g, phase purity >98% -- >=95% batch compliance | M54 (6 months post-EiO) | Statistical process capability analysis (Cpk > 1.33 for all CQAs) |
 | O5 | Reduce batch-to-batch variability by >=40% through DT-enabled closed-loop control | Coefficient of variation (CV) of key CQAs (D50, capacity, phase purity) | CV reduction >=40% versus open-loop baseline | Year 2 of operation | Statistical comparison: first 6 months (open-loop baseline) vs Year 2 (DT-optimised) |
 
 These objectives are consistent with the Innovation Fund scoring criteria: O1 addresses project maturity (EiO within 4 years for bonus points); O3 directly addresses the GHG emission avoidance criterion (>=50% minimum); O4 and O5 address innovation impact and product quality; and O2 provides the technical enabler for O4 and O5.
@@ -377,7 +377,9 @@ The FACE plant creates value across multiple dimensions:
 
 The FACE plant is designed according to the following principles:
 
-**Progressive electrification**: The plant maximises electrical process heat from day one, achieving a significantly higher degree of electrification than the gas-fired Asian benchmark. The initial configuration retains limited natural gas use (189 m3/t LFP CAM) for process steps — primarily spray drying auxiliary heating and calcination support — where full electrification is not yet technically or economically feasible at the 50 kton/yr production scale. The plant architecture is explicitly designed to accommodate progressive gas-to-electric substitution: electric roller hearth kilns can operate fully electrically, and the spray drying system is designed for HTHP integration as Phase 2 upgrade. The digital twin optimises the energy mix in real time and identifies the pathway to full electrification. Over the plant's 20+ year operational life, the combination of technology maturation, falling renewable electricity costs, and grid decarbonisation [CLM-030] will drive progressive elimination of residual gas use.
+**Technology licensor support**: The plant design is informed by a technology licence agreement with [TO BE COMPLETED: technology licensor name], who provides proven process know-how for the LFP CAM solid-state synthesis route. The licensor contributes validated process recipes, calcination profiles, spray drying parameters, and equipment specifications based on industrial production experience. This substantially de-risks the scale-up to the Brindisi 50 kton/yr configuration and provides the process baseline from which the DT-driven optimisation begins.
+
+**Progressive electrification**: The plant achieves a 66.6% electrification rate at entry into operation (3,580 kWh/t electrical, 189 m3/t natural gas = 1,796 kWh_th/t), representing a significantly higher degree of electrification than the gas-fired Asian benchmark. The initial configuration retains limited natural gas use (189 m3/t LFP CAM) for process steps — primarily spray drying auxiliary heating and calcination support — where full electrification is not yet technically or economically feasible at the 50 kton/yr production scale. The plant architecture is explicitly designed to accommodate progressive gas-to-electric substitution (targeting ~75% by Year 3, ~85% by Year 5, and >95% by Year 10): electric roller hearth kilns can operate fully electrically, and the spray drying system is designed for HTHP integration as a near-term upgrade. The digital twin optimises the energy mix in real time and identifies opportunities for progressive gas elimination. Over the plant's 20+ year operational life, the combination of technology maturation, falling renewable electricity costs, and grid decarbonisation [CLM-030] will drive progressive elimination of residual gas use.
 
 **DT-integrated from design phase**: The digital twin is not a retrofit -- it is designed into the plant from inception. All equipment is specified with digital connectivity requirements (OPC-UA interfaces, sensor ports, data tags). The DT data architecture is established during detailed engineering and commissioned in parallel with physical equipment. This contrasts with typical brownfield DT deployments where data infrastructure must be overlaid on legacy equipment.
 
@@ -551,19 +553,19 @@ The electric roller hearth kiln achieves 95% thermal efficiency versus 25-60% fo
 
 Post-calcination at-line analysis: Raman spectroscopy (olivine phase at 950 cm-1, carbon D/G ratio, impurity phases), XRD (phase purity by Rietveld refinement), XRF (elemental composition verification).
 
-**Outputs**: Calcined LFP/C powder with target phase purity >98% olivine, carbon content 1.5-3.0 wt%.
+**Outputs**: Calcined LFP/C powder with target phase purity >98% olivine, carbon content 1.0-1.8 wt%.
 
 #### Step 5: Jet Milling
 
 **Inputs**: Calcined LFP/C powder from Step 4.
 
-**Operation**: The calcined product consists of sintered agglomerates that must be de-agglomerated to the final target particle size (D50 1-3 um). A compressed gas jet mill (nitrogen or air) achieves high-velocity interparticle collisions that break agglomerates while preserving the olivine crystal structure and carbon coating integrity. The built-in classifier ensures only particles below the target D90 exit the mill.
+**Operation**: The calcined product consists of sintered agglomerates that must be de-agglomerated to the final target particle size (D50 0.7-2.5 um). A compressed gas jet mill (nitrogen or air) achieves high-velocity interparticle collisions that break agglomerates while preserving the olivine crystal structure and carbon coating integrity. The built-in classifier ensures only particles below the target D90 exit the mill.
 
 **Key process parameters**: Grinding gas pressure (CPP); classifier speed (CPP); feed rate.
 
 **DT integration**: The DT's DEM (Discrete Element Method) model predicts particle breakage kinetics and final PSD from milling energy and classifier settings. FBRM provides in-line chord length distribution; laser diffraction provides at-line D10/D50/D90 validation.
 
-**Outputs**: De-agglomerated LFP/C powder (D50 1-3 um).
+**Outputs**: De-agglomerated LFP/C powder (D50 0.7-2.5 um).
 
 #### Step 6: Ultrasonic Sieving and Demagnetisation
 
@@ -686,7 +688,7 @@ Layer 2 manages all physical-digital data exchange through a hierarchical commun
 | S7 | Atmosphere O2 | Zirconia O2 sensor (<10 ppm) | Calcination kiln atmosphere | 1-5 sec | Fe2+/Fe3+ ratio | In-line |
 | S8 | Evolved gas | NDIR (CO2, CO, CH4) | Calcination kiln exhaust | 1-5 sec | Reaction progress | In-line |
 | S9 | Elemental composition | XRF | Post-milling sampling | 5 min | Li:Fe:P stoichiometry | At-line |
-| S10 | Moisture | NIR probe | Spray dryer product, packaging | Continuous | Moisture <200 ppm | In-line |
+| S10 | Moisture | NIR probe | Spray dryer product, packaging | Continuous | Moisture <750 ppm | In-line |
 | S11 | Magnetic contamination | Magnetic susceptibility meter | Post-demagnetisation | Per batch | Ferromagnetic particles | At-line |
 
 #### 6.8.3 Layer 3 -- Digital Twin Core Entity
@@ -888,7 +890,7 @@ Required: Summary table consistent with the Business Plan annex, showing:
 
 | # | Risk Description | Likelihood | Impact | Risk Level | Ownership | Mitigation Measures |
 |---|-----------------|------------|--------|------------|-----------|---------------------|
-| TR1 | **Calcination scale-up**: Difficulty achieving target CQAs (phase purity >98%, D50 1-3 um) at production scale due to thermal non-uniformity in larger kiln | Medium | High | **High** | FIB (Technical Director) | (a) Pilot-scale trials at kiln vendor facility (M6-M12) to validate temperature uniformity and product quality before equipment purchase; (b) phased production ramp-up from 25% to 100% nameplate capacity (M48-M54); (c) DT-driven furnace zone optimisation using CFD-calibrated models [CLM-016, SRC-ED-010]; (d) multi-zone independent PID + MPC control |
+| TR1 | **Calcination scale-up**: Difficulty achieving target CQAs (phase purity >98%, D50 0.7-2.5 um) at production scale due to thermal non-uniformity in larger kiln | Medium | High | **High** | FIB (Technical Director) | (a) Pilot-scale trials at kiln vendor facility (M6-M12) to validate temperature uniformity and product quality before equipment purchase; (b) phased production ramp-up from 25% to 100% nameplate capacity (M48-M54); (c) DT-driven furnace zone optimisation using CFD-calibrated models [CLM-016, SRC-ED-010]; (d) multi-zone independent PID + MPC control |
 | TR2 | **DT model accuracy at production scale**: Physics-based models calibrated on literature data and vendor test data may not accurately predict production-scale behaviour | Medium | Medium | **Medium** | FIB (DT Lead) | (a) Systematic model calibration protocol using commissioning batch data (M42-M48); (b) hybrid physics + ML approach where data-driven corrections compensate for model discrepancies [CLM-018]; (c) conservative initial operating setpoints with gradual DT-guided optimisation; (d) independent model validation by academic partner |
 | TR3 | **Sensor degradation at high temperature**: Raman probes, thermocouples, and O2 sensors operating at >600 C may experience fouling, drift, or failure during extended campaigns | Medium | Medium | **Medium** | FIB (Process Engineering) | (a) Redundant sensing architecture: multiple sensor types per critical measurement (thermocouples + pyrometers + IR cameras for temperature) [CLM-019]; (b) scheduled preventive maintenance with sensor replacement intervals; (c) virtual sensors (ML-inferred predictions from correlated measurements) as backup |
 | TR4 | **Spray drying optimisation for LFP**: Electric spray dryer parameters (inlet T, feed rate, atomiser speed) may require extensive optimisation to achieve target particle morphology for LFP precursor | Low | Medium | **Low-Medium** | FIB (Process Engineering) | (a) Spray drying trials at vendor test facility using LFP precursor slurry (M12-M18); (b) DT-based DoE to efficiently explore parameter space; (c) electric heating enables precise temperature control (+/-1 C) aiding reproducibility [SRC-ED-018] |

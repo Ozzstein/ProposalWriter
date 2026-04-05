@@ -65,6 +65,10 @@ Eni is one of Europe's largest integrated energy companies, with approximately 3
 - Existing investment framework for clean-technology transition projects under Eni's decarbonisation strategy
 - Responsible for: site provision and preparation, energy supply architecture (including renewable electricity procurement), process engineering support, environmental permitting, and co-financing
 
+### Technology Licensor
+
+FIB has secured a technology licensor for the LFP CAM solid-state synthesis process — [TO BE COMPLETED: technology licensor name] — providing process know-how, recipe optimisation, and equipment specification support. The technology licensor brings proven industrial experience in LFP CAM production, de-risking the scale-up from established process parameters to the Brindisi plant's specific configuration and throughput requirements. The licensor relationship covers process recipe definition, calcination profile optimisation, and spray drying parameter specification, while FIB retains ownership of the digital twin integration and progressive electrification innovations.
+
 ### Relationship Between Partners
 
 The FIB-Eni partnership combines complementary capabilities: FIB brings battery-specific manufacturing and product expertise; Eni contributes the Brindisi site, process engineering scale-up experience, energy infrastructure, and balance-sheet strength. The project framework establishes FIB as coordinator responsible for all LFP CAM production activities and digital twin development, with Eni providing the manufacturing platform (site, energy, permitting) and co-investment. Decision-making is governed by a joint steering committee with defined escalation protocols. Both partners have a long-term strategic interest in the success of Italian battery material manufacturing, ensuring alignment of incentives beyond the grant period.
@@ -93,7 +97,7 @@ The manufacturing process comprises a **7-step production chain**:
 | 2 | Sand milling + magnetic separation | Particle size reduction, demagnetisation |
 | 3 | Spray drying | Aqueous slurry to solid unreacted mixture; controls morphology |
 | 4 | Crucible loading + calcination | Electric roller hearth kiln, 600-700 C under N2 (pO2 <10 ppm) |
-| 5 | Jet milling | Air-flow grinding to target D50 1-3 um |
+| 5 | Jet milling | Air-flow grinding to target D50 0.7-2.5 um |
 | 6 | Ultrasonic sieving + demagnetisation | Classification and magnetic particle removal |
 | 7 | Automated packaging | Final product: battery-grade LiFePO4/C |
 
@@ -155,7 +159,7 @@ The DT core entity implements a **QbD/PAT framework adapted from pharmaceutical 
 
 The choice of electrified process heat over the incumbent gas-fired approach is driven by three converging factors:
 
-1. **Climate alignment**: The Innovation Fund requires a minimum 50% relative GHG emission avoidance. Gas-fired LFP production in Italy (~310 gCO2/kWh grid + gas combustion emissions) would struggle to meet this threshold. Electrified production, designed for the 2030 grid (~146 gCO2/kWh), delivers 55-70% avoidance with clear trajectory toward 80-90% [CLM-026].
+1. **Climate alignment**: Per Section 1.3.4 of the Innovation Fund GHG methodology, the GHG avoidance is calculated on the use phase of the manufactured battery components (ESS systems containing LFP CAM), not on the manufacturing plant itself. The plant's progressive electrification (66.6% at entry into operation) nonetheless delivers a substantially lower product carbon footprint than gas-fired competitors, strengthening the innovation case and long-term competitiveness. As Italy's grid decarbonises (~146 gCO2/kWh by 2030), the electrified plant's embedded carbon advantage compounds [CLM-026].
 
 2. **Process quality advantage**: Electric heating provides superior temperature uniformity compared to gas flame heating. In LFP calcination, temperature variations of as little as 50 C can shift the product from phase-pure olivine to impurity-contaminated material (Li3PO4, Fe2P above 800 C) [SRC-011, CLM-020]. Electric roller hearth kilns enable zone-by-zone temperature control with precision compatible with DT-driven MPC, a capability that gas-fired rotary kilns cannot match.
 

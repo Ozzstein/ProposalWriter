@@ -32,9 +32,9 @@ No process water is discharged to surface water or marine environments. All non-
 
 The electrified production design eliminates several pollution sources inherent to gas-fired LFP CAM manufacturing:
 
-- **Drastically reduced on-site combustion emissions**: The progressive electrification strategy minimises natural gas use (189 m3/t in initial configuration versus fully gas-fired benchmark), dramatically reducing NOx, SOx, CO, and particulate matter emissions. Conventional gas-fired rotary kilns generate approximately 0.5-2.0 kg NOx per tonne of product; the Brindisi plant's limited residual gas use produces a fraction of these emissions, with the pathway to full electrification eliminating them entirely [CLM-011].
+- **Drastically reduced on-site combustion emissions**: The progressive electrification strategy achieves a 66.6% electrification rate at entry into operation, minimising natural gas use (189 m3/t in initial configuration versus fully gas-fired benchmark) and dramatically reducing NOx, SOx, CO, and particulate matter emissions. Conventional gas-fired rotary kilns generate approximately 0.5-2.0 kg NOx per tonne of product; the Brindisi plant's limited residual gas use produces a fraction of these emissions, with the electrification roadmap targeting >95% electrification by Year 10 [CLM-011].
 - **Contained atmosphere processing**: Calcination under inert N2 atmosphere (pO2 <10 ppm) prevents formation of Fe2O3 dust and eliminates fugitive iron oxide emissions [CLM-009].
-- **HEPA filtration**: All air handling systems incorporate HEPA filters to capture fine LFP powder (D50 1-3 micrometer range), preventing release of nano-scale particles to the environment.
+- **HEPA filtration**: All air handling systems incorporate HEPA filters to capture fine LFP powder (D50 0.7-2.5 micrometer range), preventing release of nano-scale particles to the environment.
 - **Closed milling systems**: Jet milling and ultrasonic sieving operate in enclosed systems with integrated dust collection, preventing fugitive dust emissions.
 
 ### Biodiversity Protection
@@ -92,7 +92,7 @@ The DNSH compliance assessment for the five remaining environmental objectives u
 - **Noise**: Electric motors and kilns generate significantly lower noise levels than gas combustion equipment (no combustion roar, no gas valve cycling). Site noise levels at the boundary are expected to comply with Italian DPCM 14/11/1997 industrial zone limits.
 - **Waste management**: No hazardous waste streams are generated. Solid waste (packaging, maintenance consumables, HEPA filters) is managed through licensed industrial waste contractors in accordance with Italian D.Lgs. 152/2006.
 
-**Compliance confirmation:** The project does not lead to a significant increase in emissions of pollutants to air, water, or land. The fully electrified design and contained atmosphere processing eliminate the principal pollution sources associated with conventional gas-fired CAM production.
+**Compliance confirmation:** The project does not lead to a significant increase in emissions of pollutants to air, water, or land. The progressively electrified design (66.6% at entry into operation, targeting >95% by Year 10) and contained atmosphere processing eliminate the principal pollution sources associated with conventional gas-fired CAM production.
 
 ### 5. Protection and Restoration of Biodiversity and Ecosystems
 

@@ -4,7 +4,7 @@
 
 **Not applicable.** The FAAM-ENI Circular Energy project is an LFP cathode active material manufacturing facility. The project delivers significant GHG emission avoidance through electrification of process heat and DT-driven energy optimisation (detailed in Sections 2.1 and 2.2), but it does not incorporate a mechanism for net carbon removal (negative emissions).
 
-LFP CAM production is a materials synthesis process that consumes lithium carbonate, iron phosphate, and glucose as inputs. While glucose pyrolysis during calcination produces a carbon coating on LFP particles, this carbon originates from a biogenic source and represents a negligible mass fraction (1.5-3.0 wt% of final product [CLM-009]) that is ultimately released at end-of-life recycling — not permanently sequestered. No carbon capture and storage (CCS), direct air capture (DAC), or bioenergy with CCS (BECCS) component is included in the project scope.
+LFP CAM production is a materials synthesis process that consumes lithium carbonate, iron phosphate, and glucose as inputs. While glucose pyrolysis during calcination produces a carbon coating on LFP particles, this carbon originates from a biogenic source and represents a negligible mass fraction (1.0-1.8 wt% of final product [CLM-009]) that is ultimately released at end-of-life recycling — not permanently sequestered. No carbon capture and storage (CCS), direct air capture (DAC), or bioenergy with CCS (BECCS) component is included in the project scope.
 
 The project's climate contribution is through **emission avoidance** (displacing gas-fired Chinese LFP CAM production with electrified EU production), not through net carbon removal.
 

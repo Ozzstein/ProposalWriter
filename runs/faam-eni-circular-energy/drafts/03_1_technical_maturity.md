@@ -63,7 +63,7 @@ Precise temperature profile control across these stages is the primary determina
 
 **Step 5: Jet Milling**
 
-The calcined product is de-agglomerated by jet milling (air-flow grinding). The jet mill uses compressed nitrogen or air to achieve high-velocity interparticle collisions, breaking agglomerates while preserving the olivine crystal structure and carbon coating integrity. The target D50 after jet milling is 1-3 um.
+The calcined product is de-agglomerated by jet milling (air-flow grinding). The jet mill uses compressed nitrogen or air to achieve high-velocity interparticle collisions, breaking agglomerates while preserving the olivine crystal structure and carbon coating integrity. The target D50 after jet milling is 0.7-2.5 um.
 
 **Step 6: Classification and Demagnetisation**
 
@@ -71,7 +71,7 @@ The milled powder passes through an ultrasonic vibrating sieve (typical cut-off 
 
 **Step 7: Automated Packaging**
 
-Qualified LiFePO4 product is automatically packaged under inert atmosphere (N2 blanketing) in moisture-barrier bags to maintain battery-grade moisture levels (<200 ppm). Each batch is assigned a unique lot number with full traceability to all process parameters and quality data.
+Qualified LiFePO4 product is automatically packaged under inert atmosphere (N2 blanketing) in moisture-barrier bags to maintain battery-grade moisture levels (<750 ppm). Each batch is assigned a unique lot number with full traceability to all process parameters and quality data.
 
 ### Mass and Energy Balance
 
@@ -148,6 +148,30 @@ All sensor data is communicated via OPC-UA gateways to an edge-fog computing lay
 - Model Predictive Control (MPC) operator interface for furnace temperature profile optimisation, milling parameter adjustment, and spray dryer tuning
 - Batch quality reports with automatic pass/fail disposition against CQA specifications
 - Decision support: recommended parameter adjustments for next batch based on current batch outcomes
+
+### Technology Licensor
+
+FIB has secured a technology licensor for the LFP CAM solid-state synthesis process — [TO BE COMPLETED: technology licensor name] — which provides a critical risk mitigation pathway for scale-up. The technology licensor contributes: (a) proven process recipes and calcination profiles validated at industrial scale; (b) equipment specification guidance for the roller hearth kiln, spray dryer, and milling systems; and (c) commissioning support including process parameter transfer and initial batch qualification protocols. This licensor relationship substantially de-risks R1 (calcination scale-up) and TR5 (product quality consistency) by providing an established process baseline from which the DT-driven optimisation can begin.
+
+### DT Development Milestones
+
+The digital twin development follows a structured timeline integrated with the plant construction and commissioning schedule:
+
+| Milestone | Month | TRL Target | Deliverable |
+|-----------|-------|------------|-------------|
+| DT architecture specification | M6 | — | ISO 23247 architecture document |
+| Sensor specification + procurement | M9 | — | PAT sensor procurement contracts |
+| Calcination CFD model validated | M12 | TRL 4 | Model validated on vendor test data |
+| PBM for spray drying validated | M15 | TRL 4 | Particle size prediction within +/-10% |
+| Surrogate model library built | M18 | TRL 5 | ROM/PINN models for real-time use |
+| Edge computing infrastructure | M18 | — | Edge gateways deployed |
+| Layer 2 (DCDC) operational | M24 | — | All sensors streaming to DT platform |
+| MPC for calcination demonstrated | M30 | TRL 5 | Closed-loop temperature control |
+| Layer 3 (Core DT) operational | M36 | TRL 6 | Full model chain operational |
+| QbD/PAT framework validated | M40 | TRL 6 | CQA prediction within spec |
+| Full ISO 23247 Layer 4 integration | M42 | TRL 6 | Dashboard + MPC + quality reports |
+| DT validated on production batches | M48 | TRL 6-7 | First production data feedback loop |
+| DT optimisation (Year 1-2 operation) | M60 | TRL 7 | Model calibration with real data |
 
 ### Technical Risks and Mitigation (Summary)
 
