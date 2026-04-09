@@ -1,11 +1,6 @@
 {
-  "section": "3.4",
-  "title": "Risk Management",
-  "version": "1.0",
-  "generated_at": "2026-04-04",
-  "agent": "implementation_writer",
-  "word_count": 720,
-  "target_word_count": 500,
+  "section_name": "Section 3.4: Risk Management",
+  "target_audience": "Innovation Fund industrial/policy evaluators",
   "claim_ids": [
     "CLM-007",
     "CLM-016",
@@ -14,30 +9,11 @@
     "CLM-029"
   ],
   "source_ids": [
-    "SRC-DT-REPORT",
     "SRC-ED-010"
   ],
-  "assumptions": [
-    {
-      "id": "ASM-RM-001",
-      "text": "CAPEX contingency percentage (typically 10-15%) to be confirmed by CFO team and included in financial model.",
-      "owner": "CFO team",
-      "status": "open"
-    }
-  ],
+  "assumptions_used": [],
   "open_issues": [
-    {
-      "id": "ISSUE-RM-001",
-      "text": "Risk register should be cross-referenced with the risk analysis in the Feasibility Study annex and Business Plan annex for consistency.",
-      "severity": "medium",
-      "owner": "proposal coordinator"
-    }
+    "TO BE COMPLETED: Specific contingency percentage to be confirmed by CFO team"
   ],
-  "evaluation_criterion": "3.4 — Risk management (contributes to overall Project Maturity score, Section 3)",
-  "scoring_targets": {
-    "risk_identification": "10 risks across technical, supply chain, regulatory, financial, market, operational categories",
-    "risk_assessment": "Probability-impact matrix with residual risk after mitigation",
-    "risk_mitigation": "Specific, actionable mitigation strategies for each risk",
-    "dt_as_risk_mitigation": "DT explicitly positioned as reducing technical and operational risks"
-  }
+  "word_count": 1329
 }

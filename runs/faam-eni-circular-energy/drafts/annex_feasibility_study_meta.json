@@ -1,132 +1,82 @@
 {
-  "section_id": "annex_feasibility_study",
-  "title": "Feasibility Study (Mandatory Annex)",
-  "project": "faam-eni-circular-energy",
-  "call": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
-  "version": "1.0",
-  "date": "2026-04-04",
-  "author": "Program Director (automated draft)",
-  "status": "draft",
-  "page_limit": 60,
-  "estimated_pages": 38,
-  "notes": "Estimated 38 pages of text/tables (~13,500 words). Remaining ~22 pages allocated to: figures (block flow diagram, process flow diagram, risk heat map ~4 pages), Section 8 techno-economic analysis (CFO team ~8-10 pages), expanded tables and formatting in Word (~4 pages), and margin.",
-  "sections": [
-    {
-      "number": "1",
-      "title": "Project Description",
-      "estimated_pages": 4,
-      "status": "complete"
-    },
-    {
-      "number": "2",
-      "title": "Background Information (Existing Situation)",
-      "estimated_pages": 2.5,
-      "status": "complete"
-    },
-    {
-      "number": "3",
-      "title": "Location Analysis and Strategic Approach",
-      "estimated_pages": 5,
-      "status": "complete"
-    },
-    {
-      "number": "4",
-      "title": "Objectives",
-      "estimated_pages": 2,
-      "status": "complete"
-    },
-    {
-      "number": "5",
-      "title": "Resources and Feedstock Availability",
-      "estimated_pages": 4,
-      "status": "complete"
-    },
-    {
-      "number": "6",
-      "title": "Technical Assessment",
-      "estimated_pages": 15,
-      "status": "complete",
-      "subsections": [
-        "6.1 Design Philosophy and Basic Engineering",
-        "6.2 Main Systems and Long Lead Items",
-        "6.3 Operational Characteristics",
-        "6.4 Scale-Up Considerations",
-        "6.5 Technology Readiness Assessment",
-        "6.6 Process Flow Description (7 steps detailed)",
-        "6.7 Mass and Energy Balances",
-        "6.8 Digital Twin Architecture (ISO 23247 4-layer)"
-      ]
-    },
-    {
-      "number": "7",
-      "title": "Expected Project Output",
-      "estimated_pages": 3,
-      "status": "complete"
-    },
-    {
-      "number": "8",
-      "title": "Techno-Economic Analysis",
-      "estimated_pages": 1,
-      "status": "placeholder",
-      "owner": "CFO team",
-      "required_inputs": [
-        "CAPEX estimation with AACE cost class",
-        "OPEX breakdown",
-        "Technology supplier quotes",
-        "Comparison with gas-fired alternative",
-        "Environmental and socio-economic impacts",
-        "Tabular summary consistent with business plan annex"
-      ]
-    },
-    {
-      "number": "9",
-      "title": "Risk Analysis and Management",
-      "estimated_pages": 4,
-      "status": "complete"
-    }
+  "section_name": "Annex: Feasibility Study",
+  "target_audience": "Innovation Fund industrial/policy evaluators",
+  "claim_ids": [
+    "CLM-001",
+    "CLM-002",
+    "CLM-003",
+    "CLM-004",
+    "CLM-005",
+    "CLM-007",
+    "CLM-008",
+    "CLM-009",
+    "CLM-013",
+    "CLM-014",
+    "CLM-015",
+    "CLM-016",
+    "CLM-017",
+    "CLM-018",
+    "CLM-019",
+    "CLM-020",
+    "CLM-022",
+    "CLM-023",
+    "CLM-026",
+    "CLM-028",
+    "CLM-029",
+    "CLM-030"
   ],
-  "sources_referenced": [
-    "CLM-001", "CLM-002", "CLM-003", "CLM-004", "CLM-005", "CLM-007",
-    "CLM-008", "CLM-009", "CLM-013", "CLM-014", "CLM-015", "CLM-016",
-    "CLM-017", "CLM-018", "CLM-019", "CLM-020", "CLM-021", "CLM-023",
-    "CLM-024", "CLM-026", "CLM-027", "CLM-028", "CLM-029", "CLM-030",
-    "SRC-004", "SRC-007", "SRC-008", "SRC-011", "SRC-015", "SRC-022",
-    "SRC-023", "SRC-024", "SRC-025", "SRC-028",
-    "SRC-ED-001", "SRC-ED-004", "SRC-ED-005", "SRC-ED-009", "SRC-ED-010",
-    "SRC-ED-011", "SRC-ED-013", "SRC-ED-015", "SRC-ED-016", "SRC-ED-017",
-    "SRC-ED-018", "SRC-ED-019", "SRC-ED-021", "SRC-ED-023",
-    "SRC-DT-REPORT", "SRC-PAT-005"
+  "source_ids": [
+    "SRC-004",
+    "SRC-007",
+    "SRC-008",
+    "SRC-009",
+    "SRC-010",
+    "SRC-011",
+    "SRC-014",
+    "SRC-015",
+    "SRC-022",
+    "SRC-023",
+    "SRC-024",
+    "SRC-025",
+    "SRC-028",
+    "SRC-ED-001",
+    "SRC-ED-004",
+    "SRC-ED-005",
+    "SRC-ED-009",
+    "SRC-ED-010",
+    "SRC-ED-011",
+    "SRC-ED-016",
+    "SRC-ED-017",
+    "SRC-ED-018",
+    "SRC-ED-021",
+    "SRC-ED-023",
+    "SRC-PAT-005"
   ],
-  "assumptions_flagged": [
-    "Specific Eni Brindisi site area, existing buildings, and operational status",
-    "FIB/FAAM current manufacturing capacity and ISO certifications",
-    "Exact site coordinates",
-    "Spray dryer throughput capacity",
-    "Production capacity target (XX,000 t/yr)",
-    "Operating schedule (24/7 or shift pattern)",
-    "Equipment vendor selections and confirmed specifications",
-    "Specific supplier names and contracts for precursors",
-    "Lithium carbonate pricing and hedging strategy",
-    "N2 consumption rate and supply configuration",
-    "Per-step energy values for mass/energy balance validation",
-    "Permitting status (pre-application assumed)",
-    "Chinese-language patent search not conducted",
-    "Contingency budget percentage",
-    "Equipment MTBF from vendor data",
-    "All Section 8 (Techno-Economic) content"
+  "assumptions_used": [],
+  "open_issues": [
+    "TO BE COMPLETED: specific area allocation within the Eni Brindisi complex, existing structures to be repurposed vs demolished, to be confirmed by site engineering team.",
+    "TO BE COMPLETED: specific current MWh/year manufacturing capacity and number of manufacturing sites to be confirmed by project team.",
+    "TO BE COMPLETED: Exact coordinates to be provided by site engineering",
+    "TO BE COMPLETED: technology licensor name",
+    "TO BE COMPLETED: A comprehensive Chinese-language CNIPA patent search is recommended to assess the IP position of CATL, BYD, Gotion, and Dynanonic. English-language searches do not adequately cover Chinese patent filings in this domain.",
+    "TO BE COMPLETED: Specific supplier names, contracted volumes, pricing structure, and qualification status must be confirmed by the procurement team. Long-term supply agreements with price hedging mechanisms should be negotiated before FID. Annual requirement at full capacity: 49,000 t FePO4.",
+    "TO BE COMPLETED: Lithium carbonate pricing is highly volatile (ranged from ~USD 15,000/t to ~USD 80,000/t between 2022-2025). Annual requirement at full capacity: 12,500 t Li2CO3. The specific contracted price and hedging strategy must be defined in the business plan. OPEX sensitivity to lithium price should be modelled at +/-50%.",
+    "TO BE COMPLETED: The specific N2 supply configuration (on-site PSA vs bulk liquid vs hybrid) and cost must be confirmed by process engineering.",
+    "TO BE COMPLETED: technology licensor name",
+    "TO BE COMPLETED: capacity to be sized for 12.5 kton/yr per line",
+    "TO BE COMPLETED: grinding chamber size to be confirmed by vendor",
+    "TO BE COMPLETED: water evaporation capacity to be sized for 12.5 kton/yr per line",
+    "TO BE COMPLETED: capacity to be sized per line",
+    "TO BE COMPLETED: bag size to be confirmed",
+    "TO BE COMPLETED: hourly capacity to be sized for continuous operation",
+    "TO BE COMPLETED: Specific equipment vendor shortlist, detailed technical specifications, budgetary quotes, and confirmed lead times must be obtained during the Front-End Engineering Design (FEED) phase. The above specifications are informed by the production information document and publicly available vendor data.",
+    "TO BE COMPLETED: specific saggar capacity and loading per kiln run to be confirmed during FEED",
+    "TO BE COMPLETED: sized for 12.5 kton/yr per line; kg/h water evaporation to be confirmed by vendor",
+    "TO BE COMPLETED: sized for line throughput; optional jet-milling bypass for spherical grade",
+    "TO BE COMPLETED: To be established from vendor MTBF data for critical equipment (kiln, spray dryer)",
+    "TO BE COMPLETED: To be calculated in GHG calculator by CFO team",
+    "TO BE COMPLETED: To be calculated using 3,580 kWh_e/t + 189 m3 gas/t",
+    "TO BE COMPLETED: BY CFO TEAM \u2014 CRITICAL GHG CALCULATION ITEMS:\n\n1. **PRIMARY GHG CALCULATION (scored)**: Use-phase BESS displacing fossil peakers. Classification: ES / Manufacturing of Components (Section 1.3.2). The CFO team must calculate GHG avoidance based on BESS displacing gas peaking plants (CCGT/OCGT) on the Italian grid, NOT on plant-level manufacturing emissions.\n\n2. **CScomponent determination**: The cost share of LFP CAM in the total BESS system cost is critical. Baseline estimate: 20-28% (CAM as 30-40% of cell cost, cells as 60-70% of BESS cost). HOWEVER: if the FIB-Eni JV factory qualifies as an affiliated entity within the project boundary, the CScomponent could be substantially higher. This determination could significantly increase the GHG avoidance claim. Legal/structural analysis of the JV is needed.\n\n3. **Production volume to GWh conversion**: 50,000 t/yr LFP CAM at ~3 kWh/kg cell energy density = ~150 GWh/yr of battery capacity. This is the basis for calculating use-phase GHG avoidance.\n\n4. **Reference emission factor**: Italian grid marginal emission factor for gas peakers (CCGT: ~350-400 gCO2/kWh; OCGT: ~500-600 gCO2/kWh). The choice of reference technology significantly affects the GHG avoidance.\n\n5. **Plant-level GHG (contextual only)**: The above plant-level figures are directional estimates for the innovation/replicability argument. The natural gas component (189 m3/t) must be included in Scope 1 but this is NOT the scored GHG calculation."
   ],
-  "figures_to_create_in_word": [
-    "Figure 1: Block flow diagram (7-step process with electrification and DT integration points)",
-    "Figure 2: Annotated process flow diagram with detailed unit operations",
-    "Figure 3: Risk heat map (5x5 probability/impact matrix)",
-    "Figure 4: ISO 23247 four-layer architecture diagram",
-    "Figure 5: GHG avoidance trajectory chart (2025-2035)"
-  ],
-  "consistency_checks": {
-    "part_b_section_1_innovation": "Consistent -- TRL table, CQA specifications, novelty anchors aligned",
-    "part_b_section_3_1_technical_maturity": "Consistent -- process description, equipment, DT architecture aligned",
-    "part_b_section_3_4_risk_management": "Consistent -- risk register expanded from 10 to 18 risks with same numbering logic and consistent mitigation strategies",
-    "evidence_store": "All CLM and SRC references verified against evidence_store.jsonl and claim_registry.jsonl",
-    "novelty_map": "NOV-001 through NOV-006 referenced where applicable"
-  }
+  "word_count": 14720
 }
