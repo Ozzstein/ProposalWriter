@@ -70,7 +70,7 @@ The project's strategy to achieve the accelerated timelines (FC within 2 years, 
 
 2. **Brownfield site advantage**: The Brindisi site is an existing Eni industrial facility with available land, utility connections (grid electricity, water), transport infrastructure (port and rail access), and established relationships with local authorities. This eliminates greenfield site development time (typically 6-12 months for site acquisition, access roads, utility connections).
 
-3. **Strong sponsor commitment and guaranteed offtake**: FIB (FAAM) and Eni bring complementary capabilities (manufacturing expertise and site/energy management, respectively) and the financial resources to advance project development in parallel with the Innovation Fund application process. Critically, Eni is the direct internal customer for the LFP CAM output through the co-located FIB-Eni joint venture battery cell and BESS manufacturing facility at Brindisi. Eni will deploy the manufactured BESS on the Italian electricity grid, creating a guaranteed offtake pathway that eliminates market risk and secures revenue from entry into operation. This vertically integrated value chain — LFP CAM (this project) to battery cells (JV factory) to BESS (JV factory) to Italian grid deployment (Eni) — massively de-risks the business case and aligns all consortium partners' commercial incentives.
+3. **Strong sponsor commitment and guaranteed offtake**: FIB (FAAM) and Eni bring complementary capabilities (manufacturing expertise and site/energy management, respectively) and the financial resources to advance project development in parallel with the Innovation Fund application process. Critically, Eni is the direct internal customer for the LFP CAM output through the co-located ESS (Eni Storage Systems) JV battery cell and BESS manufacturing facility at Brindisi. Eni will deploy the manufactured BESS on the Italian electricity grid, creating a guaranteed offtake pathway that eliminates market risk and secures revenue from entry into operation. This vertically integrated value chain — LFP CAM (this project) to battery cells (JV factory) to BESS (JV factory) to Italian grid deployment (Eni) — massively de-risks the business case and aligns all consortium partners' commercial incentives.
 
 ## 3.3c Due Diligence Reports
 
@@ -96,7 +96,7 @@ The Brindisi site is currently undergoing a brownfield remediation (cleanup) pro
 
 ### Intellectual Property
 
-The project leverages commercially available manufacturing equipment, open standards (ISO 23247), and a technology licensor for the LFP CAM solid-state synthesis process. FIB has secured a technology licensor — [TO BE COMPLETED: technology licensor name] — providing process know-how, recipe optimisation, equipment specification support, and commissioning assistance for the solid-state synthesis route. The licensor relationship is governed by a technology licence agreement covering process recipe transfer, technical support during FEED and commissioning, and ongoing optimisation support. The well-established solid-state chemistry [CLM-014] is complemented by the licensor's proven industrial experience. The LG Chem patent EP2360117B1 on LFP olivine morphology has been assessed and confirmed as non-overlapping with the project's product specification [DEC-005]. The digital twin architecture will be developed as proprietary FIB/Eni intellectual property, with the intent to file patent protection for the novel DT-electrification combination [CLM-015].
+The project leverages commercially available manufacturing equipment, open standards (ISO 23247), and a technology licensor for the LFP CAM solid-state synthesis process. FIB has secured a technology licensor — Zhejiang Youshan New Material Technology Co., LTD. — providing process know-how, recipe optimisation, equipment specification support, and commissioning assistance for the solid-state synthesis route. The licensor relationship is governed by a technology licence agreement covering process recipe transfer, technical support during FEED and commissioning, and ongoing optimisation support. The well-established solid-state chemistry [CLM-014] is complemented by the licensor's proven industrial experience. The LG Chem patent EP2360117B1 on LFP olivine morphology has been assessed and confirmed as non-overlapping with the project's product specification [DEC-005]. The digital twin architecture will be developed as proprietary FIB/Eni intellectual property, with the intent to file patent protection for the novel DT-electrification combination [CLM-015].
 
 ### Public Acceptance
 
@@ -139,7 +139,7 @@ Eni S.p.A. is a global energy company with extensive experience in industrial si
 - Energy supply management (grid electricity procurement, potential on-site renewable capacity)
 - Environmental management and site remediation expertise
 - Stakeholder relations and permitting support
-- **Direct internal customer**: Partner in the co-located FIB-Eni JV battery cell and BESS factory; deployer of BESS systems on the Italian electricity grid for grid stabilisation and decarbonisation. The Brindisi site hosts both the CAM plant and the JV cell/BESS factory, with the implementation plan coordinating parallel development of both facilities.
+- **Direct internal customer**: Partner in the co-located ESS JV battery cell and BESS factory; deployer of BESS systems on the Italian electricity grid for grid stabilisation and decarbonisation. The Brindisi site hosts both the CAM plant and the JV cell/BESS factory, with the implementation plan coordinating parallel development of both facilities.
 
 ### Governance Structure
 
@@ -162,7 +162,7 @@ The project governance comprises three levels:
 | EHS Manager | FIB + Eni | Environmental, health & safety management, permitting support |
 | Site Manager | Eni | Brindisi site operations, infrastructure, utility supply, stakeholder relations |
 | Financial Controller | FIB | Budget management, cost reporting, audit coordination |
-| Technology Licensor | [TO BE COMPLETED: technology licensor name] | LFP CAM process know-how, recipe optimisation, equipment specification support, commissioning assistance |
+| Technology Licensor | Zhejiang Youshan New Material Technology Co., LTD. | LFP CAM process know-how, recipe optimisation, equipment specification support, commissioning assistance |
 
 [TO BE COMPLETED: Specific CVs and track records of named individuals for each role must be provided by the project team and included in the Participant Information annex. The proposal should highlight relevant experience in battery manufacturing, industrial plant construction, and digital manufacturing for each key role.]
 

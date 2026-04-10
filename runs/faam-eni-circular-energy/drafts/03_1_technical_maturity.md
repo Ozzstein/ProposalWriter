@@ -15,7 +15,7 @@ The FAAM-ENI Circular Energy project integrates two proven technology domains --
 
 The core manufacturing process (solid-state LFP synthesis via spray drying and calcination) is at industrial maturity, with the electrification of process heat being the primary technical advancement. The digital twin components represent the higher-risk, higher-innovation elements of the project, but are built upon validated sub-systems and established standards.
 
-**Co-located JV factory as technical de-risking mechanism.** The LFP CAM plant is co-located with a planned FIB-Eni joint venture battery cell and BESS manufacturing facility at the same Brindisi site. This co-location creates an immediate feedback loop from cell manufacturing to CAM quality: cell performance data from the JV factory feeds directly into the DT's quality prediction models, enabling rapid identification of CAM quality parameters that impact downstream cell performance. This closed-loop quality feedback cycle — from CAM synthesis through cell testing and back to process optimisation — is a unique technical advantage unavailable to standalone CAM producers selling to external customers. The co-located JV factory also secures internal offtake, eliminating market risk for the CAM product and ensuring continuous production data for DT model calibration.
+**Co-located JV factory as technical de-risking mechanism.** The LFP CAM plant is co-located with a planned ESS (Eni Storage Systems) JV battery cell and BESS manufacturing facility at the same Brindisi site. This co-location creates an immediate feedback loop from cell manufacturing to CAM quality: cell performance data from the JV factory feeds directly into the DT's quality prediction models, enabling rapid identification of CAM quality parameters that impact downstream cell performance. This closed-loop quality feedback cycle — from CAM synthesis through cell testing and back to process optimisation — is a unique technical advantage unavailable to standalone CAM producers selling to external customers. The co-located JV factory also secures internal offtake, eliminating market risk for the CAM product and ensuring continuous production data for DT model calibration.
 
 Detailed technical feasibility is described below and supported by the Feasibility Study annex.
 
@@ -31,9 +31,9 @@ The Brindisi plant employs a wet-route solid-state synthesis process comprising 
 
 The three primary precursors -- iron phosphate (FePO4), lithium carbonate (Li2CO3), and glucose (C6H12O6, carbon source) -- are gravimetrically dosed into a stirred dispersion tank with deionised water. The stoichiometric ratio targets Li:Fe:P = 1.00:1.00:1.00 (molar), with lithium carbonate providing a slight excess (typically 2-5 mol% Li excess) to compensate for volatilisation losses during calcination [SRC-011]. The glucose loading is 5-15 wt% relative to the total solid content, providing the carbon precursor for in-situ carbon coating during calcination [CLM-020, SRC-DT-REPORT]. The resulting aqueous slurry (typically 30-45 wt% solids) is homogenised by high-shear mixing.
 
-**Step 2: Sand Milling and Magnetic Particle Removal**
+**Step 2: Bead Milling and Magnetic Particle Removal**
 
-The homogeneous slurry is transferred to a horizontal sand mill (bead mill) for particle size reduction and intimate mixing of the precursors. The target particle size after milling is D50 < 5 um, verified by at-line laser diffraction measurement. Following milling, the slurry passes through an electromagnetic demagnetiser to remove ferromagnetic contaminants introduced during milling (iron wear particles from the mill media). Magnetic contamination above 0.1 ppm Fe metallic is a critical defect that can cause internal short circuits in the final battery cell [SRC-DT-REPORT].
+The homogeneous slurry is transferred to a horizontal bead mill (bead mill) for particle size reduction and intimate mixing of the precursors. The target particle size after milling is D50 < 5 um, verified by at-line laser diffraction measurement. Following milling, the slurry passes through an electromagnetic demagnetiser to remove ferromagnetic contaminants introduced during milling (iron wear particles from the mill media). Magnetic contamination above 0.1 ppm Fe metallic is a critical defect that can cause internal short circuits in the final battery cell [SRC-DT-REPORT].
 
 **Step 3: Spray Drying (ELECTRIFIED)**
 
@@ -47,11 +47,11 @@ The plant comprises 4 modular production lines, each rated at 12,500 t/yr, for a
 
 **Step 4: Calcination (ELECTRIFIED -- Key Innovation Step)**
 
-The dried precursor powder is loaded into saggars and introduced into the calcination furnace (roller hearth kiln or pusher kiln configuration) via an automated rail/conveyor system. The furnace operates under nitrogen atmosphere (pO2 < 10 ppm) at 650-700 C for 6-12 hours [CLM-020, SRC-011]. Nitrogen consumption is approximately 850 m3 per tonne of LFP CAM product.
+The dried precursor powder is loaded into saggars and introduced into the calcination furnace (roller hearth kiln or pusher kiln configuration) via an automated rail/conveyor system. The furnace operates under nitrogen atmosphere (pO2 < 10 ppm) at 700-800 C for 6-12 hours [CLM-020, SRC-011]. Nitrogen consumption is approximately 850 m3 per tonne of LFP CAM product.
 
 Two electrified furnace configurations are under evaluation for the Brindisi plant:
 
-- **Electric roller hearth kiln (RHK)**: The industrial standard for battery cathode active material calcination. Electric heating zones with independent PID control provide uniform temperature distribution across the kiln cross-section. The NGK HD series and equivalent kilns operate to 1500 C with 40%+ energy reduction versus conventional tunnel kilns [SRC-ED-023]. A CFD-validated model for electric RHK energy optimisation in NMC CAM calcination has been published (Jo et al., 2025), demonstrating <5% heater control deviation [SRC-ED-010]. This model is directly transferable to LFP calcination at the lower operating temperature of 650-700 C.
+- **Electric roller hearth kiln (RHK)**: The industrial standard for battery cathode active material calcination. Electric heating zones with independent PID control provide uniform temperature distribution across the kiln cross-section. The NGK HD series and equivalent kilns operate to 1500 C with 40%+ energy reduction versus conventional tunnel kilns [SRC-ED-023]. A CFD-validated model for electric RHK energy optimisation in NMC CAM calcination has been published (Jo et al., 2025), demonstrating <5% heater control deviation [SRC-ED-010]. This model is directly transferable to LFP calcination at the lower operating temperature of 700-800 C.
 
 - **Electric rotary kiln**: An alternative for continuous throughput. Electric internally-heated or externally-heated rotary calciners have been demonstrated for cement and lime production [SRC-ED-006, SRC-ED-007, SRC-ED-008]. Kanthal (Sandvik Group) supplies electric heating elements (SiC, Tubothal, Fibrothal) rated to 1100 C for battery cathode kiln applications [SRC-ED-009].
 
@@ -61,7 +61,7 @@ During calcination, the following sequential reactions occur with activation ene
 1. Dehydration and organic decomposition (200-400 C): glucose pyrolysis generates amorphous carbon
 2. Carbothermal reduction of Fe3+ to Fe2+ (400-550 C): carbon reduces iron phosphate
 3. Olivine crystallisation (550-700 C): nucleation and growth of the LiFePO4 phase (Jander/Avrami kinetics)
-4. Carbon coating consolidation (600-700 C): residual carbon forms a 2-5 nm conductive layer on LFP particles
+4. Carbon coating consolidation (700-800 C): residual carbon forms a 2-5 nm conductive layer on LFP particles
 
 Precise temperature profile control across these stages is the primary determinant of product quality. The nitrogen atmosphere must be maintained at pO2 < 10 ppm to prevent Fe2+ oxidation to Fe3+, which degrades electrochemical performance [SRC-DT-REPORT].
 
@@ -103,7 +103,7 @@ The stoichiometric yield is >95% for the lithium and iron-phosphorus streams; th
 
 The two energy-intensive steps are spray drying and calcination, which together account for >80% of total process energy consumption [CLM-024, SRC-ED-014]. The measured electricity consumption of 3,580 kWh/t is consistent with the estimated range of 3-6 kWh/kg from NMC CAM analog data (Ahmed et al., 2017 [SRC-ED-011]). The natural gas consumption of 189 m3/t reflects the initial plant configuration; the progressive electrification strategy aims to reduce and eventually eliminate this gas use through electric alternatives in spray drying and calcination auxiliary heating.
 
-**Production capacity**: The plant is designed for an annual nameplate capacity of **50,000 tonnes (50 kton/yr)** of battery-grade LFP CAM, organised across 4 modular production lines of 12,500 t/yr each. This exceeds the comparable FREYR project (30,000 t/yr [SRC-025]) and positions the Brindisi facility as the largest planned LFP CAM plant in Europe. The target market is primarily ESS cell manufacturers.
+**Production capacity**: The plant is designed for an annual nameplate capacity of **50,000 tonnes (50 kton/yr)** of battery-grade LFP CAM, organised across 4 modular production lines of 12,500 t/yr each. With FREYR's cancellation of its 30,000 t/yr project [SRC-025], this positions the Brindisi facility as the largest planned LFP CAM plant in Europe. The target market is primarily ESS cell manufacturers.
 
 ### Critical Quality Attributes (CQAs)
 
@@ -136,7 +136,7 @@ The digital twin is designed according to ISO 23247:2021, the international stan
 **Layer 2 -- Data Collection and Device Control (DCDC)**: The sensor network and industrial communication layer. Sensors include:
 - Temperature: Type K/S thermocouples (contact measurement, +/-1.5 C accuracy) and ratio pyrometers (non-contact, +/-0.5%) for furnace zone monitoring; IR cameras for full-field 2D thermal mapping of crucible beds
 - Particle size: FBRM (Focused Beam Reflectance Measurement) probes for in-line monitoring during milling (0.5-2000 um, 2-second update rate); laser diffraction for at-line D10/D50/D90 verification
-- Chemical composition: In-line Raman spectroscopy probes simultaneously measuring olivine phase formation (PO4 stretch at 950 cm-1), carbon coating quality (D/G band ratio), and impurity phases [CLM-019, SRC-DT-REPORT]
+- Chemical composition: At-line Raman spectroscopy probes simultaneously measuring olivine phase formation (PO4 stretch at 950 cm-1), carbon coating quality (D/G band ratio), and impurity phases [CLM-019, SRC-DT-REPORT]
 - Atmosphere: Zirconia O2 sensors (<10 ppm resolution), NDIR analysers for CO2/CO/CH4, QMS for evolved gas analysis during calcination
 
 All sensor data is communicated via OPC-UA gateways to an edge-fog computing layer, with MQTT publish-subscribe messaging for real-time data streaming. Typical edge-to-fog latency is <100 ms [SRC-DT-REPORT].
@@ -155,7 +155,7 @@ All sensor data is communicated via OPC-UA gateways to an edge-fog computing lay
 
 ### Technology Licensor
 
-FIB has secured a technology licensor for the LFP CAM solid-state synthesis process — [TO BE COMPLETED: technology licensor name] — which provides a critical risk mitigation pathway for scale-up. The technology licensor contributes: (a) proven process recipes and calcination profiles validated at industrial scale; (b) equipment specification guidance for the roller hearth kiln, spray dryer, and milling systems; and (c) commissioning support including process parameter transfer and initial batch qualification protocols. This licensor relationship substantially de-risks R1 (calcination scale-up) and TR5 (product quality consistency) by providing an established process baseline from which the DT-driven optimisation can begin.
+FIB has secured a technology licensor for the LFP CAM solid-state synthesis process — Zhejiang Youshan New Material Technology Co., LTD. — which provides a critical risk mitigation pathway for scale-up. The technology licensor contributes: (a) proven process recipes and calcination profiles validated at industrial scale; (b) equipment specification guidance for the roller hearth kiln, spray dryer, and milling systems; and (c) commissioning support including process parameter transfer and initial batch qualification protocols. This licensor relationship substantially de-risks R1 (calcination scale-up) and TR5 (product quality consistency) by providing an established process baseline from which the DT-driven optimisation can begin.
 
 ### DT Development Milestones
 

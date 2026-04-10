@@ -30,7 +30,7 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 | **Lead partner** | FIB (FAAM) |
 | **Contributing partner** | Eni |
 | **Objective** | Reach financial close within 24 months of grant agreement signature through completion of detailed engineering, environmental permitting, supplier qualification, and financing agreements. |
-| **Budget** | [TO BE COMPLETED: Budget to be confirmed by CFO team. Must not exceed 40% of maximum grant amount.] |
+| **Budget** | [TO BE COMPLETED: Budget to be confirmed by Financial Team. Must not exceed 40% of maximum grant amount.] |
 
 #### Activities
 
@@ -44,7 +44,7 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 **A1.2 Detailed Engineering (M1-M18)**
 - Complete Front-End Engineering Design (FEED) covering:
   - Process flow diagrams (PFDs) and piping and instrumentation diagrams (P&IDs)
-  - Equipment specification and sizing: spray dryer (electric resistance heaters, 200-250 C inlet), calcination furnace (electric roller hearth kiln or rotary kiln, 650-700 C, N2 atmosphere), jet mill, ultrasonic sieve, electromagnetic separator, packaging line
+  - Equipment specification and sizing: spray dryer (electric resistance heaters, 200-250 C inlet), calcination furnace (electric roller hearth kiln or rotary kiln, 700-800 C, N2 atmosphere), jet mill, ultrasonic sieve, electromagnetic separator, packaging line
   - Site layout and building design for Brindisi brownfield location
   - Utility requirements: grid electricity supply (high-voltage connection), nitrogen generation plant (PSA or membrane), deionised water system, HVAC, compressed air
   - Integration of DT sensor infrastructure (thermocouple arrays, pyrometers, Raman probe ports, FBRM installation points, OPC-UA gateway locations) into engineering design
@@ -81,8 +81,8 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 - Finalise project financing structure (Innovation Fund grant + equity + debt)
 - Negotiate and execute debt facility agreements
 - Confirm equity commitments from FIB and Eni
-- Execute key commercial agreements (off-take agreements, supply contracts). Note: primary offtake is secured internally through the co-located FIB-Eni JV battery cell and BESS factory — Eni is the guaranteed internal customer. External offtake agreements with European cell manufacturers represent additional upside.
-- Coordinate timeline with the parallel development of the FIB-Eni JV battery cell and BESS factory at the Brindisi site, ensuring the CAM plant entry into operation aligns with JV factory readiness to receive LFP CAM feedstock
+- Execute key commercial agreements (off-take agreements, supply contracts). Note: primary offtake is secured internally through the co-located ESS (Eni Storage Systems) JV battery cell and BESS factory — Eni is the guaranteed internal customer. External offtake agreements with European cell manufacturers represent additional upside.
+- Coordinate timeline with the parallel development of the ESS JV battery cell and BESS factory at the Brindisi site, ensuring the CAM plant entry into operation aligns with JV factory readiness to receive LFP CAM feedstock
 - Prepare and assemble all financial close documentation
 - Obtain Financial Investment Decision (FID) from FIB and Eni boards
 
@@ -125,7 +125,7 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 - Piping, electrical, and instrumentation installation
 - DCS/SCADA system installation and configuration
 - Sensor network installation (thermocouples, pyrometers, Raman probes, FBRM probes, O2 sensors, flow meters)
-- Coordination with parallel construction of the co-located FIB-Eni JV battery cell and BESS factory, including shared utility infrastructure and site logistics planning
+- Coordination with parallel construction of the co-located ESS JV battery cell and BESS factory, including shared utility infrastructure and site logistics planning
 
 **A2.2 DT System Development (M12-M42, parallel track starting in WP1)**
 - Develop and validate physics-based models:
@@ -385,7 +385,7 @@ The project budget is structured to comply with Innovation Fund requirements:
 - **WP2 (Financial Close to Entry into Operation)**: Largest budget share, covering construction, equipment installation, DT development and integration, and commissioning.
 - **WP3-WP7 (Operational Years 1-5)**: Budget allocation of at least 10% of maximum grant amount post entry into operation, covering production operations, GHG monitoring, knowledge sharing, and final reporting.
 
-[TO BE COMPLETED: Specific budget figures (total CAPEX, OPEX by WP, grant request amount) to be provided by the CFO team and included in the Financial Information File (Annex 1 to Part B). The detailed budget table uses the mandatory relevant cost calculator template.]
+[TO BE COMPLETED: Specific budget figures (total CAPEX, OPEX by WP, grant request amount) to be provided by the Financial Team and included in the Financial Information File (Annex 1 to Part B). The detailed budget table uses the mandatory relevant cost calculator template.]
 
 The principal cost categories are:
 - **CAPEX**: Process equipment (calcination furnace, spray dryer, jet mill, classifier, packaging), building and civil works, utility systems (electrical, N2, water), DCS/SCADA and sensor network, DT software and computing infrastructure

@@ -20,7 +20,7 @@ Commission Communication C/2025/3236 of 18 June 2025 explicitly identifies batte
 
 ### The Brindisi Opportunity: A Vertically Integrated Clean Energy Hub
 
-Eni's industrial site in Brindisi, Puglia, offers a brownfield conversion opportunity uniquely suited to LFP CAM manufacturing — and, critically, the Brindisi site is the location of a planned **FIB-Eni joint venture battery cell and BESS manufacturing facility** that will be co-located with the LFP CAM plant. This creates a **vertically integrated value chain from cathode material to grid-deployed energy storage** within a single industrial site: LFP CAM produced by this project feeds directly into the co-located JV factory, which manufactures battery cells and assembles them into battery energy storage systems (BESS). Eni, as the direct internal customer, will deploy these BESS on the Italian electricity grid for grid stabilisation and decarbonisation. The full value chain is: **LFP CAM (this project) to battery cells (JV factory) to BESS systems (JV factory) to Italian grid deployment (Eni)**.
+Eni's industrial site in Brindisi, Puglia, offers a brownfield conversion opportunity uniquely suited to LFP CAM manufacturing — and, critically, the Brindisi site is the location of a planned **ESS (Eni Storage Systems) JV battery cell and BESS manufacturing facility** that will be co-located with the LFP CAM plant. This creates a **vertically integrated value chain from cathode material to grid-deployed energy storage** within a single industrial site: LFP CAM produced by this project feeds directly into the co-located JV factory, which manufactures battery cells and assembles them into battery energy storage systems (BESS). Eni, as the direct internal customer, will deploy these BESS on the Italian electricity grid for grid stabilisation and decarbonisation. The full value chain is: **LFP CAM (this project) to battery cells (JV factory) to BESS systems (JV factory) to Italian grid deployment (Eni)**.
 
 The site provides existing industrial infrastructure — power supply connections, road and port access, and environmental permitting precedent — that substantially de-risks the construction timeline. Located in Southern Europe, the Brindisi plant would provide geographic diversification within the emerging EU LFP supply chain, complementing FREYR's Northern European site and serving Mediterranean battery cell manufacturers.
 
@@ -46,7 +46,7 @@ The FAAM-ENI Circular Energy project will construct and operate the first LFP ca
 
 ### FIB S.p.A. (FAAM) — Main Applicant and Coordinator
 
-FIB S.p.A., operating under the FAAM brand, is an Italian battery manufacturer founded in 1974, with over 50 years of experience in lead-acid and lithium-ion battery production. A subsidiary of Seri Industrial S.p.A., FIB is headquartered in Monterubbiano (FM), Marche, Italy, where its first factories were established in 1976. FIB employs approximately 354 staff across its manufacturing and R&D operations. The company produces lithium-ion batteries for traction, industrial, storage, and military applications, as well as lead-acid batteries and fuel cells, with a strategic focus on green batteries with low environmental impact. FIB has recently contracted an 8 GWh lithium battery facility with Lead Intelligent Equipment, demonstrating its commitment to scaling battery production capacity. FIB has a strong track record of supporting research through university partnerships, including PhD studentships and MSc degree collaborations.
+FIB S.p.A., operating under the FAAM brand, is an Italian battery manufacturer founded in 1974, with over 50 years of experience in lead-acid and lithium-ion battery production. A subsidiary of Seri Industrial S.p.A., FIB is headquartered in Monterubbiano (FM), Marche, Italy, where its first factories were established in 1976. FIB employs approximately 354 staff across its manufacturing and R&D operations. FIB's existing Li-ion cell manufacturing activities are based at the Teverola site (Teverola 1 and Teverola 2 plants) in the Province of Caserta, Campania, near Naples. The company produces lithium-ion batteries for traction, industrial, storage, and military applications, as well as lead-acid batteries and fuel cells, with a strategic focus on green batteries with low environmental impact. FIB has recently contracted an 8 GWh lithium battery facility with Lead Intelligent Equipment, demonstrating its commitment to scaling battery production capacity. FIB has a strong track record of supporting research through university partnerships, including PhD studentships and MSc degree collaborations.
 
 **Expertise and suitability as coordinator:**
 - Established battery manufacturing operations with existing quality management systems (ISO 9001) and environmental management (ISO 14001), complemented by occupational health and safety management (ISO 45001)
@@ -65,14 +65,14 @@ Eni is one of Europe's largest integrated energy companies, with approximately 3
 - Expertise in energy supply, grid integration, and renewable energy procurement — critical for the electrified manufacturing model
 - Established environmental management, permitting, and community engagement track record at the Brindisi site
 - Existing investment framework for clean-technology transition projects under Eni's decarbonisation strategy
-- **Direct internal offtaker for the project's output**: Eni is a partner in the co-located FIB-Eni joint venture battery cell and BESS factory at Brindisi, and will deploy the manufactured BESS systems on the Italian electricity grid for grid stabilisation and decarbonisation services. This role as guaranteed internal customer eliminates offtake risk and secures market demand for the LFP CAM produced by this project.
+- **Direct internal offtaker for the project's output**: Eni is a partner in the co-located ESS JV battery cell and BESS factory at Brindisi, and will deploy the manufactured BESS systems on the Italian electricity grid for grid stabilisation and decarbonisation services. This role as guaranteed internal customer eliminates offtake risk and secures market demand for the LFP CAM produced by this project.
 - Responsible for: site provision and preparation, energy supply architecture (including renewable electricity procurement), process engineering support, environmental permitting, co-financing, and downstream BESS grid deployment
 
 ### Technology Licensor
 
-FIB has secured a technology licensor for the LFP CAM solid-state synthesis process — [TO BE COMPLETED: technology licensor name] — providing process know-how, recipe optimisation, and equipment specification support. The technology licensor brings proven industrial experience in LFP CAM production, de-risking the scale-up from established process parameters to the Brindisi plant's specific configuration and throughput requirements. The licensor relationship covers process recipe definition, calcination profile optimisation, and spray drying parameter specification, while FIB retains ownership of the digital twin integration and progressive electrification innovations.
+FIB has secured a technology licensor for the LFP CAM solid-state synthesis process — Zhejiang Youshan New Material Technology Co., LTD. — providing process know-how, recipe optimisation, and equipment specification support. The technology licensor brings proven industrial experience in LFP CAM production, de-risking the scale-up from established process parameters to the Brindisi plant's specific configuration and throughput requirements. The licensor relationship covers process recipe definition, calcination profile optimisation, and spray drying parameter specification, while FIB retains ownership of the digital twin integration and progressive electrification innovations.
 
-### FIB-Eni Joint Venture Battery Factory (Co-Located at Brindisi)
+### ESS (Eni Storage Systems) JV Battery Factory (Co-Located at Brindisi)
 
 FIB and Eni are establishing a joint venture battery cell and BESS manufacturing facility on the same Brindisi industrial site as the LFP CAM plant. The JV factory will convert the LFP CAM produced by this project into battery cells and assemble them into grid-scale battery energy storage systems (BESS). Eni will deploy these BESS on the Italian electricity grid as part of its strategy to stabilise and decarbonise the Italian power system. This co-located JV factory is the direct and guaranteed customer for the LFP CAM output, creating a mine-to-grid vertically integrated value chain within a single consortium and site. The parallel development of the JV factory is coordinated with the LFP CAM plant timeline to ensure seamless integration upon entry into operation.
 
@@ -86,7 +86,7 @@ The FIB-Eni partnership combines complementary capabilities: FIB brings battery-
 
 ### Project Location and Site
 
-The plant will be located at Eni's existing industrial site in **Brindisi, Puglia, Italy** (41.0N, 17.9E). The Brindisi site offers:
+The plant will be located at Eni's existing industrial site in **Brindisi, Puglia, Italy** (40.615°N, 17.980°E), located just south of the city near the industrial port area and Punta della Contessa, within the broader multi-company petrochemical hub (Versalis, Enipower, Basell) managed by Eni Rewind for soil and groundwater remediation. The site includes an Enipower combined-cycle power plant facing the Adriatic Sea). The Brindisi site offers:
 - Existing industrial zoning and environmental permitting precedent
 - Grid-connected power supply infrastructure with capacity for electrified manufacturing loads
 - Road access (SS 613, E55 corridor) and port access (Port of Brindisi) for raw material import and product distribution
@@ -101,9 +101,9 @@ The manufacturing process comprises a **7-step production chain**:
 | Step | Operation | Key Parameters |
 |------|-----------|----------------|
 | 1 | Raw materials dosing | Iron phosphate (0.98 t/t), lithium carbonate (0.25 t/t), glucose (0.010 t/t), TiO2 (0.008 t/t), H3PO4 (0.006 t/t) into dispersion tank |
-| 2 | Sand milling + magnetic separation | Particle size reduction, demagnetisation |
+| 2 | Bead milling + magnetic separation | Particle size reduction, demagnetisation |
 | 3 | Spray drying | Aqueous slurry to solid unreacted mixture; controls morphology |
-| 4 | Crucible loading + calcination | Electric roller hearth kiln, 600-700 C under N2 (pO2 <10 ppm) |
+| 4 | Crucible loading + calcination | Electric roller hearth kiln, 700-800 C under N2 (pO2 <10 ppm) |
 | 5 | Jet milling | Air-flow grinding to target D50 0.7-2.5 um |
 | 6 | Ultrasonic sieving + demagnetisation | Classification and magnetic particle removal |
 | 7 | Automated packaging | Final product: battery-grade LiFePO4/C |
@@ -147,7 +147,7 @@ The central technology choice is a **progressive electrification strategy** for 
 
 **Spray drying electrification**: Heat pump-assisted pre-heating (high-temperature heat pump at COP 3.04-3.6 [SRC-ED-004, SRC-ED-005]) combined with electric resistance or NIR final drying [SRC-ED-019], replacing natural gas burners.
 
-**Calcination electrification**: Electric roller hearth kiln operating at 600-700 C under N2 atmosphere, achieving 95% thermal efficiency versus 25-60% for gas-fired kilns [CLM-023]. Electric roller hearth kilns are the established industrial standard for NMC CAM calcination (Jo et al., 2025; NGK vendor data [SRC-ED-010, SRC-ED-023]) and are directly applicable to LFP calcination temperatures and atmosphere requirements.
+**Calcination electrification**: Electric roller hearth kiln operating at 700-800 C under N2 atmosphere, achieving 95% thermal efficiency versus 25-60% for gas-fired kilns [CLM-023]. Electric roller hearth kilns are the established industrial standard for NMC CAM calcination (Jo et al., 2025; NGK vendor data [SRC-ED-010, SRC-ED-023]) and are directly applicable to LFP calcination temperatures and atmosphere requirements.
 
 **Future-proof design rationale**: Italy's current grid carbon intensity (~310 gCO2/kWh) is marginal for GHG benefits versus gas combustion. However, the plant is designed for a 20+ year operational life. Italy's NECP trajectory projects grid intensity declining to ~146 gCO2/kWh by 2030 and ~30-60 gCO2/kWh by 2035 (G7 commitment). Electrification now locks in infrastructure compatible with the decarbonised grid of the 2030s, before fossil-fuel-based process heating becomes stranded [CLM-030].
 

@@ -16,7 +16,7 @@
 
 The FAAM-ENI Circular Energy (FACE) project will design, construct, commission, and operate the first progressively electrified lithium iron phosphate (LiFePO4, LFP) cathode active material (CAM) manufacturing plant in Italy and Southern Europe, with a nameplate capacity of 50,000 tonnes per year across 4 modular production lines. The plant will be located at Eni's brownfield industrial site in Brindisi, Puglia, and will produce battery-grade LFP CAM powder for supply to European lithium-ion battery cell manufacturers serving the electric vehicle (EV) and grid-scale energy storage system (ESS) markets.
 
-The project is implemented by a two-partner consortium: FIB (FAAM), the coordinator and battery manufacturer responsible for plant construction and operation, and Eni, the brownfield site owner contributing process engineering expertise, energy supply infrastructure, and the role of guaranteed internal offtaker through a co-located FIB-Eni joint venture battery cell and BESS manufacturing facility. The LFP CAM produced by this project feeds directly into the JV factory, which manufactures cells and BESS systems that Eni deploys on the Italian electricity grid — creating a vertically integrated value chain from cathode material to grid-deployed energy storage.
+The project is implemented by a two-partner consortium: FIB (FAAM), the coordinator and battery manufacturer responsible for plant construction and operation, and Eni, the brownfield site owner contributing process engineering expertise, energy supply infrastructure, and the role of guaranteed internal offtaker through a co-located ESS (Eni Storage Systems) JV battery cell and BESS manufacturing facility. The LFP CAM produced by this project feeds directly into the JV factory, which manufactures cells and BESS systems that Eni deploys on the Italian electricity grid — creating a vertically integrated value chain from cathode material to grid-deployed energy storage.
 
 The FACE plant employs a solid-state synthesis route -- the dominant industrial process for LFP CAM globally [CLM-009, SRC-011] -- with two defining technical differentiators that position it beyond the current state-of-the-art:
 
@@ -69,14 +69,14 @@ The production process comprises seven sequential unit operations. *See Figure 1
 | Step | Unit Operation | Key Equipment | Innovation Element |
 |------|---------------|---------------|-------------------|
 | 1 | Raw material dosing and dispersion | Gravimetric feeders, stirred dispersion tank | DT-monitored stoichiometry |
-| 2 | Sand milling + magnetic particle removal | Horizontal bead mill, electromagnetic demagnetiser | In-line FBRM particle size monitoring |
+| 2 | Bead milling + magnetic particle removal | Horizontal bead mill, electromagnetic demagnetiser | In-line FBRM particle size monitoring |
 | 3 | Spray drying (ELECTRIFIED) | Electric spray dryer with HTHP air pre-heating | Electrified thermal processing; DT-controlled drying parameters |
 | 4 | Calcination (ELECTRIFIED) | Electric roller hearth kiln, N2 atmosphere | Electrified calcination; DT-driven temperature profile MPC |
 | 5 | Jet milling | Air-flow jet mill | DEM-based DT model for milling optimisation |
 | 6 | Classification + demagnetisation | Ultrasonic vibrating sieve, electromagnetic separator | At-line quality verification integrated with DT |
 | 7 | Automated packaging | N2-blanketed packaging line | Full traceability, Battery Passport data capture |
 
-The process flow is: raw materials (FePO4 + Li2CO3 + glucose) enter at Step 1, water is removed at Step 3 (spray drying), the solid-state reaction occurs at Step 4 (calcination at 650-700 C under N2), particle size is refined at Steps 5-6, and finished LiFePO4/C powder exits at Step 7. DT integration points exist at every step, with the most critical being Steps 3 (spray drying) and 4 (calcination), where process parameters directly determine final product quality [CLM-009].
+The process flow is: raw materials (FePO4 + Li2CO3 + glucose) enter at Step 1, water is removed at Step 3 (spray drying), the solid-state reaction occurs at Step 4 (calcination at 700-800 C under N2), particle size is refined at Steps 5-6, and finished LiFePO4/C powder exits at Step 7. DT integration points exist at every step, with the most critical being Steps 3 (spray drying) and 4 (calcination), where process parameters directly determine final product quality [CLM-009].
 
 ---
 
@@ -108,7 +108,7 @@ This concentration has become an acute supply chain risk following China's impos
 
 As of late 2025, no European company operates a commercial LFP CAM production line [CLM-003]. The landscape comprises:
 
-- **FREYR Battery (Finland)**: Received a EUR 122M Innovation Fund grant (October 2024) for a planned 30,000 t/yr LFP CAM facility in Vaasa, Finland [SRC-025]. However, FREYR has not reached Final Investment Decision (FID) for Vaasa and is currently prioritising its US Giga America facility [CLM-029]. The Vaasa project should be treated as a medium-term option with non-trivial schedule and financing risk.
+- **FREYR Battery (Finland)**: Had received a EUR 122M Innovation Fund grant (October 2024) for a planned 30,000 t/yr LFP CAM facility in Vaasa, Finland, but subsequently cancelled these plans, citing a strategic pivot to the US market (Giga America) [SRC-025]. However, FREYR has not reached Final Investment Decision (FID) for Vaasa and is currently prioritising its US Giga America facility [CLM-029]. The Vaasa project should be treated as a medium-term option with non-trivial schedule and financing risk.
 
 - **CATL**: Expanding cell production within Europe but LFP CAM production status in Europe is unclear [SRC-023]. CATL's European operations primarily involve cell assembly using imported Chinese CAM.
 
@@ -116,13 +116,13 @@ As of late 2025, no European company operates a commercial LFP CAM production li
 
 - **PowerCo, Verkor, ACC, Northvolt**: European cell manufacturers that require domestic LFP CAM supply but do not produce their own CAM.
 
-The FACE project addresses this gap as the first LFP CAM production facility in Italy and Southern Europe [CLM-022], providing geographic diversification within the EU LFP supply landscape alongside FREYR's Northern European site.
+The FACE project addresses this gap as the first LFP CAM production facility in Italy and Southern Europe [CLM-022], becoming the sole European LFP CAM production facility following FREYR's cancellation of its Vaasa plans.
 
 ### 2.4 FIB/FAAM Capabilities
 
 FIB (Fabbrica Italiana Batterie, incorporating the FAAM brand) is an established Italian battery manufacturer with expertise in lead-acid and lithium-ion battery production, including cell assembly, module integration, and battery management systems. FIB's existing manufacturing infrastructure and quality management systems provide the organisational foundation for upstream expansion into CAM production.
 
-FIB/FAAM was founded in 1974 in Monterubbiano (FM), Italy, and is a subsidiary of Seri Industrial S.p.A. (acquired in 2013). With approximately 354 employees, FIB produces lithium-ion batteries for traction, industrial, storage, and military applications, as well as lead-acid batteries and fuel cells, with a strategic focus on green batteries with low environmental impact. FIB holds ISO 9001, ISO 14001, and ISO 45001 certifications. FIB has recently contracted an 8 GWh lithium battery facility with Lead Intelligent Equipment. FIB has an established track record of supporting university research through PhD studentships and MSc degree collaborations. [TO BE COMPLETED: specific current MWh/year manufacturing capacity and number of manufacturing sites to be confirmed by project team.]
+FIB/FAAM was founded in 1974 in Monterubbiano (FM), Italy, and is a subsidiary of Seri Industrial S.p.A. (acquired in 2013). With approximately 354 employees. FIB operates two existing Li-ion cell manufacturing plants (Teverola 1 and Teverola 2) at its Teverola site in the Province of Caserta, Campania (near Naples), providing direct experience in lithium battery production at industrial scale., FIB produces lithium-ion batteries for traction, industrial, storage, and military applications, as well as lead-acid batteries and fuel cells, with a strategic focus on green batteries with low environmental impact. FIB holds ISO 9001, ISO 14001, and ISO 45001 certifications. FIB has recently contracted an 8 GWh lithium battery facility with Lead Intelligent Equipment. FIB has an established track record of supporting university research through PhD studentships and MSc degree collaborations. [TO BE COMPLETED: specific current MWh/year manufacturing capacity and number of manufacturing sites to be confirmed by project team.]
 
 ---
 
@@ -153,11 +153,11 @@ The FACE project is positioned within a broader ecosystem of EU battery supply c
 
 - **IPCEI on Batteries (Hy2Use, EuBatIn)**: While FACE is not an IPCEI project, it complements IPCEI-funded cell manufacturing facilities by providing a domestic CAM supply source.
 
-- **FIB-Eni JV Battery Cell and BESS Factory (Brindisi)**: The FACE LFP CAM plant is the direct upstream supplier to the co-located FIB-Eni joint venture battery cell and BESS manufacturing facility on the same Brindisi site. The JV factory converts FACE LFP CAM into cells and grid-scale BESS systems. Eni deploys the BESS on the Italian electricity grid. This creates a vertically integrated value chain where the FACE project's output is consumed internally, eliminating offtake risk and providing immediate quality feedback from cell manufacturing to CAM optimisation.
+- **ESS JV Battery Cell and BESS Factory (Brindisi)**: The FACE LFP CAM plant is the direct upstream supplier to the co-located ESS JV battery cell and BESS manufacturing facility on the same Brindisi site. The JV factory converts FACE LFP CAM into cells and grid-scale BESS systems. Eni deploys the BESS on the Italian electricity grid. This creates a vertically integrated value chain where the FACE project's output is consumed internally, eliminating offtake risk and providing immediate quality feedback from cell manufacturing to CAM optimisation.
 
 - **Eni's Energy Transition Strategy**: The Brindisi site conversion from fossil fuel operations to an integrated clean energy manufacturing hub directly implements Eni's strategic pivot toward decarbonisation. Eni's investment provides co-financing leverage and demonstrates energy company commitment to the complete battery value chain — from cathode material production through grid deployment.
 
-- **FREYR Battery (Finland)**: FACE and FREYR together would establish a two-node European LFP CAM supply base with geographic diversification (Nordic + Mediterranean), reducing single-point-of-failure risk in EU supply chains.
+- **FREYR Battery (Finland)**: Following FREYR's cancellation, FACE would be the sole European LFP CAM production facility with geographic diversification (Nordic + Mediterranean), reducing single-point-of-failure risk in EU supply chains.
 
 ### 3.3 EU Legislation Compliance
 
@@ -211,7 +211,7 @@ Permitting applications (VIA, AIA, building permits) have been filed and are in 
 | FIB (FAAM) | Battery manufacturing know-how; cell assembly and testing protocols; quality management systems | Contributed to project under consortium agreement; no royalties |
 | Eni | Process engineering expertise; brownfield site engineering; energy systems design; industrial digitalisation capabilities | Contributed to project under consortium agreement; no royalties |
 
-Neither FIB/FAAM nor Eni holds active patents in LFP CAM synthesis, process equipment, or digital twin manufacturing [CLM-015]. FIB has secured a technology licensor — [TO BE COMPLETED: technology licensor name] — for the LFP CAM solid-state synthesis process, providing process know-how, recipe optimisation, and equipment specification support under a technology licence agreement. The licensor provides the process knowledge bridge from established industrial practice to the specific Brindisi plant configuration. Both consortium partners are technology acquirers in the CAM synthesis domain, which eliminates intra-consortium IP conflicts.
+Neither FIB/FAAM nor Eni holds active patents in LFP CAM synthesis, process equipment, or digital twin manufacturing [CLM-015]. FIB has secured a technology licensor — Zhejiang Youshan New Material Technology Co., LTD. — for the LFP CAM solid-state synthesis process, providing process know-how, recipe optimisation, and equipment specification support under a technology licence agreement. The licensor provides the process knowledge bridge from established industrial practice to the specific Brindisi plant configuration. Both consortium partners are technology acquirers in the CAM synthesis domain, which eliminates intra-consortium IP conflicts.
 
 **Foreground IP**:
 
@@ -353,8 +353,8 @@ The FACE project is the anchor of a **vertically integrated clean energy value c
 |-------|----------|--------|----------|
 | **Raw materials** | Precursor procurement (FePO4, Li2CO3, glucose) from EU and allied suppliers | FIB procurement | Global sourcing to Brindisi |
 | **CAM production** | 7-step solid-state LFP CAM synthesis (this project) | FIB (FAAM) | Brindisi, Eni site |
-| **Cell manufacturing** | LFP CAM converted to battery cells | FIB-Eni JV factory | Brindisi, Eni site (co-located) |
-| **BESS assembly** | Battery cells assembled into grid-scale BESS systems | FIB-Eni JV factory | Brindisi, Eni site (co-located) |
+| **Cell manufacturing** | LFP CAM converted to battery cells | ESS JV factory | Brindisi, Eni site (co-located) |
+| **BESS assembly** | Battery cells assembled into grid-scale BESS systems | ESS JV factory | Brindisi, Eni site (co-located) |
 | **Grid deployment** | BESS deployed for Italian grid stabilisation and decarbonisation | Eni | Italian electricity grid |
 
 This vertically integrated structure is unprecedented in the European battery sector. The co-located JV factory is the direct and guaranteed internal customer for the LFP CAM output, eliminating offtake risk and providing immediate quality feedback from cell manufacturing to CAM process optimisation.
@@ -366,7 +366,7 @@ This vertically integrated structure is unprecedented in the European battery se
 | **Inbound logistics** | Precursor procurement, maritime/land transport to Brindisi, warehouse management | EU-sourced where possible; reduced transport carbon vs Asian supply |
 | **CAM production** | 7-step solid-state synthesis: dosing -> milling -> spray drying -> calcination -> jet milling -> classification -> packaging | Electrified production with DT-optimised quality; battery-grade LFP CAM |
 | **Quality control** | In-line PAT + at-line laboratory analysis + DT-predicted quality disposition | Superior batch consistency; full CQA traceability |
-| **Internal offtake** | LFP CAM delivered directly to co-located FIB-Eni JV battery cell and BESS factory | Zero logistics cost for primary customer; immediate quality feedback loop |
+| **Internal offtake** | LFP CAM delivered directly to co-located ESS JV battery cell and BESS factory | Zero logistics cost for primary customer; immediate quality feedback loop |
 | **External sales** | Packaged LFP CAM delivery to additional European cell manufacturers via road/rail | Short supply chain to Southern/Central European customers (upside opportunity) |
 | **Customer service** | Technical support for cell integration; custom product specifications; Battery Passport data provision | Differentiated service vs commodity Chinese supply |
 
@@ -383,7 +383,7 @@ The FACE plant creates value across multiple dimensions:
 
 #### 5.2.4 Offtake Strategy
 
-**Primary offtake (internal)**: The co-located FIB-Eni JV battery cell and BESS manufacturing facility is the guaranteed internal customer for the LFP CAM output. Eni will deploy the BESS on the Italian electricity grid. This internal offtake pathway provides revenue certainty without dependency on external customer negotiations.
+**Primary offtake (internal)**: The co-located ESS JV battery cell and BESS manufacturing facility is the guaranteed internal customer for the LFP CAM output. Eni will deploy the BESS on the Italian electricity grid. This internal offtake pathway provides revenue certainty without dependency on external customer negotiations.
 
 **Secondary offtake (external)**: Additional sales to European cell manufacturers (PowerCo, Verkor, Northvolt, ACC, and others) represent upside revenue. The DT-driven quality consistency, EU Battery Passport compliance, and low-carbon footprint provide competitive differentiation versus Chinese commodity CAM.
 
@@ -403,7 +403,7 @@ The FACE plant creates value across multiple dimensions:
 
 The FACE plant is designed according to the following principles:
 
-**Technology licensor support**: The plant design is informed by a technology licence agreement with [TO BE COMPLETED: technology licensor name], who provides proven process know-how for the LFP CAM solid-state synthesis route. The licensor contributes validated process recipes, calcination profiles, spray drying parameters, and equipment specifications based on industrial production experience. This substantially de-risks the scale-up to the Brindisi 50 kton/yr configuration and provides the process baseline from which the DT-driven optimisation begins.
+**Technology licensor support**: The plant design is informed by a technology licence agreement with Zhejiang Youshan New Material Technology Co., LTD., who provides proven process know-how for the LFP CAM solid-state synthesis route. The licensor contributes validated process recipes, calcination profiles, spray drying parameters, and equipment specifications based on industrial production experience. This substantially de-risks the scale-up to the Brindisi 50 kton/yr configuration and provides the process baseline from which the DT-driven optimisation begins.
 
 **Progressive electrification**: The plant achieves a 66.6% electrification rate at entry into operation (3,580 kWh/t electrical, 189 m3/t natural gas = 1,796 kWh_th/t), representing a significantly higher degree of electrification than the gas-fired Asian benchmark. The initial configuration retains limited natural gas use (189 m3/t LFP CAM) for process steps — primarily spray drying auxiliary heating and calcination support — where full electrification is not yet technically or economically feasible at the 50 kton/yr production scale. The plant architecture is explicitly designed to accommodate progressive gas-to-electric substitution (targeting ~75% by Year 3, ~85% by Year 5, and >95% by Year 10): electric roller hearth kilns can operate fully electrically, and the spray drying system is designed for HTHP integration as a near-term upgrade. The digital twin optimises the energy mix in real time and identifies opportunities for progressive gas elimination. Over the plant's 20+ year operational life, the combination of technology maturation, falling renewable electricity costs, and grid decarbonisation [CLM-030] will drive progressive elimination of residual gas use.
 
@@ -419,10 +419,10 @@ The FACE plant is designed according to the following principles:
 |---|--------|-----------|-------------------|----------------|---------------|
 | 1 | Precursor dosing | Gravimetric loss-in-weight feeders | +/-0.1% accuracy; 3 independent feeders (FePO4, Li2CO3, glucose) | 3-4 months | EU (Schenck Process, K-Tron/Coperion) |
 | 2 | Dispersion | High-shear mixing tank | [TO BE COMPLETED: capacity to be sized for 12.5 kton/yr per line]; stainless steel 316L; variable speed drive | 2-3 months | EU |
-| 3 | Sand milling | Horizontal bead mill (sand mill) | [TO BE COMPLETED: grinding chamber size to be confirmed by vendor]; ZrO2 bead media 0.3-0.5 mm; water-cooled | 4-6 months | EU/Asia (NETZSCH, WAB) |
+| 3 | Bead milling | Horizontal bead mill (bead mill) | [TO BE COMPLETED: grinding chamber size to be confirmed by vendor]; ZrO2 bead media 0.3-0.5 mm; water-cooled | 4-6 months | EU/Asia (NETZSCH, WAB) |
 | 4 | Magnetic separation (pre-spray drying) | Electromagnetic demagnetiser | Ferromagnetic removal to <0.1 ppm Fe metallic | 2-3 months | EU (Eriez, Bunting) |
 | 5 | Spray drying (ELECTRIFIED) | Co-current electric spray dryer with HTHP pre-heating | Inlet 200-250 C; outlet 90-120 C; electric resistance heaters (Kanthal Tubothal/SiC); [TO BE COMPLETED: water evaporation capacity to be sized for 12.5 kton/yr per line] | 6-9 months (LONG LEAD) | EU (GEA, Buchi Industrial, SPX/Anhydro) |
-| 6 | Calcination (ELECTRIFIED) | Electric roller hearth kiln | 650-700 C operating temperature; N2 atmosphere (pO2 <10 ppm); multi-zone PID + MPC control; 95% thermal efficiency [CLM-023] | 9-12 months (LONG LEAD) | EU (Kanthal/Sandvik heating elements; NGK Insulators or ONEJOON kiln) |
+| 6 | Calcination (ELECTRIFIED) | Electric roller hearth kiln | 700-800 C operating temperature; N2 atmosphere (pO2 <10 ppm); multi-zone PID + MPC control; 95% thermal efficiency [CLM-023] | 9-12 months (LONG LEAD) | EU (Kanthal/Sandvik heating elements; NGK Insulators or ONEJOON kiln) |
 | 7 | Crucible system | Alumina or graphite-lined refractory crucibles + external rail transport | Heat-resistant; compatible with N2 atmosphere; automated loading/unloading | 3-4 months | EU |
 | 8 | Jet milling | Compressed gas jet mill (air or N2 jet) | Target D50 0.7-2.5 um; optional bypass for spherical grade; [TO BE COMPLETED: capacity to be sized per line] | 3-4 months | EU (NETZSCH, Hosokawa Alpine) |
 | 9 | Classification | Ultrasonic vibrating sieve | Cut-off 10-20 um; high-throughput continuous operation | 2-3 months | EU (Russell Finex, Sweco) |
@@ -446,7 +446,7 @@ The following operational parameters are based on the production information doc
 | Annual production capacity | 50,000 tonnes LFP CAM/year at nameplate (4 lines x 12,500 t/yr each) | Production information document |
 | Product mix | Nanosized LFP (75%) + Spherical LFP (25%) | Production information document |
 | Batch size (calcination) | Calcination in saggars under N2; [TO BE COMPLETED: specific saggar capacity and loading per kiln run to be confirmed during FEED] | Depends on kiln dimensions and saggar configuration |
-| Calcination cycle time | 6-12 hours dwell at 650-700 C, plus ramp-up (~2 h) and controlled cooling (~4 h) [SRC-011, CLM-020] | Based on published LFP synthesis literature |
+| Calcination cycle time | 6-12 hours dwell at 700-800 C, plus ramp-up (~2 h) and controlled cooling (~4 h) [SRC-011, CLM-020] | Based on published LFP synthesis literature |
 | Spray drying throughput | [TO BE COMPLETED: sized for 12.5 kton/yr per line; kg/h water evaporation to be confirmed by vendor] | Depends on spray dryer capacity selected |
 | Milling throughput | [TO BE COMPLETED: sized for line throughput; optional jet-milling bypass for spherical grade] | Depends on equipment sizing |
 | Product yield | >95% lithium and iron-phosphorus recovery; primary losses from CO2/volatile evolution during calcination | Stoichiometric basis |
@@ -469,7 +469,7 @@ The solid-state synthesis route for LFP is industrially mature (TRL 7-9) and has
 
 #### 6.4.2 Electrified Calcination
 
-Electric roller hearth kilns are the industry standard for NMC CAM calcination at temperatures up to 950 C [SRC-ED-010, SRC-ED-023]. LFP calcination at 650-700 C operates well within the proven temperature envelope. Kanthal/Sandvik supplies electric heating elements (SiC Globar, Tubothal metallic) rated to 1,100 C for battery material applications [SRC-ED-009]. NGK's HD series roller hearth kiln achieves 40%+ energy reduction versus conventional tunnel kilns [SRC-ED-023].
+Electric roller hearth kilns are the industry standard for NMC CAM calcination at temperatures up to 950 C [SRC-ED-010, SRC-ED-023]. LFP calcination at 700-800 C operates well within the proven temperature envelope. Kanthal/Sandvik supplies electric heating elements (SiC Globar, Tubothal metallic) rated to 1,100 C for battery material applications [SRC-ED-009]. NGK's HD series roller hearth kiln achieves 40%+ energy reduction versus conventional tunnel kilns [SRC-ED-023].
 
 The primary scale-up consideration is thermal uniformity across the kiln cross-section at production throughput. Non-uniform temperature distribution could create hot spots (>700 C, promoting impurity phases Li3PO4 and Fe2P) or cold spots (<600 C, incomplete olivine crystallisation) [CLM-020]. Mitigation:
 - Multi-zone PID temperature control with independent heating elements per zone
@@ -519,11 +519,11 @@ The following describes each of the seven process steps in technical detail. *Se
 
 **Outputs**: Homogeneous aqueous slurry of LFP precursors + glucose.
 
-#### Step 2: Sand Milling and Magnetic Particle Removal
+#### Step 2: Bead Milling and Magnetic Particle Removal
 
 **Inputs**: Precursor slurry from Step 1.
 
-**Operation**: The slurry is pumped through a horizontal sand mill (bead mill) containing zirconia (ZrO2) grinding beads (0.3-0.5 mm diameter). The mill provides high-energy mixing and particle size reduction, achieving intimate contact between precursor particles and reducing D50 to <5 um. The milled slurry is recirculated until the target particle size is confirmed by at-line laser diffraction. Following milling, the slurry passes through an electromagnetic demagnetiser to remove ferromagnetic contaminants (primarily iron wear particles from mill internals and bead fragments). Magnetic contamination above 0.1 ppm Fe metallic is a critical defect -- ferromagnetic particles can cause internal short circuits in finished battery cells.
+**Operation**: The slurry is pumped through a horizontal bead mill (bead mill) containing zirconia (ZrO2) grinding beads (0.3-0.5 mm diameter). The mill provides high-energy mixing and particle size reduction, achieving intimate contact between precursor particles and reducing D50 to <5 um. The milled slurry is recirculated until the target particle size is confirmed by at-line laser diffraction. Following milling, the slurry passes through an electromagnetic demagnetiser to remove ferromagnetic contaminants (primarily iron wear particles from mill internals and bead fragments). Magnetic contamination above 0.1 ppm Fe metallic is a critical defect -- ferromagnetic particles can cause internal short circuits in finished battery cells.
 
 **Key process parameters**: Mill tip speed; bead loading; number of passes; residence time.
 
@@ -561,7 +561,7 @@ Specific thermal energy demand: ~0.70-1.10 kWh per kg of water evaporated, based
 | Decomposition | 200-400 C | ~2 h | Glucose pyrolysis; amorphous carbon formation | 65-90 kJ/mol |
 | Carbothermal reduction | 400-550 C | ~2 h | Fe3+ reduced to Fe2+ by carbon; intermediate phases form (Li3Fe2(PO4)3, Fe2O3) | 90-120 kJ/mol |
 | Olivine crystallisation | 550-700 C | 4-8 h (main dwell) | Nucleation and growth of LiFePO4 olivine phase (Jander/Avrami kinetics) | 120-180 kJ/mol |
-| Carbon coating consolidation | 600-700 C | Concurrent with above | Residual carbon forms 2-5 nm conductive coating on LFP particles | -- |
+| Carbon coating consolidation | 700-800 C | Concurrent with above | Residual carbon forms 2-5 nm conductive coating on LFP particles | -- |
 | Controlled cooling | 700 C to RT | ~4 h | Slow cooling to avoid thermal stress cracking; maintained under N2 | -- |
 
 [CLM-020, SRC-011, SRC-DT-REPORT]
@@ -680,7 +680,7 @@ Layer 1 comprises the physical plant assets and their associated instrumentation
 |----------|-----------|----------|-----------------|
 | OME-001 | Gravimetric feeders (x3) | Step 1 - Dosing | Load cells, flow meters |
 | OME-002 | Dispersion tank | Step 1 - Mixing | Level, temperature, viscosity |
-| OME-003 | Sand mill | Step 2 - Milling | Power draw, temperature, FBRM probe |
+| OME-003 | Bead mill | Step 2 - Milling | Power draw, temperature, FBRM probe |
 | OME-004 | Demagnetiser (pre-spray) | Step 2 - Mag separation | Magnetic field strength, throughput |
 | OME-005 | Electric spray dryer | Step 3 - Drying | Inlet/outlet T, humidity, product rate |
 | OME-006 | Electric roller hearth kiln | Step 4 - Calcination | Multi-zone T, pO2, CO2/CO, IR camera |
@@ -708,9 +708,9 @@ Layer 2 manages all physical-digital data exchange through a hierarchical commun
 | S1 | Temperature (contact) | Type K thermocouple (+/-1.5 C) | Calcination kiln -- multiple zones | 1-10 Hz | Phase purity, carbon quality | In-line |
 | S2 | Temperature (non-contact) | Ratio pyrometer (+/-0.5%) | Calcination kiln exit | 1-10 Hz | Phase purity | In-line |
 | S3 | Temperature field (2D) | IR camera | Kiln exit, spray dryer | 10 Hz | Temperature uniformity | In-line |
-| S4 | Particle size (slurry) | FBRM probe (0.5-2000 um) | Sand mill outlet | 2 sec | D50 (milled slurry) | In-line |
+| S4 | Particle size (slurry) | FBRM probe (0.5-2000 um) | Bead mill outlet | 2 sec | D50 (milled slurry) | In-line |
 | S5 | Particle size (powder) | Laser diffraction | Post-jet mill (at-line) | 60 sec | D50, D10, D90 | At-line |
-| S6 | Phase composition | In-line Raman probe (950 cm-1 olivine) | Post-calcination sampling | 30-60 sec | Phase purity, carbon D/G | At-line |
+| S6 | Phase composition | At-line Raman probe (950 cm-1 olivine) | Post-calcination sampling | 30-60 sec | Phase purity, carbon D/G | At-line |
 | S7 | Atmosphere O2 | Zirconia O2 sensor (<10 ppm) | Calcination kiln atmosphere | 1-5 sec | Fe2+/Fe3+ ratio | In-line |
 | S8 | Evolved gas | NDIR (CO2, CO, CH4) | Calcination kiln exhaust | 1-5 sec | Reaction progress | In-line |
 | S9 | Elemental composition | XRF | Post-milling sampling | 5 min | Li:Fe:P stoichiometry | At-line |
@@ -762,7 +762,7 @@ Layer 4 provides the human-machine interface:
 
 ### 7.1 Production Volume
 
-The target annual production capacity is **50,000 tonnes (50 kton/yr)** of battery-grade LFP CAM, achievable through installation of **4 modular production lines** of 12,500 t/yr each. This exceeds the comparable FREYR project (30,000 t/yr [SRC-025]). The product mix is 75% nanosized LFP and 25% spherical LFP. The target market is primarily ESS cell manufacturers, where LFP's cycle life (potentially >6,000 cycles at cell level) and safety advantages are decisive.
+The target annual production capacity is **50,000 tonnes (50 kton/yr)** of battery-grade LFP CAM, achievable through installation of **4 modular production lines** of 12,500 t/yr each. With FREYR's cancellation of its 30,000 t/yr project [SRC-025], the Brindisi facility would be the only planned LFP CAM plant in Europe. The product mix is 75% nanosized LFP and 25% spherical LFP. The target market is primarily ESS cell manufacturers, where LFP's cycle life (potentially >6,000 cycles at cell level) and safety advantages are decisive.
 
 **Ramp-up trajectory**:
 
@@ -816,7 +816,7 @@ The FACE plant implements a **DT-enabled predictive maintenance** strategy that 
 **Year 2+**: Transition to condition-based and predictive maintenance as the DT accumulates sufficient operational data to train equipment degradation models. Key predictive maintenance targets:
 - Heating element degradation in calcination kiln (resistance increase → temperature non-uniformity → predict replacement timing)
 - Sensor drift (particularly zirconia O2 sensors at high temperature) → automated recalibration scheduling
-- Grinding media wear in sand mill → predict replacement interval from particle size evolution trends
+- Grinding media wear in bead mill → predict replacement interval from particle size evolution trends
 - Spray dryer nozzle wear → predict atomisation degradation from product particle size trends
 
 DT-enabled predictive maintenance is projected to reduce unplanned downtime by 20-50% versus calendar-based maintenance [CLM-007].
@@ -825,11 +825,11 @@ DT-enabled predictive maintenance is projected to reduce unplanned downtime by 2
 
 **GHG Methodology Classification: ES / Manufacturing of Components.** Per the Innovation Fund GHG emission avoidance methodology, the project is classified as **Energy Storage (ES) / Manufacturing of Components** (Section 1.3.2). LFP CAM is a specialised battery-grade cathode material — a "component" as exemplified in the methodology. The GHG system boundary therefore encompasses the **use phase of the BESS systems** in which the LFP CAM is deployed, not the manufacturing plant itself. The manufacturing plant's own emissions (Scope 1 and 2) fall outside the GHG calculation boundary.
 
-**GHG avoidance calculation framework (for CFO team):**
+**GHG avoidance calculation framework (for Financial Team):**
 - **Use phase**: BESS systems containing FACE LFP CAM displacing fossil fuel peaking plants on the Italian electricity grid
 - **Reference scenario**: Conventional electricity generation from gas peaking plants (CCGT or OCGT)
 - **Project scenario**: BESS charged from grid (increasingly renewable) providing grid stabilisation services
-- **Cost share (CScomponent)**: Fraction of CAM cost in total BESS cost. CAM is typically 30-40% of cell cost, and cells are 60-70% of BESS cost, giving CScomponent of approximately 20-28% of total BESS cost. However, if the co-located FIB-Eni JV factory is treated as part of the same project consortium, the CScomponent could be significantly higher (potentially covering the full cell or even the full BESS if the JV is an affiliated entity). [CFO TEAM: this CScomponent determination is critical for the GHG calculator and requires careful analysis of the JV structure.]
+- **Cost share (CScomponent)**: Fraction of CAM cost in total BESS cost. CAM is typically 30-40% of cell cost, and cells are 60-70% of BESS cost, giving CScomponent of approximately 20-28% of total BESS cost. However, if the co-located ESS JV factory is treated as part of the same project consortium, the CScomponent could be significantly higher (potentially covering the full cell or even the full BESS if the JV is an affiliated entity). [FINANCIAL TEAM: this CScomponent determination is critical for the GHG calculator and requires careful analysis of the JV structure.]
 - **Use period**: 5 years per methodology, or component lifetime if shorter
 - **Output volume**: 50,000 t/yr LFP CAM. At approximately 3 kWh/kg cell energy density, this could produce approximately 150 GWh/yr of battery capacity — a potentially massive GHG avoidance if the BESS displaces gas peakers.
 
@@ -843,7 +843,7 @@ The Innovation Fund GHG avoidance calculation compares the FACE electrified plan
 | Thermal efficiency (calcination) | 25-60% | 95% | [CLM-023, SRC-ED-009] |
 | Grid carbon intensity | N/A (gas: ~0.2 kgCO2/kWh_th) | Italy 2030: ~146 gCO2/kWh_e [SRC-ED-017]; PPA: ~0 gCO2/kWh_e | [SRC-ED-016, SRC-ED-017] |
 | Process CO2 (from Li2CO3 decomposition) | ~280 kgCO2/t LFP (same for both) | ~280 kgCO2/t LFP (same for both) | Stoichiometric |
-| Total GHG per t LFP CAM | [TO BE COMPLETED: To be calculated in GHG calculator by CFO team] | [TO BE COMPLETED: To be calculated using 3,580 kWh_e/t + 189 m3 gas/t] | Innovation Fund GHG methodology |
+| Total GHG per t LFP CAM | [TO BE COMPLETED: To be calculated in GHG calculator by GHG team] | [TO BE COMPLETED: To be calculated using 3,580 kWh_e/t + 189 m3 gas/t] | Innovation Fund GHG methodology |
 | Relative GHG avoidance | Reference case | Target: >=50% [CLM-026] | |
 
 **GHG trajectory**:
@@ -855,11 +855,11 @@ The Innovation Fund GHG avoidance calculation compares the FACE electrified plan
 | 2030 (NECP target) | ~146 gCO2/kWh | 55-70% [CLM-026] |
 | 2035 (G7 commitment) | ~30-60 gCO2/kWh | 80-90% [CLM-026] |
 
-[TO BE COMPLETED BY CFO TEAM — CRITICAL GHG CALCULATION ITEMS:
+[TO BE COMPLETED BY FINANCIAL TEAM — CRITICAL GHG CALCULATION ITEMS:
 
-1. **PRIMARY GHG CALCULATION (scored)**: Use-phase BESS displacing fossil peakers. Classification: ES / Manufacturing of Components (Section 1.3.2). The CFO team must calculate GHG avoidance based on BESS displacing gas peaking plants (CCGT/OCGT) on the Italian grid, NOT on plant-level manufacturing emissions.
+1. **PRIMARY GHG CALCULATION (scored)**: Use-phase BESS displacing fossil peakers. Classification: ES / Manufacturing of Components (Section 1.3.2). The Financial Team must calculate GHG avoidance based on BESS displacing gas peaking plants (CCGT/OCGT) on the Italian grid, NOT on plant-level manufacturing emissions.
 
-2. **CScomponent determination**: The cost share of LFP CAM in the total BESS system cost is critical. Baseline estimate: 20-28% (CAM as 30-40% of cell cost, cells as 60-70% of BESS cost). HOWEVER: if the FIB-Eni JV factory qualifies as an affiliated entity within the project boundary, the CScomponent could be substantially higher. This determination could significantly increase the GHG avoidance claim. Legal/structural analysis of the JV is needed.
+2. **CScomponent determination**: The cost share of LFP CAM in the total BESS system cost is critical. Baseline estimate: 20-28% (CAM as 30-40% of cell cost, cells as 60-70% of BESS cost). HOWEVER: if the ESS JV factory qualifies as an affiliated entity within the project boundary, the CScomponent could be substantially higher. This determination could significantly increase the GHG avoidance claim. Legal/structural analysis of the JV is needed.
 
 3. **Production volume to GWh conversion**: 50,000 t/yr LFP CAM at ~3 kWh/kg cell energy density = ~150 GWh/yr of battery capacity. This is the basis for calculating use-phase GHG avoidance.
 
@@ -871,9 +871,9 @@ The Innovation Fund GHG avoidance calculation compares the FACE electrified plan
 
 ## 8. Techno-Economic Analysis
 
-**[CFO TEAM TO COMPLETE THIS SECTION]**
+**[FINANCIAL TEAM TO COMPLETE THIS SECTION]**
 
-This section requires the following content to be developed by the CFO/finance team in coordination with the technical team:
+This section requires the following content to be developed by the Financial Team in coordination with the technical team:
 
 ### 8.1 CAPEX Estimation
 
@@ -920,15 +920,15 @@ Required: Summary table consistent with the Business Plan annex, showing:
 
 | Parameter | Value | Unit |
 |-----------|-------|------|
-| Total CAPEX | [CFO to complete] | EUR million |
-| Annual OPEX (at nameplate) | [CFO to complete] | EUR million/year |
-| Production capacity | [CFO to complete] | t LFP CAM/year |
-| Unit cost | [CFO to complete] | EUR/kg LFP CAM |
-| Innovation Fund grant requested | [CFO to complete] | EUR million |
+| Total CAPEX | [Financial Team to complete] | EUR million |
+| Annual OPEX (at nameplate) | [Financial Team to complete] | EUR million/year |
+| Production capacity | [Financial Team to complete] | t LFP CAM/year |
+| Unit cost | [Financial Team to complete] | EUR/kg LFP CAM |
+| Innovation Fund grant requested | [Financial Team to complete] | EUR million |
 | Co-funding rate | 60% | % of relevant costs |
-| NPV (20-year) | [CFO to complete] | EUR million |
-| IRR | [CFO to complete] | % |
-| Payback period | [CFO to complete] | Years |
+| NPV (20-year) | [Financial Team to complete] | EUR million |
+| IRR | [Financial Team to complete] | % |
+| Payback period | [Financial Team to complete] | Years |
 
 ---
 
@@ -957,7 +957,7 @@ Required: Summary table consistent with the Business Plan annex, showing:
 | OR2 | **Permitting delays**: VIA or AIA permitting exceeds expected timeline | Medium | Medium | **Medium** | Eni (Regulatory Affairs) | (a) Early engagement with Regione Puglia and MASE; (b) leverage Eni's established Brindisi regulatory relationships; (c) experienced environmental permitting consultants; (d) 3-month schedule buffer; (e) electrified process simplifies air emissions assessment |
 | OR3 | **Workforce recruitment**: Difficulty recruiting qualified process engineers, DT specialists, and production operators in Brindisi | Medium | Medium | **Medium** | FIB (HR Director) | (a) Recruitment campaign starting M0; (b) partnerships with Politecnico di Bari and Universita del Salento for graduate recruitment; (c) training programme for existing FIB employees to cross-skill into CAM production; (d) competitive salary packages for DT specialists |
 | OR4 | **Commissioning challenges**: Extended commissioning period due to integration complexity of electrified equipment + DT | Medium | Medium | **Medium** | FIB (Commissioning Manager) | (a) Phased commissioning: equipment mechanical completion -> cold commissioning -> hot commissioning with non-critical material -> production trials with actual precursors; (b) DT commissioning in parallel (digital commissioning before physical); (c) vendor technical support during commissioning |
-| OR5 | **Market timing**: Delay in European EV/ESS market growth or LFP chemistry adoption may reduce demand below plant capacity | Very Low | Medium | **Very Low** | FIB (Commercial Director) | (a) **Offtake risk eliminated**: Eni is the guaranteed internal customer through the co-located FIB-Eni JV battery cell and BESS factory — captive demand absorbs production regardless of external market dynamics; (b) growing EU LFP demand driven by EV and ESS growth [SRC-015]; (c) Battery Regulation carbon footprint requirements create preference for EU-manufactured CAM; (d) external off-take agreements or LOIs with additional cell manufacturers represent upside; (e) plant design allows capacity modulation (turndown to 25%) |
+| OR5 | **Market timing**: Delay in European EV/ESS market growth or LFP chemistry adoption may reduce demand below plant capacity | Very Low | Medium | **Very Low** | FIB (Commercial Director) | (a) **Offtake risk eliminated**: Eni is the guaranteed internal customer through the co-located ESS JV battery cell and BESS factory — captive demand absorbs production regardless of external market dynamics; (b) growing EU LFP demand driven by EV and ESS growth [SRC-015]; (c) Battery Regulation carbon footprint requirements create preference for EU-manufactured CAM; (d) external off-take agreements or LOIs with additional cell manufacturers represent upside; (e) plant design allows capacity modulation (turndown to 25%) |
 | OR6 | **Regulatory changes**: Changes to EU Battery Regulation, NZIA, or Innovation Fund rules during project implementation | Low | Low | **Low** | FIB (Legal / Regulatory) | (a) Project aligned with long-term EU strategic direction; (b) regulatory risk is downside-limited (any changes likely to increase, not decrease, demand for EU-manufactured low-carbon CAM); (c) monitoring of regulatory developments |
 | OR7 | **Supply chain disruption**: Extended interruption of precursor supply (FePO4, Li2CO3) due to geopolitical events, logistics failures, or supplier insolvency | Low | High | **Medium** | FIB (Procurement Director) | (a) Dual-sourcing strategy; (b) minimum 3-month strategic inventory; (c) long-term supply agreements; (d) supplier financial health monitoring; (e) emergency spot market access |
 | OR8 | **Quality certification delay**: Customer qualification of FACE LFP CAM takes longer than expected, delaying commercial revenue | Medium | Medium | **Medium** | FIB (Quality / Commercial) | (a) Early customer engagement with sample material from vendor trial batches (M24-M36); (b) qualification programme aligned with customer timelines; (c) DT-enabled consistency accelerates qualification (fewer qualification batches needed); (d) multiple customer qualification tracks in parallel |

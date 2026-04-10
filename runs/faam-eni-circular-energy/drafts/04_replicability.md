@@ -117,14 +117,14 @@ The FAAM-ENI Circular Energy project establishes the **first LFP cathode active 
 
 - **Upstream**: European and allied-nation suppliers of lithium carbonate, iron phosphate, and industrial-grade glucose
 - **Midstream 1**: FAAM Brindisi LFP CAM production (this project) — 50 kton/yr battery-grade cathode material
-- **Midstream 2**: FIB-Eni joint venture battery cell and BESS manufacturing facility (co-located at Brindisi) — converting LFP CAM into cells and grid-scale battery energy storage systems
+- **Midstream 2**: ESS (Eni Storage Systems) JV battery cell and BESS manufacturing facility (co-located at Brindisi) — converting LFP CAM into cells and grid-scale battery energy storage systems
 - **Downstream**: Eni grid deployment — BESS systems deployed on the Italian electricity grid for grid stabilisation and decarbonisation
 
 This mine-to-grid vertical integration is unprecedented in the European battery sector. The co-located JV factory is the direct and guaranteed internal customer for the LFP CAM output. Eni, as the deployer of BESS on the Italian grid, closes the value chain from raw material to grid service. This structure directly addresses the Innovation Fund evaluation criterion regarding "contribution to European industrial ecosystems, integration with strategic energy infrastructure": the project does not merely produce a component — it delivers grid-deployed energy storage that stabilises and decarbonises the Italian electricity system. The integration with Italian grid infrastructure represents a potential connection to Projects of Common Interest (PCI) in the energy storage domain.
 
 The plant also serves external European battery cell manufacturers — including the growing gigafactory ecosystem across Germany, France, Hungary, Poland, and Scandinavia — with domestically produced, EU-traceable LFP cathode material.
 
-The plant's location in Puglia — a Cohesion Policy convergence region — provides geographic diversification within the emerging EU LFP supply map, complementing FREYR's Northern European site (Vaasa, Finland) and ensuring Mediterranean access for Southern European cell manufacturers and export markets.
+The plant's location in Puglia — a Cohesion Policy convergence region — provides geographic diversification within the emerging EU LFP supply map, becoming the sole European LFP CAM production facility following FREYR's cancellation of its Vaasa plans, providing Mediterranean access for Southern European cell manufacturers and export markets.
 
 ### Reducing EU Dependency on China: Directly Addressing C/2025/3236
 
