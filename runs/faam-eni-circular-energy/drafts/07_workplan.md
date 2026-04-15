@@ -2,6 +2,8 @@
 
 ## 7.1 Work Plan Overview
 
+The project is implemented as a **mono-beneficiary grant** with **ESS (Eni Storage Systems) JV** as the sole beneficiary, coordinator, and executing entity for every activity described in this section. ESS JV leverages personnel seconded from its two parent shareholders (Eni S.p.A. and FIB S.p.A.) under intercompany service agreements, as described in Sections 0.2 and 3.3, so every "lead partner" reference throughout this workplan refers to ESS JV with the relevant expertise drawn from the appropriate shareholder.
+
 The project is structured into seven mandatory sequential work packages spanning from grant agreement signature (M0, estimated Q1 2027) through the end of the 5-year operational monitoring period (M108). The work plan follows the mandatory CLEAN-TECH-MANUFACTURING WP structure: WP1 covers the period up to financial close; WP2 covers financial close to entry into operation; and WP3-WP7 cover the five years of operational monitoring and GHG emission avoidance reporting.
 
 The timeline is designed to achieve the two key scoring milestones: **financial close within 24 months (M24)** and **entry into operation within 48 months (M48)** of grant agreement signature.
@@ -27,8 +29,8 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 | | |
 |---|---|
 | **Duration** | M0-M24 (24 months) |
-| **Lead partner** | FIB (FAAM) |
-| **Contributing partner** | Eni |
+| **Beneficiary** | ESS (Eni Storage Systems) JV (sole beneficiary) |
+| **Personnel sourced from** | ESS JV staff + secondments from Eni (process engineering, site management, energy supply, environmental/permitting) and FIB (battery materials, cell manufacturing QA, product qualification) |
 | **Objective** | Reach financial close within 24 months of grant agreement signature through completion of detailed engineering, environmental permitting, supplier qualification, and financing agreements. |
 | **Budget** | [TO BE COMPLETED: Budget to be confirmed by Financial Team. Must not exceed 40% of maximum grant amount.] |
 
@@ -80,11 +82,11 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 **A1.6 Financial Close Preparation (M12-M24)**
 - Finalise project financing structure (Innovation Fund grant + equity + debt)
 - Negotiate and execute debt facility agreements
-- Confirm equity commitments from FIB and Eni
-- Execute key commercial agreements (off-take agreements, supply contracts). Note: primary offtake is secured internally through the co-located ESS (Eni Storage Systems) JV battery cell and BESS factory — Eni is the guaranteed internal customer. External offtake agreements with European cell manufacturers represent additional upside.
-- Coordinate timeline with the parallel development of the ESS JV battery cell and BESS factory at the Brindisi site, ensuring the CAM plant entry into operation aligns with JV factory readiness to receive LFP CAM feedstock
+- Confirm equity commitments from the ESS JV shareholders (Eni and FIB)
+- Execute key commercial agreements (off-take agreements, supply contracts). Note: primary offtake is secured internally: ESS JV also owns and operates (under its broader industrial plan) the co-located battery cell and BESS manufacturing facility being developed in parallel at the same Brindisi site — Eni (acting as commercial offtaker for the downstream BESS systems) is the guaranteed end customer. External offtake agreements with European cell manufacturers represent additional upside.
+- Coordinate timeline with the parallel development of the co-located cell and BESS facility (also owned by ESS JV), ensuring the CAM plant entry into operation aligns with JV factory readiness to receive LFP CAM feedstock
 - Prepare and assemble all financial close documentation
-- Obtain Financial Investment Decision (FID) from FIB and Eni boards
+- Obtain Final Investment Decision (FID) from the ESS JV board (with shareholder approval from Eni and FIB boards as required under the shareholders' agreement)
 
 #### Deliverables
 
@@ -112,8 +114,8 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 | | |
 |---|---|
 | **Duration** | M24-M48 (24 months) |
-| **Lead partner** | FIB (FAAM) |
-| **Contributing partner** | Eni |
+| **Beneficiary** | ESS (Eni Storage Systems) JV (sole beneficiary) |
+| **Personnel sourced from** | ESS JV staff + secondments from Eni (process engineering, site management, energy supply, environmental/permitting) and FIB (battery materials, cell manufacturing QA, product qualification) |
 | **Objective** | Construct the LFP CAM manufacturing plant, develop and integrate the digital twin system, commission the facility, and achieve entry into operation within 48 months of grant agreement signature. |
 
 #### Activities
@@ -125,7 +127,7 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 - Piping, electrical, and instrumentation installation
 - DCS/SCADA system installation and configuration
 - Sensor network installation (thermocouples, pyrometers, Raman probes, FBRM probes, O2 sensors, flow meters)
-- Coordination with parallel construction of the co-located ESS JV battery cell and BESS factory, including shared utility infrastructure and site logistics planning
+- Coordination with parallel construction of the co-located cell and BESS facility (also owned by ESS JV), including shared utility infrastructure and site logistics planning
 
 **A2.2 DT System Development (M12-M42, parallel track starting in WP1)**
 - Develop and validate physics-based models:
@@ -188,8 +190,8 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 | | |
 |---|---|
 | **Duration** | M48-M60 (12 months) |
-| **Lead partner** | FIB (FAAM) |
-| **Contributing partner** | Eni |
+| **Beneficiary** | ESS (Eni Storage Systems) JV (sole beneficiary) |
+| **Personnel sourced from** | ESS JV staff + secondments from Eni (process engineering, site management, energy supply, environmental/permitting) and FIB (battery materials, cell manufacturing QA, product qualification) |
 | **Objective** | Ramp up production from commissioning rate to nameplate capacity; calibrate DT system with production-scale data; achieve expected GHG emission avoidance. |
 
 #### Activities
@@ -234,8 +236,8 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 | | |
 |---|---|
 | **Duration** | M60-M72 (12 months) |
-| **Lead partner** | FIB (FAAM) |
-| **Contributing partner** | Eni |
+| **Beneficiary** | ESS (Eni Storage Systems) JV (sole beneficiary) |
+| **Personnel sourced from** | ESS JV staff + secondments from Eni (process engineering, site management, energy supply, environmental/permitting) and FIB (battery materials, cell manufacturing QA, product qualification) |
 | **Objective** | Steady-state operation; continuous DT-driven process improvement; achieve expected GHG emission avoidance. |
 
 #### Activities
@@ -268,8 +270,8 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 | | |
 |---|---|
 | **Duration** | M72-M84 (12 months) |
-| **Lead partner** | FIB (FAAM) |
-| **Contributing partner** | Eni |
+| **Beneficiary** | ESS (Eni Storage Systems) JV (sole beneficiary) |
+| **Personnel sourced from** | ESS JV staff + secondments from Eni (process engineering, site management, energy supply, environmental/permitting) and FIB (battery materials, cell manufacturing QA, product qualification) |
 | **Objective** | Continued operation; GHG monitoring; DT model refinement with accumulated data. |
 
 #### Activities
@@ -300,8 +302,8 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 | | |
 |---|---|
 | **Duration** | M84-M96 (12 months) |
-| **Lead partner** | FIB (FAAM) |
-| **Contributing partner** | Eni |
+| **Beneficiary** | ESS (Eni Storage Systems) JV (sole beneficiary) |
+| **Personnel sourced from** | ESS JV staff + secondments from Eni (process engineering, site management, energy supply, environmental/permitting) and FIB (battery materials, cell manufacturing QA, product qualification) |
 | **Objective** | Continued operation; GHG monitoring. |
 
 #### Activities
@@ -331,8 +333,8 @@ The timeline is designed to achieve the two key scoring milestones: **financial 
 | | |
 |---|---|
 | **Duration** | M96-M108 (12 months) |
-| **Lead partner** | FIB (FAAM) |
-| **Contributing partner** | Eni |
+| **Beneficiary** | ESS (Eni Storage Systems) JV (sole beneficiary) |
+| **Personnel sourced from** | ESS JV staff + secondments from Eni (process engineering, site management, energy supply, environmental/permitting) and FIB (battery materials, cell manufacturing QA, product qualification) |
 | **Objective** | Complete operational monitoring period; prepare final reports; demonstrate cumulative GHG emission avoidance; compile innovation and DNSH compliance evidence. |
 
 #### Activities
