@@ -15,7 +15,18 @@
     "call_parsing": { "status": "complete", "completed_at": "2026-04-04" },
     "research": { "status": "complete", "completed_at": "2026-04-04" },
     "writing": { "status": "complete", "completed_at": "2026-04-04" },
-    "review": { "status": "complete", "completed_at": "2026-04-05" }
+    "review": { "status": "complete", "completed_at": "2026-04-05" },
+    "template_population": {
+      "status": "complete",
+      "completed_at": "2026-04-15",
+      "outputs": {
+        "part_b": "final/FAAM-ENI_Part_B.docx",
+        "feasibility_study": "final/FAAM-ENI_Feasibility_Study.docx",
+        "report": "final/population_report.md"
+      },
+      "part_b_stats": { "placeholders_filled": "28/28", "word_count": 30924, "estimated_pages": 61.8, "page_limit": 70, "tags_preserved": 17 },
+      "fs_stats": { "placeholders_filled": "9/9", "word_count": 14423, "estimated_pages": 28.8, "page_limit": 60 }
+    }
   },
   "gates": {
     "scope": { "passed": true, "checked_at": "2026-04-04" },
