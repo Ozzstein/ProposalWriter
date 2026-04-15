@@ -5,9 +5,10 @@
   "mechanism": "INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING",
   "created_at": "2026-04-04",
   "deadline": "2026-04-23T17:00:00+02:00",
-  "main_applicant": "FIB (FAAM)",
-  "co_investigator": "Eni",
-  "location": "Brindisi, Italy (Eni brownfield site)",
+  "applicant": "ESS (Eni Storage Systems) JV",
+  "beneficiary_structure": "mono-beneficiary",
+  "shareholders": ["Eni S.p.A.", "FIB S.p.A. (FAAM)"],
+  "location": "Brindisi, Italy (Eni brownfield site, 40.615°N 17.980°E)",
   "call_documents_available": true,
   "call_template_available": true,
   "stages": {

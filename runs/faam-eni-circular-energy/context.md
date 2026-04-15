@@ -27,12 +27,15 @@ Using electricity instead of gas in LFP CAM manufacturing, coupled with an integ
 4. **Deliver predictive quality monitoring** reducing batch-to-batch variability and scrap rates
 5. **Accelerate material discovery** through multi-scale simulation (DFT to plant scale)
 
-## Team Members and Roles
-| Partner | Role | Description |
+## Applicant Structure (Mono-Beneficiary)
+The proposal is submitted as a **mono-beneficiary grant** by **ESS (Eni Storage Systems) JV** — the sole legal applicant and coordinator. ESS JV is a jointly owned entity of Eni and FIB, already registered in the EU Funding & Tenders Portal with a validated PIC. ESS JV leverages personnel, expertise, and infrastructure from both parent companies through intercompany secondment and service agreements. Under its broader industrial plan, ESS JV owns and operates both the LFP CAM plant (this project) and the co-located battery cell and BESS manufacturing facility at the Brindisi site.
+
+| Entity | Role | Description |
 |---------|------|-------------|
-| **FIB (FAAM)** | Main applicant / Coordinator | Battery manufacturer, responsible for LFP CAM plant construction and operation |
-| **Eni** | Co-investigator and guaranteed offtaker | Energy company, brownfield site owner (Brindisi), expertise in process engineering and energy supply. Partner in co-located JV battery cell and BESS factory. Will deploy BESS on Italian electricity grid. |
-| **FIB-Eni JV** | Co-located battery factory | Joint venture battery cell and BESS manufacturing facility at Brindisi site; direct internal customer for LFP CAM output |
+| **ESS (Eni Storage Systems) JV** | Sole beneficiary / Coordinator | Mono-beneficiary applicant. Owns and operates the LFP CAM plant and (under broader plan) the co-located cell/BESS facility. Personnel seconded from Eni and FIB. |
+| **Eni S.p.A.** | ESS JV shareholder | Energy company, brownfield site provider (Brindisi). Contributes process engineering, energy supply architecture, permitting expertise, and balance-sheet strength. Also acts as commercial offtaker for BESS output, deploying on the Italian grid. |
+| **FIB S.p.A. (FAAM)** | ESS JV shareholder | Italian battery manufacturer (Teverola 1: 300 MWh/yr operational; Teverola 2: 8 GWh/yr in development). Contributes battery materials and cell manufacturing expertise, seconded personnel, and manufacturing know-how transfer. |
+| **Zhejiang Youshan New Material Technology Co., LTD.** | Technology licensor | LFP CAM solid-state synthesis process know-how, recipe optimisation, equipment specification support. |
 
 ## Preliminary Data and Prior Work
 

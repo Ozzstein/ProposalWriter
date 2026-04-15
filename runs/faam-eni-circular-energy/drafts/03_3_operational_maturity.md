@@ -120,49 +120,58 @@ The principal environmental impacts of the LFP CAM manufacturing facility and th
 
 ## 3.3e Project Management Team and Organisation
 
-### Consortium Structure
+### Beneficiary Structure
 
-The project is implemented by a two-partner consortium with clearly delineated roles:
+The project is implemented as a **mono-beneficiary grant application** by **ESS (Eni Storage Systems) JV**, the sole legal beneficiary and coordinator. ESS JV is a jointly owned entity of Eni S.p.A. and FIB S.p.A. (FAAM), both of which provide strategic direction, personnel, technical expertise, and infrastructure through shareholder and intercompany service arrangements.
 
-**FIB (FAAM) -- Coordinator**
-FIB S.p.A., operating under the FAAM brand, is an Italian battery manufacturer founded in 1974 (Monterubbiano, FM, Italy), a subsidiary of Seri Industrial S.p.A. With approximately 354 employees and over 50 years of experience in lead-acid and lithium-ion battery production for traction, industrial, storage, and military applications, FIB brings established manufacturing expertise and a commitment to green batteries with low environmental impact. FIB operates under ISO 9001, ISO 14001, and ISO 45001 management systems. FIB assumes the role of project coordinator with responsibility for:
-- Overall project management and coordination
-- LFP CAM process engineering and manufacturing operations
-- Quality control and assurance
-- Digital twin system specification and operation
+**ESS JV -- Sole Beneficiary and Coordinator**
+ESS JV is the joint venture company established by Eni and FIB to develop, construct, and operate Italy's first vertically integrated stationary lithium battery platform at the Brindisi site. ESS JV is a registered legal entity in Italy with a validated Participant Identification Code (PIC) in the EU Funding & Tenders Portal. Under its broader industrial plan, ESS JV owns and operates both this LFP CAM plant and the co-located battery cell and BESS manufacturing facility on the same Brindisi site, creating a fully integrated mine-to-grid value chain within a single legal entity. ESS JV's responsibilities include:
+- Overall project management and coordination, legal and contractual interface with the Innovation Fund
+- LFP CAM process engineering, plant construction, and manufacturing operations
+- Quality control and assurance, batch release, regulatory compliance
+- Digital twin system specification, development, and operation
+- Downstream integration with the co-located cell and BESS manufacturing facility
 - Knowledge sharing and dissemination
 
-**Eni -- Co-Investigator and Guaranteed Offtaker**
-Eni S.p.A. is a global energy company with extensive experience in industrial site management, process engineering, and energy supply. Eni contributes:
-- Brindisi industrial site (land, existing infrastructure, utility connections)
-- Process engineering support (leveraging Eni's refining and chemicals expertise)
-- Energy supply management (grid electricity procurement, potential on-site renewable capacity)
-- Environmental management and site remediation expertise
-- Stakeholder relations and permitting support
-- **Direct internal customer**: Partner in the co-located ESS JV battery cell and BESS factory; deployer of BESS systems on the Italian electricity grid for grid stabilisation and decarbonisation. The Brindisi site hosts both the CAM plant and the JV cell/BESS factory, with the implementation plan coordinating parallel development of both facilities.
+**Eni S.p.A. -- Shareholder (Industrial Partner and Site Provider)**
+Eni is a global energy company with extensive experience in industrial site management, process engineering, and energy supply. As an ESS JV shareholder, Eni contributes:
+- Brindisi industrial site (contributed to ESS JV under the joint venture agreement), including existing infrastructure, utility connections, and permitting precedent
+- Seconded personnel: process engineering support (leveraging Eni's refining and chemicals expertise), energy supply architects, environmental management specialists, permitting and stakeholder relations managers
+- Balance-sheet strength supporting ESS JV's financial capacity assessment
+- **Downstream BESS grid deployment**: Eni acts as the commercial offtaker for BESS systems manufactured by the ESS JV cell and BESS facility, deploying them on the Italian electricity grid for grid stabilisation and decarbonisation services
+
+**FIB S.p.A. (FAAM) -- Shareholder (Battery Manufacturing Expertise)**
+FIB S.p.A., operating under the FAAM brand, is an Italian battery manufacturer founded in 1974 (Monterubbiano, FM, Italy), a subsidiary of Seri Industrial S.p.A. With approximately 354 employees and over 50 years of experience in lead-acid and lithium-ion battery production, FIB operates Li-ion cell manufacturing at its Teverola site in Caserta (Teverola 1: 300 MWh/year soft pouch cell production in operation; Teverola 2: 8 GWh/year under development) under ISO 9001, ISO 14001, and ISO 45001 management systems. As an ESS JV shareholder, FIB contributes:
+- Seconded personnel: battery materials engineers, cell manufacturing specialists, quality control experts, product qualification managers
+- Manufacturing know-how transfer from existing Teverola operations
+- Established relationships with European battery ecosystem actors and research institutions
+- Balance-sheet strength supporting ESS JV's financial capacity assessment
 
 ### Governance Structure
 
-The project governance comprises three levels:
+ESS JV operates under the governance of its shareholders (Eni and FIB), with a joint board of directors appointed by the parent companies. Day-to-day operations are delivered by a mix of directly employed ESS JV staff and personnel seconded from Eni and FIB under intercompany service agreements. Project-level governance comprises three levels:
 
-1. **Steering Committee**: Strategic decision-making body comprising the FIB CEO (or delegate) and the Eni Project Director (or delegate). Meets quarterly or as needed for material decisions (scope changes, budget reallocation >10%, risk escalation). Decisions by consensus; escalation to respective corporate boards if needed.
+1. **Steering Committee**: Strategic decision-making body comprising the ESS JV Managing Director and senior representatives from both shareholders (Eni and FIB). Meets quarterly or as needed for material decisions (scope changes, budget reallocation >10%, risk escalation). Decisions by consensus; escalation to the ESS JV board and ultimately the shareholder boards if needed.
 
-2. **Technical Committee**: Operational decision-making body comprising the Project Manager (FIB), Technical Director (FIB), DT Lead (FIB), and Eni Site Manager. Meets monthly. Responsible for: technical progress review; milestone assessment; risk register updates; and resource allocation.
+2. **Technical Committee**: Operational decision-making body comprising the ESS JV Project Manager, Technical Director, Digital Twin Lead, and site/engineering representatives seconded from Eni and FIB. Meets monthly. Responsible for: technical progress review; milestone assessment; risk register updates; and resource allocation.
 
-3. **DT Working Group**: Specialist body comprising the DT Lead (FIB), DT modelling engineers, sensor integration specialists, and IT/OT infrastructure managers. Meets bi-weekly during development phases (M12-M48), monthly during operations. Responsible for: model development progress; data architecture decisions; DT-process integration testing.
+3. **DT Working Group**: Specialist body comprising the Digital Twin Lead, DT modelling engineers, sensor integration specialists, and IT/OT infrastructure managers (drawn from ESS JV staff and shareholder secondments). Meets bi-weekly during development phases (M12-M48), monthly during operations. Responsible for: model development progress; data architecture decisions; DT-process integration testing.
 
 ### Key Roles
 
-| Role | Partner | Responsibilities |
-|---|---|---|
-| Project Manager | FIB | Day-to-day project management, reporting to EC/CINEA, work package coordination |
-| Technical Director | FIB | Process engineering oversight, equipment specification, commissioning management |
-| Digital Twin Lead | FIB | DT architecture, model development, sensor integration, data pipeline |
-| Quality Manager | FIB | QC/QA system, CQA monitoring, batch release, regulatory compliance |
-| EHS Manager | FIB + Eni | Environmental, health & safety management, permitting support |
-| Site Manager | Eni | Brindisi site operations, infrastructure, utility supply, stakeholder relations |
-| Financial Controller | FIB | Budget management, cost reporting, audit coordination |
-| Technology Licensor | Zhejiang Youshan New Material Technology Co., LTD. | LFP CAM process know-how, recipe optimisation, equipment specification support, commissioning assistance |
+All roles below are filled by ESS JV employees or personnel seconded from Eni and FIB under intercompany service agreements.
+
+| Role | Reporting to | Seconded from / Employed by | Responsibilities |
+|---|---|---|---|
+| ESS JV Managing Director | ESS JV Board | ESS JV / Shareholders | Overall leadership, shareholder interface, strategic decisions |
+| Project Manager | Managing Director | ESS JV | Day-to-day project management, reporting to EC/CINEA, work package coordination |
+| Technical Director | Project Manager | ESS JV (Eni secondment) | Process engineering oversight, equipment specification, commissioning management |
+| Digital Twin Lead | Project Manager | ESS JV (FIB secondment) | DT architecture, model development, sensor integration, data pipeline |
+| Quality Manager | Project Manager | ESS JV (FIB secondment) | QC/QA system, CQA monitoring, batch release, regulatory compliance |
+| EHS Manager | Project Manager | ESS JV (Eni secondment) | Environmental, health & safety management, permitting support |
+| Site Manager | Technical Director | ESS JV (Eni secondment) | Brindisi site operations, infrastructure, utility supply, stakeholder relations |
+| Financial Controller | Managing Director | ESS JV | Budget management, cost reporting, audit coordination |
+| Technology Licensor Liaison | Technical Director | ESS JV | Interface with Zhejiang Youshan New Material Technology Co., LTD. for process know-how, recipe optimisation, equipment specification support, commissioning assistance |
 
 [TO BE COMPLETED: Specific CVs and track records of named individuals for each role must be provided by the project team and included in the Participant Information annex. The proposal should highlight relevant experience in battery manufacturing, industrial plant construction, and digital manufacturing for each key role.]
 

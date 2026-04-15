@@ -18,7 +18,7 @@ The project commits to compliance with the DNSH technical screening criteria set
 
 ## Cumulation of Funding / Double Funding
 
-The applicants confirm that no other EU funding has been requested or received for the same activities covered by this proposal. [TO BE COMPLETED: disclose any other EU grants or applications if applicable]
+The applicant (ESS JV) confirm that no other EU funding has been requested or received for the same activities covered by this proposal. [TO BE COMPLETED: disclose any other EU grants or applications if applicable]
 
 ## Financial Support to Third Parties
 
@@ -26,12 +26,12 @@ Not applicable.
 
 ## PDA Support
 
-YES -- The applicants agree to have this proposal shared with the European Investment Bank (EIB) for Project Development Assistance assessment.
+YES -- The applicant (ESS JV) agree to have this proposal shared with the European Investment Bank (EIB) for Project Development Assistance assessment.
 
 ## National Funding Schemes
 
-YES -- The applicants agree to be proposed for applicable national funding schemes and consent to sharing the proposal (including Part B, all annexes, and evaluation summary report) with the relevant national granting authority.
+YES -- The applicant (ESS JV) agree to be proposed for applicable national funding schemes and consent to sharing the proposal (including Part B, all annexes, and evaluation summary report) with the relevant national granting authority.
 
 ## Information to Member States
 
-YES -- The applicants agree to have project participant information shared with the Member States of the project's country (Italy).
+YES -- The applicant (ESS JV) agree to have project participant information shared with the Member States of the project's country (Italy).
