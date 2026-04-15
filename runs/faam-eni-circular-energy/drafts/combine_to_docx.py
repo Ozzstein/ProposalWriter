@@ -245,23 +245,23 @@ def add_formatted_text(paragraph, text):
             run.font.size = Pt(9)
 
 
-def main():
+def make_new_doc():
+    """Create a new Document with standard formatting (Arial 9pt, 15mm margins)."""
     doc = Document()
-
-    # Set default font
     style = doc.styles['Normal']
     font = style.font
     font.name = 'Arial'
     font.size = Pt(9)
-
-    # Set margins
     for section in doc.sections:
         section.top_margin = Inches(0.59)  # 15mm
         section.bottom_margin = Inches(0.59)
         section.left_margin = Inches(0.59)
         section.right_margin = Inches(0.59)
+    return doc
 
-    # Title page
+
+def add_title_page(doc, document_label, subtitle):
+    """Add a standard title page."""
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
     run = p.add_run('FAAM-ENI Circular Energy')
@@ -277,12 +277,24 @@ def main():
 
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = p.add_run('\nINNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING\n')
+    run = p.add_run(f'\n{document_label}')
+    run.bold = True
+    run.font.size = Pt(13)
+    run.font.color.rgb = RGBColor(0x06, 0x16, 0x3A)
+
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = p.add_run(subtitle)
     run.font.size = Pt(11)
 
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = p.add_run(f'Coordinator: FIB (FAAM)\nCo-investigator: Eni S.p.A.')
+    run = p.add_run('\nINNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING')
+    run.font.size = Pt(11)
+
+    p = doc.add_paragraph()
+    p.alignment = WD_ALIGN_PARAGRAPH.CENTER
+    run = p.add_run('\nApplicant: ESS (Eni Storage Systems) JV\nShareholders: Eni S.p.A. & FIB S.p.A. (FAAM)')
     run.font.size = Pt(11)
 
     p = doc.add_paragraph()
@@ -294,21 +306,25 @@ def main():
 
     p = doc.add_paragraph()
     p.alignment = WD_ALIGN_PARAGRAPH.CENTER
-    run = p.add_run('\nNote: [CLM-XXX] = claim registry reference (blue)\n'
-                     '[SRC-XXX] = evidence store reference (blue)\n'
-                     '[TO BE COMPLETED: ...] = items pending (red)\n'
+    run = p.add_run('\nLegend: [CLM-XXX] claim reference (blue) • [SRC-XXX] evidence reference (blue)\n'
+                     '[TO BE COMPLETED: ...] pending items (red) • [ASSUMPTION: ...] (orange)\n'
                      'Yellow blocks = reviewer metadata (claims, assumptions, open issues)')
     run.font.size = Pt(8)
     run.font.color.rgb = RGBColor(0x66, 0x66, 0x66)
 
     doc.add_page_break()
 
-    # Part B sections
-    p = doc.add_paragraph()
-    run = p.add_run('PART B — TECHNICAL DESCRIPTION')
-    run.bold = True
-    run.font.size = Pt(16)
-    run.font.color.rgb = RGBColor(0x06, 0x16, 0x3A)
+
+def main():
+    # ========================================================================
+    # Document 1: Part B (all technical sections, no feasibility study annex)
+    # ========================================================================
+    doc = make_new_doc()
+    add_title_page(
+        doc,
+        'PART B — TECHNICAL DESCRIPTION',
+        'Main application form technical content'
+    )
 
     for md_file in SECTIONS:
         md_path = DRAFTS_DIR / md_file
@@ -329,13 +345,20 @@ def main():
         # Add section content
         md_to_docx_content(doc, md_text)
 
-    # Annex sections
-    doc.add_page_break()
-    p = doc.add_paragraph()
-    run = p.add_run('ANNEX — FEASIBILITY STUDY')
-    run.bold = True
-    run.font.size = Pt(16)
-    run.font.color.rgb = RGBColor(0x06, 0x16, 0x3A)
+    part_b_path = DRAFTS_DIR.parent / 'FAAM-ENI_Part_B_DRAFT.docx'
+    doc.save(str(part_b_path))
+    print(f'Saved Part B to: {part_b_path}')
+    print(f'  File size: {os.path.getsize(part_b_path) / 1024:.0f} KB')
+
+    # ========================================================================
+    # Document 2: Feasibility Study (standalone annex)
+    # ========================================================================
+    doc_fs = make_new_doc()
+    add_title_page(
+        doc_fs,
+        'FEASIBILITY STUDY',
+        'Annex to Part B — Technical feasibility analysis'
+    )
 
     for md_file in ANNEX_SECTIONS:
         md_path = DRAFTS_DIR / md_file
@@ -347,15 +370,14 @@ def main():
         with open(md_path, 'r') as f:
             md_text = f.read()
 
-        doc.add_page_break()
-        add_metadata_block(doc, meta_path)
-        md_to_docx_content(doc, md_text, is_annex=True)
+        doc_fs.add_page_break()
+        add_metadata_block(doc_fs, meta_path)
+        md_to_docx_content(doc_fs, md_text, is_annex=True)
 
-    # Save
-    output_path = DRAFTS_DIR.parent / 'FAAM-ENI_Circular_Energy_DRAFT.docx'
-    doc.save(str(output_path))
-    print(f'Saved to: {output_path}')
-    print(f'File size: {os.path.getsize(output_path) / 1024:.0f} KB')
+    fs_path = DRAFTS_DIR.parent / 'FAAM-ENI_Feasibility_Study_DRAFT.docx'
+    doc_fs.save(str(fs_path))
+    print(f'Saved Feasibility Study to: {fs_path}')
+    print(f'  File size: {os.path.getsize(fs_path) / 1024:.0f} KB')
 
 
 if __name__ == '__main__':
