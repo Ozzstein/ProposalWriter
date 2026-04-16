@@ -72,6 +72,9 @@ jq -r '.data.web[] | [.url, .title] | @tsv' .firecrawl/search-<repo>-<slug>.json
 ```bash
 firecrawl scrape "<url>" --format markdown --only-main-content \
   | tail -n +2 > .firecrawl/scrape-<slug>.md
+
+# Archive to wiki/raw/ for permanent storage (if wiki exists):
+cp .firecrawl/scrape-<slug>.md wiki/raw/<source-id>-<slug>.md
 ```
 
 **Discovering all pages on a site** (useful for CORDIS project pages):
@@ -116,6 +119,15 @@ Authors frequently self-archive their accepted manuscripts on ResearchGate, whic
 - **medium**: Published paper retrieved via Unpaywall green OA (repository/author manuscript); preprint with a DOI or journal reference in the text; Zenodo record with cited methods paper; OpenAIRE record linked to a journal article; ResearchGate author self-archive of accepted manuscript
 - **low**: Preprint-only (bioRxiv, medRxiv, EarthArXiv) with no journal acceptance signal; CORDIS mid-project deliverable or working paper; ResearchGate result with no clear version info
 
+## Archiving downloaded content to wiki
+
+After successfully scraping full text for any source, **archive the content to `wiki/raw/`** so it is permanently available for future projects:
+
+- **Naming**: `wiki/raw/{source_id}-{short-slug}.md` (e.g. `wiki/raw/SRC-031-openaire-result.md`)
+- **When**: Always archive after a successful `firecrawl scrape` that produced usable markdown
+- **Skip if**: The file already exists in `wiki/raw/` (check with `ls wiki/raw/{source_id}-*`)
+- **Why**: The evidence_store only keeps a short extract. The full text in `wiki/raw/` lets future agents re-read the article without re-downloading.
+
 ## Rules
 
 - Maximum 4 search rounds total (one per selected repository)
@@ -124,11 +136,25 @@ Authors frequently self-archive their accepted manuscripts on ResearchGate, whic
 - Include both supporting and contradicting evidence — do not cherry-pick
 - Return results conforming to `schemas/evidence_result.json`
 
+## Wiki Pre-Check
+
+Before running repository searches, check if the wiki has existing knowledge:
+
+1. If `wiki/WIKI.md` exists, read `wiki/index.md` to find existing source pages from EU repositories (OpenAIRE, CORDIS, Zenodo)
+2. Read relevant `wiki/pages/gaps/` pages to understand which gaps still need evidence
+3. **Adjust search strategy**:
+   - Skip repository searches for topics already well-covered in the wiki
+   - Focus on gaps the wiki flags as open — prioritize CORDIS searches for competitor projects
+   - Check wiki entity pages for known EU-funded projects in the same domain
+
+If the wiki doesn't exist or has no relevant pages, proceed with normal search.
+
 ## Inputs
 
 - Research topic and keywords
 - Call brief context (what evaluators care about)
 - Path to existing evidence store (`runs/{project}/memory/evidence_store.jsonl`) to check for duplicates
+- Wiki sources and gaps (if provided by orchestrator via Phase 0)
 
 ## Output
 

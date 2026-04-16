@@ -53,6 +53,9 @@ jq -r '.data.web[] | [.url, .title] | @tsv' .firecrawl/patents-google-<slug>.jso
 ```bash
 firecrawl scrape "https://patents.google.com/patent/<patent-id>/en" \
   --format markdown --only-main-content | tail -n +2 > .firecrawl/patent-<id>.md
+
+# Archive to wiki/raw/ for permanent storage (if wiki exists):
+cp .firecrawl/patent-<id>.md wiki/raw/<source-id>-patent-<id>.md
 ```
 
 ### 2. EPO Espacenet — European/PCT filings (Firecrawl)
@@ -129,6 +132,28 @@ For each relevant patent, note:
 
 ---
 
+## Wiki Pre-Check
+
+Before running patent searches, check if the wiki has existing IP landscape knowledge:
+
+1. If `wiki/WIKI.md` exists, read `wiki/index.md` to find existing patent source pages (type: patent)
+2. Read relevant `wiki/pages/entities/` pages for known competitor patent portfolios
+3. **Adjust search strategy**:
+   - Skip assignee searches for companies already profiled in the wiki
+   - Focus on new novelty anchors not covered by existing wiki patent pages
+   - Use wiki entity pages to identify additional competitors to check
+
+If the wiki doesn't exist or has no relevant patent pages, proceed with normal search.
+
+## Archiving downloaded patents to wiki
+
+After successfully scraping a patent, **archive it to `wiki/raw/`** for permanent storage:
+
+- **Naming**: `wiki/raw/{source_id}-patent-{patent-number}.md` (e.g. `wiki/raw/SRC-PAT-003-EP2360117B1.md`)
+- **When**: Always archive after a successful `firecrawl scrape` of a patent page
+- **Skip if**: Already exists in `wiki/raw/` (check with `ls wiki/raw/{source_id}-*`)
+- **Why**: Patent claims and technical details are lengthy; the evidence_store only keeps an extract. The full patent text in `wiki/raw/` enables deeper IP analysis in future projects without re-scraping.
+
 ## Inputs
 
 - Research topic and key technical terms
@@ -136,6 +161,7 @@ For each relevant patent, note:
 - Consortium partner names — run assignee searches to understand their existing IP
 - Call brief context (what evaluators care about regarding IP)
 - Path to existing evidence store to avoid duplicates
+- Wiki patent sources and entity pages (if provided by orchestrator via Phase 0)
 
 ---
 

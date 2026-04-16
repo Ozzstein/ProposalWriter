@@ -96,10 +96,42 @@ runs/{project-name}/
   final/                  — Export-ready proposal
 ```
 
+## Wiki — Cross-Project Knowledge Base
+
+Location: `wiki/` (read `wiki/WIKI.md` for full conventions)
+
+The wiki is a **persistent, cross-project knowledge base** that compounds over time. It stores evidence, claims, gaps, competitor intelligence, and funding call analysis so that new proposals build on prior research.
+
+### Wiki commands
+- `/wiki init` — Initialize wiki structure (already done)
+- `/wiki ingest {project}` — Promote knowledge from a completed run to the wiki
+- `/wiki query {question}` — Search the wiki and synthesize an answer
+- `/wiki status` — Show wiki statistics
+- `/wiki lint` — Health-check cross-references and find issues
+
+### How agents use the wiki
+- **Research orchestrator**: Runs Phase 0 (wiki check) before spawning retrievers — imports relevant wiki claims/sources into the project-local stores
+- **Retrievers**: Check wiki before searching to skip already-known sources and focus on gaps
+- **Synthesizers**: Read wiki overview, concepts, gaps, and entities as baseline context
+- **Writers**: Read wiki claims for pre-validated language and concepts for consistent terminology
+- Writers cite from project-local stores only — wiki claims are imported with `WIKI-CLM-xxx` prefix during Phase 0
+
+### When to ingest
+After a proposal run completes (all stages done), run `/wiki ingest {project}` to promote knowledge to the wiki. Supported claims, evidence, gaps, entities, and concepts are extracted and deduplicated.
+
+### Wiki page types
+- `pages/sources/` — One page per evidence source (maps to SRC-xxx)
+- `pages/entities/` — Organizations, projects, competitors
+- `pages/concepts/` — Technical themes, methods, frameworks
+- `pages/funding-calls/` — Parsed call intelligence
+- `pages/claims/` — Pre-validated technical claims (maps to CLM-xxx)
+- `pages/gaps/` — Known research/technology gaps (maps to GAP-xxx)
+
 ## How to Start
 
 When a user opens this project, greet them and explain:
 1. They can start a new proposal with `/start-proposal`
 2. They can check progress with `/pipeline-status`
-3. The pipeline is interactive — you'll present results and ask for feedback at each stage
-4. They can run any stage independently or go through the full pipeline
+3. They can query or grow the knowledge wiki with `/wiki`
+4. The pipeline is interactive — you'll present results and ask for feedback at each stage
+5. They can run any stage independently or go through the full pipeline
