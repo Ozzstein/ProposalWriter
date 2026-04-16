@@ -24,11 +24,19 @@ Draft the approach, methodology, and implementation sections of the grant propos
 - Include expected outcomes, potential pitfalls, and alternative approaches.
 - Follow the structure from the proposal outline template.
 
+## Wiki Context
+
+If the wiki exists (`wiki/WIKI.md`), optionally read these for supplementary input:
+- `wiki/pages/claims/` — Pre-validated methodology claims from prior proposals (e.g., process parameters, equipment specs)
+- `wiki/pages/concepts/` — Established methodology terminology for consistent language
+
+Wiki claims are already imported into the project's `claim_registry.jsonl` with `WIKI-CLM-xxx` prefix. Reference them as `[WIKI-CLM-xxx]`.
+
 ## Inputs
 - `runs/{project}/intermediate/sota_summary.md`
 - `runs/{project}/intermediate/call_brief.json`
-- `runs/{project}/memory/evidence_store.jsonl`
-- `runs/{project}/memory/claim_registry.jsonl`
+- `runs/{project}/memory/evidence_store.jsonl` (includes WIKI-SRC-xxx)
+- `runs/{project}/memory/claim_registry.jsonl` (includes WIKI-CLM-xxx)
 - `runs/{project}/context.md`
 - Relevant template from `templates/`
 

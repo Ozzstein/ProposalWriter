@@ -28,11 +28,23 @@ Map the project's specific novelty positions against the established state of th
 - Assign anchor_ids in format NOV-001, NOV-002, etc.
 - Never mark a defensibility_score above 7 unless the supporting evidence is high-quality and the attack_surface is narrow
 
+## Wiki Context
+
+If the wiki exists (`wiki/WIKI.md`), read these for landscape intelligence:
+
+1. `wiki/pages/gaps/` — Already-documented gaps from prior proposals. Check if your novelty anchors target known gaps (stronger defensibility) or new gaps (need extra evidence).
+2. `wiki/pages/entities/` — Competitor and prior-art project profiles. Use to populate `existing_art` and `attack_surface` fields more thoroughly.
+3. `wiki/pages/claims/` — Pre-validated claims. If a wiki claim supports your novelty anchor, reference it.
+
+This context makes your novelty mapping more complete — you'll know what competitors are doing and what gaps are already documented, even if those weren't found in this project's specific literature search.
+
 ## Inputs
 - `runs/{project}/intermediate/sota_summary.md`
 - `runs/{project}/memory/evidence_store.jsonl`
 - `runs/{project}/memory/claim_registry.jsonl`
 - `runs/{project}/context.md`
+- `wiki/pages/gaps/` (if wiki exists)
+- `wiki/pages/entities/` (if wiki exists)
 
 ## Output
 `runs/{project}/intermediate/novelty_map.json` — conforming to `schemas/novelty_map.json`

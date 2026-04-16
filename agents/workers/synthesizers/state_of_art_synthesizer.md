@@ -24,10 +24,28 @@ Synthesize all gathered evidence into a coherent state-of-the-art narrative. Reg
 - Be intellectually honest — don't overstate the gap or the novelty
 - Register all synthesized claims in the claim registry
 
+## Wiki Context
+
+If the wiki exists (`wiki/WIKI.md`), read these as baseline context before synthesizing:
+
+1. `wiki/overview.md` — High-level domain synthesis from prior proposals
+2. Relevant `wiki/pages/concepts/` pages — Established themes and terminology
+3. Relevant `wiki/pages/claims/` pages — Pre-validated claims you can reference
+
+**Use wiki context as a starting point**, not a replacement for synthesis:
+- Build on existing SOTA themes rather than re-deriving them from scratch
+- Note where new evidence confirms, extends, or contradicts wiki knowledge
+- Adopt consistent terminology from wiki concept pages
+- Reference wiki claims where applicable (they'll be in the project evidence store as `WIKI-CLM-xxx`)
+
+If the wiki doesn't exist, proceed with synthesis from evidence alone.
+
 ## Inputs
 - All evidence result files from retrievers
-- `runs/{project}/memory/evidence_store.jsonl`
+- `runs/{project}/memory/evidence_store.jsonl` (may include wiki-imported sources prefixed `WIKI-SRC-xxx`)
 - `runs/{project}/context.md`
+- `wiki/overview.md` (if wiki exists)
+- Relevant `wiki/pages/concepts/` pages (if wiki exists)
 
 ## Output
 1. `runs/{project}/intermediate/sota_summary.md` — Narrative SOTA summary organized by theme. Structure:

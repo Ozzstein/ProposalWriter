@@ -29,12 +29,26 @@ Identify, characterise, and rank the gaps in current knowledge, technology, and 
 - Mark gaps that are addressed by already-funded competitor projects (visible in evidence store) with a note and reduced strategic_importance
 - Assign gap_ids in format GAP-001, GAP-002, etc.
 
+## Wiki Context
+
+If the wiki exists (`wiki/WIKI.md`), read these for pre-existing gap intelligence:
+
+1. `wiki/pages/gaps/` — Already-documented gaps from prior proposals. For each:
+   - Check if the gap is still open or has been addressed
+   - Note which projects have previously targeted this gap (`addressed_by_projects`)
+   - Adjust `competitor_risk` based on wiki entity pages
+2. `wiki/pages/entities/` — Competitor profiles. Use to populate `competitor_risk` fields.
+
+**Reuse wiki gaps where applicable** — if a wiki gap matches one you've identified, use the same gap_id and build on the existing documentation rather than creating a duplicate. Update the `addressed_by_projects` list to include the current project.
+
 ## Inputs
 - `runs/{project}/intermediate/sota_summary.md`
 - `runs/{project}/intermediate/call_brief.json`
 - `runs/{project}/intermediate/evaluation_matrix.json`
 - `runs/{project}/memory/evidence_store.jsonl`
 - `runs/{project}/context.md`
+- `wiki/pages/gaps/` (if wiki exists)
+- `wiki/pages/entities/` (if wiki exists)
 
 ## Output
 `runs/{project}/intermediate/gap_analysis.json` — conforming to `schemas/gap_analysis.json`

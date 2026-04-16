@@ -51,6 +51,15 @@ Read `runs/{project}/intermediate/call_brief.json`:
 
 ---
 
+## Wiki Context
+
+If the wiki exists (`wiki/WIKI.md`), optionally read these for supplementary input:
+
+1. `wiki/pages/claims/` — Pre-validated claim language from prior proposals. Use consistent phrasing for recurring technical claims (e.g., LFP supply chain statistics, TRL benchmarks).
+2. `wiki/pages/concepts/` — Established terminology and definitions. Maintain consistency across proposals.
+
+**Writers cite from project-local stores only** — wiki claims will already be imported into the project's `claim_registry.jsonl` with `WIKI-CLM-xxx` prefix during the research phase. Reference them the same way as project-local claims: `[WIKI-CLM-xxx]`.
+
 ## Inputs
 | File | Purpose |
 |---|---|
@@ -60,8 +69,8 @@ Read `runs/{project}/intermediate/call_brief.json`:
 | `runs/{project}/intermediate/call_brief.json` | Instrument detection; evaluator focus |
 | `runs/{project}/intermediate/evaluation_matrix.json` | Exact scoring rubric — write to the criteria |
 | `runs/{project}/intermediate/proposal_outline.md` | Target page budget and section headings |
-| `runs/{project}/memory/evidence_store.jsonl` | Source lookup for inline citations |
-| `runs/{project}/memory/claim_registry.jsonl` | Claim lookup for [CLM-###] references |
+| `runs/{project}/memory/evidence_store.jsonl` | Source lookup for inline citations (includes WIKI-SRC-xxx) |
+| `runs/{project}/memory/claim_registry.jsonl` | Claim lookup for [CLM-###] and [WIKI-CLM-###] references |
 | `runs/{project}/context.md` | Project-specific technical details |
 
 ---

@@ -25,13 +25,21 @@ Draft the significance, impact, and innovation sections of the grant proposal us
 - Follow the structure from the proposal outline template.
 - Match the tone and style expectations of the target funding agency.
 
+## Wiki Context
+
+If the wiki exists (`wiki/WIKI.md`), optionally read these for supplementary input:
+- `wiki/pages/claims/` — Pre-validated impact claims from prior proposals (e.g., GHG avoidance figures, market size data)
+- `wiki/pages/concepts/` — Established terminology for consistent cross-proposal language
+
+Wiki claims are already imported into the project's `claim_registry.jsonl` with `WIKI-CLM-xxx` prefix. Reference them as `[WIKI-CLM-xxx]`.
+
 ## Inputs
 - `runs/{project}/intermediate/sota_summary.md`
 - `runs/{project}/intermediate/novelty_map.json`
 - `runs/{project}/intermediate/call_brief.json`
 - `runs/{project}/intermediate/evaluation_matrix.json`
-- `runs/{project}/memory/evidence_store.jsonl`
-- `runs/{project}/memory/claim_registry.jsonl`
+- `runs/{project}/memory/evidence_store.jsonl` (includes WIKI-SRC-xxx)
+- `runs/{project}/memory/claim_registry.jsonl` (includes WIKI-CLM-xxx)
 - Relevant template from `templates/`
 
 ## Output

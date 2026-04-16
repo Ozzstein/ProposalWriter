@@ -64,4 +64,15 @@ After gathering this information:
 
    If the user provides a URL to the funder portal or a specific call page, offer to retrieve the template using Firecrawl.
 
-6. Tell the user their next step is `/parse-call` (if they have a call document) or `/research` (if they want to start with evidence gathering first).
+6. **Archive input documents to wiki**: If call documents or supporting materials were provided, copy them to `wiki/raw/` for permanent cross-project archival:
+   ```bash
+   # Call documents (reusable across projects targeting the same call)
+   cp runs/{project-name}/inputs/call-fiche* wiki/raw/CALL-{call-id}-fiche.*
+   cp runs/{project-name}/inputs/application-form* wiki/raw/CALL-{call-id}-template.*
+   
+   # Supporting documents (research reports, feasibility studies, etc.)
+   cp runs/{project-name}/inputs/{document} wiki/raw/{descriptive-name}.*
+   ```
+   Skip files that already exist in `wiki/raw/`. This ensures that call documents, GHG methodologies, templates, and any supporting materials are permanently available for future proposals without re-uploading.
+
+7. Tell the user their next step is `/parse-call` (if they have a call document) or `/research` (if they want to start with evidence gathering first).

@@ -42,11 +42,13 @@ Find high-quality, relevant academic papers on the specified research topic usin
 **PubMed** (`search_pubmed` + `fetch_abstract`):
 - Use for biomedical topics not well covered by Consensus, or when MeSH-term precision is needed
 - Use `fetch_abstract` to get full text and MeSH terms for high-value papers
+- After `fetch_abstract`, archive the returned content to `wiki/raw/{source_id}-pubmed-{pmid}.md`
 - Best for: NIH-aligned topics, clinical trials, disease mechanisms
 
 **arXiv** (`search_arxiv` + `fetch_arxiv_paper`):
 - Use for recent preprints in CS, physics, engineering, quantitative biology
 - Use `category` filter (e.g. `q-bio.GN`, `cs.LG`, `eess.SP`) to narrow results
+- After `fetch_arxiv_paper`, archive the full text to `wiki/raw/{source_id}-arxiv-{arxiv_id}.md`
 - Best for: cutting-edge methods, ML/AI papers, physics-adjacent topics
 
 **CrossRef** (`crossref_search`):
@@ -69,6 +71,36 @@ For any paywalled paper, try in this order:
 2. `unpaywall_fetch(doi)` / `unpaywall_batch(dois)` — any other publisher
 3. `web_scraper` ResearchGate fallback — if both above return no full text
 
+### Archiving ALL downloaded content to wiki
+
+**Every piece of content you retrieve must be archived to `wiki/raw/`** — this is the permanent knowledge archive. The evidence_store only keeps a short extract; `wiki/raw/` preserves the full text so future projects never need to re-download.
+
+**What to archive**:
+- Full-text articles from `sciencedirect_fetch`, `unpaywall_fetch`, Firecrawl scrapes
+- arXiv papers from `fetch_arxiv_paper`
+- PubMed abstracts/full text from `fetch_abstract`
+- Consensus results with substantial content
+- Anything else you download or receive that has informational value
+
+**How to archive**:
+```bash
+# From Firecrawl scrape:
+cp .firecrawl/scrape-<slug>.md wiki/raw/<source-id>-<slug>.md
+
+# From MCP tool output (arXiv, PubMed, ScienceDirect):
+# Write the returned content directly to wiki/raw/<source-id>-<slug>.md using the Write tool
+```
+
+**Naming convention**: `wiki/raw/{source_id}-{short-slug}.md`
+- Articles: `SRC-012-lfp-spray-drying.md`
+- arXiv: `SRC-042-arxiv-2401.12345.md`
+- PubMed: `SRC-043-pubmed-39876543.md`
+
+**Rules**:
+- Check if `wiki/raw/{source_id}-*` already exists before writing (skip if archived)
+- Archive even medium/low-quality sources — curation happens at the wiki page level, not the raw level
+- If only abstract was available (`full_text_available: false`), still archive the abstract — partial content is better than nothing
+
 ## Quality Ratings
 - **high**: peer-reviewed, Q1/Q2 journal, large sample or systematic review
 - **medium**: peer-reviewed, reasonable methods; or arXiv paper with a published DOI/journal ref
@@ -83,6 +115,21 @@ When a search result is clearly relevant but its full text is behind a paywall (
 
 Mark such sources as `"full_text_available": false` in the sources array until resolved.
 
+## Wiki Pre-Check
+
+Before running any search tool, check if the wiki has relevant existing knowledge:
+
+1. If `wiki/WIKI.md` exists, read `wiki/index.md` to find existing source pages matching the research topic
+2. Read relevant `wiki/pages/sources/` pages to see what evidence already exists
+3. Read relevant `wiki/pages/gaps/` pages to understand known open gaps
+4. **Adjust search strategy**:
+   - Skip searches for topics already well-covered in the wiki (5+ high-quality sources)
+   - Focus searches on gaps the wiki flags as open or areas with thin coverage
+   - Use wiki concept pages to refine search terms
+5. Note which wiki sources are being reused (the orchestrator imports them into the project store)
+
+If the wiki doesn't exist or has no relevant pages, proceed with normal search.
+
 ## Rules
 - Prefer peer-reviewed papers from the last 5 years unless older seminal work is needed
 - Include both supporting and contradicting evidence — do not cherry-pick
@@ -93,6 +140,7 @@ Mark such sources as `"full_text_available": false` in the sources array until r
 - Research topic and keywords
 - Call brief context (what evaluators care about)
 - Any existing evidence to avoid duplicating
+- Wiki sources and gaps (if provided by orchestrator via Phase 0)
 
 ## Output
 Write a JSON file conforming to `schemas/evidence_result.json` with:
