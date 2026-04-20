@@ -3,21 +3,21 @@
     "PreToolUse": [
       {
         "matcher": "Agent",
-        "command": "python hooks/check_dedupe.py"
+        "hooks": [{"type": "command", "command": "python hooks/check_dedupe.py"}]
       },
       {
         "matcher": "Agent",
-        "command": "python hooks/check_depth.py"
+        "hooks": [{"type": "command", "command": "python hooks/check_depth.py"}]
       }
     ],
     "PostToolUse": [
       {
         "matcher": "Write",
-        "command": "python hooks/validate_output.py"
+        "hooks": [{"type": "command", "command": "python hooks/validate_output.py"}]
       },
       {
         "matcher": "Write",
-        "command": "python hooks/check_citations.py"
+        "hooks": [{"type": "command", "command": "python hooks/check_citations.py"}]
       }
     ]
   },
