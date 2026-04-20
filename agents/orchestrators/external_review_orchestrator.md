@@ -87,7 +87,8 @@ Reply "approve all" or list exceptions.
 Triggered only after user approves triage (or a subset).
 
 ### Step 2.1: Update entries from user response
-- For each entry the user skipped: set `status: "deferred"` in feedback_log
+- For each entry the user skipped (using "skip FBK-xxx"): set `status: "skipped"` in feedback_log — permanently excluded, will not re-surface in future rounds
+- For each entry the user deferred (using "defer FBK-xxx"): set `status: "deferred"` in feedback_log — will re-surface as open in the next round
 - For reclassified entries: update `category` and `routed_to`
 - Remaining approved entries: set `status: "in_progress"`
 
@@ -153,13 +154,15 @@ If the reviewer is wrong: explain why and return rationale for rejection.
 
 **Compliance comments** → spawn compliance_checker (model: haiku):
 ```
-You are a compliance checker. The following reviewer comment flags a compliance issue:
-"{comment}" (location: "{location}")
+You are the compliance_checker agent. Read agents/workers/reviewers/compliance_checker.md for full instructions.
 
-Read: runs/{project}/intermediate/call_brief.json, runs/{project}/intermediate/evaluation_matrix.json
-Read the relevant draft section: {target_file}
-Assess whether the comment is valid. If yes, produce a patch (old_text/new_text).
-Write patch to runs/{project}/intermediate/feedback_patches_{section_slug}_{round}.json.
+Inputs:
+- comment: "{comment}"
+- location: "{location}"
+- target_file: {target_file}
+- call_brief_path: runs/{project}/intermediate/call_brief.json
+- evaluation_matrix_path: runs/{project}/intermediate/evaluation_matrix.json
+- patch_output_path: runs/{project}/intermediate/feedback_patches_{section_slug}_{round}.json
 ```
 
 **Writing/style/structural comments** → spawn feedback_applier (model: sonnet) per section group:

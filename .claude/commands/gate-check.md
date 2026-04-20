@@ -42,7 +42,7 @@ Check these criteria:
 ### Gate: external-feedback
 Check these criteria:
 - [ ] `runs/{project}/memory/feedback_log.jsonl` exists (if no external review has been run, gate is N/A — inform user)
-- [ ] Zero entries with `status: "open"` or `"in_progress"` in the active round (count lines where status matches)
+- [ ] Zero entries with `status: "open"` or `"in_progress"` in the active round — NOTE: feedback_log.jsonl is append-only; group all lines by `feedback_id` and use the LAST line per ID as the current state before counting statuses
 - [ ] All remaining entries have `status` in ["resolved", "deferred", "rejected", "ack", "stale"]
 - [ ] Any `stale` entries have a note in `resolution` explaining why manual review is needed
 
