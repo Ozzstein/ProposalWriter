@@ -23,8 +23,9 @@ The proposal writing pipeline has these stages, each driven by a slash command:
 3. `/research` — Gather evidence from literature and patents, identify state of the art and gaps
 4. `/write-proposal` — Draft polished narrative sections for the target call
 5. `/review` — Red-team the proposal, check compliance, find unsupported claims
-6. `/gate-check [gate-name]` — Verify readiness before transitioning between stages
-7. `/pipeline-status` — Show current progress
+6. `/external-review` — Ingest external reviewer comments (PDF/DOCX/XLSX/MD/chat), triage, route to specialist agents, apply patches
+7. `/gate-check [gate-name]` — Verify readiness before transitioning between stages
+8. `/pipeline-status` — Show current progress
 
 ### Review Gates
 
@@ -34,6 +35,7 @@ Never advance to the next stage without passing the review gate. Use `/gate-chec
 - **Gate 2 (evidence)**: Before writing — minimum 12 quality sources, SOTA summary, novelty anchors
 - **Gate 4 (draft)**: Before review — all sections drafted, claims linked to evidence
 - **Gate 5 (submission)**: Before export — template compliance, citation integrity, page limits
+- **Gate: external-feedback**: After external review rounds — zero open/in-progress comments, all closed (resolved/deferred/rejected)
 
 ## Agent Architecture
 
@@ -69,6 +71,7 @@ All proposal data lives in `runs/{project-name}/`:
 - `memory/claim_registry.jsonl` — Every proposal claim linked to evidence
 - `memory/decision_log.jsonl` — Why key choices were made
 - `memory/task_registry.jsonl` — Track all spawned tasks (prevents duplicates)
+- `memory/feedback_log.jsonl` — All external reviewer comments across rounds with status tracking
 - `state.json` — Pipeline state and gate status
 
 When writing to memory stores, **append** to JSONL files (one JSON object per line). When reading, read the entire file.
