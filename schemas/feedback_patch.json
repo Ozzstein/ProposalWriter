@@ -1,0 +1,44 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FeedbackPatch",
+  "description": "A validated text patch produced by feedback_applier for a writing/style/structural comment",
+  "type": "object",
+  "properties": {
+    "patch_id": {
+      "type": "string",
+      "pattern": "^PATCH-\\d+$"
+    },
+    "feedback_id": {
+      "type": "string",
+      "pattern": "^FBK-\\d+$",
+      "description": "Links back to the feedback_log entry"
+    },
+    "target_file": {
+      "type": "string",
+      "description": "Relative path to the draft file, e.g. drafts/01_innovation.md"
+    },
+    "old_text": {
+      "type": "string",
+      "description": "Exact string that must match the current draft content (used for Edit tool old_string)"
+    },
+    "new_text": {
+      "type": "string",
+      "description": "Replacement text"
+    },
+    "rationale": {
+      "type": "string",
+      "description": "One sentence explaining why this change addresses the comment"
+    },
+    "new_claim_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Any new CLM-xxx IDs introduced by this patch (must be registered in claim_registry.jsonl first)"
+    },
+    "new_source_ids": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Any new SRC-xxx IDs introduced by this patch (must be in evidence_store.jsonl first)"
+    }
+  },
+  "required": ["patch_id", "feedback_id", "target_file", "old_text", "new_text", "rationale"]
+}
