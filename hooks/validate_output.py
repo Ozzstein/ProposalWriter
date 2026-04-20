@@ -61,12 +61,16 @@ def validate_feedback_file(data, schema_name):
     """Validate array-typed feedback files (each entry or patch validated individually)."""
     errors = []
     if schema_name == "feedback_entry.json":
+        if "entries" not in data:
+            return [f"feedback_parse file missing required top-level key 'entries'"]
         entries = data.get("entries", [])
         for i, entry in enumerate(entries):
             for field in ["feedback_id", "round", "source_file", "comment", "category", "status", "dedupe_key"]:
                 if field not in entry:
                     errors.append(f"entries[{i}] missing required field: '{field}'")
     elif schema_name == "feedback_patch.json":
+        if "patches" not in data:
+            return [f"feedback_patches file missing required top-level key 'patches'"]
         patches = data.get("patches", [])
         for i, patch in enumerate(patches):
             for field in ["patch_id", "feedback_id", "target_file", "old_text", "new_text", "rationale"]:

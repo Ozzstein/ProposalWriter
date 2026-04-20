@@ -29,7 +29,7 @@ Show the current status of the proposal pipeline.
    - Claim registry: {count} claims
    - Drafts: {list of files in drafts/}
    - Reviews: {list of files in reviews/}
-   - External feedback: If `memory/feedback_log.jsonl` exists, count entries by status per round and show:
+   - External feedback: If `memory/feedback_log.jsonl` exists, group lines by `feedback_id` (last line per ID is authoritative), count current statuses per round, and show:
      ```
      External Review:
        Round 1: 12 resolved, 2 deferred, 1 rejected

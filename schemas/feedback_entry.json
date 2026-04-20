@@ -36,7 +36,7 @@
     },
     "status": {
       "type": "string",
-      "enum": ["open", "in_progress", "resolved", "deferred", "rejected", "ack", "unlocatable", "stale", "parse_error"]
+      "enum": ["open", "in_progress", "resolved", "deferred", "skipped", "rejected", "ack", "unlocatable", "stale", "parse_error"]
     },
     "resolution": { "type": ["string", "null"], "description": "Human-readable summary of how it was addressed" },
     "resolved_at": { "type": ["string", "null"], "description": "ISO date, e.g. 2026-04-21" },
