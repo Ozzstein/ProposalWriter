@@ -16,11 +16,19 @@ Red-team the proposal by checking scientific rigor, evaluator alignment, unsuppo
 - Searching for additional evidence
 - Making strategic decisions about the research direction
 
+## Phase 0 — Wiki context for reviewers
+
+If `wiki/WIKI.md` exists:
+1. Read `wiki/index.md` and collect the paths of wiki `entities/` pages (competitor organizations, prior projects) and `gaps/` pages (known research gaps in this domain) relevant to this project.
+2. Pass those paths to `adversarial_evaluator_simulator` under a `Wiki context` section of its spawn prompt — a realistic evaluator critique must know the competitive landscape and open gaps.
+3. `compliance_checker` does not need wiki context (purely structural check).
+4. If the wiki doesn't exist, skip silently.
+
 ## Subagents to Spawn
 Launch in parallel:
 - **scientific_reviewer** (model: opus) — Check scientific rigor, logical consistency, claim-evidence linkage
 - **compliance_checker** (model: haiku) — Check template compliance, page limits, required sections, formatting
-- **adversarial_evaluator_simulator** (model: opus) — Simulate the expert evaluation panel; predict per-criterion scores; flag all hard-rejection risks; rank improvement actions by score impact
+- **adversarial_evaluator_simulator** (model: opus) — Simulate the expert evaluation panel; predict per-criterion scores; flag all hard-rejection risks; rank improvement actions by score impact. Receives wiki entities/gaps paths via the orchestrator's Phase 0 step.
 
 ## Inputs
 - All section drafts from `runs/{project}/drafts/`
@@ -30,6 +38,7 @@ Launch in parallel:
 - `runs/{project}/intermediate/gap_analysis.json`
 - `runs/{project}/memory/claim_registry.jsonl`
 - `runs/{project}/memory/evidence_store.jsonl`
+- `wiki/index.md`, `wiki/pages/entities/*.md`, `wiki/pages/gaps/*.md` (Phase 0 wiki context)
 
 ## Outputs
 - `runs/{project}/reviews/scientific_review.json` — conforming to `schemas/review_report.json`

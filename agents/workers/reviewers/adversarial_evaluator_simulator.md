@@ -91,6 +91,14 @@ Run threshold checks from `evaluation_matrix.json` for all criteria. Mark any cr
 | `runs/{project}/intermediate/gap_analysis.json` | Assess strength of gap framing |
 | `runs/{project}/memory/claim_registry.jsonl` | Identify unsupported claims in drafts |
 | `runs/{project}/memory/evidence_store.jsonl` | Assess evidence quality backing claims |
+| `wiki/pages/entities/*.md` (paths passed by review_orchestrator) | Competitive landscape — named competitors the evaluator will compare against |
+| `wiki/pages/gaps/*.md` (paths passed by review_orchestrator) | Known open gaps in the domain — a realistic evaluator knows which gaps are already well-documented and which are overstated |
+
+### Using wiki context
+The review_orchestrator passes a `Wiki context` section listing relevant entities/ and gaps/ page paths. Before scoring:
+1. Read each entity page — note competitor capabilities, funding, and recent moves. Evaluator A (Technical Sceptic) will compare the proposal's novelty claims against these.
+2. Read each gap page — note whether it's "well-documented open gap" (strengthens novelty framing) or "already addressed elsewhere" (undermines novelty claim). Factor this into the C1/innovation score.
+3. Cite wiki pages in `score_rationale` fields when relevant (e.g. "claim of first-mover status conflicts with `wiki/pages/entities/artistic-platform.md`").
 
 ---
 

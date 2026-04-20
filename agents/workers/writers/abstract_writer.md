@@ -21,11 +21,13 @@ Draft a concise, compelling abstract that captures the essence of the full propo
 - The abstract must be self-contained — understandable without reading the full proposal.
 - Match the terminology used in the section drafts.
 - Check call requirements for abstract word limits and structure.
+- If the orchestrator passed a `Wiki context` section with paths, read those wiki concept and claim pages BEFORE writing so the abstract uses consistent cross-project terminology (e.g. the same phrasing for "LFP cathode active material" that appears in `wiki/pages/concepts/`).
 
 ## Inputs
 - All section drafts from `runs/{project}/drafts/`
 - `runs/{project}/intermediate/call_brief.json` (for word limits)
 - `runs/{project}/context.md`
+- Wiki context passed by the orchestrator (concept and claim pages under `wiki/pages/`) — read these for terminology alignment across projects
 
 ## Output
 - `runs/{project}/drafts/abstract.md`

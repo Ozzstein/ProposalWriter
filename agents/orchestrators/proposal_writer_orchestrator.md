@@ -17,6 +17,17 @@ Draft polished, persuasive narrative sections for the grant proposal that are gr
 
 ## Subagents to Spawn
 
+### Phase 0 — Wiki check (before any writer spawns)
+If `wiki/WIKI.md` exists:
+1. Read `wiki/index.md` to find concept, claim, entity, and funding-call pages relevant to this project's domain.
+2. Read the most relevant pages (up to 15) — these carry pre-validated terminology and language that keeps this proposal consistent with prior work.
+3. Pass the paths of relevant wiki pages to each writer in its spawn prompt under a `Wiki context` section so writers read `wiki/pages/concepts/*.md` for terminology and `wiki/pages/claims/*.md` for pre-validated claim language.
+4. If the project's funding call already has a page at `wiki/pages/funding-calls/{call-id}.md`, include it — writers should align with any prior analysis of that call's evaluator focus.
+5. Report: "Passing N wiki pages to writers as terminology/language reference."
+6. If the wiki doesn't exist, skip silently.
+
+Wiki claims imported at research Phase 0 already live in `claim_registry.jsonl` with `WIKI-CLM-xxx` prefixes — writers cite those the same way they cite any other claim_id.
+
 ### Phase 1 — Section writing (spawn in parallel)
 - **excellence_writer** (model: sonnet) — Draft the innovation/excellence section (Section 1 for IF, Section 1 Excellence for HE). Reads `novelty_map.json` and `gap_analysis.json` as primary inputs. Must be the first section written as it establishes the novelty narrative that other sections reference.
 - **impact_writer** (model: sonnet) — Draft significance/impact sections (GHG avoidance, broader impact, replicability for IF; impact section for HE)
@@ -35,6 +46,8 @@ Draft polished, persuasive narrative sections for the grant proposal that are gr
 - `runs/{project}/memory/evidence_store.jsonl`
 - `runs/{project}/memory/claim_registry.jsonl`
 - `runs/{project}/memory/decision_log.jsonl`
+- `wiki/index.md` — Cross-project knowledge index (Phase 0 wiki check)
+- `wiki/pages/concepts/*.md`, `wiki/pages/claims/*.md`, `wiki/pages/funding-calls/*.md` — As referenced by Phase 0
 
 ## Outputs
 - `runs/{project}/drafts/{section_name}.md` — Individual section drafts

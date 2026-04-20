@@ -26,6 +26,16 @@ Always resolve the section structure in this order:
 
 Note in the `call_brief.json` which template source was used: `"template_source": "uploaded | builtin:{filename}"`.
 
+## Phase 0 — Wiki check (before spawning parsers)
+
+If `wiki/WIKI.md` exists, check whether this funding call has already been analyzed:
+1. Read `wiki/index.md` and look under `## Funding Calls` for a page matching this call's identifier (e.g. `innovfund-2025-nzt.md`). The call_id should appear in `runs/{project}/context.md` or the filename of the uploaded call document.
+2. If a matching page exists, read `wiki/pages/funding-calls/{call-id}.md`. It contains prior evaluator focus, prior section-structure analysis, and deadlines.
+3. Pass the wiki funding-call page path to `call_parser` in its spawn prompt as `Prior analysis: wiki/pages/funding-calls/{call-id}.md` — call_parser already knows how to fold wiki context into its output (it cites overlaps with prior analysis in `call_brief.json`).
+4. If no matching wiki page exists, skip silently and proceed with a full parse.
+
+After the parsers complete, the wiki funding-call page should be refreshed via `/wiki ingest` when the project run finishes — that is the wiki_orchestrator's job, not this orchestrator's.
+
 ## Subagents to Spawn (in parallel)
 
 - **call_parser** (model: sonnet) — Parse the call document, extract structure, scoring criteria, and evaluation weights
@@ -35,6 +45,7 @@ Note in the `call_brief.json` which template source was used: `"template_source"
 - Funding call document (`runs/{project}/inputs/call_document.*`)
 - Official application template, if provided (`runs/{project}/inputs/call_template.*`)
 - User context from `runs/{project}/context.md`
+- `wiki/index.md` and `wiki/pages/funding-calls/{call-id}.md` (Phase 0 wiki check) — if the call was previously analyzed
 
 ## Outputs
 - `runs/{project}/intermediate/call_brief.json` — Structured call summary (includes `template_source` field)
