@@ -138,3 +138,4 @@ When a user opens this project, greet them and explain:
 3. They can query or grow the knowledge wiki with `/wiki`
 4. The pipeline is interactive — you'll present results and ask for feedback at each stage
 5. They can run any stage independently or go through the full pipeline
+6. They can open the **Mission Control UI** for a visual overview — see `ui/README.md` (runs locally on http://127.0.0.1:5173).

@@ -12,3 +12,14 @@ runs/*/final/
 .claude/settings.local.json
 call_documents/*
 !call_documents/.gitkeep
+
+# Mission Control UI
+runs/_events.jsonl
+runs/_events.errors.log
+runs/_events.timings.json
+ui/node_modules/
+ui/*/node_modules/
+ui/web/dist/
+ui/server/dist/
+ui/server/data/
+
