@@ -1,0 +1,50 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FeedbackEntry",
+  "description": "One reviewer comment extracted and classified by feedback_parser",
+  "type": "object",
+  "properties": {
+    "feedback_id": {
+      "type": "string",
+      "pattern": "^FBK-\\d+$",
+      "description": "Unique ID, e.g. FBK-001"
+    },
+    "round": { "type": "integer", "minimum": 1 },
+    "reviewer": { "type": "string", "description": "Reviewer name/role as found in file or provided by user" },
+    "source_file": { "type": "string", "description": "Relative path from project root, e.g. inputs/reviews/round1/smith.docx" },
+    "location": { "type": "string", "description": "Human-readable location in proposal, e.g. Section 1.2, para 3" },
+    "original_text": { "type": "string", "description": "The proposal text being commented on, if identifiable" },
+    "comment": { "type": "string", "description": "The reviewer's comment verbatim" },
+    "category": {
+      "type": "string",
+      "enum": ["evidence", "technical", "structural", "writing", "compliance", "style", "ambiguous", "parse_error", "ack"],
+      "description": "evidence=missing citation; technical=wrong claim; structural=section/order; writing=clarity; compliance=template; style=typos; ambiguous=unclear; parse_error=file unreadable; ack=positive-only"
+    },
+    "comment_type": {
+      "type": "string",
+      "enum": ["inline_comment", "tracked_change", "chat", "annotation"],
+      "description": "How this comment was recorded in the source file"
+    },
+    "candidates": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "For category=ambiguous only: the two possible categories"
+    },
+    "routed_to": {
+      "type": "string",
+      "description": "Target agent name, e.g. literature_searcher, feedback_applier, compliance_checker"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["open", "in_progress", "resolved", "deferred", "skipped", "rejected", "ack", "unlocatable", "stale", "parse_error"]
+    },
+    "resolution": { "type": ["string", "null"], "description": "Human-readable summary of how it was addressed" },
+    "resolved_at": { "type": ["string", "null"], "description": "ISO date, e.g. 2026-04-21" },
+    "round_closed": { "type": ["integer", "null"], "description": "Round number in which this entry was closed" },
+    "dedupe_key": {
+      "type": "string",
+      "description": "Stable hash for cross-round deduplication: reviewer+location+topic slug"
+    }
+  },
+  "required": ["feedback_id", "round", "source_file", "comment", "category", "status", "dedupe_key"]
+}

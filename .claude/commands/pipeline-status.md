@@ -29,6 +29,13 @@ Show the current status of the proposal pipeline.
    - Claim registry: {count} claims
    - Drafts: {list of files in drafts/}
    - Reviews: {list of files in reviews/}
+   - External feedback: If `memory/feedback_log.jsonl` exists, group lines by `feedback_id` (last line per ID is authoritative), count current statuses per round, and show:
+     ```
+     External Review:
+       Round 1: 12 resolved, 2 deferred, 1 rejected
+       Round 2: 4 open, 3 resolved  ← active round
+     ```
+     If feedback_log does not exist, show: "External review: not started"
 
 4. **Show next recommended action**: Based on the current state, suggest what the user should do next (e.g., "Next: run `/gate-check evidence` then `/write-proposal`").
 

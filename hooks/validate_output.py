@@ -21,6 +21,10 @@ SCHEMA_MAP = {
     "writing_review.json": "review_report.json",
 }
 
+# Feedback schema patterns — matched in find_schema() below
+# feedback_parse_*.json  -> entries[] validated against feedback_entry.json
+# feedback_patches_*.json -> patches[] validated against feedback_patch.json
+
 
 def find_schema(filename):
     """Find the matching schema for a given output filename."""
@@ -35,6 +39,10 @@ def find_schema(filename):
         return "evidence_result.json"
     if basename.endswith("_review.json"):
         return "review_report.json"
+    if basename.startswith("feedback_parse_") and basename.endswith(".json"):
+        return "feedback_entry.json"
+    if basename.startswith("feedback_patches_") and basename.endswith(".json"):
+        return "feedback_patch.json"
 
     return None
 
@@ -46,6 +54,28 @@ def validate_required_fields(data, schema):
     for field in required:
         if field not in data:
             errors.append(f"Missing required field: '{field}'")
+    return errors
+
+
+def validate_feedback_file(data, schema_name):
+    """Validate array-typed feedback files (each entry or patch validated individually)."""
+    errors = []
+    if schema_name == "feedback_entry.json":
+        if "entries" not in data:
+            return [f"feedback_parse file missing required top-level key 'entries'"]
+        entries = data.get("entries", [])
+        for i, entry in enumerate(entries):
+            for field in ["feedback_id", "round", "source_file", "comment", "category", "status", "dedupe_key"]:
+                if field not in entry:
+                    errors.append(f"entries[{i}] missing required field: '{field}'")
+    elif schema_name == "feedback_patch.json":
+        if "patches" not in data:
+            return [f"feedback_patches file missing required top-level key 'patches'"]
+        patches = data.get("patches", [])
+        for i, patch in enumerate(patches):
+            for field in ["patch_id", "feedback_id", "target_file", "old_text", "new_text", "rationale"]:
+                if field not in patch:
+                    errors.append(f"patches[{i}] missing required field: '{field}'")
     return errors
 
 
@@ -101,7 +131,10 @@ def main():
         return
 
     # Validate required fields
-    errors = validate_required_fields(data, schema)
+    if schema_name in ("feedback_entry.json", "feedback_patch.json"):
+        errors = validate_feedback_file(data, schema_name)
+    else:
+        errors = validate_required_fields(data, schema)
     if errors:
         print(json.dumps({
             "warning": f"Schema validation issues in {os.path.basename(file_path)} "
