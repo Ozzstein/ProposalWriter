@@ -24,8 +24,9 @@ The proposal writing pipeline has these stages, each driven by a slash command:
 4. `/write-proposal` — Draft polished narrative sections for the target call
 5. `/review` — Red-team the proposal, check compliance, find unsupported claims
 6. `/external-review` — Ingest external reviewer comments (PDF/DOCX/XLSX/MD/chat), triage, route to specialist agents, apply patches
-7. `/gate-check [gate-name]` — Verify readiness before transitioning between stages
-8. `/pipeline-status` — Show current progress
+7. `/figures` — Produce every figure in `drafts/figures_register.md`: data-driven plots (Sankey, Gantt, heatmap, curves) via Matplotlib/Plotly, and concept/hero graphics via Fal.ai. Writes PNGs + sidecar JSONs to `runs/{project}/figures/`.
+8. `/gate-check [gate-name]` — Verify readiness before transitioning between stages
+9. `/pipeline-status` — Show current progress
 
 ### Review Gates
 
@@ -46,8 +47,10 @@ Each slash command acts as an orchestrator that spawns specialized worker agents
 - **Retrievers**: Gather material, not conclusions (literature_searcher, patent_scanner, call_parser)
 - **Synthesizers**: Compare, rank, infer, structure (novelty_mapper, gap_analyzer, state_of_art_synthesizer)
 - **Writers**: Turn validated material into polished text (impact_writer, implementation_writer, abstract_writer)
+- **Reviewers**: Red-team / compliance / evaluator simulation (scientific_reviewer inline, compliance_checker, adversarial_evaluator_simulator)
+- **Graphics**: Produce figures (plot_renderer for Matplotlib/Plotly/Mermaid, concept_image_generator for Fal.ai)
 
-Writers NEVER search or invent evidence. They read from the evidence store and claim registry.
+Writers NEVER search or invent evidence. They read from the evidence store and claim registry. Graphics workers NEVER fabricate data — numbers come from the drafts, memory stores, or inline values passed by the orchestrator.
 
 ### Spawning subagents
 When spawning agents via the Agent tool:

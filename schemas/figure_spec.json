@@ -1,0 +1,87 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Figure Specification + Generation Metadata",
+  "description": "One entry per figure. Used as the sidecar JSON next to each rendered image, and as the structured return value of graphics worker agents.",
+  "type": "object",
+  "required": ["figure_id", "title", "type", "generator", "location", "status"],
+  "properties": {
+    "figure_id": {
+      "type": "string",
+      "pattern": "^F-[0-9]{2}$",
+      "description": "Stable identifier (e.g. F-01). Must match drafts/figures_register.md."
+    },
+    "title": {
+      "type": "string",
+      "description": "Short human-readable title."
+    },
+    "type": {
+      "type": "string",
+      "enum": ["concept", "schematic", "sankey", "gantt", "heatmap", "curve", "bar", "pie", "map", "flow", "other"],
+      "description": "Figure kind. Determines which worker handles it."
+    },
+    "generator": {
+      "type": "string",
+      "enum": ["fal.ai", "matplotlib", "plotly", "mermaid", "graphviz", "manual"],
+      "description": "Which tool produces the figure."
+    },
+    "model_version": {
+      "type": "string",
+      "description": "Fal.ai model id (e.g. fal-ai/flux-pro/v1.1-ultra, fal-ai/ideogram/v2) or library version for programmatic generators."
+    },
+    "location": {
+      "type": "string",
+      "description": "Target draft file + section where the figure is rendered (e.g. drafts/03_1_technical_maturity.md §3.1)."
+    },
+    "owner": {
+      "type": "string",
+      "description": "Human/role responsible for the figure's content (e.g. PE, DT-Lead, PM, CFO, Comm, Legal, Site)."
+    },
+    "status": {
+      "type": "string",
+      "enum": ["tbd", "in_progress", "draft", "final"],
+      "description": "Lifecycle state."
+    },
+    "data_inputs": {
+      "type": "array",
+      "items": {"type": "string"},
+      "description": "Paths or SRC/CLM identifiers the figure is built from."
+    },
+    "prompt": {
+      "type": "string",
+      "description": "Fal.ai main prompt (concept/schematic figures)."
+    },
+    "negative_prompt": {
+      "type": "string",
+      "description": "Fal.ai negative prompt."
+    },
+    "script_path": {
+      "type": "string",
+      "description": "Path to the Python/Mermaid/Graphviz source that reproduces the figure."
+    },
+    "seed": {
+      "type": "integer",
+      "description": "Deterministic seed used at generation time."
+    },
+    "image_size": {
+      "type": "string",
+      "description": "Aspect/resolution hint (e.g. landscape_16_9, 2048x1152)."
+    },
+    "output_path": {
+      "type": "string",
+      "description": "Path to the rendered PNG/SVG relative to repo root."
+    },
+    "output_width_px": {
+      "type": "integer"
+    },
+    "output_height_px": {
+      "type": "integer"
+    },
+    "generated_at": {
+      "type": "string",
+      "format": "date"
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}
