@@ -12,6 +12,7 @@ Consolidate every fact the INNOVFUND Business Plan needs into a single structure
 ## Inputs
 - `runs/{project}/state.json`, `context.md`
 - `runs/{project}/inputs/Tpl_Business Plan (INNOVFUND).rtf` — to know what the BP asks for
+- **`runs/{project}/intermediate/business_plan_interview.json`** — user-supplied answers from the Phase 0.5 discovery interview (commercial positioning, offtaker targets, licence nature, EPC strategy, financing posture, risk appetite, narrative tone). Treat these as authoritative for BP-specific content that no existing artefact can supply.
 - `runs/{project}/inputs/finance/RC_Calculator_ROADBLOCKERS.md` and `Tpl_RC_Calculator_DRAFT.xlsx`
 - `runs/{project}/intermediate/{call_brief,evaluation_matrix,financial_model,financial_tables}.json`
 - `runs/{project}/drafts/*.md` — all Part B + FS + annex drafts
@@ -34,7 +35,7 @@ Consolidate every fact the INNOVFUND Business Plan needs into a single structure
    - Funders' description + financial standing + 3yr statements, terms of support, FC date justification
    - Business + financing risks + heat map
 
-2. For each placeholder, resolve the fact from existing artefacts. Emit a record to `business_plan_facts.json`:
+2. For each placeholder, resolve the fact from existing artefacts **and from the interview answers**. Emit a record to `business_plan_facts.json`:
    ```json
    {
      "placeholder_id": "bp_1_1_business_concept",
@@ -44,15 +45,19 @@ Consolidate every fact the INNOVFUND Business Plan needs into a single structure
      "source_refs": [
        {"type": "draft", "path": "drafts/01_innovation.md", "section": "§1.2"},
        {"type": "claim", "id": "CLM-013"},
-       {"type": "state", "field": "project_title"}
+       {"type": "state", "field": "project_title"},
+       {"type": "interview", "question_id": "commercial.one_line_pitch", "batch": 1}
      ],
      "gap_notes": null
    }
    ```
    - `status: sourced` → every required content element has a source
    - `status: partial` → some elements sourced, others missing; list missing in `gap_notes`
-   - `status: gap` → no existing artefact covers this; the BP writer will need user / CFO input
+   - `status: gap` → no existing artefact or interview answer covers this; the BP writer will need additional user / CFO input
    - `status: cfo_scope` → explicitly owned by CFO per `RC_Calculator_ROADBLOCKERS.md`; link to the specific roadblocker id (A1–A11, B1–B6, etc.)
+   - **Interview precedence:** where an interview answer and a draft assertion disagree on a BP-specific choice (e.g., offtake pricing mechanism, licence nature), the interview answer wins — log the override in `decision_log.jsonl`. Where they agree, both sources are cited for robustness.
+   - **Default-answered questions** (`status: "default"` in interview JSON) are treated as `status: partial` in `business_plan_facts.json` so the writers know to phrase them as "expected" / "target" rather than as signed commitments.
+   - **Skipped questions** become `status: gap` with the `question_id` as the revisit anchor.
 
 3. Write the consolidated **BP story** — a 5-paragraph narrative spine the BP must tell, anchoring every later section:
    - Paragraph 1: business proposition (what we're building, why now)

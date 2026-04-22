@@ -66,9 +66,21 @@ Before any worker spawn:
 4. Initialise `intermediate/business_plan_inventory.json` with every section placeholder, marked `status: "pending"`.
 5. Read `inputs/finance/RC_Calculator_ROADBLOCKERS.md` if present — the open items there determine which financial BP sections must be stubbed vs. drafted.
 
+### Phase 0.5 — Discovery interview (interactive; orchestrator-driven, NOT a spawned worker)
+
+The orchestrator conducts a structured interview with the user to elicit BP-specific content that no existing project artefact can supply (anchor offtaker targets, licence nature, EPC strategy, financing posture, risk appetite, narrative tone). Questions are batched and defaulted so the user can fast-forward.
+
+- **Protocol + question bank:** `agents/workers/business_plan/bp_interviewer.md` — the orchestrator reads this file and follows it as a script. It is NOT spawned as an agent via the Task tool, because spawned agents cannot interact with the user; instead, the orchestrator runs the interview in the main conversation.
+- **Flow:** 5 themed batches (Commercial / Counterparties / Financing / Risk / Narrative-tone), 30-odd questions total, each with a conservative INNOVFUND-safe default. User can reply `defaults` to accept all, `skip`, `not yet known`, `CFO-scope`, or free-text.
+- **Output:** `intermediate/business_plan_interview.json` conforming to the schema in `bp_interviewer.md`. Persisted atomically after each batch so the user can pause and resume.
+- **Resume:** If the file already exists and `--restart-interview` was not passed, load it and only ask unanswered questions.
+- **Skip entirely:** `--skip-interview` bypasses Phase 0.5 (the synthesizer then infills conservative defaults and flags them in `business_plan_gaps.md`).
+- **Interview-only:** `--interview-only` stops after Phase 0.5 and emits a summary so the user can review answers before drafting.
+- **Tool usage:** use `AskUserQuestion` (via ToolSearch `select:AskUserQuestion`) for multi-choice items; plain free-text prompts for open-ended items. Batch presentation so each user turn handles 5–8 related items, not 1 question per turn.
+
 ### Phase 1 — Synthesis (spawn one worker)
 
-- **bp_synthesizer** (model: opus) — Reads every existing draft + memory stores + financial artefacts + RC Calculator roadblockers + wiki. Produces:
+- **bp_synthesizer** (model: opus) — Reads every existing draft + memory stores + financial artefacts + RC Calculator roadblockers + wiki + **`intermediate/business_plan_interview.json`** (user answers from Phase 0.5). Produces:
   - `intermediate/business_plan_facts.json` — structured consolidation of every fact the BP needs, with `source_ref` for each (which draft/CLM-id/FT-key/RC-Calc-cell)
   - `intermediate/business_plan_gaps.md` — list of BP-specific content not derivable from existing artefacts (e.g., procurement state-of-play, specific offtake MoU terms, shareholder 3yr financial statements)
   - A one-page "BP story" — the 5-paragraph commercial narrative the BP must tell, anchoring every later section
@@ -171,16 +183,20 @@ All four writers can run in a single parallel spawn.
 
 Flags:
 - `--sections <list>` — restrict to a subset (e.g., `1.1,1.2,1.4` for commercial only)
-- `--synth-only` — Phase 0 + Phase 1 only; produce facts and gaps, stop before writing
+- `--interview-only` — Phase 0 + 0.5 only; run the interactive discovery interview, emit a summary, stop
+- `--skip-interview` — bypass Phase 0.5 entirely (synthesizer infills defaults, flags them as gaps)
+- `--restart-interview` — discard any existing `business_plan_interview.json` and re-ask all questions
+- `--synth-only` — Phase 0 + 0.5 + Phase 1 only; produce facts and gaps, stop before writing
 - `--review-only` — Phase 3 only; re-review existing BP drafts
 - `--round <N>` — tag outputs with a revision round number
 - `--no-docx` — skip Phase 4 DOCX populate (markdown-only)
-- No flags → full Phase 0 → 4 pass
+- No flags → full Phase 0 → 4 pass with interactive Phase 0.5
 
 ## Completion Receipt Template
 
 ```
-SYNTHESISED: {n} facts from {m} existing drafts + {k} CLMs + financial_tables.json
+INTERVIEW: {a} answered, {d} default-accepted, {s} skipped, {c} CFO-scope, {n} not-yet-known (of {total})
+SYNTHESISED: {n} facts from {m} existing drafts + {k} CLMs + financial_tables.json + interview
 GAPS: {n} BP-specific open items (see business_plan_gaps.md)
 DRAFTED: BP_01_commercial, BP_02_financial ({cfo_stubs} CFO stubs), BP_03_counterparties, BP_04_risks
 CFO SCOPE: {n} sections stubbed (see RC_Calculator_ROADBLOCKERS.md §{list})
@@ -188,5 +204,5 @@ CONSISTENCY: {issues} mismatches vs Part B / FS / RC Calculator — {"CLEAN" | "
 FIGURES REQUESTED: F-07 (project diagram), F-08 (risk heat map) [, F-09 (cash flow curve)]
 ASSEMBLED: drafts/business_plan_assembled.md ({wc} words, ~{pp} pages)
 POPULATED: final/{project}_Business_Plan.docx
-NEXT: /figures F-07,F-08 (or) /finance --round N+1 to close CFO stubs (or) /review for holistic consistency pass
+NEXT: /figures F-07,F-08 (or) /finance --round N+1 to close CFO stubs (or) /review for holistic consistency pass (or) /business-plan --restart-interview to re-elicit
 ```
