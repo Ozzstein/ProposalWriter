@@ -1,0 +1,229 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "FinancialInputs",
+  "description": "Structured input for the finance orchestrator. User-supplied financials for CAPEX, OPEX, headcount, revenues, grant/public support stack, and funders' commitments. Consumed by the financial_modeler to derive cash flow, unit economics, milestones, and the Cost-Efficiency Ratio (CER).",
+  "type": "object",
+  "properties": {
+    "meta": {
+      "type": "object",
+      "properties": {
+        "project": { "type": "string" },
+        "currency": { "type": "string", "pattern": "^[A-Z]{3}$", "description": "ISO 4217 currency code, e.g., EUR" },
+        "base_year": { "type": "integer", "minimum": 2020, "maximum": 2050 },
+        "fx_rates": {
+          "type": "object",
+          "description": "FX rates to base currency; key = source currency, value = rate",
+          "additionalProperties": { "type": "number" }
+        },
+        "scenario_set": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["base", "best", "worst"] },
+          "minItems": 1
+        },
+        "source": { "type": "string", "description": "Origin of the numbers, e.g., 'CFO workbook v3 2026-04-20'" },
+        "version": { "type": "string" },
+        "ingested_at": { "type": "string", "format": "date" }
+      },
+      "required": ["project", "currency", "base_year", "scenario_set", "source", "ingested_at"]
+    },
+    "capex": {
+      "type": "object",
+      "description": "CAPEX plan by category and year. Amounts in base currency.",
+      "properties": {
+        "total_by_scenario": {
+          "type": "object",
+          "additionalProperties": { "type": "number" }
+        },
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "e.g., equipment, civil_works, installation, contingency, epc_management, other" },
+              "scenario": { "type": "string", "enum": ["base", "best", "worst"] },
+              "by_year": {
+                "type": "object",
+                "description": "Key = year (YYYY), value = amount in base currency",
+                "additionalProperties": { "type": "number" }
+              },
+              "notes": { "type": "string" }
+            },
+            "required": ["name", "scenario", "by_year"]
+          }
+        },
+        "contingency_pct": { "type": "number", "minimum": 0, "maximum": 50 }
+      },
+      "required": ["categories"]
+    },
+    "opex": {
+      "type": "object",
+      "description": "OPEX plan year-by-year.",
+      "properties": {
+        "categories": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": { "type": "string", "description": "e.g., raw_materials, utilities, labour, maintenance, overhead, depreciation, other" },
+              "scenario": { "type": "string", "enum": ["base", "best", "worst"] },
+              "by_year": {
+                "type": "object",
+                "additionalProperties": { "type": "number" }
+              },
+              "unit_basis": { "type": "string", "description": "e.g., €/tonne CAM, fixed, %-of-revenue" }
+            },
+            "required": ["name", "scenario", "by_year"]
+          }
+        }
+      },
+      "required": ["categories"]
+    },
+    "headcount": {
+      "type": "object",
+      "description": "FTE ramp across construction, commissioning, operations.",
+      "properties": {
+        "by_year": {
+          "type": "object",
+          "description": "Key = year (YYYY), value = FTE count (numeric)",
+          "additionalProperties": { "type": "number" }
+        },
+        "by_phase": {
+          "type": "object",
+          "properties": {
+            "construction": { "type": "number" },
+            "commissioning": { "type": "number" },
+            "operations_nameplate": { "type": "number" }
+          }
+        },
+        "average_fully_loaded_cost": { "type": "number", "description": "€/FTE/yr fully loaded" }
+      }
+    },
+    "revenues": {
+      "type": "object",
+      "description": "Revenue forecast.",
+      "properties": {
+        "nameplate_output": {
+          "type": "object",
+          "properties": {
+            "quantity": { "type": "number" },
+            "unit": { "type": "string", "description": "e.g., t/yr LFP CAM, GWh/yr BESS" }
+          },
+          "required": ["quantity", "unit"]
+        },
+        "price_per_unit": {
+          "type": "object",
+          "properties": {
+            "base": { "type": "number" },
+            "best": { "type": "number" },
+            "worst": { "type": "number" },
+            "unit": { "type": "string" }
+          },
+          "required": ["base", "unit"]
+        },
+        "by_year": {
+          "type": "object",
+          "description": "Optional explicit revenue by year; otherwise derived from output × price × ramp",
+          "additionalProperties": { "type": "number" }
+        },
+        "ramp_pct_by_year": {
+          "type": "object",
+          "description": "Capacity utilisation ramp in %; key = year (YYYY), value = 0..100",
+          "additionalProperties": { "type": "number", "minimum": 0, "maximum": 100 }
+        }
+      }
+    },
+    "financing": {
+      "type": "object",
+      "description": "Financing stack: grant request, other public support, private co-funding.",
+      "properties": {
+        "grant_request": {
+          "type": "object",
+          "properties": {
+            "amount": { "type": "number" },
+            "programme": { "type": "string", "description": "e.g., INNOVFUND-2025-NZT-CLEAN-TECH-MANUFACTURING" },
+            "max_intensity_pct": { "type": "number", "minimum": 0, "maximum": 100 }
+          },
+          "required": ["amount", "programme"]
+        },
+        "other_public_support": {
+          "type": "array",
+          "description": "Other EU / national / regional public support (existing or requested).",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": { "type": "string" },
+              "amount": { "type": "number" },
+              "status": { "type": "string", "enum": ["awarded", "requested", "planned"] },
+              "programme": { "type": "string" },
+              "decision_date": { "type": "string" }
+            },
+            "required": ["source", "amount", "status"]
+          }
+        },
+        "private_cofunding": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "source": { "type": "string", "description": "e.g., EnergyCo S.p.A., BatteryCo S.p.A., bank debt" },
+              "amount": { "type": "number" },
+              "instrument": { "type": "string", "description": "e.g., equity, shareholder_loan, bank_debt, bond" },
+              "committed": { "type": "boolean" },
+              "commitment_evidence": { "type": "string", "description": "reference to board resolution / term sheet / LoI" }
+            },
+            "required": ["source", "amount", "instrument", "committed"]
+          }
+        },
+        "total_project_cost_by_scenario": {
+          "type": "object",
+          "additionalProperties": { "type": "number" }
+        }
+      },
+      "required": ["grant_request", "private_cofunding"]
+    },
+    "working_capital": {
+      "type": "object",
+      "properties": {
+        "inventory_turns_per_year": { "type": "number" },
+        "receivables_days": { "type": "number" },
+        "payables_days": { "type": "number" }
+      }
+    },
+    "ghg_linkage": {
+      "type": "object",
+      "description": "Pointers to the CFO-supplied GHG avoidance figures that the CER depends on. The finance orchestrator verifies these match but does not re-derive them.",
+      "properties": {
+        "absolute_tco2_over_horizon": { "type": "number" },
+        "relative_avoidance_pct": { "type": "number", "minimum": 0, "maximum": 100 },
+        "horizon_years": { "type": "integer", "minimum": 1 },
+        "source_claim_ids": { "type": "array", "items": { "type": "string" } },
+        "source_evidence_ids": { "type": "array", "items": { "type": "string" } },
+        "calculator_version": { "type": "string" }
+      },
+      "required": ["absolute_tco2_over_horizon", "relative_avoidance_pct", "horizon_years"]
+    },
+    "milestones": {
+      "type": "object",
+      "properties": {
+        "expected_grant_signature": { "type": "string", "description": "ISO-8601 date" },
+        "financial_close_target": { "type": "string" },
+        "entry_into_operation_target": { "type": "string" },
+        "ramp_complete_target": { "type": "string" }
+      }
+    },
+    "assumptions_approved_by_user": {
+      "type": "array",
+      "description": "Numbers the user has explicitly authorised proceeding with despite being estimates rather than hard data.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "field_path": { "type": "string", "description": "JSON-pointer-like path into this document" },
+          "rationale": { "type": "string" },
+          "approved_at": { "type": "string" }
+        },
+        "required": ["field_path", "rationale", "approved_at"]
+      }
+    }
+  },
+  "required": ["meta", "capex", "opex", "financing", "ghg_linkage"]
+}
