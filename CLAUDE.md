@@ -26,8 +26,9 @@ The proposal writing pipeline has these stages, each driven by a slash command:
 6. `/review` — Red-team the proposal, check compliance, find unsupported claims
 7. `/external-review` — Ingest external reviewer comments (PDF/DOCX/XLSX/MD/chat), triage, route to specialist agents, apply patches
 8. `/figures` — Produce every figure in `drafts/figures_register.md`: data-driven plots (Sankey, Gantt, heatmap, curves) via Matplotlib/Plotly, and concept/hero graphics via Fal.ai. Writes PNGs + sidecar JSONs to `runs/{project}/figures/`.
-9. `/gate-check [gate-name]` — Verify readiness before transitioning between stages
-10. `/pipeline-status` — Show current progress
+9. `/business-plan` — Assemble the INNOVFUND Business Plan annex from existing drafts + financial artefacts. Synthesises, drafts (commercial / financial / counterparties / risks), red-teams for cross-artefact consistency, and populates the official template. CFO-scope sections carry explicit `[TO BE COMPLETED — CFO]` markers tied to RC Calculator roadblockers.
+10. `/gate-check [gate-name]` — Verify readiness before transitioning between stages
+11. `/pipeline-status` — Show current progress
 
 ### Review Gates
 
