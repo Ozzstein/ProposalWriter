@@ -14,8 +14,10 @@ Ingest multi-format external reviewer feedback, classify and triage it with the 
 
 ## Not Responsible For
 - Extracting text from files (feedback_parser does this)
-- Rewriting draft text directly (feedback_applier does this)
+- Rewriting draft text directly (feedback_applier, bp_*_writer, and financial_narrative_writer do this per route)
 - Searching for literature (literature_searcher does this)
+- Running the financial hard-rejection gates or building the model (financial_reviewer does this — this orchestrator routes comments to it)
+- Cross-artefact BP consistency matrix (bp_reviewer does this — this orchestrator routes BP comments to it first, then to the relevant bp_*_writer)
 
 ## Phase 1 — Ingest
 
@@ -55,6 +57,15 @@ Write output to: runs/{project}/intermediate/feedback_parse_{source_slug}_{N}.js
 - Skip entries where `dedupe_key` matches an existing `rejected` entry — flag them as re-raised instead
 
 ### Step 1.6: Render triage table
+
+Before rendering, apply a keyword auto-classifier pass over every parsed entry so CFO/BP feedback doesn't silently fall into `writing` or `technical`. Rules (first match wins; the parser's original category is otherwise preserved):
+
+- **→ `financial`**: target file in `{03_2_financial_maturity.md, 05_cost_efficiency.md, 02_1_absolute_ghg.md, 02_2_relative_ghg.md, 09_cumulation.md}` OR target file = `inputs/finance/Tpl_RC_Calculator_*.xlsx` OR comment matches any of `CAPEX | OPEX | WACC | NPV | IRR | DSCR | CER | €/tCO2eq | tranche | grant | equity | debt | ECA | SACE | offtake price | Li2CO3 price | relevant cost | cost efficiency | GHG avoidance | hard rejection | financial close | FC date | EiO | payback | breakeven | cumulation | CLM-FIN-\d+`.
+
+- **→ `business_plan`**: target file matches `drafts/BP_*.md` OR `drafts/business_plan_assembled.md` OR `final/*_Business_Plan.docx` OR comment matches any of `business plan | BP §\d | counterparty | project diagram | F-07 | F-08 | risk heat map | offtake mix | captive offtake | shareholding | SPV | the existing plant | Licensor licence | EPC strategy | PPA counterparty | feedstock sourcing | commitment letter | LoI | bp_1_\w+ | bp_2_\w+ | bp_3_\w+ | bp_4_\w+ | bp_5_\w+`.
+
+If both `financial` and `business_plan` keywords match, prefer `business_plan` when the target file is BP_*; prefer `financial` when the target file is a Part B or FS finance section. The user can reclassify any entry in the triage step if the auto-tag is wrong.
+
 Display to user:
 
 ```
@@ -62,10 +73,14 @@ Display to user:
 
 {N} new files parsed. {M} comments found ({K} acks filtered).
 
+Valid categories (for reclassification): evidence | technical | compliance | writing | financial | business_plan
+
 | FBK-ID | File | Location | Category | Routed to | Comment excerpt |
 |--------|------|----------|----------|-----------|----------------|
 | FBK-001 | smith.docx | §1.2 p3 | evidence | literature_searcher | "needs citation for..." |
 | FBK-002 | smith.docx | §2.1 | writing | feedback_applier | "unclear what is meant by..." |
+| FBK-003 | cfo.docx | §3.2 | financial | financial_reviewer | "WACC assumption too low..." |
+| FBK-004 | bd.docx | BP §1.6 | business_plan | bp_counterparty_writer (via bp_reviewer) | "add creditor X to diagram..." |
 ...
 
 Re-raised from prior round (was rejected):
@@ -117,13 +132,23 @@ Record user choice. For [B]: set `status: "rejected"`, write resolution. For [A/
   - "§1" / "Section 1" / "innovation" → `drafts/01_innovation.md`
   - "§2" / "DNSH" → `drafts/02_3_dnsh.md`
   - "§3.1" / "technical maturity" / "TRL" → `drafts/03_1_technical_maturity.md`
+  - "§3.2" / "financial maturity" / "cash flow" / "profitability" → `drafts/03_2_financial_maturity.md`
   - "§3.3" / "operational" → `drafts/03_3_operational_maturity.md`
   - "§3.4" / "risk" → `drafts/03_4_risk_management.md`
   - "§4" / "replicability" → `drafts/04_replicability.md`
+  - "§5" / "cost efficiency" / "CER" → `drafts/05_cost_efficiency.md`
   - "§6" / "bonus" → `drafts/06_bonus.md`
   - "§7" / "workplan" → `drafts/07_workplan.md`
+  - "§9" / "cumulation" → `drafts/09_cumulation.md` (if present)
+  - "§2.1" / "absolute GHG" → `drafts/02_1_absolute_ghg.md`
+  - "§2.2" / "relative GHG" → `drafts/02_2_relative_ghg.md`
   - "abstract" → `drafts/abstract.md`
   - "feasibility" → `drafts/annex_feasibility_study.md`
+  - "BP §1.1–1.4" / "BP commercial" / "market" / "competitive" → `drafts/BP_01_commercial.md`
+  - "BP §1.5" / "BP §2" / "BP §3" / "BP §4" / "BP financial" / "BP financing" / "BP funders" → `drafts/BP_02_financial.md`
+  - "BP §1.6" / "counterparty" / "project diagram" / "F-07" → `drafts/BP_03_counterparties.md`
+  - "BP §5" / "BP risk" / "F-08" → `drafts/BP_04_risks.md`
+  - "RC Calculator" / "Tpl_Relevant Cost" → `inputs/finance/Tpl_RC_Calculator_DRAFT.xlsx` (CFO-owned; route to financial_reviewer with `cfo_scope: true`, do not patch directly)
   - Unknown location → ask user to specify file
 
 ### Step 2.4: Dispatch specialist agents (PARALLEL where non-overlapping)
@@ -177,6 +202,78 @@ Evidence store: runs/{project}/memory/evidence_store.jsonl
 Write patches to: runs/{project}/intermediate/feedback_patches_{section_slug}_{round}.json
 ```
 
+**Financial comments** → spawn financial_reviewer (model: opus):
+
+Triggers on any of: (a) target file in `{03_2_financial_maturity.md, 05_cost_efficiency.md, 02_1_absolute_ghg.md, 02_2_relative_ghg.md, 09_cumulation.md}`; (b) target file = `inputs/finance/Tpl_RC_Calculator_*.xlsx`; (c) comment mentions `CAPEX`, `OPEX`, `WACC`, `NPV`, `IRR`, `DSCR`, `CER`, `€/tCO2eq`, `tranche`, `grant`, `equity`, `debt`, `ECA`, `SACE`, `offtake price`, `Li2CO3 price`, `relevant cost`, `cost efficiency`, `GHG avoidance`, `hard rejection`, `financial close`, `FC date`, `EiO`, `payback`, `breakeven`, `cumulation`, or any `CLM-FIN-xxx` id.
+
+```
+You are the financial_reviewer agent. Read agents/workers/finance/financial_reviewer.md for full instructions.
+
+Task: Assess this external reviewer comment against the financial model and hard-rejection gates.
+Comment: "{comment}" (regarding: "{original_text}"; target: "{target_file}")
+Round: {N} (external-review round); tag outputs with this round number.
+
+Inputs:
+- runs/{project}/intermediate/financial_{model,tables}.json
+- runs/{project}/inputs/finance/Tpl_RC_Calculator_*.xlsx (if exists) + RC_Calculator_ROADBLOCKERS.md
+- runs/{project}/drafts/{03_2_financial_maturity,05_cost_efficiency,02_1_absolute_ghg,02_2_relative_ghg}.md
+- runs/{project}/memory/{claim_registry,evidence_store,decision_log}.jsonl
+
+Produce:
+1. Assessment under the financial_reviewer's hard-rejection checks (CER ≤ €200/tCO2eq, relative GHG ≥ 50%, §3.2 business-plan/cash-flow/financing completeness, no unapproved [ASSUMPTION]/[TO BE COMPLETED] markers).
+2. Internal-consistency check (numbers in narrative vs financial_tables.json vs RC Calculator, FC/EiO dates vs §7 workplan).
+3. Patch recommendations written to runs/{project}/intermediate/feedback_patches_finance_{round}.json conforming to the patch schema used by Step 2.5. If the comment is CFO-scope (requires new model work), emit a patch that inserts or updates a `[TO BE COMPLETED — CFO / external finance firm — see inputs/finance/RC_Calculator_ROADBLOCKERS.md §<id>]` marker rather than a silent stub — and open a roadblocker entry.
+4. Return `{cfo_scope: bool, roadblocker_ids: [...], hard_rejection_risk: bool, new_CLM_FIN_ids: [...]}` in the receipt so the orchestrator can flag CFO items for the user.
+```
+
+**Business-plan comments** → two-step: spawn bp_reviewer first (consistency pre-check), then the relevant bp_*_writer for patching:
+
+Triggers on any of: (a) target file matches `drafts/BP_*.md` or `drafts/business_plan_assembled.md`; (b) target file = `final/*_Business_Plan.docx`; (c) comment mentions `business plan`, `BP §`, `counterparty`, `project diagram`, `F-07`, `F-08` (risk heat map), `offtake mix`, `captive offtake`, `shareholding`, `SPV`, `the existing plant`, `Licensor licence`, `EPC strategy`, `PPA counterparty`, `feedstock sourcing`, `commitment letter`, `LoI`, or any `bp_1_*` / `bp_2_*` / `bp_3_*` / `bp_4_*` / `bp_5_*` placeholder id.
+
+Step A — spawn `bp_reviewer` (model: opus) ONCE per round with all BP comments batched:
+```
+You are the bp_reviewer agent. Read agents/workers/business_plan/bp_reviewer.md.
+
+Task: Assess these external reviewer comments against the Business Plan drafts and emit a consistency pre-check.
+Round: {N} (external-review round).
+Comments batch: {JSON array of BP-routed FeedbackEntry objects}
+
+Inputs:
+- runs/{project}/drafts/BP_{01_commercial,02_financial,03_counterparties,04_risks}.md (+ _meta.json)
+- runs/{project}/drafts/business_plan_assembled.md
+- runs/{project}/intermediate/business_plan_{facts,interview,inventory}.json
+- runs/{project}/intermediate/{financial_tables,financial_model}.json
+- runs/{project}/inputs/finance/Tpl_RC_Calculator_*.xlsx + RC_Calculator_ROADBLOCKERS.md
+- All drafts/*.md (for cross-artefact consistency vs Part B + FS)
+
+Produce:
+- runs/{project}/reviews/business_plan_review_{round}.json (reviewer_type: "business_plan") with full cross-artefact consistency matrix AND a per-comment line-level assessment (which BP_0X.md file, which line, recommended edit, cross-artefact implications).
+- Return: for each comment, `{fbk_id, target_bp_file, target_line, owner_worker, consistency_implications[]}` so the orchestrator knows which bp_*_writer to spawn next.
+```
+
+Step B — after bp_reviewer returns, spawn the relevant `bp_*_writer` PER TARGET FILE (parallel where non-overlapping):
+- BP_01 → `bp_commercial_writer` (sonnet)
+- BP_02 → `bp_financial_writer` (sonnet) — also honours CFO-scope rules; this worker may defer to the `financial_reviewer` branch above for sub-items that would touch CLM-FIN-* claims
+- BP_03 → `bp_counterparty_writer` (sonnet) — if F-07 diagram is affected, include a flag to regenerate `figures/scripts/F-07.mmd` and re-render via `mmdc`
+- BP_04 → `bp_risk_writer` (sonnet) — if F-08 heat map is affected, re-run `figures/scripts/F-08.py`
+
+Each writer prompt:
+```
+You are {bp_*_writer}. Read agents/workers/business_plan/{bp_*_writer}.md.
+
+Apply these external-reviewer patches to {target_bp_file}. Use the bp_reviewer's recommendations as ground truth for cross-artefact consistency.
+
+Inputs:
+- bp_reviewer output: runs/{project}/reviews/business_plan_review_{round}.json
+- Source facts: runs/{project}/intermediate/business_plan_facts.json
+- Interview answers: runs/{project}/intermediate/business_plan_interview.json (interview precedence rules still apply)
+- Target draft file + its _meta.json
+
+Write patches to: runs/{project}/intermediate/feedback_patches_bp_{section_slug}_{round}.json (same schema as Step 2.5). Each patch must preserve every CFO-scope marker already in the draft; if a new CFO-scope item is introduced, use the standard `[TO BE COMPLETED — CFO / external finance firm — see inputs/finance/RC_Calculator_ROADBLOCKERS.md §<id>]` format.
+```
+
+Step C — after all BP patches apply: rebuild `drafts/business_plan_assembled.md` and re-run `drafts/combine_bp_to_docx.py` to refresh `final/{project}_Business_Plan.docx`. If F-07 or F-08 changed, re-render them first (mmdc for F-07, `figures/scripts/F-08.py` for F-08).
+
 ### Step 2.5: Validate and apply patches
 
 For each patch file produced:
@@ -209,7 +306,11 @@ Stale (needs manual review): {W}
 
 Files changed: [list of draft files]
 New SRC-xxx: [list]
-New/revised CLM-xxx: [list]
+New/revised CLM-xxx / CLM-FIN-xxx: [list]
+
+Financial hard-rejection checks: [CER pass/fail, relative GHG pass/fail, §3.2 completeness]
+CFO-scope roadblockers opened/updated: [list of RC_Calculator_ROADBLOCKERS.md §ids]
+BP artefacts refreshed: [business_plan_assembled.md / final/*_Business_Plan.docx / F-07 / F-08]
 
 Open items remaining: {list of FBK-IDs still open, if any}
 
