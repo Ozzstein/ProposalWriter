@@ -83,9 +83,14 @@ def check_scope(p):
     has_hypothesis = False
     if os.path.exists(ctx_path):
         with open(ctx_path) as f:
-            has_hypothesis = bool(re.search(r"hypothes|central idea", f.read(), re.I))
+            content = f.read()
+        # The init stub contains a "## Hypothesis" heading with a
+        # "_To be completed._" placeholder — require real content.
+        has_hypothesis = (bool(re.search(r"hypothes|central idea", content, re.I))
+                          and "_To be completed._" not in content)
     criteria.append(crit("Research context documented", has_hypothesis,
-                         "context.md exists and mentions a hypothesis/central idea"))
+                         "context.md has a filled-in hypothesis/central idea "
+                         "(not the init placeholder)"))
     return criteria
 
 
