@@ -25,6 +25,9 @@ If `wiki/WIKI.md` exists:
 4. If the wiki doesn't exist, skip silently.
 
 ## Subagents to Spawn
+
+> **Spawning**: spawn each reviewer as a **native subagent** (`subagent_type` = the worker's name). Its model and tool restrictions are enforced by the generated stub in `.claude/agents/` — do not paste worker definition files into prompts. Include `project: {project}` and `dedupe_key: {task_slug}_{project}_r{round}` lines in every task prompt (the round suffix allows re-review after revisions).
+
 Launch in parallel:
 - **scientific_reviewer** (model: opus) — Check scientific rigor, logical consistency, claim-evidence linkage
 - **compliance_checker** (model: haiku) — Check template compliance, page limits, required sections, formatting

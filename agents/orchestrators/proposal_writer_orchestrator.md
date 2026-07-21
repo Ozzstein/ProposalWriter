@@ -17,6 +17,8 @@ Draft polished, persuasive narrative sections for the grant proposal that are gr
 
 ## Subagents to Spawn
 
+> **Spawning**: spawn each writer as a **native subagent** (`subagent_type` = the worker's name). Its model and tool restrictions are enforced by the generated stub in `.claude/agents/` — do not paste worker definition files into prompts. Include `project: {project}` and `dedupe_key: {task_slug}_{project}` lines in every task prompt.
+
 ### Phase 0 — Wiki check (before any writer spawns)
 If `wiki/WIKI.md` exists:
 1. Read `wiki/index.md` to find concept, claim, entity, and funding-call pages relevant to this project's domain.

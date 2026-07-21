@@ -31,15 +31,15 @@ You are the Business Plan Orchestrator. Read `agents/orchestrators/business_plan
    - Persist `intermediate/business_plan_interview.json` atomically after every batch.
    - If `--interview-only`, emit the summary and stop.
 
-6. **Phase 1 — Synthesis**: Spawn `bp_synthesizer` (model: opus) with `agents/workers/business_plan/bp_synthesizer.md` as context. Worker reads `intermediate/business_plan_interview.json` in addition to the other artefacts; interview answers become `source_ref` entries in `business_plan_facts.json`. Writes `intermediate/business_plan_facts.json` and `intermediate/business_plan_gaps.md`. Stop here if `--synth-only`.
+6. **Phase 1 — Synthesis**: Spawn `bp_synthesizer` as a native subagent (`subagent_type: bp_synthesizer`; model/tools enforced by its `.claude/agents/` stub; include `project:` and `dedupe_key:` lines). Worker reads `intermediate/business_plan_interview.json` in addition to the other artefacts; interview answers become `source_ref` entries in `business_plan_facts.json`. Writes `intermediate/business_plan_facts.json` and `intermediate/business_plan_gaps.md`. Stop here if `--synth-only`.
 
-7. **Phase 2 — Section drafting**: Spawn four workers **in parallel** in a single message, each with their worker definition file as context:
+7. **Phase 2 — Section drafting**: Spawn four native subagents **in parallel** in a single message (`subagent_type` = worker name; include `project:` and per-worker `dedupe_key:` lines):
    - `bp_commercial_writer` (sonnet) → `drafts/BP_01_commercial.md` + `_meta.json`
    - `bp_financial_writer` (sonnet) → `drafts/BP_02_financial.md` + `_meta.json`
    - `bp_counterparty_writer` (sonnet) → `drafts/BP_03_counterparties.md` + `_meta.json`
    - `bp_risk_writer` (sonnet) → `drafts/BP_04_risks.md` + `_meta.json`
 
-8. **Phase 3 — Red-team review**: Spawn `bp_reviewer` (model: opus) with `agents/workers/business_plan/bp_reviewer.md` as context. Writes `reviews/business_plan_review_{round}.json` (default round=1). If `--review-only`, stop here.
+8. **Phase 3 — Red-team review**: Spawn `bp_reviewer` as a native subagent (`subagent_type: bp_reviewer`; include `project:` and `dedupe_key: bp_review_{round}_{project}`). Writes `reviews/business_plan_review_{round}.json` (default round=1). If `--review-only`, stop here.
 
 9. **Phase 4 — Assembly + populate + handoff**:
    - Concatenate BP_01..BP_04 into `drafts/business_plan_assembled.md` with template section headers.

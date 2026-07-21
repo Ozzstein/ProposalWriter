@@ -11,68 +11,35 @@ Ask the user for:
 
 After gathering this information:
 
-1. Create the directory structure:
+1. **Scaffold the project** (creates the directory tree, empty memory stores, and a machine-valid `state.json` with all stages and gates):
+   ```bash
+   python3 scripts/state.py init {project-name} \
+     --agency "{funding agency}" --mechanism "{instrument}" \
+     --topic "{topic}" --deadline "{deadline}"
    ```
-   runs/{project-name}/
-   ├── state.json
-   ├── context.md
-   ├── memory/
-   │   ├── evidence_store.jsonl
-   │   ├── claim_registry.jsonl
-   │   ├── decision_log.jsonl
-   │   └── task_registry.jsonl
-   ├── inputs/
-   ├── intermediate/
-   ├── drafts/
-   ├── reviews/
-   └── final/
-   ```
+   Do not hand-create `state.json` or the directory tree — the script is the source of truth for the state shape. All later stage/gate updates also go through `scripts/state.py`.
 
-2. Write `runs/{project-name}/context.md` with all the user's answers organized clearly.
+2. **Write `runs/{project-name}/context.md`** with all the user's answers organized clearly (the script creates a stub — replace its body, keeping the hypothesis under a `## Hypothesis` heading so the scope gate can find it).
 
-3. Write `runs/{project-name}/state.json`:
-   ```json
-   {
-     "project_name": "{project-name}",
-     "funding_agency": "...",
-     "mechanism": "...",
-     "created_at": "YYYY-MM-DD",
-     "stages": {
-       "call_parsing": { "status": "pending" },
-       "research": { "status": "pending" },
-       "writing": { "status": "pending" },
-       "review": { "status": "pending" }
-     },
-     "gates": {
-       "scope": { "passed": false },
-       "evidence": { "passed": false },
-       "draft": { "passed": false },
-       "submission": { "passed": false }
-     }
-   }
-   ```
-
-4. Initialize empty JSONL memory files (create them as empty files).
-
-5. **Ask for call documents** — explain that two types of documents are helpful and ask if the user has either:
+3. **Ask for call documents** — explain that two types of documents are helpful and ask if the user has either:
 
    - **Call document** (the work programme or call text): describes the scientific scope, objectives, expected outcomes, and evaluation criteria for the specific call topic. Save to `runs/{project-name}/inputs/call_document.*`
 
    - **Official application template** (the Part B Word/PDF template from the funder portal): defines the exact section structure, page limits, and formatting rules for this specific call. This is important because templates change between calls. Save to `runs/{project-name}/inputs/call_template.*`
 
-   If the user cannot provide these now, note it in `state.json` and tell them they can add files to `inputs/` at any time before running `/parse-call`.
+   If the user cannot provide these now, tell them they can add files to `inputs/` at any time before running `/parse-call`.
 
    If the user provides a URL to the funder portal or a specific call page, offer to retrieve the template using Firecrawl.
 
-6. **Archive input documents to wiki**: If call documents or supporting materials were provided, copy them to `wiki/raw/` for permanent cross-project archival:
+4. **Archive input documents to wiki**: If call documents or supporting materials were provided, copy them to `wiki/raw/` for permanent cross-project archival:
    ```bash
    # Call documents (reusable across projects targeting the same call)
    cp runs/{project-name}/inputs/call-fiche* wiki/raw/CALL-{call-id}-fiche.*
    cp runs/{project-name}/inputs/application-form* wiki/raw/CALL-{call-id}-template.*
-   
+
    # Supporting documents (research reports, feasibility studies, etc.)
    cp runs/{project-name}/inputs/{document} wiki/raw/{descriptive-name}.*
    ```
    Skip files that already exist in `wiki/raw/`. This ensures that call documents, GHG methodologies, templates, and any supporting materials are permanently available for future proposals without re-uploading.
 
-7. Tell the user their next step is `/parse-call` (if they have a call document) or `/research` (if they want to start with evidence gathering first).
+5. Tell the user their next step is `/parse-call` (if they have a call document) or `/research` (if they want to start with evidence gathering first).

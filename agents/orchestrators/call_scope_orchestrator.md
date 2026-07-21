@@ -38,6 +38,8 @@ After the parsers complete, the wiki funding-call page should be refreshed via `
 
 ## Subagents to Spawn (in parallel)
 
+> **Spawning**: spawn each parser as a **native subagent** (`subagent_type` = the worker's name). Its model and tool restrictions are enforced by the generated stub in `.claude/agents/` — do not paste worker definition files into prompts. Include `project: {project}` and `dedupe_key: {task_slug}_{project}` lines in every task prompt.
+
 - **call_parser** (model: sonnet) — Parse the call document, extract structure, scoring criteria, and evaluation weights
 - **eligibility_parser** (model: haiku) — Extract eligibility, compliance requirements, deadlines, and flag disqualifiers
 

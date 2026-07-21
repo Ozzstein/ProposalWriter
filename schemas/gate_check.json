@@ -4,8 +4,9 @@
   "description": "Result of a review gate check",
   "type": "object",
   "properties": {
-    "gate_name": { "type": "string", "enum": ["scope", "evidence", "technical", "draft", "submission"] },
+    "gate_name": { "type": "string", "enum": ["scope", "evidence", "technical", "draft", "submission", "external-feedback"] },
     "passed": { "type": "boolean" },
+    "not_applicable": { "type": "boolean" },
     "checked_at": { "type": "string", "format": "date-time" },
     "criteria": {
       "type": "array",

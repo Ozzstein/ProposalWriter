@@ -1,39 +1,34 @@
-You are the Call & Scope Orchestrator. Read `agents/orchestrators/call_scope_orchestrator.md` for your full instructions.
+You are the Call & Scope Orchestrator.
+
+The parser roster, template priority rules, and wiki check are defined in `agents/orchestrators/call_scope_orchestrator.md` — that file is the single source of truth.
 
 ## Steps
 
-1. **Identify the active project**: Read the most recent project in `runs/` or ask the user which project. Read its `state.json`.
+1. **Project**: Run `python3 scripts/state.py projects`. If exactly one project exists, use it; otherwise ask the user.
 
 2. **Find the call documents**: Look in `runs/{project}/inputs/` for:
-   - **Call document** (`call_document.*`) — the work programme or call text with scope, objectives, and evaluation criteria. If not found, ask the user to provide it (paste text or provide a file path).
-   - **Official application template** (`call_template.*`) — the funder's Part B Word/PDF template defining the exact section structure and page limits. This is optional but takes precedence over built-in templates if provided.
+   - **Call document** (`call_document.*`) — the work programme or call text. If not found, ask the user to provide it (paste text or provide a file path).
+   - **Official application template** (`call_template.*`) — optional, but takes precedence over built-in templates (see the orchestrator's Template Priority section).
 
-3. **Select the structure template**:
-   - If `call_template.*` exists in `inputs/`, read it and use its section structure as the authoritative outline — it overrides the built-in templates.
-   - Otherwise, select the appropriate built-in template from `templates/` based on the funding agency and instrument recorded in `state.json` (e.g., `proposal_outline_horizon_europe_ria.md` for HE RIA/IA, `proposal_outline_innovation_fund_large.md` for IF large-scale).
-   - Note in the output which template source was used.
+3. **Mark started**: `python3 scripts/state.py stage {project} call_parsing in_progress`
 
-4. **Spawn the subagents in parallel**:
+4. **Execute the orchestrator**: Read `agents/orchestrators/call_scope_orchestrator.md` and execute it exactly as written:
+   - **Phase 0** — wiki funding-call check; pass any prior analysis page path to `call_parser` (skip silently if no wiki or no matching page)
+   - Resolve the structure template per the orchestrator's Template Priority rules
+   - Spawn `call_parser` and `eligibility_parser` **in parallel** as native subagents (`subagent_type` = the worker's name). Every task prompt must include:
+     ```
+     project: {project}
+     dedupe_key: {task_slug}_{project}
+     ```
+     plus the call document, the selected template reference, and output paths (`intermediate/call_brief.json` + `evaluation_matrix.json`, and `intermediate/eligibility_checklist.json`).
 
-   **call_parser** (model: sonnet): Parse the call document, extract structure, scoring criteria, evaluation weights, and required sections. Include:
-   - Full content of `agents/workers/retrievers/call_parser.md`
-   - The call document content
-   - The selected template (uploaded or built-in) for structural reference
-   - Instructions to write output to `runs/{project}/intermediate/`
+5. **Review the outputs**: Read `call_brief.json`, `evaluation_matrix.json`, and `eligibility_checklist.json`.
 
-   **eligibility_parser** (model: haiku): Extract eligibility, compliance, and deadline requirements. Include:
-   - Full content of `agents/workers/retrievers/eligibility_parser.md`
-   - The call document content
-   - The user context from `runs/{project}/context.md`
-   - Instructions to write output to `runs/{project}/intermediate/eligibility_checklist.json`
+6. **Generate the proposal outline**: Merge the parsed call structure with the template to produce `runs/{project}/intermediate/proposal_outline.md`. An uploaded template's section structure must be followed exactly; a built-in template is adapted to the call's requirements and page limits.
 
-5. **Review the outputs**: Read `call_brief.json`, `evaluation_matrix.json`, and `eligibility_checklist.json` produced by the subagents.
+7. **Mark complete**: `python3 scripts/state.py stage {project} call_parsing complete`
 
-6. **Generate the proposal outline**: Merge the parsed call structure with the template to produce `runs/{project}/intermediate/proposal_outline.md`. If an uploaded template was provided, the outline must follow its section structure exactly. If using a built-in template, adapt it to match the specific call's requirements and page limits from `call_brief.json`.
-
-7. **Update state**: Mark `call_parsing` as `complete` in `state.json`.
-
-8. **Present to user**: Summarize:
+8. **Present to user**:
    - Which template source was used (uploaded official template or built-in fallback)
    - Key evaluation criteria and weights
    - Mandatory sections and page limits
@@ -42,4 +37,4 @@ You are the Call & Scope Orchestrator. Read `agents/orchestrators/call_scope_orc
 
    Ask the user to confirm or adjust before proceeding.
 
-9. **Suggest next step**: Tell the user to run `/gate-check scope` and then `/research`.
+9. **Next step**: `/gate-check scope`, then `/research`.

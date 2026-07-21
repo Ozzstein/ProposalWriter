@@ -2,43 +2,39 @@
   "hooks": {
     "SessionStart": [
       {
-        "hooks": [{"type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" SessionStart"}]
+        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" SessionStart"}]
       }
     ],
     "UserPromptSubmit": [
       {
-        "hooks": [{"type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" UserPromptSubmit"}]
+        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" UserPromptSubmit"}]
       }
     ],
     "PreToolUse": [
       {
-        "matcher": "Agent",
-        "hooks": [{"type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/hooks/check_dedupe.py\""}]
+        "matcher": "Task",
+        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/check_dedupe.py\""}]
       },
       {
-        "matcher": "Agent",
-        "hooks": [{"type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/hooks/check_depth.py\""}]
-      },
-      {
-        "hooks": [{"type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" PreToolUse"}]
+        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" PreToolUse"}]
       }
     ],
     "PostToolUse": [
       {
         "matcher": "Write",
-        "hooks": [{"type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/hooks/validate_output.py\""}]
+        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/validate_output.py\""}]
       },
       {
         "matcher": "Write",
-        "hooks": [{"type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/hooks/check_citations.py\""}]
+        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/check_citations.py\""}]
       },
       {
-        "hooks": [{"type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" PostToolUse"}]
+        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" PostToolUse"}]
       }
     ],
     "Stop": [
       {
-        "hooks": [{"type": "command", "command": "python \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" Stop"}]
+        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" Stop"}]
       }
     ]
   },

@@ -1,47 +1,29 @@
-You are the Proposal Writing Orchestrator. Read `agents/orchestrators/proposal_writer_orchestrator.md` for your full instructions.
+You are the Proposal Writing Orchestrator.
+
+The agent roster, phase order, inputs, and rules are defined in `agents/orchestrators/proposal_writer_orchestrator.md` — that file is the single source of truth. Do not improvise a different roster.
 
 ## Steps
 
-1. **Check prerequisites**: Read `state.json`. Verify `research` is complete and Gate 2 (evidence) has passed, or warn the user.
+1. **Project**: Run `python3 scripts/state.py projects`. If exactly one project exists, use it; otherwise ask the user.
 
-2. **Read all inputs**:
-   - `runs/{project}/intermediate/call_brief.json`
-   - `runs/{project}/intermediate/evaluation_matrix.json`
-   - `runs/{project}/intermediate/sota_summary.md`
-   - `runs/{project}/intermediate/novelty_map.json`
-   - `runs/{project}/intermediate/proposal_outline.md`
-   - `runs/{project}/memory/evidence_store.jsonl`
-   - `runs/{project}/memory/claim_registry.jsonl`
-   - The appropriate template from `templates/`
+2. **Prerequisites**: Run `python3 scripts/state.py show {project}`. Warn (don't block) if `research` is not complete or the evidence gate has not passed (`python3 scripts/gate_check.py {project} evidence --no-write` shows why).
 
-3. **Determine sections to write**: Based on the proposal outline, identify which sections need drafting.
+3. **Mark started**: `python3 scripts/state.py stage {project} writing in_progress`
 
-4. **Spawn section writers in parallel**: Use the Agent tool to launch:
+4. **Execute the orchestrator**: Read `agents/orchestrators/proposal_writer_orchestrator.md` and execute its phases exactly as written:
+   - **Phase 0** — wiki check; collect terminology/claim page paths for the writers (skip silently if no wiki)
+   - **Phase 1** — spawn `excellence_writer` FIRST (it establishes the novelty narrative from `novelty_map.json` and `gap_analysis.json`); once its draft exists, spawn `impact_writer` and `implementation_writer` in parallel
+   - **Phase 2** — after all sections are drafted, spawn `abstract_writer` last with the completed drafts as input
 
-   **Impact Writer** (model: sonnet):
-   - Include `agents/workers/writers/impact_writer.md`
-   - Provide all intermediate outputs and memory files as context
-   - Write significance.md, innovation.md, and impact.md (if needed) to `runs/{project}/drafts/`
-   - Include: dedupe_key: impact_writing_{project}
+   Determine the concrete section list from `runs/{project}/intermediate/proposal_outline.md` and assign sections to writers per the orchestrator's roster. Spawn each worker as a native subagent (`subagent_type` = the worker's name). Every task prompt must include:
+   ```
+   project: {project}
+   dedupe_key: {task_slug}_{project}    # e.g. excellence_writing_{project}
+   ```
+   plus the input/output paths and any wiki context from Phase 0.
 
-   **Implementation Writer** (model: sonnet):
-   - Include `agents/workers/writers/implementation_writer.md`
-   - Write approach.md and timeline.md to `runs/{project}/drafts/`
-   - Include: dedupe_key: implementation_writing_{project}
+5. **Mark complete**: `python3 scripts/state.py stage {project} writing complete`
 
-5. **After main sections are written, spawn abstract writer**:
+6. **Present to user**: List drafted sections with word counts, claim coverage (all technical claims linked or marked `[ASSUMPTION]`), and any escalations from writers (missing evidence, contradictions, word-limit conflicts).
 
-   **Abstract Writer** (model: sonnet):
-   - Include `agents/workers/writers/abstract_writer.md`
-   - Provide all completed section drafts
-   - Write abstract.md to `runs/{project}/drafts/`
-   - Include: dedupe_key: abstract_writing_{project}
-
-6. **Update state**: Mark `writing` as `complete` in `state.json`.
-
-7. **Present to user**:
-   - List all sections drafted with word counts
-   - Flag any sections with open issues or assumptions
-   - Show which claims are referenced vs. assumptions
-
-8. **Suggest next step**: `/gate-check draft` then `/review`.
+7. **Next step**: `/gate-check draft`, then `/review`.

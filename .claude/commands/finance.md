@@ -20,11 +20,11 @@ You are the Finance Lead Orchestrator. Read `agents/orchestrators/finance_lead_o
    - Log the ingest in `memory/decision_log.jsonl`.
    - Emit a numbers-forward receipt and stop here if `--model-only`.
 
-5. **Phase 1 — Financial model build**: Spawn `financial_modeler` (model: sonnet) with `agents/workers/finance/financial_modeler.md` as context. Writes `intermediate/financial_tables.{json,md}` and appends CLM-FIN-xxx claims.
+5. **Phase 1 — Financial model build**: Spawn `financial_modeler` as a native subagent (`subagent_type: financial_modeler`; model/tools enforced by its `.claude/agents/` stub; include `project:` and `dedupe_key:` lines). Writes `intermediate/financial_tables.{json,md}` and appends CLM-FIN-xxx claims.
 
-6. **Phase 2 — Narrative drafting**: Spawn `financial_narrative_writer` (model: sonnet) workers in parallel, one per assigned section, with `agents/workers/finance/financial_narrative_writer.md` as context. Default section set for INNOVFUND CTM: §2.1, §2.2, §3.2, §5, §9. Each worker writes `drafts/{section}.md` + `drafts/{section}_meta.json`.
+6. **Phase 2 — Narrative drafting**: Spawn `financial_narrative_writer` native subagents in parallel, one per assigned section (`subagent_type: financial_narrative_writer`; include `project:` and a per-section `dedupe_key:`). Default section set for INNOVFUND CTM: §2.1, §2.2, §3.2, §5, §9. Each worker writes `drafts/{section}.md` + `drafts/{section}_meta.json`.
 
-7. **Phase 3 — Red-team review**: Spawn `financial_reviewer` (model: opus) with `agents/workers/finance/financial_reviewer.md` as context. Writes `reviews/financial_review_{round}.json` (default round=1 if not provided). If `--review-only`, stop here.
+7. **Phase 3 — Red-team review**: Spawn `financial_reviewer` as a native subagent (`subagent_type: financial_reviewer`; include `project:` and `dedupe_key: financial_review_{round}_{project}`). Writes `reviews/financial_review_{round}.json` (default round=1 if not provided). If `--review-only`, stop here.
 
 8. **Phase 4 — Handoff**:
    - If numbers warrant new/updated figures (CAPEX waterfall, cumulative-GHG curve, ramp), list them for `/figures` with a one-line brief.

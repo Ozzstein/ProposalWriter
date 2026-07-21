@@ -1,58 +1,27 @@
-Run a review gate check. The user should specify which gate: `scope`, `evidence`, `draft`, or `submission`.
+Run a review gate check. The user should specify which gate: `scope`, `evidence`, `draft`, `submission`, or `external-feedback`.
 
 If no gate name is provided in the user's message, ask which gate to check.
 
+Gate criteria are computed deterministically by `scripts/gate_check.py` — do NOT judge criteria yourself; run the script and interpret its output. The script is the single source of truth for thresholds.
+
 ## Steps
 
-1. **Identify the project**: Read the most recent project in `runs/` or ask the user.
+1. **Identify the project**: Run `python3 scripts/state.py projects`. If exactly one project exists, use it; otherwise ask the user.
 
-2. **Read state**: Read `runs/{project}/state.json`.
+2. **Run the check**:
+   ```bash
+   python3 scripts/gate_check.py {project} {gate}
+   ```
+   The script prints the full result JSON, writes it to `runs/{project}/intermediate/gate_check_{gate}.json`, and updates `state.json` `gates.{gate}.passed` itself — do not edit state by hand.
 
-3. **Check criteria for the specified gate**:
+3. **Interpret the exit code**:
+   - `0` — gate passed
+   - `1` — gate failed (blockers listed in the JSON)
+   - `2` — project not found / usage error
+   - `3` — not applicable (external-feedback gate with no feedback log; inform the user no external review has been ingested)
 
-### Gate: scope
-Check these criteria:
-- [ ] Call document parsed (`runs/{project}/intermediate/call_brief.json` exists)
-- [ ] Evaluation criteria mapped (`runs/{project}/intermediate/evaluation_matrix.json` exists)
-- [ ] Proposal outline created (`runs/{project}/intermediate/proposal_outline.md` exists)
-- [ ] Research context documented (`runs/{project}/context.md` exists and has hypothesis)
+4. **Report results**: Present each criterion from the JSON as a pass/fail line with its notes (e.g., "Evidence store has >= 12 sources — PASS (15 unique sources)").
 
-### Gate: evidence
-Check these criteria:
-- [ ] Evidence store has >= 12 entries (count lines in `runs/{project}/memory/evidence_store.jsonl`)
-- [ ] SOTA summary exists (`runs/{project}/intermediate/sota_summary.md`)
-- [ ] Novelty map exists with >= 2 novelty anchors (`runs/{project}/intermediate/novelty_map.json`)
-- [ ] Claim registry has entries (`runs/{project}/memory/claim_registry.jsonl` not empty)
-- [ ] No more than 20% of claims have "unsupported" status
+5. **If the gate fails**: List the specific blockers and recommend a concrete action for each (e.g., missing gap_analysis.json → re-run `/research` Phase 3; open FBK-IDs → `/external-review` to close them).
 
-### Gate: draft
-Check these criteria:
-- [ ] All required sections have drafts (check `runs/{project}/drafts/` against `runs/{project}/intermediate/proposal_outline.md`)
-- [ ] All drafts reference claim_ids (scan for CLM- patterns in draft files)
-- [ ] No section has more than 2 unlinked [ASSUMPTION] markers
-- [ ] Abstract exists and is within word limit
-
-### Gate: submission
-Check these criteria:
-- [ ] Scientific review score >= 6.0 for all sections (read `runs/{project}/reviews/scientific_review.json`)
-- [ ] No critical issues remaining in review reports
-- [ ] Compliance review shows all requirements met
-- [ ] All unsupported claims resolved or explicitly approved by user
-
-### Gate: external-feedback
-Check these criteria:
-- [ ] `runs/{project}/memory/feedback_log.jsonl` exists (if no external review has been run, gate is N/A — inform user)
-- [ ] Zero entries with `status: "open"` or `"in_progress"` in the active round — NOTE: feedback_log.jsonl is append-only; group all lines by `feedback_id` and use the LAST line per ID as the current state before counting statuses
-- [ ] All remaining entries have `status` in ["resolved", "deferred", "rejected", "ack", "stale"]
-- [ ] Any `stale` entries have a note in `resolution` explaining why manual review is needed
-
-If the gate passes: suggest running `/gate-check submission` next if this was the final round.
-If the gate fails: list the specific FBK-IDs that are still open or in-progress.
-
-4. **Report results**: For each criterion, report whether it's met or not with specific details (e.g., "Evidence store has 15 entries (need >= 12) — PASS").
-
-5. **Update state.json**: Set `gates.{gate-name}.passed` to true if all criteria met, false otherwise.
-
-6. **If gate fails**: List the specific blockers and recommend actions to address each one.
-
-7. **If gate passes**: Congratulate the user and suggest the next pipeline stage.
+6. **If the gate passes**: Congratulate the user and suggest the next pipeline stage (scope → `/research`, evidence → `/write-proposal`, draft → `/review`, external-feedback → `/gate-check submission`, submission → export).

@@ -56,6 +56,8 @@ The INNOVFUND `Tpl_Business Plan` has these required sections. Each maps to exis
 
 ## Subagents to Spawn
 
+> **Spawning**: spawn each worker as a **native subagent** (`subagent_type` = the worker's name). Its model and tool restrictions are enforced by the generated stub in `.claude/agents/` — do not paste worker definition files into prompts; the stub loads the definition itself. Include `project: {project}` and `dedupe_key: {task_slug}_{project}` lines in every task prompt.
+
 ### Phase 0 — Prerequisites + inventory (no spawn)
 
 Before any worker spawn:

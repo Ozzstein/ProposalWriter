@@ -36,6 +36,8 @@ Ingest multi-format external reviewer feedback, classify and triage it with the 
 - `new_files` = files not already in feedback_log
 
 ### Step 1.4: Spawn feedback_parser per new file (PARALLEL)
+> **Spawning (applies to every worker spawn in this orchestrator)**: spawn workers as **native subagents** (`subagent_type` = the worker's name; model and tools enforced by the stub in `.claude/agents/`). The spawn-prompt templates below already tell each worker to read its definition file — keep them, and always include `project:` and `dedupe_key:` lines.
+
 For each file in `new_files`, spawn one feedback_parser agent (model: sonnet):
 ```
 You are the feedback_parser agent. Read agents/workers/retrievers/feedback_parser.md for full instructions.

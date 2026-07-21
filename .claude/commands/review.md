@@ -1,40 +1,39 @@
-You are the Review & Compliance Orchestrator. Read `agents/orchestrators/review_orchestrator.md` for your full instructions.
+You are the Review & Compliance Orchestrator.
+
+The reviewer roster, wiki context flow, and outputs are defined in `agents/orchestrators/review_orchestrator.md` — that file is the single source of truth. Do not improvise a different roster.
 
 ## Steps
 
-1. **Check prerequisites**: Read `state.json`. Verify `writing` is complete and Gate 4 (draft) has passed, or warn.
+1. **Project**: Run `python3 scripts/state.py projects`. If exactly one project exists, use it; otherwise ask the user.
 
-2. **Read all drafts**: Read all files in `runs/{project}/drafts/`.
+2. **Prerequisites**: Run `python3 scripts/state.py show {project}`. Warn (don't block) if `writing` is not complete or the draft gate has not passed (`python3 scripts/gate_check.py {project} draft --no-write` shows why).
 
-3. **Spawn reviewers in parallel**:
+3. **Mark started**: `python3 scripts/state.py stage {project} review in_progress`
 
-   **Scientific Reviewer** (model: opus):
-   - Prompt: "You are a scientific reviewer. Read all proposal drafts and the evidence store. Check: logical consistency, experimental design rigor, whether claims are supported by evidence, potential pitfalls not addressed, methodology gaps. Score each section 1-10. Output a JSON file conforming to schemas/review_report.json."
-   - Provide all drafts + evidence_store + claim_registry as context
-   - Write to `runs/{project}/reviews/scientific_review.json`
-   - Include: dedupe_key: scientific_review_{project}
+4. **Execute the orchestrator**: Read `agents/orchestrators/review_orchestrator.md` and execute it exactly as written:
+   - **Phase 0** — collect wiki entities/gaps paths for the evaluator simulator (skip silently if no wiki)
+   - Spawn all three reviewers **in parallel**: `scientific_reviewer`, `compliance_checker`, and `adversarial_evaluator_simulator` (the simulator receives the Phase 0 wiki context)
 
-   **Compliance Checker** (model: haiku):
-   - Prompt: "You are a compliance checker. Read the proposal drafts and the call brief. Check: all required sections present, page/word limits met, formatting requirements, mandatory components included, structure matches call requirements. Output a JSON file conforming to schemas/review_report.json."
-   - Provide all drafts + call_brief + evaluation_matrix as context
-   - Write to `runs/{project}/reviews/compliance_review.json`
-   - Include: dedupe_key: compliance_review_{project}
+   Spawn each as a native subagent (`subagent_type` = the worker's name). Every task prompt must include:
+   ```
+   project: {project}
+   dedupe_key: {task_slug}_{project}_r{round}    # round number allows re-review after revisions
+   ```
+   plus the inputs/outputs the orchestrator assigns (`reviews/scientific_review.json`, `reviews/compliance_review.json`, `reviews/evaluator_simulation.json`).
 
-4. **Compile revision plan**: After reviews complete, read both review files and produce `runs/{project}/reviews/revision_plan.md` with:
-   - Critical issues (must fix before submission)
-   - High priority improvements (significant impact on score)
+5. **Compile the revision plan**: Read all three review files and produce `runs/{project}/reviews/revision_plan.md`, ordered by estimated score impact with `evaluator_simulation.json`'s `improvement_actions_ranked` as the primary input:
+   - Critical issues (must fix before submission — includes any hard-rejection risks)
+   - High priority (significant score impact)
    - Medium/low suggestions
-   - Ordered by estimated impact on evaluation score
 
-5. **Update state**: Mark `review` as `complete` in `state.json`.
+6. **Mark complete**: `python3 scripts/state.py stage {project} review complete`
 
-6. **Present to user**:
-   - Overall scores per section
-   - Critical issues that must be addressed
+7. **Present to user**:
+   - Predicted per-criterion scores and funding probability from the evaluator simulation
+   - **Any `hard_rejection_risk: true` findings — escalate these immediately and prominently**
+   - Scientific scores per section and critical issues
    - Unsupported claims found
-   - Compliance status (pass/fail per requirement)
-   - Recommended revisions in priority order
+   - Compliance status per requirement
+   - Top revision actions in priority order
 
-7. **Ask user**: "Would you like to revise and re-review, or proceed to finalization?"
-
-8. **If revision requested**: Guide user through addressing each issue, then re-run `/review`.
+8. **Ask user**: revise and re-review (re-run `/review` with the next round number after fixes), or proceed toward `/gate-check submission`?

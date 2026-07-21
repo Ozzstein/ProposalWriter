@@ -4,13 +4,25 @@
 When a file is written to runs/*/intermediate/ or runs/*/reviews/,
 checks if there's a matching JSON schema and validates the content.
 
-Hook input (stdin): JSON with tool_name, tool_input, tool_output.
-Hook output (stdout): JSON with warnings/errors if validation fails, or {}.
+Contract:
+  - pass (or nothing to validate): exit 0, no output
+  - violation: message on stderr + exit 2 (Claude Code feeds stderr back
+    to the model as feedback on the completed Write)
+  - internal hook error: exit 0 (fail-open — a hook bug must never wedge
+    the pipeline)
+
+Validation uses the `jsonschema` package (Draft-07) when available and
+falls back to a shallow required-fields check when it is not installed.
 """
 
 import json
 import sys
 import os
+
+try:
+    import jsonschema
+except ImportError:
+    jsonschema = None
 
 # Map filename patterns to schema files
 SCHEMA_MAP = {
@@ -21,23 +33,19 @@ SCHEMA_MAP = {
     "writing_review.json": "review_report.json",
 }
 
-# Feedback schema patterns — matched in find_schema() below
-# feedback_parse_*.json  -> entries[] validated against feedback_entry.json
-# feedback_patches_*.json -> patches[] validated against feedback_patch.json
+MAX_ERRORS = 10
 
 
 def find_schema(filename):
     """Find the matching schema for a given output filename."""
     basename = os.path.basename(filename)
 
-    # Direct match
     if basename in SCHEMA_MAP:
         return SCHEMA_MAP[basename]
 
-    # Pattern match: *_results.json -> evidence_result.json
     if basename.endswith("_results.json"):
         return "evidence_result.json"
-    if basename.endswith("_review.json"):
+    if basename.endswith("_review.json") or "_review_" in basename:
         return "review_report.json"
     if basename.startswith("feedback_parse_") and basename.endswith(".json"):
         return "feedback_entry.json"
@@ -47,103 +55,106 @@ def find_schema(filename):
     return None
 
 
-def validate_required_fields(data, schema):
-    """Simple validation: check required fields exist."""
+def load_schema(schema_name):
+    schemas_dir = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "schemas")
+    schema_path = os.path.join(schemas_dir, schema_name)
+    if not os.path.exists(schema_path):
+        return None
+    with open(schema_path) as f:
+        return json.load(f)
+
+
+def validate_against(data, schema, prefix=""):
+    """Validate one object against a schema. Returns a list of error strings."""
+    if jsonschema is not None:
+        errors = []
+        validator = jsonschema.Draft7Validator(schema)
+        for err in sorted(validator.iter_errors(data), key=lambda e: list(e.absolute_path)):
+            path = "/".join(str(p) for p in err.absolute_path) or "(root)"
+            errors.append(f"{prefix}{path}: {err.message}")
+            if len(errors) >= MAX_ERRORS:
+                break
+        return errors
+    # Fallback: shallow required-fields check
     errors = []
-    required = schema.get("required", [])
-    for field in required:
+    for field in schema.get("required", []):
         if field not in data:
-            errors.append(f"Missing required field: '{field}'")
+            errors.append(f"{prefix}Missing required field: '{field}'")
     return errors
 
 
 def validate_feedback_file(data, schema_name):
-    """Validate array-typed feedback files (each entry or patch validated individually)."""
-    errors = []
+    """Array-typed feedback files: validate each entry/patch individually."""
+    item_schema = load_schema(schema_name)
+    if item_schema is None:
+        return []
     if schema_name == "feedback_entry.json":
-        if "entries" not in data:
-            return [f"feedback_parse file missing required top-level key 'entries'"]
-        entries = data.get("entries", [])
-        for i, entry in enumerate(entries):
-            for field in ["feedback_id", "round", "source_file", "comment", "category", "status", "dedupe_key"]:
-                if field not in entry:
-                    errors.append(f"entries[{i}] missing required field: '{field}'")
-    elif schema_name == "feedback_patch.json":
-        if "patches" not in data:
-            return [f"feedback_patches file missing required top-level key 'patches'"]
-        patches = data.get("patches", [])
-        for i, patch in enumerate(patches):
-            for field in ["patch_id", "feedback_id", "target_file", "old_text", "new_text", "rationale"]:
-                if field not in patch:
-                    errors.append(f"patches[{i}] missing required field: '{field}'")
-    return errors
+        key = "entries"
+    else:
+        key = "patches"
+    if key not in data:
+        return [f"missing required top-level key '{key}'"]
+    errors = []
+    for i, item in enumerate(data.get(key, [])):
+        errors.extend(validate_against(item, item_schema, prefix=f"{key}[{i}]/"))
+        if len(errors) >= MAX_ERRORS:
+            break
+    return errors[:MAX_ERRORS]
+
+
+def fail(message):
+    print(message, file=sys.stderr)
+    sys.exit(2)
 
 
 def main():
     hook_input = json.loads(sys.stdin.read())
 
-    tool_name = hook_input.get("tool_name", "")
-    if tool_name != "Write":
-        print(json.dumps({}))
+    if hook_input.get("tool_name", "") != "Write":
         return
 
-    tool_input = hook_input.get("tool_input", {})
-    file_path = tool_input.get("file_path", "")
+    file_path = hook_input.get("tool_input", {}).get("file_path", "")
 
-    # Only validate files in runs/*/intermediate/ or runs/*/reviews/
+    # Only validate JSON files in runs/*/intermediate/ or runs/*/reviews/
     if "/runs/" not in file_path:
-        print(json.dumps({}))
         return
     if "/intermediate/" not in file_path and "/reviews/" not in file_path:
-        print(json.dumps({}))
         return
     if not file_path.endswith(".json"):
-        print(json.dumps({}))
+        return
+    if not os.path.exists(file_path):
         return
 
     schema_name = find_schema(file_path)
     if not schema_name:
-        print(json.dumps({}))
-        return
-
-    # Load schema
-    schemas_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "schemas")
-    schema_path = os.path.join(schemas_dir, schema_name)
-    if not os.path.exists(schema_path):
-        print(json.dumps({}))
-        return
-
-    with open(schema_path) as f:
-        schema = json.load(f)
-
-    # Load the written file
-    if not os.path.exists(file_path):
-        print(json.dumps({}))
         return
 
     try:
         with open(file_path) as f:
             data = json.load(f)
     except json.JSONDecodeError as e:
-        print(json.dumps({
-            "warning": f"Output file {os.path.basename(file_path)} is not valid JSON: {e}"
-        }))
-        return
+        fail(f"Output file {os.path.basename(file_path)} is not valid JSON: {e}. "
+             f"Rewrite the file as valid JSON conforming to schemas/{schema_name}.")
 
-    # Validate required fields
     if schema_name in ("feedback_entry.json", "feedback_patch.json"):
         errors = validate_feedback_file(data, schema_name)
     else:
-        errors = validate_required_fields(data, schema)
-    if errors:
-        print(json.dumps({
-            "warning": f"Schema validation issues in {os.path.basename(file_path)} "
-                       f"(schema: {schema_name}): {'; '.join(errors)}"
-        }))
-        return
+        schema = load_schema(schema_name)
+        errors = validate_against(data, schema) if schema else []
 
-    print(json.dumps({}))
+    if errors:
+        fail(f"Schema validation failed for {os.path.basename(file_path)} "
+             f"(schema: schemas/{schema_name}):\n"
+             + "\n".join(f"  - {e}" for e in errors)
+             + f"\nRewrite the file to conform to schemas/{schema_name}.")
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except SystemExit:
+        raise
+    except Exception:
+        # Fail open: a hook bug must never wedge the pipeline.
+        sys.exit(0)

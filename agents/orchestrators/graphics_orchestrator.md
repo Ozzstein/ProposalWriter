@@ -38,7 +38,7 @@ For each figure, decide:
 - **Defer (status stays tbd)** if data inputs are `[PENDING CFO]` or equivalent.
 
 ### Phase 2 — Dispatch (parallel)
-Spawn workers in parallel (single message, one Agent tool call per figure):
+Spawn workers in parallel (single message, one native-subagent spawn per figure — `subagent_type: plot_renderer` or `subagent_type: concept_image_generator`; include `project:` and `dedupe_key: {figure_id}_{project}` lines in each task prompt):
 - Model selection: `haiku` for simple plots, `sonnet` for complex Sankey/Gantt, `opus` for F-10 DT schematic and Fal.ai prompt writing.
 - Pass each worker: the register row + the data references + the target output path + any prompt/negative_prompt if pre-authored.
 - Cap concurrency at 4 to avoid exhausting Fal.ai rate limits.

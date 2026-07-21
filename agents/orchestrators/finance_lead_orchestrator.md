@@ -27,6 +27,8 @@ Cash is oxygen for the project. Your job is to make financial assumptions, ramps
 
 ## Subagents to Spawn
 
+> **Spawning**: spawn each worker as a **native subagent** (`subagent_type` = the worker's name). Its model and tool restrictions are enforced by the generated stub in `.claude/agents/` — do not paste worker definition files into prompts; the stub loads the definition itself. Include `project: {project}` and `dedupe_key: {task_slug}_{project}` lines in every task prompt.
+
 ### Phase 0 — Input ingest (user interaction + file write)
 
 Before any worker spawn:

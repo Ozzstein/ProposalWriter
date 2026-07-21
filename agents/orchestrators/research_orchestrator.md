@@ -17,6 +17,8 @@ Gather comprehensive evidence from literature, patents, and standards to establi
 
 ## Subagents to Spawn
 
+> **Spawning**: spawn each worker as a **native subagent** (`subagent_type` = the worker's name). Its model and tool restrictions are enforced by the generated stub in `.claude/agents/` — do not paste worker definition files into prompts; the stub loads the definition itself. Include `project: {project}` and `dedupe_key: {task_slug}_{project}` lines in every task prompt.
+
 ### Phase 0 — Wiki Check (before retrieval)
 
 If `wiki/WIKI.md` exists, check the wiki for existing knowledge relevant to this project:

@@ -32,13 +32,15 @@ The proposal writing pipeline has these stages, each driven by a slash command:
 
 ### Review Gates
 
-Never advance to the next stage without passing the review gate. Use `/gate-check` to verify:
+Never advance to the next stage without passing the review gate. Gates are computed **deterministically** by `python3 scripts/gate_check.py {project} {gate}` (run via `/gate-check`) — never judge gate criteria yourself:
 
 - **Gate 1 (scope)**: Before research — call parsed, criteria mapped, eligibility confirmed
-- **Gate 2 (evidence)**: Before writing — minimum 12 quality sources, SOTA summary, novelty anchors
+- **Gate 2 (evidence)**: Before writing — ≥12 quality sources, SOTA summary, ≥3 novelty anchors, ≥4 gaps
 - **Gate 4 (draft)**: Before review — all sections drafted, claims linked to evidence
 - **Gate 5 (submission)**: Before export — template compliance, citation integrity, page limits
-- **Gate: external-feedback**: After external review rounds — zero open/in-progress comments, all closed (resolved/deferred/rejected)
+- **Gate: external-feedback** (state key `external_feedback`): After external review rounds — zero open/in-progress comments, all closed (resolved/deferred/rejected/…)
+
+All `state.json` edits (stage status, gate results) and schema-validated memory-store appends go through `python3 scripts/state.py` — never hand-edit `state.json`.
 
 ## Agent Architecture
 
@@ -49,22 +51,23 @@ Each slash command acts as an orchestrator that spawns specialized worker agents
 - **Retrievers**: Gather material, not conclusions (literature_searcher, patent_scanner, call_parser)
 - **Synthesizers**: Compare, rank, infer, structure (novelty_mapper, gap_analyzer, state_of_art_synthesizer)
 - **Writers**: Turn validated material into polished text (impact_writer, implementation_writer, abstract_writer)
-- **Reviewers**: Red-team / compliance / evaluator simulation (scientific_reviewer inline, compliance_checker, adversarial_evaluator_simulator)
+- **Reviewers**: Red-team / compliance / evaluator simulation (scientific_reviewer, compliance_checker, adversarial_evaluator_simulator)
 - **Finance**: Turn user-supplied numbers into a model and narrative (financial_modeler, financial_narrative_writer, financial_reviewer)
 - **Graphics**: Produce figures (plot_renderer for Matplotlib/Plotly/Mermaid, concept_image_generator for Fal.ai)
 
 Writers NEVER search or invent evidence. They read from the evidence store and claim registry. Graphics workers NEVER fabricate data — numbers come from the drafts, memory stores, or inline values passed by the orchestrator.
 
 ### Spawning subagents
-When spawning agents via the Agent tool:
-- Read the agent's definition file from `agents/workers/` before spawning
-- Pass the agent definition as context in the prompt
-- Specify the model: `haiku` for retrievers, `sonnet` for writers, `opus` for synthesizers and reviewers
-- Launch independent agents in parallel (multiple Agent calls in one message)
+Workers are **native Claude Code subagents**. Their stubs live in `.claude/agents/` and are GENERATED from the canonical definitions in `agents/workers/` — regenerate with `python3 scripts/gen_agent_stubs.py` after adding/renaming a worker; never edit stubs by hand.
+
+- Spawn with `subagent_type` = the worker's name (e.g. `novelty_mapper`). The stub loads the worker's definition file itself and fixes its model and tool restrictions — do not paste definition files into prompts or specify models manually.
+- Every task prompt must include a `project: {project}` line and a `dedupe_key: {task_slug}_{project}` line (append `_r{round}` for repeatable stages like review). The dedupe hook uses these.
+- Launch independent agents in parallel (multiple spawns in one message).
+- `bp_interviewer` is NOT a spawnable agent — it is a protocol the orchestrator executes in the main conversation.
 
 ## Bounded Delegation Rules
 
-1. Maximum depth: **2 levels** (orchestrator -> worker -> subworker)
+1. Depth is platform-enforced: native subagents cannot spawn further agents. Only the main session (orchestrator role) spawns workers.
 2. Every spawn must have a clear justification (why the parent cannot do it)
 3. Every child must return structured output matching a schema in `schemas/`
 4. No agent spawns "just in case" — only for parallel work or specialized domain tasks
