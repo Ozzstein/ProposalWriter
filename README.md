@@ -1,6 +1,6 @@
 # ProposalWriter
 
-A multi-agent system for writing competitive grant proposals, built on [Claude Code](https://docs.anthropic.com/en/docs/claude-code). ProposalWriter coordinates 17 specialised AI agents in a structured pipeline — from parsing funding calls through evidence gathering, drafting, and adversarial review — producing evidence-grounded proposals aligned to evaluator scoring rubrics.
+A multi-agent system for writing competitive grant proposals, built on [Claude Code](https://docs.anthropic.com/en/docs/claude-code). ProposalWriter coordinates 9 orchestrated pipeline stages across ~30 specialised agents — from parsing funding calls through evidence gathering, drafting, financials, figures, and adversarial review — producing evidence-grounded proposals aligned to evaluator scoring rubrics.
 
 **Supported funding instruments**: EU Innovation Fund (large-scale), Horizon Europe (RIA/IA), NIH R01, NSF standard proposals.
 
@@ -11,16 +11,17 @@ A multi-agent system for writing competitive grant proposals, built on [Claude C
 - [How It Works](#how-it-works)
 - [Quick Start](#quick-start)
 - [Prerequisites](#prerequisites)
-- [Installation](#installation)
 - [Pipeline Stages](#pipeline-stages)
-- [Slash Commands](#slash-commands)
 - [Agent Architecture](#agent-architecture)
 - [Review Gates](#review-gates)
+- [Scripts](#scripts)
 - [Schemas and Data Contracts](#schemas-and-data-contracts)
 - [Project File Structure](#project-file-structure)
 - [Hooks](#hooks)
 - [MCP Server](#mcp-server)
 - [Templates](#templates)
+- [The Wiki](#the-wiki)
+- [Mission Control UI](#mission-control-ui)
 - [Configuration](#configuration)
 - [Example Walkthrough](#example-walkthrough)
 
@@ -28,7 +29,7 @@ A multi-agent system for writing competitive grant proposals, built on [Claude C
 
 ## How It Works
 
-ProposalWriter implements a **Program Director** pattern: you (the user) interact with a top-level orchestrator that delegates work to specialised agents in a strict hierarchy.
+ProposalWriter implements a **Program Director** pattern: you (the researcher) interact with a top-level orchestrator that delegates work to specialised agents in a strict hierarchy.
 
 ```
 You (researcher)
@@ -36,528 +37,305 @@ You (researcher)
  v
 Program Director (Claude Code session)
  |
- |-- /parse-call -----> Call Scope Orchestrator
- |                        |-- call_parser (haiku)
- |                        |-- eligibility_parser (haiku)
- |
- |-- /research -------> Research Orchestrator
- |                        |-- Phase 1: literature_searcher + web_scraper + patent_scanner
- |                        |-- Phase 2: state_of_art_synthesizer (opus)
- |                        |-- Phase 3: novelty_mapper + gap_analyzer (opus)
- |
- |-- /write-proposal -> Writing Orchestrator
- |                        |-- Phase 1: excellence_writer + impact_writer + implementation_writer
- |                        |-- Phase 2: abstract_writer (last)
- |
- |-- /review ---------> Review Orchestrator
-                          |-- scientific_reviewer (opus)
-                          |-- compliance_checker (haiku)
-                          |-- adversarial_evaluator_simulator (opus)
+ |-- /parse-call ------> call_parser + eligibility_parser
+ |-- /research --------> literature_searcher + web_scraper + patent_scanner
+ |                       -> state_of_art_synthesizer
+ |                       -> novelty_mapper + gap_analyzer
+ |-- /write-proposal --> excellence_writer (first)
+ |                       -> impact_writer + implementation_writer
+ |                       -> abstract_writer (last)
+ |-- /finance ---------> financial_modeler -> financial_narrative_writer -> financial_reviewer
+ |-- /figures ---------> plot_renderer + concept_image_generator
+ |-- /business-plan ---> bp_synthesizer -> 4 bp writers -> bp_reviewer
+ |-- /review ----------> scientific_reviewer + compliance_checker
+ |                       + adversarial_evaluator_simulator
+ |-- /external-review -> feedback_parser -> triage -> specialist patching
+ |-- /wiki ------------> cross-project knowledge ingest / query
 ```
 
 **Key design principles:**
 - **Evidence-first**: Writers never invent facts. Every claim must trace back to a source in the evidence store or be explicitly marked `[ASSUMPTION]`.
-- **Bounded delegation**: Maximum 2 levels of agent nesting, enforced by hooks.
+- **Native subagents**: Every worker is a Claude Code subagent with its model and tool restrictions pinned in `.claude/agents/` — writers and synthesizers physically cannot search the web, and no worker can spawn further agents.
+- **Deterministic gates**: Stage-transition gates are computed by `scripts/gate_check.py` from project files alone — never by model judgment.
 - **User in the loop**: The pipeline pauses at every stage and every review gate for your approval before advancing.
-- **Schema-driven**: All agent outputs conform to JSON schemas in `schemas/` — validated automatically by hooks.
+- **Schema-driven**: Agent outputs conform to JSON schemas in `schemas/`, validated automatically by hooks that feed violations back to the writing agent.
 
 ---
 
 ## Quick Start
 
 ```bash
-# 1. Clone the repo
 git clone https://github.com/Ozzstein/ProposalWriter.git
 cd ProposalWriter
+pip install fastmcp httpx pypdf jsonschema
 
-# 2. Install dependencies (for MCP server and hooks)
-pip install fastmcp httpx pypdf
-
-# 3. Open in Claude Code
-claude
-
-# 4. Start a new proposal
-/start-proposal
+claude          # open the project in Claude Code
+/start-proposal # begin
 ```
 
-Claude will walk you through gathering your project details, then you advance through the pipeline stage by stage using slash commands.
-
----
+Claude walks you through gathering your project details, then you advance through the pipeline stage by stage using slash commands.
 
 ## Prerequisites
 
 | Requirement | Why |
 |---|---|
 | [Claude Code](https://docs.anthropic.com/en/docs/claude-code) | The runtime harness — there is no separate application tier |
-| Python 3.10+ | Hooks and MCP server |
-| `fastmcp` + `httpx` | MCP server dependencies (`pip install fastmcp httpx`) |
-| `pypdf` | PDF text extraction for call documents (`pip install pypdf`) |
-| Firecrawl CLI (optional) | For the `web_scraper` agent to search EU repositories |
-| Semantic Scholar MCP (optional) | Connected via Claude Code's MCP registry for academic search |
-
----
-
-## Installation
-
-```bash
-git clone https://github.com/Ozzstein/ProposalWriter.git
-cd ProposalWriter
-pip install fastmcp httpx pypdf
-```
-
-The MCP server and hooks are configured automatically via `.claude/settings.json`. No additional setup is needed — open the project in Claude Code and start working.
+| Python 3.10+ | Hooks, gate/state scripts, and the MCP server |
+| `fastmcp` + `httpx` | MCP server dependencies |
+| `pypdf` | PDF text extraction for call documents |
+| `jsonschema` | Full draft-07 validation in hooks and scripts (falls back to shallow checks without it) |
+| Firecrawl (optional) | `web_scraper` agent searches EU repositories |
+| Semantic Scholar MCP (optional) | Academic search for `literature_searcher` |
+| Node.js ≥ 20 (optional) | Mission Control UI |
 
 ---
 
 ## Pipeline Stages
 
-The proposal pipeline has 5 main stages plus utility commands. Each stage is a slash command that orchestrates multiple agents.
+Each stage is a slash command. The command files in `.claude/commands/` are thin dispatchers — the corresponding orchestrator file in `agents/orchestrators/` is the single source of truth for which agents run, in what order, with what outputs.
 
 | Stage | Command | What happens |
 |---|---|---|
-| 1. Initialise | `/start-proposal` | Gather project details, create directory structure, set up memory stores |
+| 1. Initialise | `/start-proposal` | Gather project details; `scripts/state.py init` scaffolds the project |
 | 2. Parse call | `/parse-call` | Extract eligibility, evaluation criteria, section structure from the call document |
-| 3. Research | `/research` | Gather evidence (literature, patents, web), synthesise SOTA, map novelty and gaps |
-| 4. Write | `/write-proposal` | Draft all proposal sections using evidence from memory stores |
-| 5. Review | `/review` | Red-team the proposal: scientific rigour, compliance, adversarial evaluator simulation |
+| 3. Research | `/research` | Retrieve evidence (literature, EU repositories, patents), synthesise SOTA, map novelty and gaps |
+| 4. Write | `/write-proposal` | Draft all sections — excellence first, abstract last |
+| 5. Finance | `/finance` | Build the financial model from user-supplied inputs, draft financial sections, red-team hard-rejection risks |
+| 6. Figures | `/figures` | Render every figure in the figures register — data plots via Matplotlib/Plotly, concept art via Fal.ai |
+| 7. Business plan | `/business-plan` | Assemble the Business Plan annex (interview → synthesis → 4 writers → red-team) |
+| 8. Review | `/review` | Red-team: scientific rigour, compliance, adversarial evaluator simulation |
+| 9. External review | `/external-review` | Ingest external reviewer comments (PDF/DOCX/XLSX/MD), triage, route to specialists, apply patches |
 
 **Utility commands:**
+
 | Command | Purpose |
 |---|---|
-| `/gate-check [gate]` | Verify readiness before advancing (gates: `scope`, `evidence`, `draft`, `submission`) |
-| `/pipeline-status` | Show current progress across all stages and gates |
-
----
-
-## Slash Commands
-
-### `/start-proposal`
-
-Initialises a new proposal project. The system asks you for:
-- Project name (kebab-case, used as directory name)
-- Research topic and key hypothesis
-- Funding agency and instrument (NIH R01, Horizon Europe, Innovation Fund, NSF)
-- Prior work and preliminary data
-- Team composition
-- Target deadline
-
-It also asks for the **call document** (the work programme / call fiche) and the **call template** (official Part B template). If you have an official template, it takes precedence over built-in templates.
-
-**Output**: Creates `runs/{project-name}/` with `state.json`, `context.md`, and empty memory files.
-
-### `/parse-call`
-
-Parses the call document to extract everything needed to scope the proposal. Spawns two agents in parallel:
-- **call_parser** (sonnet): extracts structure, evaluation criteria, page limits, deadlines
-- **eligibility_parser** (haiku): extracts eligibility rules, disqualifiers, compliance requirements
-
-Selects the appropriate proposal template (uploaded > built-in) and generates the proposal outline.
-
-**Output**: `intermediate/call_brief.json`, `intermediate/evaluation_matrix.json`, `intermediate/proposal_outline.md`, `intermediate/eligibility_checklist.json`
-
-### `/research`
-
-Gathers and synthesises evidence in three phases:
-
-**Phase 1 — Retrieval** (parallel):
-- `literature_searcher` searches Consensus, PubMed, arXiv, Semantic Scholar
-- `web_scraper` searches EU repositories (OpenAIRE, CORDIS, Zenodo, HAL) via Firecrawl
-- `patent_scanner` searches Google Patents, USPTO, EPO
-
-**Phase 2 — Synthesis** (sequential):
-- `state_of_art_synthesizer` reads all evidence, produces a SOTA narrative, registers claims
-
-**Phase 3 — Deep analysis** (parallel):
-- `novelty_mapper` maps specific novelty positions with defensibility scores and attack surfaces
-- `gap_analyzer` identifies and ranks gaps by strategic importance for the call
-
-**Output**: `intermediate/sota_summary.md`, `intermediate/novelty_map.json`, `intermediate/gap_analysis.json`, populated `memory/evidence_store.jsonl` and `memory/claim_registry.jsonl`
-
-### `/write-proposal`
-
-Drafts all proposal sections, respecting the call's section structure and evaluation criteria.
-
-**Phase 1** (parallel):
-- `excellence_writer` drafts Section 1 (Innovation / Excellence) — the highest-weighted section
-- `impact_writer` drafts significance, impact, GHG avoidance sections
-- `implementation_writer` drafts methodology, maturity, workplan sections
-
-**Phase 2** (sequential):
-- `abstract_writer` synthesises all sections into the project summary (written last)
-
-**Output**: `drafts/{section_name}.md` and `drafts/{section_name}_meta.json` for each section
-
-### `/review`
-
-Red-teams the proposal with three reviewer agents in parallel:
-- `scientific_reviewer` checks scientific rigour, logical consistency, claim-evidence linkage
-- `compliance_checker` checks template compliance, page limits, formatting, required sections
-- `adversarial_evaluator_simulator` simulates an expert evaluation panel — predicts per-criterion scores, flags hard-rejection risks, ranks improvement actions by estimated score gain
-
-**Output**: `reviews/scientific_review.json`, `reviews/compliance_review.json`, `reviews/evaluator_simulation.json`, `reviews/revision_plan.md`
-
-### `/gate-check [gate-name]`
-
-Verifies readiness before stage transitions. Four gates:
-
-| Gate | When | Checks |
-|---|---|---|
-| `scope` | Before research | call_brief.json exists, evaluation_matrix.json exists, proposal_outline.md exists, context.md has hypothesis |
-| `evidence` | Before writing | evidence store has >=12 entries, SOTA summary exists, novelty map has >=2 anchors, claim registry populated, <=20% unsupported claims |
-| `draft` | Before review | all required sections have drafts, drafts reference claim_ids, <=2 unlinked `[ASSUMPTION]` markers per section, abstract exists |
-| `submission` | Before export | scientific review score >=6.0 for all sections, no critical issues, compliance review passes, all unsupported claims resolved |
-
-### `/pipeline-status`
-
-Shows current progress: which stages are complete, which gates have passed, quick stats (evidence count, claim count, draft files, review scores).
+| `/gate-check [gate]` | Run `scripts/gate_check.py` — deterministic readiness check (`scope`, `evidence`, `draft`, `submission`, `external-feedback`) |
+| `/pipeline-status` | Render `scripts/state.py show` — stages, gates, store counts, feedback rounds |
+| `/wiki` | Init / ingest / query / lint the cross-project knowledge base |
 
 ---
 
 ## Agent Architecture
 
-### Agent Types
+### Worker classes
 
-| Type | Role | Model Tier | Example |
+| Class | Role | Model | Tools |
 |---|---|---|---|
-| **Retrievers** | Gather material, not conclusions | haiku | `literature_searcher`, `web_scraper`, `patent_scanner` |
-| **Synthesizers** | Compare, rank, infer, structure | opus | `state_of_art_synthesizer`, `novelty_mapper`, `gap_analyzer` |
-| **Writers** | Turn validated material into polished text | sonnet | `excellence_writer`, `impact_writer`, `implementation_writer` |
-| **Reviewers** | Critique, score, identify weaknesses | opus | `adversarial_evaluator_simulator`, `scientific_reviewer` |
+| **Retrievers** | Gather material, not conclusions | haiku (call_parser and feedback_parser: sonnet) | Search retrievers inherit all tools (MCP search); document parsers get file tools + Bash |
+| **Synthesizers** | Compare, rank, infer, structure | opus | File tools only — no web, no Bash |
+| **Writers** | Turn validated material into polished text | sonnet | File tools only — no web, no Bash |
+| **Reviewers** | Critique, score, identify weaknesses | opus (compliance_checker: haiku) | File tools (+ Bash for compliance word counts) |
+| **Finance** | Model and narrate user-supplied numbers | sonnet (financial_reviewer: opus) | File tools + Bash |
+| **Business plan** | Assemble the Business Plan annex | sonnet writers, opus synthesizer/reviewer | File tools |
+| **Graphics** | Render figures | chosen per figure | File tools + Bash (+ WebFetch for Fal.ai) |
 
-### Complete Agent Roster (17 agents)
+### Native subagents
 
-**Orchestrators** (4):
-| Agent | File | Mission |
-|---|---|---|
-| Call Scope Orchestrator | `agents/orchestrators/call_scope_orchestrator.md` | Parse call document, extract criteria and structure |
-| Research Orchestrator | `agents/orchestrators/research_orchestrator.md` | Coordinate evidence retrieval and synthesis |
-| Writing Orchestrator | `agents/orchestrators/proposal_writer_orchestrator.md` | Coordinate section drafting |
-| Review Orchestrator | `agents/orchestrators/review_orchestrator.md` | Coordinate red-teaming and compliance |
+Canonical worker definitions live in `agents/workers/{class}/{name}.md`. Each spawnable worker has a **generated stub** in `.claude/agents/{name}.md` whose frontmatter pins its model and tools — the harness enforces both, and subagents cannot spawn further agents, so delegation depth is platform-enforced.
 
-**Workers — Retrievers** (5):
-| Agent | File | Searches |
-|---|---|---|
-| `call_parser` | `agents/workers/retrievers/call_parser.md` | Call documents (PDF) |
-| `eligibility_parser` | `agents/workers/retrievers/eligibility_parser.md` | Eligibility and compliance rules |
-| `literature_searcher` | `agents/workers/retrievers/literature_searcher.md` | Consensus, PubMed, arXiv, Semantic Scholar |
-| `web_scraper` | `agents/workers/retrievers/web_scraper.md` | OpenAIRE, CORDIS, Zenodo, HAL, bioRxiv (via Firecrawl) |
-| `patent_scanner` | `agents/workers/retrievers/patent_scanner.md` | Google Patents, USPTO, EPO |
+```bash
+python3 scripts/gen_agent_stubs.py           # regenerate after adding/renaming a worker
+python3 scripts/gen_agent_stubs.py --check   # CI-style drift check
+```
 
-**Workers — Synthesizers** (3):
-| Agent | File | Produces |
-|---|---|---|
-| `state_of_art_synthesizer` | `agents/workers/synthesizers/state_of_art_synthesizer.md` | `sota_summary.md`, claim registration |
-| `novelty_mapper` | `agents/workers/synthesizers/novelty_mapper.md` | `novelty_map.json` (NOV-### anchors with defensibility scores) |
-| `gap_analyzer` | `agents/workers/synthesizers/gap_analyzer.md` | `gap_analysis.json` (GAP-### entries ranked by strategic importance) |
+Never edit stubs by hand. `bp_interviewer` is deliberately not a stub — it is an interview protocol the orchestrator runs in the main conversation.
 
-**Workers — Writers** (4):
-| Agent | File | Drafts |
-|---|---|---|
-| `excellence_writer` | `agents/workers/writers/excellence_writer.md` | Section 1 (IF: Degree of Innovation; HE: Excellence) |
-| `impact_writer` | `agents/workers/writers/impact_writer.md` | Significance, impact, GHG avoidance sections |
-| `implementation_writer` | `agents/workers/writers/implementation_writer.md` | Methodology, maturity, workplan sections |
-| `abstract_writer` | `agents/workers/writers/abstract_writer.md` | Project summary / abstract (written last) |
+Orchestrators spawn workers with `subagent_type` = the worker's name, and every task prompt carries `project:` and `dedupe_key:` lines (consumed by the dedupe hook).
 
-**Workers — Reviewers** (1):
-| Agent | File | Produces |
-|---|---|---|
-| `adversarial_evaluator_simulator` | `agents/workers/reviewers/adversarial_evaluator_simulator.md` | `evaluator_simulation.json` (per-criterion scores, hard-rejection checks, funding probability) |
+### Roster
 
-### Bounded Delegation
+**Orchestrators** (9, in `agents/orchestrators/`): call_scope, research, proposal_writer, finance_lead, graphics, business_plan, review, external_review, wiki.
 
-Agent spawning follows strict rules enforced by hooks:
-1. **Maximum depth: 2 levels** (orchestrator -> worker -> subworker)
-2. Every spawn must have a clear justification
-3. Every child must return structured output conforming to a schema
-4. No duplicate spawns (deduplicated via `task_registry.jsonl`)
+**Workers** (in `agents/workers/`):
+
+| Class | Agents |
+|---|---|
+| retrievers | call_parser, eligibility_parser, feedback_parser, literature_searcher, web_scraper, patent_scanner |
+| synthesizers | state_of_art_synthesizer, novelty_mapper, gap_analyzer |
+| writers | excellence_writer, impact_writer, implementation_writer, abstract_writer, feedback_applier |
+| reviewers | scientific_reviewer, compliance_checker, adversarial_evaluator_simulator |
+| finance | financial_modeler, financial_narrative_writer, financial_reviewer |
+| business_plan | bp_interviewer (protocol), bp_synthesizer, bp_commercial_writer, bp_financial_writer, bp_counterparty_writer, bp_risk_writer, bp_reviewer |
+| graphics | plot_renderer, concept_image_generator |
 
 ---
 
 ## Review Gates
 
-Gates are checkpoints that prevent premature stage advancement. Run `/gate-check <name>` to check.
+Gates prevent premature stage advancement. They are **computed deterministically** by `scripts/gate_check.py` — run via `/gate-check <name>`, which writes `intermediate/gate_check_<gate>.json` and updates `state.json` itself.
 
 ```
-/start-proposal
-      |
-      v
-  [scope gate] ---- /gate-check scope
-      |
-      v
-   /parse-call
-      |
-      v
-   /research
-      |
-      v
-  [evidence gate] -- /gate-check evidence
-      |
-      v
-  /write-proposal
-      |
-      v
-  [draft gate] ----- /gate-check draft
-      |
-      v
-   /review
-      |
-      v
-  [submission gate] - /gate-check submission
-      |
-      v
-   Export / Submit
+/start-proposal → /parse-call → [scope] → /research → [evidence]
+    → /write-proposal (+ /finance /figures /business-plan) → [draft]
+    → /review → /external-review → [external-feedback] → [submission] → export
 ```
 
-If a gate fails, the system reports exactly which criteria are unmet and recommends actions to resolve each blocker.
+| Gate | Key criteria |
+|---|---|
+| `scope` | call_brief + evaluation_matrix parse, outline exists, context.md has a real (non-placeholder) hypothesis |
+| `evidence` | ≥12 unique sources, SOTA summary, ≥3 novelty anchors, ≥4 gaps with top gaps selected, ≤20% unsupported claims |
+| `draft` | Every outline section drafted, every draft cites claim IDs, ≤2 unlinked `[ASSUMPTION]` per section, abstract within limit |
+| `submission` | Scientific score ≥6.0 per section, zero critical fixes, compliance clean, unsupported claims resolved or user-approved |
+| `external-feedback` | Zero open/in-progress comments in the active round; stale items carry an explanation (N/A if no external review ingested) |
+
+Exit codes: `0` pass, `1` fail (blockers listed), `2` project error, `3` not applicable.
+
+---
+
+## Scripts
+
+| Script | Purpose |
+|---|---|
+| `scripts/state.py` | All state mutations: `init` (scaffold a project), `stage`, `gate`, schema-validated `append` to memory stores, `show`, `projects`. Never hand-edit `state.json`. |
+| `scripts/gate_check.py` | Deterministic gate evaluation (see above) |
+| `scripts/gen_agent_stubs.py` | Generate/refresh native subagent stubs from `agents/workers/` |
+
+All accept `--runs-dir` for testing outside `runs/`.
 
 ---
 
 ## Schemas and Data Contracts
 
-All agent I/O conforms to JSON schemas in `schemas/`. This enables automatic validation via hooks.
+All agent I/O conforms to JSON schemas in `schemas/`, enforced by hooks.
 
-| Schema | Used By | Description |
-|---|---|---|
-| `evidence_result.json` | Retrievers | Sources with SRC-### IDs, quality ratings, extracts |
-| `claim.json` | Synthesizers, Writers | Claims with CLM-### IDs, evidence linkage, status |
-| `novelty_map.json` | `novelty_mapper` | NOV-### anchors with defensibility scores, attack surfaces |
-| `gap_analysis.json` | `gap_analyzer` | GAP-### entries with severity, strategic importance, criterion mapping |
-| `section_draft.json` | Writers | Section text with claim_ids, source_ids, assumptions, word count |
-| `review_report.json` | Reviewers | Issues, unsupported claims, fixes ranked by priority |
-| `evaluator_simulation.json` | `adversarial_evaluator_simulator` | Per-criterion predicted scores, hard-rejection checks, funding probability |
-| `gate_check.json` | `/gate-check` | Gate pass/fail with criteria details and blockers |
-| `task.json` | All agents | Standard input contract (task_id, goal, constraints) |
-| `decision.json` | Program Director | Recorded decisions with rationale and alternatives considered |
+| Schema | Used By |
+|---|---|
+| `evidence_result.json` | Retrievers |
+| `claim.json` | Synthesizers, writers, `state.py append` |
+| `novelty_map.json` / `gap_analysis.json` | novelty_mapper / gap_analyzer |
+| `section_draft.json` | Writers (`*_meta.json` sidecars) |
+| `review_report.json` | Reviewers |
+| `evaluator_simulation.json` | adversarial_evaluator_simulator |
+| `feedback_entry.json` / `feedback_patch.json` | External review pipeline |
+| `financial_inputs.json` | `/finance` Phase 0 ingest |
+| `figure_spec.json` | Graphics sidecar JSONs |
+| `gate_check.json` | `scripts/gate_check.py` |
+| `task.json` / `decision.json` | Task registry / decision log |
 
 ### ID Conventions
 
-| Pattern | Example | Used For |
-|---|---|---|
-| `SRC-###` | SRC-001 | Sources in evidence store |
-| `CLM-###` | CLM-042 | Claims in claim registry |
-| `NOV-###` | NOV-003 | Novelty anchors |
-| `GAP-###` | GAP-007 | Documented gaps |
-| `TASK-###` | TASK-015 | Spawned tasks |
-| `DEC-###` | DEC-002 | Recorded decisions |
+| Pattern | Used For |
+|---|---|
+| `SRC-###` / `WIKI-SRC-###` | Sources (project-local / imported from wiki) |
+| `CLM-###` / `WIKI-CLM-###` / `CLM-FIN-###` | Claims (core / wiki-imported / financial) |
+| `NOV-###` / `GAP-###` | Novelty anchors / documented gaps |
+| `TASK-###` / `DEC-###` / `FBK-###` | Tasks / decisions / external feedback comments |
+| `F-##` | Figures |
 
 ---
 
 ## Project File Structure
 
-Each proposal lives in `runs/{project-name}/`:
+Each proposal lives in `runs/{project-name}/` (scaffolded by `state.py init`):
 
 ```
 runs/{project-name}/
-  state.json                 # Pipeline state, stage status, gate status
-  context.md                 # Your research context, hypothesis, team, project details
-
-  inputs/                    # Call documents, research reports, templates (uploaded by you)
-    call_document.pdf
-    call_template.pdf
-    research_report.pdf
-
-  memory/                    # Shared stores (append-only JSONL)
-    evidence_store.jsonl     # All retrieved sources with quality ratings
-    claim_registry.jsonl     # Every proposal claim linked to evidence
-    decision_log.jsonl       # Why key choices were made
-    task_registry.jsonl      # Track all spawned tasks (deduplication)
-
-  intermediate/              # Stage outputs (structured JSON + Markdown)
-    call_brief.json          # Parsed call structure and criteria
-    evaluation_matrix.json   # Full scoring rubric with weights and thresholds
-    eligibility_checklist.json
-    proposal_outline.md      # Section structure with page budgets
-    sota_summary.md          # State-of-the-art narrative
-    novelty_map.json         # Novelty anchors with defensibility scores
-    gap_analysis.json        # Ranked gaps with criterion mapping
-
-  drafts/                    # Section drafts (Markdown + JSON metadata)
-    01_innovation.md
-    01_innovation_meta.json
-    ...
-
-  reviews/                   # Review reports
-    scientific_review.json
-    compliance_review.json
-    evaluator_simulation.json
-    revision_plan.md
-
-  final/                     # Export-ready proposal (assembled PDF)
+  state.json                 # Pipeline state — edit only via scripts/state.py
+  context.md                 # Your research context, hypothesis, team
+  inputs/                    # Call documents, templates, financial inputs
+  memory/                    # Append-only JSONL stores
+    evidence_store.jsonl     #   sources with quality ratings
+    claim_registry.jsonl     #   claims linked to evidence
+    decision_log.jsonl       #   why key choices were made
+    task_registry.jsonl      #   spawned tasks (dedupe)
+    feedback_log.jsonl       #   external review comments across rounds
+  intermediate/              # Stage outputs (call_brief, sota_summary,
+                             #   novelty_map, gap_analysis, gate_check_*, …)
+  drafts/                    # Section drafts + *_meta.json sidecars
+  figures/                   # Rendered figures + sidecar JSONs + scripts
+  reviews/                   # scientific / compliance / evaluator_simulation /
+                             #   financial / business_plan reviews, revision_plan.md
+  final/                     # Export-ready proposal
 ```
 
 ---
 
 ## Hooks
 
-Four Python hooks enforce system invariants. They are configured in `.claude/settings.json` and run automatically.
+Configured in `.claude/settings.json`, run automatically by Claude Code. Violations are fed back to the model (stderr + exit 2 for PostToolUse; a deny decision for PreToolUse), so agents see and fix their own mistakes. All hooks fail open — a hook bug never wedges the pipeline.
 
-### PreToolUse hooks (run before agent spawning)
-
-| Hook | File | Purpose |
+| Hook | Event | Purpose |
 |---|---|---|
-| Deduplication | `hooks/check_dedupe.py` | Prevents spawning duplicate agents — checks `task_registry.jsonl` for existing tasks with the same `dedupe_key` |
-| Depth limit | `hooks/check_depth.py` | Enforces max delegation depth of 2 — blocks agents from spawning sub-sub-agents |
-
-### PostToolUse hooks (run after file writes)
-
-| Hook | File | Purpose |
-|---|---|---|
-| Schema validation | `hooks/validate_output.py` | Validates JSON files written to `intermediate/` or `reviews/` against their schemas |
-| Citation check | `hooks/check_citations.py` | Scans drafts for `CLM-###` references and warns if any are not in the claim registry |
+| `check_dedupe.py` | PreToolUse (Task) | Blocks duplicate spawns of *running* tasks (keyed on the prompt's `dedupe_key:`/`project:` lines). Completed tasks may re-run; stale (>24h) running tasks don't block. |
+| `validate_output.py` | PostToolUse (Write) | Full draft-07 validation of JSON written to `intermediate/`/`reviews/` against `schemas/` |
+| `check_citations.py` | PostToolUse (Write) | Flags `CLM`/`WIKI-CLM`/`CLM-FIN` references in drafts that aren't in the claim registry |
+| `emit_event.py` | All events | Telemetry to `runs/_events.jsonl` for the Mission Control UI |
 
 ---
 
 ## MCP Server
 
-ProposalWriter includes a bundled MCP server for academic search:
-
-**`mcp-servers/academic-search/server.py`**
-
-Provides tools:
-- `search_pubmed(query, max_results, date_from, date_to)` — Search PubMed via NCBI E-utilities
-- `fetch_abstract(pmid)` — Fetch full abstract and MeSH terms for a PubMed article
-- `fetch_mesh_terms(pmid)` — Fetch MeSH categorisation for related-paper discovery
-- `search_arxiv(query, max_results, category, date_from, date_to)` — Search arXiv preprints
-- `fetch_arxiv_paper(arxiv_id)` — Fetch full metadata for an arXiv paper
-
-The server starts automatically when Claude Code opens the project (configured in `.claude/settings.json`).
-
-**Additional search tools available via connected MCPs:**
-- Semantic Scholar (connected via Claude Code's MCP registry)
-- Firecrawl (for `web_scraper` agent — searches EU repositories)
+`mcp-servers/academic-search/server.py` provides PubMed and arXiv search/fetch tools (`search_pubmed`, `fetch_abstract`, `fetch_mesh_terms`, `search_arxiv`, `fetch_arxiv_paper`). It starts automatically with the project. Semantic Scholar and Firecrawl connect via Claude Code's MCP registry.
 
 ---
 
 ## Templates
 
-Built-in proposal templates in `templates/`:
+Built-in proposal outlines in `templates/`: Innovation Fund large-scale, Horizon Europe RIA/IA, NIH R01, NSF standard — plus `reviewer_checklist.md` and triage/diff-summary templates for the review stages. An uploaded official call template (the Part B from the funder portal) always takes precedence over built-ins.
 
-| Template | File | Best For |
-|---|---|---|
-| Innovation Fund (large-scale) | `proposal_outline_innovation_fund_large.md` | EU Innovation Fund grants >7.5M |
-| Horizon Europe RIA/IA | `proposal_outline_horizon_europe_ria.md` | Horizon Europe research/innovation actions |
-| NIH R01 | `proposal_outline_nih_r01.md` | US NIH research project grants |
-| NSF Standard | `proposal_outline_nsf.md` | US National Science Foundation |
+---
 
-**Template priority**: If you upload an official call template (the Part B document from the portal), it always takes precedence over built-in templates. The system asks for this during `/start-proposal`.
+## The Wiki
+
+`wiki/` is a persistent, cross-project knowledge base: sources, pre-validated claims, gaps, competitor entities, concepts, and funding-call intelligence. The research stage imports relevant wiki knowledge before searching (`WIKI-SRC`/`WIKI-CLM` prefixes); after a run completes, `/wiki ingest {project}` promotes new knowledge back. See `wiki/WIKI.md` for conventions.
+
+---
+
+## Mission Control UI
+
+A local dashboard (`ui/`) for monitoring and driving the pipeline: project overview, live agent graph, streaming activity feed from the telemetry hook, memory-store browsing, and SDK-driven stage launches.
+
+```sh
+cd ui && npm install && npm run dev
+# web: http://127.0.0.1:5173   api: http://127.0.0.1:7777
+```
+
+See `ui/README.md` for details.
 
 ---
 
 ## Configuration
 
-### `.claude/settings.json`
+`.claude/settings.json` wires the hooks and MCP servers (API keys for optional services belong in your environment or `settings.local.json`, not in committed files):
 
 ```json
 {
   "hooks": {
     "PreToolUse": [
-      { "matcher": "Agent", "command": "python hooks/check_dedupe.py" },
-      { "matcher": "Agent", "command": "python hooks/check_depth.py" }
+      { "matcher": "Task", "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/check_dedupe.py\"" }] }
     ],
     "PostToolUse": [
-      { "matcher": "Write", "command": "python hooks/validate_output.py" },
-      { "matcher": "Write", "command": "python hooks/check_citations.py" }
+      { "matcher": "Write", "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/validate_output.py\"" }] },
+      { "matcher": "Write", "hooks": [{ "type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/check_citations.py\"" }] }
     ]
   },
   "mcpServers": {
-    "academic-search": {
-      "command": "python3",
-      "args": ["mcp-servers/academic-search/server.py"]
-    }
+    "academic-search": { "command": "python3", "args": ["mcp-servers/academic-search/server.py"] }
   }
 }
 ```
 
-### `.claude/settings.local.json`
-
-Machine-specific permissions (gitignored). Created automatically by Claude Code when you approve tool usage.
+`.claude/agents/` holds the generated worker stubs (see [Native subagents](#native-subagents)). `.claude/settings.local.json` holds machine-specific permissions and is gitignored.
 
 ---
 
 ## Example Walkthrough
 
-This walkthrough shows how to write an EU Innovation Fund proposal for an LFP battery manufacturing project.
+Writing an EU Innovation Fund proposal for an advanced battery-manufacturing project:
 
-### Step 1: Start the proposal
-
-```
-> /start-proposal
-```
-
-The system asks for project details. You provide:
-- **Name**: `digital-twin-lfp-cam`
-- **Topic**: Digital Twin for LFP cathode active material powder manufacturing
-- **Instrument**: Innovation Fund large-scale
-- **Hypothesis**: A physics-based, multi-scale digital twin can reduce scrap rates by >10% and energy consumption by 12-15%
-- **Team**: BatteryCo (BatteryCo S.p.A. & EnergyCo)
-- **Deadline**: 23 April 2026
-
-Upload the call document and official application template when prompted.
-
-### Step 2: Parse the call
-
-```
-> /parse-call
-```
-
-The system extracts evaluation criteria (105-point weighted scoring for CLEAN-TECH-MANUFACTURING topic), eligibility rules, mandatory annexes, and generates a proposal outline aligned to the official Part B template.
-
-### Step 3: Check the scope gate
-
-```
-> /gate-check scope
-```
-
-Verifies: call_brief.json exists, evaluation_matrix.json exists, proposal_outline.md exists, context.md has hypothesis. All four criteria must pass before research can begin.
-
-### Step 4: Run research
-
-```
-> /research
-```
-
-The system:
-1. Searches literature databases (PubMed, arXiv, Semantic Scholar, Consensus)
-2. Searches EU repositories (OpenAIRE, CORDIS, Zenodo) via Firecrawl
-3. Scans patent databases (Google Patents, USPTO, EPO)
-4. Synthesises all evidence into a SOTA narrative
-5. Maps novelty positions (NOV-001: "No integrated DT for LFP CAM synthesis exists", defensibility: 9/10)
-6. Ranks gaps (GAP-001: "No real-time PAT-driven calcination control for LFP", strategic importance: 10/10)
-
-### Step 5: Check the evidence gate
-
-```
-> /gate-check evidence
-```
-
-Verifies: >=12 sources, SOTA summary, >=3 novelty anchors, >=4 gaps, <=20% unsupported claims.
-
-### Step 6: Write the proposal
-
-```
-> /write-proposal
-```
-
-The system drafts all sections in parallel, with `excellence_writer` handling the highest-weighted Section 1 (Degree of Innovation) using novelty anchors and gap framing from the research stage.
-
-### Step 7: Review
-
-```
-> /review
-```
-
-The adversarial evaluator simulator predicts scores per criterion, flags hard-rejection risks (e.g., GHG calculator not yet filled), and ranks the top 5 actions to improve the total score.
-
-### Step 8: Iterate
-
-Based on the review, you address the highest-impact issues first, then re-run `/review` until the submission gate passes.
-
-```
-> /gate-check submission
-```
+1. **`/start-proposal`** — provide the project name, topic, hypothesis (e.g. "a physics-based digital twin can cut scrap rates >10%"), team, and deadline; upload the call document and official Part B template when prompted.
+2. **`/parse-call`** — extracts the weighted scoring rubric, eligibility rules, and mandatory annexes; generates an outline matching the official template.
+3. **`/gate-check scope`** — deterministic check that parsing produced everything research needs.
+4. **`/research`** — searches literature, EU repositories, and patents; synthesises the SOTA; maps novelty anchors with defensibility scores and ranks gaps by strategic importance.
+5. **`/gate-check evidence`** — ≥12 sources, ≥3 anchors, ≥4 gaps, ≤20% unsupported claims.
+6. **`/write-proposal`** — excellence_writer drafts the highest-weighted section first from the novelty map; impact and implementation follow; abstract last.
+7. **`/finance`**, **`/figures`**, **`/business-plan`** — financial model and narratives, all registered figures, and the Business Plan annex.
+8. **`/review`** — the adversarial evaluator simulator predicts per-criterion scores, flags hard-rejection risks, and ranks revisions by score impact.
+9. Iterate on the revision plan, ingest external reviewer feedback with **`/external-review`**, and close with **`/gate-check submission`**.
 
 ---
 
 ## License
 
-This project is private. All rights reserved.
+All rights reserved.
