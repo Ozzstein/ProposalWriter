@@ -31,6 +31,8 @@ FILE_TOOLS = "Read, Write, Edit, Grep, Glob"
 # tools=None means the agent inherits all tools (needed for MCP search tools,
 # whose names are install-specific and fragile to enumerate).
 ASSIGNMENTS = {
+    # ideation
+    "idea_evaluator": ("opus", FILE_TOOLS),
     # retrievers
     "literature_searcher": ("haiku", None),
     "web_scraper": ("haiku", None),
@@ -68,8 +70,9 @@ ASSIGNMENTS = {
     "concept_image_generator": (None, "Read, Write, Bash, Grep, Glob, WebFetch"),
 }
 
-# Not spawnable agents — no stub generated.
-EXCLUDED = {"bp_interviewer"}
+# Not spawnable agents — no stub generated. These are interview protocols
+# the orchestrator executes in the main conversation.
+EXCLUDED = {"bp_interviewer", "idea_interviewer"}
 
 
 def find_workers():

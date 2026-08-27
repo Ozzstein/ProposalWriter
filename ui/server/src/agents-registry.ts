@@ -12,6 +12,7 @@ const WORKER_KINDS: Record<string, AgentKind> = {
   finance: "worker",
   business_plan: "worker",
   graphics: "worker",
+  ideation: "worker",
 };
 
 function titleFromFilename(filename: string): string {
@@ -77,7 +78,7 @@ async function parseAgentFile(
 /** Find references to worker agent files inside an orchestrator body. */
 function findWorkerReferences(body: string): string[] {
   const ids: string[] = [];
-  const pattern = /agents\/workers\/(retrievers|synthesizers|writers|reviewers|finance|business_plan|graphics)\/([a-z0-9_]+)\.md/gi;
+  const pattern = /agents\/workers\/(retrievers|synthesizers|writers|reviewers|finance|business_plan|graphics|ideation)\/([a-z0-9_]+)\.md/gi;
   let m: RegExpExecArray | null;
   while ((m = pattern.exec(body)) !== null) {
     ids.push(`workers/${m[1]}/${m[2]}`);

@@ -19,16 +19,17 @@ You should **not** write detailed proposal sections yourself unless as a fallbac
 The proposal writing pipeline has these stages, each driven by a slash command:
 
 1. `/start-proposal` — Initialize a new proposal, gather research context from the user
-2. `/parse-call` — Parse the funding call document, extract eligibility, scoring criteria, and structure
-3. `/research` — Gather evidence from literature and patents, identify state of the art and gaps
-4. `/write-proposal` — Draft polished narrative sections for the target call
-5. `/finance` — Ingest user-supplied CAPEX/OPEX/headcount/revenue/financing inputs, build a financial model, draft financial narrative sections (§2.1/§2.2/§3.2/§5/§9 for INNOVFUND; budget justification for NIH/NSF), and red-team for hard-rejection risk (CER ≤ €200/tCO2eq, GHG ≥ 50%)
-6. `/review` — Red-team the proposal, check compliance, find unsupported claims
-7. `/external-review` — Ingest external reviewer comments (PDF/DOCX/XLSX/MD/chat), triage, route to specialist agents, apply patches
-8. `/figures` — Produce every figure in `drafts/figures_register.md`: data-driven plots (Sankey, Gantt, heatmap, curves) via Matplotlib/Plotly, and concept/hero graphics via Fal.ai. Writes PNGs + sidecar JSONs to `runs/{project}/figures/`.
-9. `/business-plan` — Assemble the INNOVFUND Business Plan annex from existing drafts + financial artefacts. Synthesises, drafts (commercial / financial / counterparties / risks), red-teams for cross-artefact consistency, and populates the official template. CFO-scope sections carry explicit `[TO BE COMPLETED — CFO]` markers tied to RC Calculator roadblockers.
-10. `/gate-check [gate-name]` — Verify readiness before transitioning between stages
-11. `/pipeline-status` — Show current progress
+2. `/ideate` — (optional, interactive) Develop and refine the project idea with the user: interview → candidate framings → shallow prior-art probes → comparative scoring → chosen hypothesis written into `context.md`. Run when the hypothesis is fuzzy or was weakened by review; mark the stage `skipped` when the user arrives with a firm hypothesis.
+3. `/parse-call` — Parse the funding call document, extract eligibility, scoring criteria, and structure
+4. `/research` — Gather evidence from literature and patents, identify state of the art and gaps
+5. `/write-proposal` — Draft polished narrative sections for the target call
+6. `/finance` — Ingest user-supplied CAPEX/OPEX/headcount/revenue/financing inputs, build a financial model, draft financial narrative sections (§2.1/§2.2/§3.2/§5/§9 for INNOVFUND; budget justification for NIH/NSF), and red-team for hard-rejection risk (CER ≤ €200/tCO2eq, GHG ≥ 50%)
+7. `/review` — Red-team the proposal, check compliance, find unsupported claims
+8. `/external-review` — Ingest external reviewer comments (PDF/DOCX/XLSX/MD/chat), triage, route to specialist agents, apply patches
+9. `/figures` — Produce every figure in `drafts/figures_register.md`: data-driven plots (Sankey, Gantt, heatmap, curves) via Matplotlib/Plotly, and concept/hero graphics via Fal.ai. Writes PNGs + sidecar JSONs to `runs/{project}/figures/`.
+10. `/business-plan` — Assemble the INNOVFUND Business Plan annex from existing drafts + financial artefacts. Synthesises, drafts (commercial / financial / counterparties / risks), red-teams for cross-artefact consistency, and populates the official template. CFO-scope sections carry explicit `[TO BE COMPLETED — CFO]` markers tied to RC Calculator roadblockers.
+11. `/gate-check [gate-name]` — Verify readiness before transitioning between stages
+12. `/pipeline-status` — Show current progress
 
 ### Review Gates
 
@@ -48,6 +49,7 @@ All `state.json` edits (stage status, gate results) and schema-validated memory-
 Each slash command acts as an orchestrator that spawns specialized worker agents.
 
 ### Worker agent classes
+- **Ideation**: Develop the idea with the user (idea_interviewer protocol — orchestrator-run, idea_evaluator)
 - **Retrievers**: Gather material, not conclusions (literature_searcher, patent_scanner, call_parser)
 - **Synthesizers**: Compare, rank, infer, structure (novelty_mapper, gap_analyzer, state_of_art_synthesizer)
 - **Writers**: Turn validated material into polished text (impact_writer, implementation_writer, abstract_writer)
@@ -63,7 +65,7 @@ Workers are **native Claude Code subagents**. Their stubs live in `.claude/agent
 - Spawn with `subagent_type` = the worker's name (e.g. `novelty_mapper`). The stub loads the worker's definition file itself and fixes its model and tool restrictions — do not paste definition files into prompts or specify models manually.
 - Every task prompt must include a `project: {project}` line and a `dedupe_key: {task_slug}_{project}` line (append `_r{round}` for repeatable stages like review). The dedupe hook uses these.
 - Launch independent agents in parallel (multiple spawns in one message).
-- `bp_interviewer` is NOT a spawnable agent — it is a protocol the orchestrator executes in the main conversation.
+- `bp_interviewer` and `idea_interviewer` are NOT spawnable agents — they are protocols the orchestrator executes in the main conversation.
 
 ## Bounded Delegation Rules
 

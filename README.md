@@ -1,6 +1,6 @@
 # ProposalWriter
 
-A multi-agent system for writing competitive grant proposals, built on [Claude Code](https://docs.anthropic.com/en/docs/claude-code). ProposalWriter coordinates 9 orchestrated pipeline stages across ~30 specialised agents — from parsing funding calls through evidence gathering, drafting, financials, figures, and adversarial review — producing evidence-grounded proposals aligned to evaluator scoring rubrics.
+A multi-agent system for writing competitive grant proposals, built on [Claude Code](https://docs.anthropic.com/en/docs/claude-code). ProposalWriter coordinates 10 orchestrated pipeline stages across ~30 specialised agents — from idea development through parsing funding calls through evidence gathering, drafting, financials, figures, and adversarial review — producing evidence-grounded proposals aligned to evaluator scoring rubrics.
 
 **Supported funding instruments**: EU Innovation Fund (large-scale), Horizon Europe (RIA/IA), NIH R01, NSF standard proposals.
 
@@ -37,6 +37,8 @@ You (researcher)
  v
 Program Director (Claude Code session)
  |
+ |-- /ideate ----------> interview (main conversation)
+ |                       -> literature_searcher probes -> idea_evaluator
  |-- /parse-call ------> call_parser + eligibility_parser
  |-- /research --------> literature_searcher + web_scraper + patent_scanner
  |                       -> state_of_art_synthesizer
@@ -97,14 +99,15 @@ Each stage is a slash command. The command files in `.claude/commands/` are thin
 | Stage | Command | What happens |
 |---|---|---|
 | 1. Initialise | `/start-proposal` | Gather project details; `scripts/state.py init` scaffolds the project |
-| 2. Parse call | `/parse-call` | Extract eligibility, evaluation criteria, section structure from the call document |
-| 3. Research | `/research` | Retrieve evidence (literature, EU repositories, patents), synthesise SOTA, map novelty and gaps |
-| 4. Write | `/write-proposal` | Draft all sections — excellence first, abstract last |
-| 5. Finance | `/finance` | Build the financial model from user-supplied inputs, draft financial sections, red-team hard-rejection risks |
-| 6. Figures | `/figures` | Render every figure in the figures register — data plots via Matplotlib/Plotly, concept art via Fal.ai |
-| 7. Business plan | `/business-plan` | Assemble the Business Plan annex (interview → synthesis → 4 writers → red-team) |
-| 8. Review | `/review` | Red-team: scientific rigour, compliance, adversarial evaluator simulation |
-| 9. External review | `/external-review` | Ingest external reviewer comments (PDF/DOCX/XLSX/MD), triage, route to specialists, apply patches |
+| 2. Ideate | `/ideate` | *(optional, interactive)* Develop/refine the idea: interview, candidate framings, shallow prior-art probes, comparative scoring; chosen hypothesis written into `context.md` |
+| 3. Parse call | `/parse-call` | Extract eligibility, evaluation criteria, section structure from the call document |
+| 4. Research | `/research` | Retrieve evidence (literature, EU repositories, patents), synthesise SOTA, map novelty and gaps |
+| 5. Write | `/write-proposal` | Draft all sections — excellence first, abstract last |
+| 6. Finance | `/finance` | Build the financial model from user-supplied inputs, draft financial sections, red-team hard-rejection risks |
+| 7. Figures | `/figures` | Render every figure in the figures register — data plots via Matplotlib/Plotly, concept art via Fal.ai |
+| 8. Business plan | `/business-plan` | Assemble the Business Plan annex (interview → synthesis → 4 writers → red-team) |
+| 9. Review | `/review` | Red-team: scientific rigour, compliance, adversarial evaluator simulation |
+| 10. External review | `/external-review` | Ingest external reviewer comments (PDF/DOCX/XLSX/MD), triage, route to specialists, apply patches |
 
 **Utility commands:**
 
@@ -122,6 +125,7 @@ Each stage is a slash command. The command files in `.claude/commands/` are thin
 
 | Class | Role | Model | Tools |
 |---|---|---|---|
+| **Ideation** | Develop/refine the idea with the user | opus evaluator; interview runs in main conversation | File tools only |
 | **Retrievers** | Gather material, not conclusions | haiku (call_parser and feedback_parser: sonnet) | Search retrievers inherit all tools (MCP search); document parsers get file tools + Bash |
 | **Synthesizers** | Compare, rank, infer, structure | opus | File tools only — no web, no Bash |
 | **Writers** | Turn validated material into polished text | sonnet | File tools only — no web, no Bash |
@@ -139,18 +143,19 @@ python3 scripts/gen_agent_stubs.py           # regenerate after adding/renaming 
 python3 scripts/gen_agent_stubs.py --check   # CI-style drift check
 ```
 
-Never edit stubs by hand. `bp_interviewer` is deliberately not a stub — it is an interview protocol the orchestrator runs in the main conversation.
+Never edit stubs by hand. `bp_interviewer` and `idea_interviewer` are deliberately not stubs — they are interview protocols the orchestrator runs in the main conversation.
 
 Orchestrators spawn workers with `subagent_type` = the worker's name, and every task prompt carries `project:` and `dedupe_key:` lines (consumed by the dedupe hook).
 
 ### Roster
 
-**Orchestrators** (9, in `agents/orchestrators/`): call_scope, research, proposal_writer, finance_lead, graphics, business_plan, review, external_review, wiki.
+**Orchestrators** (10, in `agents/orchestrators/`): ideation, call_scope, research, proposal_writer, finance_lead, graphics, business_plan, review, external_review, wiki.
 
 **Workers** (in `agents/workers/`):
 
 | Class | Agents |
 |---|---|
+| ideation | idea_interviewer (protocol, orchestrator-run), idea_evaluator |
 | retrievers | call_parser, eligibility_parser, feedback_parser, literature_searcher, web_scraper, patent_scanner |
 | synthesizers | state_of_art_synthesizer, novelty_mapper, gap_analyzer |
 | writers | excellence_writer, impact_writer, implementation_writer, abstract_writer, feedback_applier |
@@ -166,7 +171,7 @@ Orchestrators spawn workers with `subagent_type` = the worker's name, and every 
 Gates prevent premature stage advancement. They are **computed deterministically** by `scripts/gate_check.py` — run via `/gate-check <name>`, which writes `intermediate/gate_check_<gate>.json` and updates `state.json` itself.
 
 ```
-/start-proposal → /parse-call → [scope] → /research → [evidence]
+/start-proposal → /ideate (optional) → /parse-call → [scope] → /research → [evidence]
     → /write-proposal (+ /finance /figures /business-plan) → [draft]
     → /review → /external-review → [external-feedback] → [submission] → export
 ```
@@ -201,7 +206,8 @@ All agent I/O conforms to JSON schemas in `schemas/`, enforced by hooks.
 
 | Schema | Used By |
 |---|---|
-| `evidence_result.json` | Retrievers |
+| `evidence_result.json` | Retrievers (incl. `/ideate` probes) |
+| `ideation_brief.json` | idea_evaluator |
 | `claim.json` | Synthesizers, writers, `state.py append` |
 | `novelty_map.json` / `gap_analysis.json` | novelty_mapper / gap_analyzer |
 | `section_draft.json` | Writers (`*_meta.json` sidecars) |

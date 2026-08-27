@@ -32,11 +32,13 @@ except ImportError:
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 STAGES = [
-    "call_parsing", "research", "writing", "finance", "figures",
+    "ideation", "call_parsing", "research", "writing", "finance", "figures",
     "business_plan", "review", "external_review",
 ]
 GATES = ["scope", "evidence", "draft", "submission", "external_feedback"]
-STAGE_STATUSES = ("pending", "in_progress", "complete")
+# "skipped" marks optional stages (e.g. ideation) deliberately bypassed;
+# current_stage() treats skipped like complete.
+STAGE_STATUSES = ("pending", "in_progress", "complete", "skipped")
 
 STORES = {
     "evidence_store": None,  # store lines are single source entries; see below

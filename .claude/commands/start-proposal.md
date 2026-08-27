@@ -21,7 +21,11 @@ After gathering this information:
 
 2. **Write `runs/{project-name}/context.md`** with all the user's answers organized clearly (the script creates a stub — replace its body, keeping the hypothesis under a `## Hypothesis` heading so the scope gate can find it).
 
-3. **Ask for call documents** — explain that two types of documents are helpful and ask if the user has either:
+3. **Route the ideation stage** based on how firm the hypothesis is:
+   - **Firm** (specific, mechanism-backed, user is confident): `python3 scripts/state.py stage {project-name} ideation skipped`
+   - **Fuzzy or contested** (vague answer to question 4, "we're not sure yet", multiple competing angles): recommend running `/ideate` next — it develops and stress-tests the idea with the user before any parsing or research is committed. Leave the stage `pending`.
+
+4. **Ask for call documents** — explain that two types of documents are helpful and ask if the user has either:
 
    - **Call document** (the work programme or call text): describes the scientific scope, objectives, expected outcomes, and evaluation criteria for the specific call topic. Save to `runs/{project-name}/inputs/call_document.*`
 
@@ -31,7 +35,7 @@ After gathering this information:
 
    If the user provides a URL to the funder portal or a specific call page, offer to retrieve the template using Firecrawl.
 
-4. **Archive input documents to wiki**: If call documents or supporting materials were provided, copy them to `wiki/raw/` for permanent cross-project archival:
+5. **Archive input documents to wiki**: If call documents or supporting materials were provided, copy them to `wiki/raw/` for permanent cross-project archival:
    ```bash
    # Call documents (reusable across projects targeting the same call)
    cp runs/{project-name}/inputs/call-fiche* wiki/raw/CALL-{call-id}-fiche.*
@@ -42,4 +46,4 @@ After gathering this information:
    ```
    Skip files that already exist in `wiki/raw/`. This ensures that call documents, GHG methodologies, templates, and any supporting materials are permanently available for future proposals without re-uploading.
 
-5. Tell the user their next step is `/parse-call` (if they have a call document) or `/research` (if they want to start with evidence gathering first).
+6. Tell the user their next step is `/ideate` (if recommended above), `/parse-call` (if they have a call document) or `/research` (if they want to start with evidence gathering first).

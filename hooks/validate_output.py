@@ -26,6 +26,7 @@ except ImportError:
 
 # Map filename patterns to schema files
 SCHEMA_MAP = {
+    "ideation_brief.json": "ideation_brief.json",
     "literature_results.json": "evidence_result.json",
     "patent_results.json": "evidence_result.json",
     "scientific_review.json": "review_report.json",

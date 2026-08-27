@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IdeationBrief",
+  "description": "Candidate project framings developed with the user, scored against probe evidence",
+  "type": "object",
+  "properties": {
+    "project_name": { "type": "string" },
+    "generated_at": { "type": "string", "format": "date" },
+    "raw_idea": { "type": "string", "description": "The user's idea as first articulated, verbatim" },
+    "interview_summary": { "type": "string", "description": "Key facts established during the ideation interview" },
+    "candidate_framings": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "framing_id": { "type": "string", "pattern": "^FRM-\\d+$" },
+          "statement": { "type": "string", "description": "One-sentence hypothesis / central idea in fundable form" },
+          "mechanism": { "type": "string", "description": "How it works — the technical approach in 2-3 sentences" },
+          "novelty_type": { "type": "string", "enum": ["first", "only", "best", "combination", "scale", "application"] },
+          "target_gap": { "type": "string", "description": "The specific gap this framing addresses" },
+          "prior_art_summary": { "type": "string", "description": "What the probe found that is closest to this framing" },
+          "closest_prior_art": { "type": "array", "items": { "type": "string" }, "description": "source_ids from the probe results" },
+          "differentiation": { "type": "string", "description": "What survives once the closest prior art is on the table" },
+          "scores": {
+            "type": "object",
+            "properties": {
+              "novelty_defensibility": { "type": "number", "minimum": 1, "maximum": 10 },
+              "gap_alignment": { "type": "number", "minimum": 1, "maximum": 10 },
+              "feasibility": { "type": "number", "minimum": 1, "maximum": 10 },
+              "call_fit": { "type": "number", "minimum": 1, "maximum": 10 }
+            },
+            "required": ["novelty_defensibility", "gap_alignment", "feasibility"]
+          },
+          "risks": { "type": "array", "items": { "type": "string" } },
+          "open_questions": { "type": "array", "items": { "type": "string" } }
+        },
+        "required": ["framing_id", "statement", "mechanism", "novelty_type", "target_gap", "prior_art_summary", "differentiation", "scores"]
+      }
+    },
+    "recommendation": { "type": "string", "description": "The evaluator's recommended framing and why, or a warning that none is fundable yet" },
+    "chosen_framing_id": { "type": ["string", "null"], "description": "Set after the user picks; null while undecided" },
+    "status": { "type": "string", "enum": ["draft", "chosen", "needs_rework"] }
+  },
+  "required": ["project_name", "raw_idea", "candidate_framings", "status"]
+}
