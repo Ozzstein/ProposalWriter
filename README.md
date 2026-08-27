@@ -2,7 +2,7 @@
 
 A multi-agent system for writing competitive grant proposals, built on [Claude Code](https://docs.anthropic.com/en/docs/claude-code). ProposalWriter coordinates 10 orchestrated pipeline stages across ~30 specialised agents — from idea development through parsing funding calls through evidence gathering, drafting, financials, figures, and adversarial review — producing evidence-grounded proposals aligned to evaluator scoring rubrics.
 
-**Supported funding instruments**: EU Innovation Fund (large-scale), Horizon Europe (RIA/IA), NIH R01, NSF standard proposals.
+**Funding-agnostic by design**: the pipeline adapts to whatever call you feed it — `/parse-call` extracts the structure, evaluation criteria, and eligibility rules from the call document itself, and an uploaded official application template always defines the section structure. Built-in outline fallbacks ship for common instruments (EU Innovation Fund, Horizon Europe RIA/IA, NIH R01, NSF), but nothing limits you to them.
 
 ---
 
@@ -290,7 +290,7 @@ Configured in `.claude/settings.json`, run automatically by Claude Code. Violati
 
 ## Templates
 
-Built-in proposal outlines in `templates/`: Innovation Fund large-scale, Horizon Europe RIA/IA, NIH R01, NSF standard — plus `reviewer_checklist.md` and triage/diff-summary templates for the review stages. An uploaded official call template (the Part B from the funder portal) always takes precedence over built-ins.
+The system is not limited to any funder: an uploaded official call template (e.g. the Part B from an EU portal, or any funder's application form) always takes precedence and defines the outline. `templates/` ships built-in fallback outlines for common instruments (Innovation Fund large-scale, Horizon Europe RIA/IA, NIH R01, NSF standard) for when no official template is provided — plus `reviewer_checklist.md` and triage/diff-summary templates for the review stages.
 
 ---
 
