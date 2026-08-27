@@ -28,3 +28,6 @@ ui/server/data/
 ProposalWriter/**
 !ProposalWriter/WIKI.md
 .obsidian/
+
+# Local Python environment
+.venv/

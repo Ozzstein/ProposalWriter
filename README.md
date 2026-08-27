@@ -75,6 +75,30 @@ claude          # open the project in Claude Code
 /start-proposal # begin
 ```
 
+On Debian/Ubuntu (including WSL), the system Python is PEP 668-managed and the
+`pip install` above will fail with `externally-managed-environment`. Use apt for
+the hook dependencies and a project venv for the MCP server instead:
+
+```bash
+sudo apt install python3-jsonschema python3-pypdf   # hooks/scripts run under system python3
+python3 -m venv .venv && .venv/bin/pip install fastmcp httpx pypdf
+```
+
+then point the academic-search server at the venv in `.claude/settings.local.json`
+(gitignored, also where API keys go):
+
+```json
+{
+  "mcpServers": {
+    "academic-search": {
+      "command": "/absolute/path/to/ProposalWriter/.venv/bin/python",
+      "args": ["mcp-servers/academic-search/server.py"],
+      "env": { "ELSEVIER_API_KEY": "<optional>" }
+    }
+  }
+}
+```
+
 Claude walks you through gathering your project details, then you advance through the pipeline stage by stage using slash commands.
 
 ## Prerequisites
