@@ -2,57 +2,95 @@
   "hooks": {
     "SessionStart": [
       {
-        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" SessionStart"}]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" SessionStart"
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
       {
-        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" UserPromptSubmit"}]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" UserPromptSubmit"
+          }
+        ]
       }
     ],
     "PreToolUse": [
       {
         "matcher": "Task",
-        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/check_dedupe.py\""}]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/check_dedupe.py\""
+          }
+        ]
       },
       {
-        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" PreToolUse"}]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" PreToolUse"
+          }
+        ]
       }
     ],
     "PostToolUse": [
       {
         "matcher": "Write",
-        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/validate_output.py\""}]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/validate_output.py\""
+          }
+        ]
       },
       {
         "matcher": "Write",
-        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/check_citations.py\""}]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/check_citations.py\""
+          }
+        ]
       },
       {
-        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" PostToolUse"}]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" PostToolUse"
+          }
+        ]
       }
     ],
     "Stop": [
       {
-        "hooks": [{"type": "command", "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" Stop"}]
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/hooks/emit_event.py\" Stop"
+          }
+        ]
       }
     ]
   },
   "mcpServers": {
     "academic-search": {
       "command": "python3",
-      "args": ["mcp-servers/academic-search/server.py"],
-      "env": {
-        "ELSEVIER_API_KEY": "REDACTED"
-      }
+      "args": [
+        "mcp-servers/academic-search/server.py"
+      ]
     },
     "firecrawl-mcp": {
       "command": "npx",
-      "args": ["-y", "firecrawl-mcp"],
-      "env": {
-        "FIRECRAWL_API_KEY": "REDACTED",
-        "PATH": "/opt/homebrew/opt/node@23/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
-      }
+      "args": [
+        "-y",
+        "firecrawl-mcp"
+      ]
     }
   }
 }

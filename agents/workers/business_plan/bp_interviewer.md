@@ -70,7 +70,7 @@ Elicit BP-specific content that no existing project artefact can supply, by aski
 | ID | Question | Default |
 |---|---|---|
 | counterparty.spv_structure | Is project JV an SPV or a corporate subsidiary of EnergyCo/BatteryCo? | SPV with dedicated capital; EnergyCo majority, BatteryCo minority — exact ratio CFO |
-| counterparty.youshan_licence_nature | Licensor licence: use-licence (pay-per-tonne) / one-time transfer / hybrid? | Use-licence with one-time entry fee + per-tonne royalty, term = project life |
+| counterparty.licensor_licence_nature | Licensor licence: use-licence (pay-per-tonne) / one-time transfer / hybrid? | Use-licence with one-time entry fee + per-tonne royalty, term = project life |
 | counterparty.epc_strategy | EPC contracting: lump-sum / cost-plus / hybrid? | Lump-sum with liquidated damages and performance guarantees |
 | counterparty.epc_shortlist | Any EPC firms already engaged (shortlist names)? | None disclosed — 3-firm shortlist being built by Procurement |
 | counterparty.ppa_stance | Electricity PPA: renewable/green attribute required? | Yes — ≥80% renewable via corporate PPA; balance Italian industrial grid |

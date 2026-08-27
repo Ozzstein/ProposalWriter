@@ -23,3 +23,8 @@ ui/web/dist/
 ui/server/dist/
 ui/server/data/
 
+
+# Wiki knowledge base + editor state stay local — content is proposal intelligence
+ProposalWriter/**
+!ProposalWriter/WIKI.md
+.obsidian/
