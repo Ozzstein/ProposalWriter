@@ -80,14 +80,18 @@
   },
   "mcpServers": {
     "academic-search": {
-      "command": "python3",
+      "command": "bash",
       "args": [
+        "scripts/with_secrets.sh",
+        "python3",
         "mcp-servers/academic-search/server.py"
       ]
     },
     "firecrawl-mcp": {
-      "command": "npx",
+      "command": "bash",
       "args": [
+        "scripts/with_secrets.sh",
+        "npx",
         "-y",
         "firecrawl-mcp"
       ]

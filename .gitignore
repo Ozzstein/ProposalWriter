@@ -31,3 +31,6 @@ ProposalWriter/**
 
 # Local Python environment
 .venv/
+
+# API keys — ingested by scripts/with_secrets.sh at MCP startup
+secrets.json

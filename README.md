@@ -84,20 +84,8 @@ sudo apt install python3-jsonschema python3-pypdf   # hooks/scripts run under sy
 python3 -m venv .venv && .venv/bin/pip install fastmcp httpx pypdf
 ```
 
-then point the academic-search server at the venv in `.claude/settings.local.json`
-(gitignored, also where API keys go):
-
-```json
-{
-  "mcpServers": {
-    "academic-search": {
-      "command": "/absolute/path/to/ProposalWriter/.venv/bin/python",
-      "args": ["mcp-servers/academic-search/server.py"],
-      "env": { "ELSEVIER_API_KEY": "<optional>" }
-    }
-  }
-}
-```
+No further config needed: the MCP servers start via `scripts/with_secrets.sh`,
+which automatically prefers `.venv/bin/python` when the venv exists.
 
 Claude walks you through gathering your project details, then you advance through the pipeline stage by stage using slash commands.
 
@@ -327,7 +315,18 @@ See `ui/README.md` for details.
 
 ## Configuration
 
-`.claude/settings.json` wires the hooks and MCP servers (API keys for optional services belong in your environment or `settings.local.json`, not in committed files):
+`.claude/settings.json` wires the hooks and MCP servers. Servers start through
+`scripts/with_secrets.sh`, which exports every entry in **`secrets.json`** (repo
+root, gitignored) as an environment variable and prefers the project venv's
+Python when one exists. To supply API keys:
+
+```bash
+cp secrets.example.json secrets.json   # then fill in what you use
+```
+
+All keys are optional — the pipeline degrades gracefully without them (keyless
+PubMed/arXiv search still works; Firecrawl-based EU-repository sweeps and
+Fal.ai concept graphics need their keys). The hooks section:
 
 ```json
 {
@@ -341,12 +340,12 @@ See `ui/README.md` for details.
     ]
   },
   "mcpServers": {
-    "academic-search": { "command": "python3", "args": ["mcp-servers/academic-search/server.py"] }
+    "academic-search": { "command": "bash", "args": ["scripts/with_secrets.sh", "python3", "mcp-servers/academic-search/server.py"] }
   }
 }
 ```
 
-`.claude/agents/` holds the generated worker stubs (see [Native subagents](#native-subagents)). `.claude/settings.local.json` holds machine-specific permissions and is gitignored.
+`.claude/agents/` holds the generated worker stubs (see [Native subagents](#native-subagents)). `.claude/settings.local.json` holds machine-specific permissions and is gitignored; `secrets.json` holds API keys and is gitignored.
 
 ---
 

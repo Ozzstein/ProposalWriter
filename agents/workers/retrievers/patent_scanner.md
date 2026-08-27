@@ -25,7 +25,7 @@ Map the IP landscape for the research topic by searching Google Patents and EPO 
 **Always set these environment variables before running any firecrawl command:**
 ```bash
 export PATH="/opt/homebrew/opt/node@23/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
-export FIRECRAWL_API_KEY="REDACTED"
+# FIRECRAWL_API_KEY is exported automatically from secrets.json by scripts/with_secrets.sh
 ```
 
 ### 1. Google Patents — primary search (Firecrawl)

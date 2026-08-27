@@ -52,7 +52,7 @@ Use Firecrawl CLI for site-targeted searches. Write all output to `.firecrawl/` 
 **Always prefix firecrawl commands with the correct PATH** (Node 23 is required):
 ```bash
 export PATH="/opt/homebrew/opt/node@23/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
-export FIRECRAWL_API_KEY="REDACTED"
+# FIRECRAWL_API_KEY is exported automatically from secrets.json by scripts/with_secrets.sh
 ```
 
 **Per-repository search** (`--json` outputs JSON to stdout; redirect to file):
