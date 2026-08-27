@@ -246,7 +246,7 @@ runs/{project-name}/
     decision_log.jsonl       #   why key choices were made
     task_registry.jsonl      #   spawned tasks (dedupe)
     feedback_log.jsonl       #   external review comments across rounds
-  intermediate/              # Stage outputs (call_brief, sota_summary,
+  intermediate/              # Stage outputs (ideation_brief, call_brief, sota_summary,
                              #   novelty_map, gap_analysis, gate_check_*, …)
   drafts/                    # Section drafts + *_meta.json sidecars
   figures/                   # Rendered figures + sidecar JSONs + scripts
@@ -330,15 +330,16 @@ See `ui/README.md` for details.
 
 Writing an EU Innovation Fund proposal for an advanced battery-manufacturing project:
 
-1. **`/start-proposal`** — provide the project name, topic, hypothesis (e.g. "a physics-based digital twin can cut scrap rates >10%"), team, and deadline; upload the call document and official Part B template when prompted.
-2. **`/parse-call`** — extracts the weighted scoring rubric, eligibility rules, and mandatory annexes; generates an outline matching the official template.
-3. **`/gate-check scope`** — deterministic check that parsing produced everything research needs.
-4. **`/research`** — searches literature, EU repositories, and patents; synthesises the SOTA; maps novelty anchors with defensibility scores and ranks gaps by strategic importance.
-5. **`/gate-check evidence`** — ≥12 sources, ≥3 anchors, ≥4 gaps, ≤20% unsupported claims.
-6. **`/write-proposal`** — excellence_writer drafts the highest-weighted section first from the novelty map; impact and implementation follow; abstract last.
-7. **`/finance`**, **`/figures`**, **`/business-plan`** — financial model and narratives, all registered figures, and the Business Plan annex.
-8. **`/review`** — the adversarial evaluator simulator predicts per-criterion scores, flags hard-rejection risks, and ranks revisions by score impact.
-9. Iterate on the revision plan, ingest external reviewer feedback with **`/external-review`**, and close with **`/gate-check submission`**.
+1. **`/start-proposal`** — provide the project name, topic, hypothesis (e.g. "a physics-based digital twin can cut scrap rates >10%"), team, and deadline; upload the call document and official Part B template when prompted. A firm hypothesis skips ideation; a fuzzy one routes to `/ideate`.
+2. **`/ideate`** *(if the idea needs work)* — an interactive interview turns the raw notion into 2–3 candidate framings; shallow prior-art probes and a comparative scoring pass show which framing survives scrutiny; the chosen hypothesis lands in `context.md` with the probe sources already in the evidence store.
+3. **`/parse-call`** — extracts the weighted scoring rubric, eligibility rules, and mandatory annexes; generates an outline matching the official template.
+4. **`/gate-check scope`** — deterministic check that parsing produced everything research needs.
+5. **`/research`** — searches literature, EU repositories, and patents; synthesises the SOTA; maps novelty anchors with defensibility scores and ranks gaps by strategic importance.
+6. **`/gate-check evidence`** — ≥12 sources, ≥3 anchors, ≥4 gaps, ≤20% unsupported claims.
+7. **`/write-proposal`** — excellence_writer drafts the highest-weighted section first from the novelty map; impact and implementation follow; abstract last.
+8. **`/finance`**, **`/figures`**, **`/business-plan`** — financial model and narratives, all registered figures, and the Business Plan annex.
+9. **`/review`** — the adversarial evaluator simulator predicts per-criterion scores, flags hard-rejection risks, and ranks revisions by score impact.
+10. Iterate on the revision plan, ingest external reviewer feedback with **`/external-review`**, and close with **`/gate-check submission`**.
 
 ---
 
