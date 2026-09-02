@@ -14,29 +14,17 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/cn";
 import type { MemoryStore, OverrideRecord } from "@pw/shared";
 
-const STORES: { id: MemoryStore; label: string; idField: string; textField: string }[] =
-  [
-    {
-      id: "evidence",
-      label: "Evidence",
-      idField: "source_id",
-      textField: "title",
-    },
-    { id: "claims", label: "Claims", idField: "claim_id", textField: "text" },
-    {
-      id: "decisions",
-      label: "Decisions",
-      idField: "decision_id",
-      textField: "decision",
-    },
-    {
-      id: "feedback",
-      label: "Feedback",
-      idField: "feedback_id",
-      textField: "comment",
-    },
-    { id: "tasks", label: "Tasks", idField: "task_id", textField: "agent" },
-  ];
+const STORES: { id: MemoryStore; label: string; idField: string; textField: string }[] = [
+  { id: "evidence", label: "Sources", idField: "id", textField: "title" },
+  { id: "claims", label: "Claims", idField: "id", textField: "text" },
+  { id: "gaps", label: "Gaps", idField: "id", textField: "description" },
+  { id: "anchors", label: "Novelty", idField: "id", textField: "claim" },
+  { id: "sections", label: "Sections", idField: "id", textField: "section_name" },
+  { id: "findings", label: "Findings", idField: "id", textField: "section_name" },
+  { id: "decisions", label: "Decisions", idField: "id", textField: "decision" },
+  { id: "feedback", label: "Feedback", idField: "id", textField: "comment" },
+  { id: "tasks", label: "Runs", idField: "id", textField: "stage" },
+];
 
 type Row = Record<string, unknown>;
 

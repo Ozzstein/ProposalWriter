@@ -24,35 +24,35 @@ import { useEventStore } from "@/stores/event-store";
 const PULSE_WINDOW_MS = 30_000;
 
 const KIND_ORDER: AgentKind[] = [
-  "command",
+  "stage",
   "orchestrator",
+  "interviewer",
   "retriever",
   "synthesizer",
   "writer",
+  "modeler",
+  "renderer",
   "reviewer",
-  "worker",
 ];
 
 const KIND_COLOR: Record<AgentKind, string> = {
-  command: "#0ea5e9",
+  stage: "#0ea5e9",
   orchestrator: "#22c55e",
+  interviewer: "#14b8a6",
   retriever: "#f59e0b",
   synthesizer: "#a855f7",
   writer: "#ec4899",
+  modeler: "#84cc16",
+  renderer: "#94a3b8",
   reviewer: "#ef4444",
-  worker: "#94a3b8",
 };
 
+function emptyByKind(): Record<AgentKind, AgentNode[]> {
+  return Object.fromEntries(KIND_ORDER.map((k) => [k, []])) as unknown as Record<AgentKind, AgentNode[]>;
+}
+
 function layoutNodes(graph: AgentGraph, pulses: Record<string, number>, now: number): Node[] {
-  const columns: Record<AgentKind, AgentNode[]> = {
-    command: [],
-    orchestrator: [],
-    retriever: [],
-    synthesizer: [],
-    writer: [],
-    reviewer: [],
-    worker: [],
-  };
+  const columns = emptyByKind();
   for (const node of graph.nodes) {
     columns[node.kind].push(node);
   }
@@ -227,15 +227,7 @@ function GroupedList({
   selectedId: string | null;
   className?: string;
 }): React.ReactElement {
-  const byKind: Record<AgentKind, AgentNode[]> = {
-    command: [],
-    orchestrator: [],
-    retriever: [],
-    synthesizer: [],
-    writer: [],
-    reviewer: [],
-    worker: [],
-  };
+  const byKind = emptyByKind();
   for (const n of graph.nodes) byKind[n.kind].push(n);
 
   return (

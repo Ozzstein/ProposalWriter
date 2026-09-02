@@ -16,7 +16,7 @@ export function ProjectSwitcher(): React.ReactElement {
 
   useEffect(() => {
     if (!activeProject && data && data.length > 0) {
-      setActiveProject(data[0]!.name);
+      setActiveProject(data[0]!.id);
     }
   }, [activeProject, data, setActiveProject]);
 
@@ -47,11 +47,11 @@ export function ProjectSwitcher(): React.ReactElement {
         {isLoading ? (
           <option>Loading…</option>
         ) : !data || data.length === 0 ? (
-          <option value="">No projects in runs/</option>
+          <option value="">No projects yet</option>
         ) : (
           data.map((p) => (
-            <option key={p.name} value={p.name}>
-              {p.state.project_title ?? p.name}
+            <option key={p.id} value={p.id}>
+              {p.name}
             </option>
           ))
         )}
