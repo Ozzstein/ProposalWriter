@@ -191,11 +191,11 @@ def create_app(ws: Workspace, engine: Engine | None = None) -> FastAPI:
             raise HTTPException(404, "node not found")
         prov = g.provenance(node_id, depth=depth)
         return {"node": node.model_dump(mode="json"),
-                "out": [e.model_dump(mode="json") for e in ws.store.edges_from(node_id)],
-                "in": [e.model_dump(mode="json") for e in ws.store.edges_to(node_id)],
+                "out": [e.model_dump(mode="json") for e in g.out_edges(node_id)],
+                "in": [e.model_dump(mode="json") for e in g.in_edges(node_id)],
                 "provenance": {"nodes": [n.model_dump(mode="json") for n in prov["nodes"]],
                                "edges": [e.model_dump(mode="json") for e in prov["edges"]]},
-                "versions": [{"version": v.version, "updated_at": v.updated_at.isoformat()} for v in ws.store.node_versions(node_id)]}
+                "versions": [{"version": v.version, "updated_at": v.updated_at.isoformat()} for v in g.versions(node_id)]}
 
     @app.get(f"{api}/projects/{{pid}}/memory/{{store}}")
     def memory(pid: str, store: str, offset: int = 0, limit: int = 100) -> dict[str, Any]:
@@ -372,6 +372,37 @@ def create_app(ws: Workspace, engine: Engine | None = None) -> FastAPI:
         if REPO_ROOT.resolve() not in target.parents or not target.is_file() or target.suffix not in (".md", ".yaml"):
             raise HTTPException(404, "not found")
         return {"path": path, "body": target.read_text()}
+
+    # ------------------------------------------------------------ knowledge base
+    from agency.kb import service as kb
+
+    @app.get(f"{api}/kb/status")
+    def kb_status() -> dict[str, Any]:
+        return kb.status(ws)
+
+    @app.post(f"{api}/kb/promote/{{pid}}")
+    def kb_promote(pid: str) -> dict[str, Any]:
+        try:
+            return kb.promote_project(ws, pid)
+        except KeyError:
+            raise HTTPException(404, "project not found")
+
+    @app.get(f"{api}/kb/query")
+    def kb_query(q: str, limit: int = 20) -> dict[str, Any]:
+        return kb.query(ws, q, limit)
+
+    @app.post(f"{api}/kb/lint")
+    def kb_lint(fix: bool = False) -> dict[str, Any]:
+        return kb.lint(ws, fix=fix)
+
+    @app.post(f"{api}/kb/export")
+    def kb_export() -> dict[str, Any]:
+        return kb.export_vault(ws)
+
+    @app.get(f"{api}/kb/nodes")
+    def kb_nodes(type: str | None = None, limit: int = 200) -> dict[str, Any]:
+        nodes = ws.store.list_nodes(project_id=None, type=type, scope="workspace", limit=limit)
+        return {"items": [n.model_dump(mode="json") for n in nodes]}
 
     # ------------------------------------------------------------ static UI
     if UI_DIST.exists():

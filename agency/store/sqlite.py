@@ -23,8 +23,16 @@ projects = Table(
     Column("json", JSON, nullable=False),
 )
 
+WORKSPACE_KEY = "__workspace__"
+
+
+def _pk(project_id: str | None) -> str:
+    return project_id or WORKSPACE_KEY
+
+
 nodes = Table(
     "nodes", metadata,
+    Column("pkey", String(128), primary_key=True),
     Column("id", String(128), primary_key=True),
     Column("version", Integer, primary_key=True),
     Column("type", String(64), nullable=False, index=True),
@@ -46,10 +54,11 @@ edges = Table(
     Column("dst", String(128), nullable=False, index=True),
     Column("type", String(64), nullable=False, index=True),
     Column("project_id", String(128), index=True),
+    Column("pkey", String(128), nullable=False, index=True),
     Column("created_by", String(128)),
     Column("created_at", DateTime(timezone=True)),
     Column("json", JSON, nullable=False),
-    UniqueConstraint("src", "dst", "type", name="uq_edge"),
+    UniqueConstraint("pkey", "src", "dst", "type", name="uq_edge"),
 )
 
 counters = Table(
@@ -174,36 +183,38 @@ class SqlStore:
 
     # ------------------------------------------------------------ nodes
     def put_node(self, node: Node) -> Node:
+        pkey = _pk(node.project_id if node.scope.value == "project" else None)
         with self.engine.begin() as c:
             cur = c.execute(
                 select(nodes.c.version, nodes.c.created_at)
-                .where(and_(nodes.c.id == node.id, nodes.c.is_current.is_(True)))
+                .where(and_(nodes.c.pkey == pkey, nodes.c.id == node.id, nodes.c.is_current.is_(True)))
             ).first()
             if cur:
                 node.version = cur[0] + 1
                 node.created_at = _dt(cur[1]) or node.created_at
-                c.execute(nodes.update().where(nodes.c.id == node.id).values(is_current=False))
+                c.execute(nodes.update().where(and_(nodes.c.pkey == pkey, nodes.c.id == node.id)).values(is_current=False))
             else:
                 node.version = 1
             node.updated_at = datetime.now(timezone.utc)
             c.execute(nodes.insert().values(
-                id=node.id, version=node.version, type=node.type.value, scope=node.scope.value,
+                pkey=pkey, id=node.id, version=node.version, type=node.type.value, scope=node.scope.value,
                 project_id=node.project_id, status=node.status, created_by=node.created_by,
                 created_at=_dt(node.created_at), updated_at=_dt(node.updated_at),
                 is_current=True, text=node.text(), json=_dump(node)))
         return node
 
-    def get_node(self, node_id: str, version: int | None = None) -> Node | None:
-        cond = nodes.c.id == node_id
+    def get_node(self, node_id: str, project_id: str | None = None, version: int | None = None) -> Node | None:
+        cond = and_(nodes.c.id == node_id, nodes.c.pkey == _pk(project_id))
         cond = and_(cond, nodes.c.version == version) if version else and_(cond, nodes.c.is_current.is_(True))
         row = self._one(select(nodes.c.json).where(cond))
         return Node.model_validate(row[0]) if row else None
 
-    def get_nodes(self, node_ids: Iterable[str]) -> list[Node]:
+    def get_nodes(self, node_ids: Iterable[str], project_id: str | None = None) -> list[Node]:
         ids = list(node_ids)
         if not ids:
             return []
-        rows = self._all(select(nodes.c.json).where(and_(nodes.c.id.in_(ids), nodes.c.is_current.is_(True))))
+        rows = self._all(select(nodes.c.json).where(and_(nodes.c.id.in_(ids), nodes.c.pkey == _pk(project_id),
+                                                         nodes.c.is_current.is_(True))))
         by_id = {r[0]["id"]: Node.model_validate(r[0]) for r in rows}
         return [by_id[i] for i in ids if i in by_id]
 
@@ -222,8 +233,9 @@ class SqlStore:
             stmt = stmt.limit(limit)
         return [Node.model_validate(r[0]) for r in self._all(stmt)]
 
-    def node_versions(self, node_id: str) -> list[Node]:
-        rows = self._all(select(nodes.c.json).where(nodes.c.id == node_id).order_by(nodes.c.version))
+    def node_versions(self, node_id: str, project_id: str | None = None) -> list[Node]:
+        rows = self._all(select(nodes.c.json).where(and_(nodes.c.id == node_id, nodes.c.pkey == _pk(project_id)))
+                         .order_by(nodes.c.version))
         return [Node.model_validate(r[0]) for r in rows]
 
     def search_nodes(self, text: str, project_id=None, type=None, limit: int = 50) -> list[Node]:
@@ -236,50 +248,52 @@ class SqlStore:
             stmt = stmt.where(nodes.c.type == type)
         return [Node.model_validate(r[0]) for r in self._all(stmt.limit(limit))]
 
-    def delete_node(self, node_id: str) -> None:
+    def delete_node(self, node_id: str, project_id: str | None = None) -> None:
+        pkey = _pk(project_id)
         with self.engine.begin() as c:
-            c.execute(nodes.delete().where(nodes.c.id == node_id))
-            c.execute(edges.delete().where(sa.or_(edges.c.src == node_id, edges.c.dst == node_id)))
+            c.execute(nodes.delete().where(and_(nodes.c.id == node_id, nodes.c.pkey == pkey)))
+            c.execute(edges.delete().where(and_(edges.c.pkey == pkey,
+                                                sa.or_(edges.c.src == node_id, edges.c.dst == node_id))))
 
     # ------------------------------------------------------------ edges
-    def add_edge(self, edge: Edge) -> None:
+    def add_edge(self, edge: Edge, project_id: str | None = None) -> None:
+        pkey = _pk(project_id)
         with self.engine.begin() as c:
-            proj = c.execute(select(nodes.c.project_id).where(nodes.c.id == edge.src).limit(1)).first()
             exists = c.execute(select(edges.c.id).where(and_(
-                edges.c.src == edge.src, edges.c.dst == edge.dst, edges.c.type == edge.type.value))).first()
+                edges.c.pkey == pkey, edges.c.src == edge.src, edges.c.dst == edge.dst,
+                edges.c.type == edge.type.value))).first()
             if exists:
                 c.execute(edges.update().where(edges.c.id == exists[0]).values(json=_dump(edge)))
                 return
             c.execute(edges.insert().values(
-                src=edge.src, dst=edge.dst, type=edge.type.value,
-                project_id=proj[0] if proj else None, created_by=edge.created_by,
-                created_at=_dt(edge.created_at), json=_dump(edge)))
+                src=edge.src, dst=edge.dst, type=edge.type.value, project_id=project_id, pkey=pkey,
+                created_by=edge.created_by, created_at=_dt(edge.created_at), json=_dump(edge)))
 
     def _edges(self, stmt) -> list[Edge]:
         return [Edge.model_validate(r[0]) for r in self._all(stmt)]
 
-    def edges_from(self, src: str, type: str | None = None) -> list[Edge]:
-        stmt = select(edges.c.json).where(edges.c.src == src)
+    def edges_from(self, src: str, type: str | None = None, project_id: str | None = None) -> list[Edge]:
+        stmt = select(edges.c.json).where(and_(edges.c.src == src, edges.c.pkey == _pk(project_id)))
         if type:
             stmt = stmt.where(edges.c.type == type)
         return self._edges(stmt)
 
-    def edges_to(self, dst: str, type: str | None = None) -> list[Edge]:
-        stmt = select(edges.c.json).where(edges.c.dst == dst)
+    def edges_to(self, dst: str, type: str | None = None, project_id: str | None = None) -> list[Edge]:
+        stmt = select(edges.c.json).where(and_(edges.c.dst == dst, edges.c.pkey == _pk(project_id)))
         if type:
             stmt = stmt.where(edges.c.type == type)
         return self._edges(stmt)
 
-    def list_edges(self, project_id: str, type: str | None = None) -> list[Edge]:
-        stmt = select(edges.c.json).where(edges.c.project_id == project_id)
+    def list_edges(self, project_id: str | None, type: str | None = None) -> list[Edge]:
+        stmt = select(edges.c.json).where(edges.c.pkey == _pk(project_id))
         if type:
             stmt = stmt.where(edges.c.type == type)
         return self._edges(stmt)
 
-    def remove_edge(self, src: str, dst: str, type: str) -> None:
+    def remove_edge(self, src: str, dst: str, type: str, project_id: str | None = None) -> None:
         with self.engine.begin() as c:
-            c.execute(edges.delete().where(and_(edges.c.src == src, edges.c.dst == dst,
-                                                edges.c.type == type)))
+            c.execute(edges.delete().where(and_(edges.c.pkey == _pk(project_id), edges.c.src == src,
+                                                edges.c.dst == dst, edges.c.type == type)))
 
     # ------------------------------------------------------------ ids
     def next_ids(self, prefix: str, project_id: str | None, n: int = 1) -> list[str]:

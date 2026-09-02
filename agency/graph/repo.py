@@ -76,7 +76,7 @@ class Graph:
         return self.store.put_node(node)
 
     def set_status(self, node_id: str, status: str) -> Node | None:
-        node = self.store.get_node(node_id)
+        node = self.store.get_node(node_id, self.project_id)
         if node is None:
             return None
         node.status = status
@@ -87,12 +87,12 @@ class Graph:
         edge = Edge(src=src.id if isinstance(src, Node) else src,
                     dst=dst.id if isinstance(dst, Node) else dst,
                     type=type, created_by=created_by, data=data)
-        self.store.add_edge(edge)
+        self.store.add_edge(edge, self.project_id)
         return edge
 
     def put_document(self, kind: str, title: str, body: str, *, id: str | None = None,
                      created_by: str | None = None, **extra: Any) -> Node:
-        existing = self.document(kind) if id is None else self.store.get_node(id)
+        existing = self.document(kind) if id is None else self.store.get_node(id, self.project_id)
         data = {"kind": kind, "title": title, "body": body, **extra}
         if existing:
             existing.data.update(data)
@@ -102,10 +102,27 @@ class Graph:
 
     # ------------------------------------------------------------ reads
     def get(self, node_id: str) -> Node | None:
-        return self.store.get_node(node_id)
+        node = self.store.get_node(node_id, self.project_id)
+        if node is None and self.project_id is not None:
+            node = self.store.get_node(node_id, None)   # workspace-scope fallback (WIKI-* ids)
+        return node
+
+    def get_many(self, node_ids: Iterable[str]) -> list[Node]:
+        ids = list(node_ids)
+        found = self.store.get_nodes(ids, self.project_id)
+        missing = [i for i in ids if i not in {n.id for n in found}]
+        if missing and self.project_id is not None:
+            found += self.store.get_nodes(missing, None)
+        by_id = {n.id: n for n in found}
+        return [by_id[i] for i in ids if i in by_id]
+
+    def versions(self, node_id: str) -> list[Node]:
+        return self.store.node_versions(node_id, self.project_id)
 
     def nodes(self, type: NodeType, status: str | None = None,
               include_workspace: bool = False) -> list[Node]:
+        if self.project_id is None:  # workspace-scope graph
+            return self.store.list_nodes(project_id=None, type=type.value, scope=Scope.WORKSPACE.value, status=status)
         out = self.store.list_nodes(project_id=self.project_id, type=type.value, status=status)
         if include_workspace:
             out += self.store.list_nodes(project_id=None, type=type.value, scope=Scope.WORKSPACE.value,
@@ -122,16 +139,20 @@ class Graph:
         return self.one(NodeType.DOCUMENT, kind=kind)
 
     def out(self, node_id: str, type: EdgeType | None = None) -> list[Node]:
-        edges = self.store.edges_from(node_id, type.value if type else None)
-        return self.store.get_nodes([e.dst for e in edges])
+        edges = self.store.edges_from(node_id, type.value if type else None, self.project_id)
+        return self.get_many([e.dst for e in edges])
+
+    def out_edges(self, node_id: str, type: EdgeType | None = None) -> list[Edge]:
+        return self.store.edges_from(node_id, type.value if type else None, self.project_id)
+
+    def in_edges(self, node_id: str, type: EdgeType | None = None) -> list[Edge]:
+        return self.store.edges_to(node_id, type.value if type else None, self.project_id)
 
     def inn(self, node_id: str, type: EdgeType | None = None) -> list[Node]:
-        edges = self.store.edges_to(node_id, type.value if type else None)
-        return self.store.get_nodes([e.src for e in edges])
+        edges = self.store.edges_to(node_id, type.value if type else None, self.project_id)
+        return self.get_many([e.src for e in edges])
 
     def edges(self, type: EdgeType | None = None) -> list[Edge]:
-        if self.project_id is None:
-            return []
         return self.store.list_edges(self.project_id, type.value if type else None)
 
     # ------------------------------------------------------------ convenience
@@ -198,7 +219,7 @@ class Graph:
         refs = self.claim_refs(text) | self.source_refs(text)
         if not refs:
             return set()
-        found = {n.id for n in self.store.get_nodes(refs)}
+        found = {n.id for n in self.get_many(refs)}
         return refs - found
 
     def sections_citing(self, claim_id: str) -> list[Node]:
@@ -220,11 +241,11 @@ class Graph:
             for nid in frontier:
                 if nid in seen:
                     continue
-                node = self.store.get_node(nid)
+                node = self.get(nid)
                 if node is None:
                     continue
                 seen[nid] = node
-                for e in self.store.edges_from(nid):
+                for e in self.store.edges_from(nid, None, self.project_id):
                     edges.append(e)
                     nxt.append(e.dst)
             frontier = nxt
@@ -232,7 +253,9 @@ class Graph:
 
     def summary(self) -> dict[str, int]:
         counts: dict[str, int] = {}
-        for n in self.store.list_nodes(project_id=self.project_id):
+        nodes = (self.store.list_nodes(project_id=None, scope=Scope.WORKSPACE.value) if self.project_id is None
+                 else self.store.list_nodes(project_id=self.project_id))
+        for n in nodes:
             counts[n.type.value] = counts.get(n.type.value, 0) + 1
         return counts
 

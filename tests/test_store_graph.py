@@ -31,7 +31,7 @@ def test_node_versions_and_edges(ws, project):
     g.link(c, s, EdgeType.SUPPORTED_BY)
     g.update(c, status="disputed")
     assert g.get(c.id).version == 2
-    assert len(ws.store.node_versions(c.id)) == 2
+    assert len(ws.store.node_versions(c.id, "demo")) == 2
     assert [n.id for n in g.out(c.id, EdgeType.SUPPORTED_BY)] == [s.id]
     assert [n.id for n in g.inn(s.id)] == [c.id]
     assert g.unregistered_refs("see CLM-001 and CLM-099 and SRC-001") == {"CLM-099"}
