@@ -1,0 +1,28 @@
+id: horizon-europe-ria
+name: Horizon Europe — RIA / IA (Part B)
+funder: European Commission
+match: [horizon europe, horizon-europe, ria, innovation action, research and innovation action, part b, cluster]
+outline: outline.md
+abstract_word_limit: 500
+total_page_limit: 70
+thresholds:
+  min_evidence: 12
+  min_anchors: 3
+  min_gaps: 4
+section_kinds:
+  "1": excellence
+  "2": impact
+  "3": implementation
+criteria_hints:
+  - {id: C1, name: Excellence, weight: 1, max_score: 5, threshold: 3}
+  - {id: C2, name: Impact, weight: 1, max_score: 5, threshold: 3}
+  - {id: C3, name: Quality and efficiency of the implementation, weight: 1, max_score: 5, threshold: 3}
+hard_rules:
+  - id: HR-THRESH
+    kind: hard_rule
+    text: Each criterion must score at least 3/5 and the total at least 10/15.
+    disqualifying: true
+panel_personas:
+  - a senior academic expert evaluator who has sat on many Horizon panels
+  - an industry expert who tests impact pathways and exploitation plans
+  - a project-management expert who checks work plan consistency and risk

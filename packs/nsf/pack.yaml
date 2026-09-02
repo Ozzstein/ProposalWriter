@@ -1,0 +1,20 @@
+id: nsf
+name: NSF standard research proposal
+funder: National Science Foundation
+match: [nsf, national science foundation, intellectual merit, broader impacts]
+outline: outline.md
+abstract_word_limit: 250
+thresholds:
+  min_evidence: 12
+  min_anchors: 2
+  min_gaps: 3
+section_kinds:
+  "1": abstract
+  "2": excellence
+criteria_hints:
+  - {id: C1, name: Intellectual Merit, weight: 1, max_score: 5}
+  - {id: C2, name: Broader Impacts, weight: 1, max_score: 5}
+panel_personas:
+  - a program-director style reviewer who weighs intellectual merit
+  - an education-and-outreach specialist who scrutinises broader impacts
+  - a domain scientist who tests the technical plan

@@ -1,0 +1,23 @@
+id: nih-r01
+name: NIH R01 research project grant
+funder: National Institutes of Health
+match: [nih, r01, r21, national institutes of health, specific aims]
+outline: outline.md
+abstract_word_limit: 300
+thresholds:
+  min_evidence: 15
+  min_anchors: 2
+  min_gaps: 3
+section_kinds:
+  "1": excellence
+  "2": implementation
+criteria_hints:
+  - {id: C1, name: Significance, weight: 1, max_score: 9}
+  - {id: C2, name: Investigators, weight: 1, max_score: 9}
+  - {id: C3, name: Innovation, weight: 1, max_score: 9}
+  - {id: C4, name: Approach, weight: 1, max_score: 9}
+  - {id: C5, name: Environment, weight: 1, max_score: 9}
+panel_personas:
+  - a study-section reviewer focused on rigor and reproducibility
+  - a clinician-scientist who weighs significance and feasibility
+  - a methodologist who challenges the approach and statistical power
