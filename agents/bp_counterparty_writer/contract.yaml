@@ -1,0 +1,25 @@
+name: bp_counterparty_writer
+description: 'Draft BP section 1.6: (a) Project diagram brief, (b) Description of project counterparties,
+  (c) Robustness and strategy to secure contracts.'
+role: writer
+model_tier: balanced
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+- Write
+- Edit
+connectors: []
+output: null
+output_mode: files
+budget:
+  max_turns: 40
+  max_usd: 4
+writes:
+- Section
+acceptance:
+- drafts_written: true
+env_keys: []
+session: false
+notes: ''

@@ -1,0 +1,26 @@
+name: state_of_art_synthesizer
+description: Synthesize all gathered evidence into a coherent state-of-the-art narrative.
+role: synthesizer
+model_tier: reasoning
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+- Write
+- Edit
+connectors: []
+output: SotaOutput
+output_mode: structured
+budget:
+  max_turns: 40
+  max_usd: 8
+writes:
+- Document
+- Claim
+acceptance:
+- summary_min_chars: 1500
+- claims_min: 5
+env_keys: []
+session: false
+notes: ''

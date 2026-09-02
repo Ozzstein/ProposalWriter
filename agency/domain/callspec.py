@@ -77,3 +77,12 @@ class CallSpec(BaseModel):
     def needs_business_plan(self) -> bool:
         return any(s.kind == "business_plan" for s in self.sections) or any(
             "business plan" in a.lower() for a in self.annexes)
+
+
+class RequirementsBatch(BaseModel):
+    """eligibility_parser output."""
+    model_config = ConfigDict(extra="allow")
+    requirements: list[RequirementSpec]
+    deadlines: dict[str, str] = Field(default_factory=dict)
+    disqualifiers: list[str] = Field(default_factory=list)
+    consortium_notes: str = ""

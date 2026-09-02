@@ -1,0 +1,26 @@
+name: bp_synthesizer
+description: Consolidate every fact the INNOVFUND Business Plan needs into a single structured JSON, with
+  a `source_ref` on each fact pointing to its authoritative artefact.
+role: synthesizer
+model_tier: reasoning
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+- Write
+- Edit
+connectors: []
+output: null
+output_mode: files
+budget:
+  max_turns: 40
+  max_usd: 8
+writes:
+- Document
+acceptance:
+- files_written:
+  - intermediate/business_plan_facts.json
+env_keys: []
+session: false
+notes: ''

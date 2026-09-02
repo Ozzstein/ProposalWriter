@@ -1,0 +1,25 @@
+name: literature_searcher
+description: Find high-quality, relevant academic papers on the specified research topic using available
+  search tools.
+role: retriever
+model_tier: fast
+effort: medium
+tools:
+- Read
+- Grep
+- Glob
+connectors:
+- academic-search
+output: EvidenceResult
+output_mode: structured
+budget:
+  max_turns: 80
+  max_usd: 3
+writes:
+- Source
+- Claim
+acceptance:
+- sources_min: 3
+env_keys: []
+session: false
+notes: ''

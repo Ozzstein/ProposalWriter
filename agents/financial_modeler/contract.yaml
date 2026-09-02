@@ -1,0 +1,26 @@
+name: financial_modeler
+description: Turn the user-supplied financial inputs in `intermediate/financial_model.json` into a complete
+  set of derived financial tables and metrics that the narrative writers can cite verbatim.
+role: modeler
+model_tier: balanced
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+- Write
+- Edit
+- Bash
+connectors: []
+output: FinancialTables
+output_mode: structured
+budget:
+  max_turns: 50
+  max_usd: 4
+writes:
+- FinancialTable
+- Claim
+acceptance: []
+env_keys: []
+session: false
+notes: ''

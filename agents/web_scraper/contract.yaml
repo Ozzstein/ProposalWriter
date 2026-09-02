@@ -1,0 +1,28 @@
+name: web_scraper
+description: Search alternative academic repositories and EU research databases for papers, preprints,
+  and project deliverables not indexed by PubMed, arXiv, or Consensus — with a focus on sources relevant
+  to Horizon Europe and Innovation Fund proposals.
+role: retriever
+model_tier: fast
+effort: medium
+tools:
+- Read
+- Grep
+- Glob
+- WebFetch
+- WebSearch
+connectors:
+- firecrawl
+- academic-search
+output: EvidenceResult
+output_mode: structured
+budget:
+  max_turns: 80
+  max_usd: 3
+writes:
+- Source
+acceptance:
+- sources_min: 1
+env_keys: []
+session: false
+notes: ''

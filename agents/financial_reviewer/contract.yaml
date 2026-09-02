@@ -1,0 +1,23 @@
+name: financial_reviewer
+description: Red-team the financial sections of the proposal for hard-rejection risk, internal consistency,
+  and numerical integrity before the overall review orchestrator sees them.
+role: reviewer
+model_tier: reasoning
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+- Bash
+connectors: []
+output: ReviewBatch
+output_mode: structured
+budget:
+  max_turns: 40
+  max_usd: 6
+writes:
+- ReviewFinding
+acceptance: []
+env_keys: []
+session: false
+notes: ''

@@ -1,0 +1,23 @@
+name: scientific_reviewer
+description: Review every proposal draft for scientific rigor, logical consistency, and claim-evidence
+  linkage.
+role: reviewer
+model_tier: reasoning
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+connectors: []
+output: ReviewBatch
+output_mode: structured
+budget:
+  max_turns: 40
+  max_usd: 6
+writes:
+- ReviewFinding
+acceptance:
+- sections_min: 1
+env_keys: []
+session: false
+notes: ''

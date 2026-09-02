@@ -1,0 +1,27 @@
+name: plot_renderer
+description: Produce publication-quality **data-driven** figures (Sankey, Gantt, risk heatmap, line/bar
+  curves, schematics with fixed geometry) from structured inputs, using Python (Matplotlib / Plotly) or
+  declarative tools (Mermaid / Graphviz).
+role: renderer
+model_tier: balanced
+effort: medium
+tools:
+- Read
+- Grep
+- Glob
+- Write
+- Edit
+- Bash
+connectors: []
+output: FigureBatch
+output_mode: structured
+budget:
+  max_turns: 30
+  max_usd: 2
+writes:
+- Figure
+acceptance:
+- figures_min: 1
+env_keys: []
+session: false
+notes: ''

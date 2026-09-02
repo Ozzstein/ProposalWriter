@@ -1,0 +1,29 @@
+name: call_parser
+description: Parse a funding call document and extract all structural, eligibility, and evaluation information
+  into structured formats.
+role: retriever
+model_tier: balanced
+effort: medium
+tools:
+- Read
+- Grep
+- Glob
+- Write
+- Edit
+- Bash
+connectors: []
+output: CallSpec
+output_mode: structured
+budget:
+  max_turns: 40
+  max_usd: 3
+writes:
+- CallSpec
+- Criterion
+- Requirement
+acceptance:
+- sections_min: 1
+- criteria_min: 1
+env_keys: []
+session: false
+notes: ''

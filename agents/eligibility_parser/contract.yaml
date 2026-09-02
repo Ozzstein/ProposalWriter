@@ -1,0 +1,25 @@
+name: eligibility_parser
+description: Extract all eligibility, compliance, and deadline requirements from a funding call document,
+  and flag any conditions that could disqualify the applicant or require specific consortium arrangements.
+role: retriever
+model_tier: fast
+effort: low
+tools:
+- Read
+- Grep
+- Glob
+- Write
+- Edit
+- Bash
+connectors: []
+output: RequirementsBatch
+output_mode: structured
+budget:
+  max_turns: 30
+  max_usd: 1.5
+writes:
+- Requirement
+acceptance: []
+env_keys: []
+session: false
+notes: ''

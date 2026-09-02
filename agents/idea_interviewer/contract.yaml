@@ -1,0 +1,22 @@
+name: idea_interviewer
+description: Turn a raw, possibly vague project idea into 2–3 sharply stated candidate framings that can
+  be probed against prior art.
+role: interviewer
+model_tier: reasoning
+effort: medium
+tools:
+- Read
+- Grep
+- Glob
+- AskUserQuestion
+connectors: []
+output: null
+output_mode: session
+budget:
+  max_turns: 40
+  max_usd: 6
+writes: []
+acceptance: []
+env_keys: []
+session: true
+notes: ''
