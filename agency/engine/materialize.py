@@ -23,8 +23,28 @@ def _slug(text: str) -> str:
 
 def section_filename(section_id: str, name: str) -> str:
     parts = [p for p in re.split(r"[.\s]", str(section_id)) if p]
-    num = "_".join(f"{int(p):02d}" if p.isdigit() else p for p in parts) or "00"
+    num = "_".join(_pad(p) for p in parts) or "00"
     return f"{num}_{_slug(name)}.md"
+
+
+def _pad(part: str) -> str:
+    m = re.match(r"^(\d+)([a-z]?)$", part)
+    return f"{int(m.group(1)):02d}{m.group(2)}" if m else part
+
+
+_STEM_ID = re.compile(r"^(\d+[a-z]?(?:_\d+[a-z]?)*)")
+
+
+def section_id_from_stem(stem: str) -> str | None:
+    """'04_1b_market' -> '4.1b'; 'abstract' -> None."""
+    m = _STEM_ID.match(stem)
+    if not m:
+        return None
+    out = []
+    for part in m.group(1).split("_"):
+        pm = re.match(r"^(\d+)([a-z]?)$", part)
+        out.append(f"{int(pm.group(1))}{pm.group(2)}")
+    return ".".join(out)
 
 
 def materialize(graph: Graph, project_dir: Path, blobs: BlobStore | None = None) -> dict[str, int]:
@@ -247,8 +267,7 @@ def ingest_drafts(graph: Graph, project_dir: Path, *, job_id: str, section_ids: 
     for md in sorted(ddir.glob("*.md")):
         if md.name == "figures_register.md":
             continue
-        m = re.match(r"^(\d+(?:_\d+)*)", md.stem)
-        section_id = ".".join(str(int(x)) for x in m.group(1).split("_")) if m else md.stem
+        section_id = section_id_from_stem(md.stem) or ("0" if "abstract" in md.stem.lower() else md.stem)
         if section_ids and section_id not in section_ids:
             continue
         text = md.read_text()
