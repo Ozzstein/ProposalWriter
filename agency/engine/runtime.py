@@ -18,6 +18,7 @@ from agency.funders.packs import FunderPack
 from agency.graph.repo import Graph
 from agency.inbox.service import InboxService
 from agency.sdk.adapter import AgentResult, JobContext, SDKAdapter
+from agency.sdk.session import SessionResult, SessionRunner
 from agency.tools.server import ToolContext
 from agency.workspace import Workspace
 
@@ -154,6 +155,51 @@ class JobRuntime:
             self.job.cost_usd += result.cost_usd
         if not result.ok:
             raise JobFailed(f"{contract_name}: {result.error or result.subtype}")
+        return result
+
+    # ------------------------------------------------------------ sessions
+    async def session(self, contract_name: str, opening_prompt: str, *, until_kinds: set[str] | None = None,
+                      max_user_turns: int = 30, on_submission=None, budget_usd: float | None = None,
+                      allowed_writes: set[str] | None = None, header: str = "Conversation") -> SessionResult:
+        contract = self.ctx.catalogue.get(contract_name)
+        self.ctx.materialize()
+        jc = JobContext(project_id=self.project_id, run_id=self.ctx.run.id, job_id=self.job.id,
+                        project_dir=self.project_dir, kb_dir=self.kb_dir, graph=self.graph,
+                        allowed_writes=set(allowed_writes if allowed_writes is not None else contract.writes),
+                        known_claim_ids={c.id for c in self.graph.claims()},
+                        status_fn=lambda: self.ws.status(self.project_id))
+        counter = {"n": 0}
+
+        async def ask(q: dict[str, Any]) -> dict[str, Any]:
+            counter["n"] += 1
+            return await self.ask(q.get("question", ""), q.get("options") or [], header=q.get("header") or header,
+                                  multi=bool(q.get("multi")), key=f"{self.job.name}:q{counter['n']}")
+
+        async def chat(agent_text: str, transcript: list[dict[str, str]]) -> str | None:
+            counter["n"] += 1
+            self._waiting(True)
+            try:
+                ans = await self.ctx.inbox.ask(project_id=self.project_id, kind=InboxKind.CHAT, header=header,
+                                               question=agent_text[:4000] or "(the agent is waiting for your input)",
+                                               payload={"transcript": "\n\n".join(f"**{t['role']}**: {t['text']}" for t in transcript[-8:])},
+                                               run_id=self.ctx.run.id, job_id=self.job.id,
+                                               key=f"{self.ctx.run.id}:{self.job.name}:chat{counter['n']}")
+            finally:
+                self._waiting(False)
+            text = ans.get("text") or ans.get("choice") or ""
+            return None if text.strip().lower() in ("stop", "quit", "abort") else text
+
+        tool_ctx = ToolContext(graph=self.graph, project_id=self.project_id, job_id=self.job.id,
+                               allowed_writes=set(jc.allowed_writes), ask=ask, status=jc.status_fn,
+                               events=self.ws.events)
+        runner = SessionRunner(self.ctx.adapter, client_factory=getattr(self.ctx.adapter, "client_factory", None))
+        result = await runner.run(contract, jc, opening_prompt, tool_ctx=tool_ctx, chat=chat, until_kinds=until_kinds,
+                                  max_user_turns=max_user_turns, budget_usd=budget_usd, on_submission=on_submission)
+        self.job.cost_usd += result.cost_usd
+        if result.session_id:
+            self.job.sdk_session_id = result.session_id
+        if not result.ok:
+            raise JobFailed(f"{contract_name} session: {result.error}")
         return result
 
     # ------------------------------------------------------------ inbox

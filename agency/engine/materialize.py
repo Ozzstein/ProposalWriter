@@ -101,8 +101,11 @@ def materialize(graph: Graph, project_dir: Path, blobs: BlobStore | None = None)
     if brief:
         (inter / "ideation_brief.json").write_text(json.dumps(brief.data, indent=2, default=str))
     for doc in graph.nodes(NodeType.DOCUMENT):
-        if doc.data.get("kind") == "json" and doc.data.get("path"):
-            (inter / doc.data["title"]).write_text(doc.data.get("body", ""))
+        rel = doc.data.get("file")
+        if rel and doc.data.get("body") is not None:
+            target = project_dir / rel
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(doc.data.get("body", ""))
     ddir = project_dir / "drafts"
     for s in graph.sections():
         fname = s.data.get("path") or section_filename(s.data.get("section_id", s.id), s.data.get("section_name", s.id))

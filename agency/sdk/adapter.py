@@ -62,11 +62,12 @@ QueryFn = Callable[..., AsyncIterator[Any]]
 
 class SDKAdapter:
     def __init__(self, config: WorkspaceConfig, catalogue: Catalogue, events: EventLog,
-                 query_fn: QueryFn | None = None):
+                 query_fn: QueryFn | None = None, client_factory: Callable[[Any], Any] | None = None):
         self.config = config
         self.catalogue = catalogue
         self.events = events
         self.query_fn = query_fn or query
+        self.client_factory = client_factory
         self.semaphore = asyncio.Semaphore(config.max_concurrent_queries)
 
     # ------------------------------------------------------------ options

@@ -42,3 +42,46 @@ class FakeQuery:
         if "hook" in spec:  # let tests drive the in-process tools directly
             await spec["hook"](options)
         yield spec.get("result") or make_result(spec.get("structured"), subtype=spec.get("subtype", "success"))
+
+
+class FakeSessionClient:
+    """Stand-in for ClaudeSDKClient. `script(turn, prompt, options, ctx)` is awaited on every
+    user turn and returns the assistant text; it may call options.can_use_tool and the agency
+    tool handlers to simulate AskUserQuestion / submit_result / finish."""
+
+    scripts: dict = {}
+
+    def __init__(self, options):
+        self.options = options
+        self.turn = 0
+        self.pending: list = []
+        sp = (options.system_prompt or "").lower()
+        self.script = next((fn for key, fn in FakeSessionClient.scripts.items()
+                            if key != "*" and key.replace("_", " ") in sp), FakeSessionClient.scripts.get("*"))
+
+    async def __aenter__(self):
+        return self
+
+    async def __aexit__(self, *exc):
+        return False
+
+    async def query(self, prompt: str, session_id: str = "default"):
+        self.turn += 1
+        text = await self.script(self.turn, prompt, self.options) if self.script else "ok"
+        self.pending = [_fill(AssistantMessage, content=[TextBlock(text=text or "")], model="fake"),
+                        make_result(None, cost=0.02, turns=1)]
+
+    async def receive_response(self):
+        for m in self.pending:
+            yield m
+        self.pending = []
+
+
+def agency_handlers(options) -> dict:
+    """Reach the in-process agency tool handlers from the options object."""
+    server = options.mcp_servers["agency"]["instance"]
+    # handlers are stored on the ToolContext captured by build_agency_server; find via closure registry
+    return getattr(server, "_agency_handlers", None) or _HANDLER_REGISTRY[id(server)]
+
+
+_HANDLER_REGISTRY: dict = {}

@@ -20,12 +20,12 @@ from agency.workspace import Workspace
 class Engine:
     """Long-lived per workspace (the server holds one); builds RunContexts and runs stages."""
 
-    def __init__(self, ws: Workspace, inbox: InboxService | None = None, query_fn=None):
+    def __init__(self, ws: Workspace, inbox: InboxService | None = None, query_fn=None, client_factory=None):
         from agency import jobs as job_registry
         self.ws = ws
         self.catalogue = load_catalogue(ws.config.agents_dir)
         self.packs = load_packs(ws.config.packs_dir)
-        self.adapter = SDKAdapter(ws.config, self.catalogue, ws.events, query_fn=query_fn)
+        self.adapter = SDKAdapter(ws.config, self.catalogue, ws.events, query_fn=query_fn, client_factory=client_factory)
         self.inbox = inbox or InboxService(ws)
         self.stages: dict[str, StageDef] = job_registry.STAGES
         self.scheduler = Scheduler(job_registry.HANDLERS)

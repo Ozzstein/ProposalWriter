@@ -139,7 +139,12 @@ def build_agency_server(ctx: ToolContext):
         tools += [ask_user, submit_result, finish]
 
     ctx.handlers = {t.name: t.handler for t in tools}
-    return create_sdk_mcp_server(name="agency", version="1.0.0", tools=tools)
+    server = create_sdk_mcp_server(name="agency", version="1.0.0", tools=tools)
+    try:
+        server["instance"]._agency_handlers = ctx.handlers  # convenient for tests/tooling
+    except Exception:  # pragma: no cover
+        pass
+    return server
 
 
 AGENCY_TOOLS_READ = ["mcp__agency__graph_read", "mcp__agency__graph_search", "mcp__agency__next_ids",
