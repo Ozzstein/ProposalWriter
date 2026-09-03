@@ -198,3 +198,33 @@ def test_materialize_round_trip(ws, legacy_run):
     assert (pdir / "drafts" / "01_abstract.md").read_text().startswith("# Abstract")
     assert json.loads((pdir / "intermediate" / "call_spec.json").read_text())["criteria"][0]["id"] == "C1"
     assert (pdir / "inputs" / "call.txt").read_text() == "call document text"
+
+
+async def test_excluded_stage_is_blocked_unless_forced(ws, project):
+    from agency.domain.scope import ScopeConfig
+    ws.set_scope("demo", {"figures": "excluded"})
+    eng = Engine(ws, query_fn=FakeQuery())
+    with pytest.raises(StageBlocked, match="excluded by the project scope"):
+        await eng.run_stage("demo", "figures")
+    run = await eng.run_stage("demo", "figures", force=True)     # empty register → completes with nothing to do
+    assert run.status in (RunStatus.COMPLETED, RunStatus.FAILED)
+    assert ScopeConfig.load(ws.get_project("demo")).figures.state == "included"
+    d = ws.graph("demo").decisions("scope_changed")
+    assert any("figures: excluded -> included" in x.data["decision"] for x in d)
+    assert STAGES["figures"].scope_key == "figures" and STAGES["finance"].scope_key == "finance"
+    assert STAGES["business-plan"].scope_key == "business_plan"
+    assert STAGES["external-feedback"].scope_key == "external_review"
+    assert STAGES["research"].scope_key is None
+
+
+def test_draftable_sections_skip_excluded_finance(ws, project):
+    from agency.domain.callspec import CallSpec
+    from agency.domain.scope import apply_scope_change, derive_scope
+    from agency.jobs.drafting import draftable_sections
+    spec = CallSpec.model_validate(dict(CALLSPEC, sections=CALLSPEC["sections"] + [
+        {"id": "4", "title": "Financial maturity", "kind": "financial"}]))
+    scope = derive_scope(spec)                                     # finance required by the call
+    assert "4" in [s.id for s, _ in draftable_sections(spec, scope=scope)]
+    excluded = derive_scope(CallSpec.model_validate(CALLSPEC))     # a call without financials → excluded
+    assert "4" not in [s.id for s, _ in draftable_sections(spec, scope=excluded)]
+    assert "4" in [s.id for s, _ in draftable_sections(spec)]      # no scope → unchanged behaviour

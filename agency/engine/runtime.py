@@ -51,6 +51,10 @@ class RunContext:
         except Exception:
             return None
 
+    def scope(self):
+        from agency.domain.scope import ScopeConfig
+        return ScopeConfig.load(self.ws.get_project(self.project_id))
+
     def pack(self) -> FunderPack:
         spec = self.callspec()
         pid = spec.pack if spec else None

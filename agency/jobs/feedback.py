@@ -45,7 +45,7 @@ def plan_feedback(ctx: RunContext) -> StagePlan:
 
 
 stage(StageDef(name="external-feedback", state_key="external_review", planner=plan_feedback, interactive=True,
-               requires_stages=("writing",),
+               requires_stages=("writing",), scope_key="external_review",
                description="Ingest external reviewer comments (files or pasted text), triage them with you, route "
                            "each to a specialist and apply the resulting patches.",
                flags={"new_round": "start a new round folder", "round": "work in round N", "text": "pasted reviewer text"}))

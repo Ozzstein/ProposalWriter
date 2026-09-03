@@ -36,12 +36,14 @@ def writer_for(section: SectionSpec) -> str | None:
     return "impact_writer"
 
 
-def draftable_sections(spec: CallSpec, only: list[str] | None = None) -> list[tuple[SectionSpec, str]]:
+def draftable_sections(spec: CallSpec, only: list[str] | None = None, scope=None) -> list[tuple[SectionSpec, str]]:
     out = []
     for s in spec.sections:
         if not s.required:
             continue
         if only and s.id not in only:
+            continue
+        if s.kind == "financial" and scope is not None and scope.is_excluded("finance"):
             continue
         w = writer_for(s)
         if w is None:
@@ -55,8 +57,11 @@ def plan_write(ctx: RunContext) -> StagePlan:
     if spec is None:
         raise JobFailed("no CallSpec — run parse-call first")
     only = [x.strip() for x in str(ctx.flags.get("sections", "")).split(",") if x.strip()] or None
-    sections = draftable_sections(spec, only)
-    notes = []
+    scope = ctx.scope()
+    sections = draftable_sections(spec, only, scope)
+    notes = [f"section {s.id} ({s.title}) skipped: finance excluded by scope"
+             for s in spec.sections if s.kind == "financial" and s.required and scope is not None
+             and scope.is_excluded("finance")]
     has_finance = ctx.graph.document("financial_tables") is not None or ctx.graph.nodes(
         __import__("agency.domain.graph", fromlist=["NodeType"]).NodeType.FINANCIAL_TABLE)
     jobs = [JobSpec("prepare", "draft.prepare", kind=JobKind.CODE)]
@@ -94,7 +99,7 @@ stage(StageDef(name="write-proposal", state_key="writing", planner=plan_write, r
 async def prepare(rt: JobRuntime) -> dict[str, Any]:
     rt.ctx.materialize()
     spec = rt.ctx.callspec()
-    sections = draftable_sections(spec)
+    sections = draftable_sections(spec, scope=rt.ctx.scope())
     return {"summary": f"{len(sections)} sections to draft", "sections": [s.id for s, _ in sections]}
 
 

@@ -32,7 +32,7 @@ def plan_finance(ctx: RunContext) -> StagePlan:
 
 
 stage(StageDef(name="finance", state_key="finance", planner=plan_finance, interactive=True,
-               requires_stages=("call_parsing",),
+               requires_stages=("call_parsing",), scope_key="finance",
                description="Ingest CAPEX/OPEX/headcount/revenue/financing inputs, build the model, draft the financial "
                            "sections the call requires, and red-team hard-rejection thresholds.",
                flags={"model_only": "stop after the financial model", "sections": "comma list of financial section ids"}))
