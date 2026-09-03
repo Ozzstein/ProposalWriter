@@ -88,6 +88,26 @@ def test_guidance_recommends_included_modules_and_hides_excluded(ws, project):
     assert s["key"] == "done" and s["action"]["stage"] == "external-feedback"
 
 
+def test_reopen_ideation_decision_points_the_guide_to_ideate(ws, project):
+    pid = "demo"
+    g = ws.graph(pid)
+    g.add(NodeType.CALL_SPEC, dict(CALLSPEC))
+    ws.set_stage(pid, "call_parsing", "complete")
+    ws.set_scope(pid, {})                                   # configured; concept still "preliminary" (project fixture hypothesis)
+    assert next_step(ws, pid)["key"] == "align_concept"
+    g.add(NodeType.DECISION, {"question": "Does the preliminary concept fit the call?",
+                              "decision": "reopen_ideation", "rationale": ["does not fit"], "type": "concept_alignment"})
+    s = next_step(ws, pid)
+    assert s["key"] == "ideate" and s["title"] == "Develop the idea again"
+    assert s["action"] == {"kind": "run_stage", "stage": "ideate"}
+    assert any("align_only" in a for a in s["alternatives"])
+    # a later decision that keeps the concept sends the guide back to align_concept
+    g.add(NodeType.DECISION, {"question": "Does the preliminary concept fit the call?",
+                              "decision": "kept", "rationale": ["fits"], "type": "concept_alignment"})
+    s = next_step(ws, pid)
+    assert s["key"] == "align_concept"
+
+
 def test_requirement_status_validation(ws, project):
     import pytest
     with pytest.raises(KeyError):

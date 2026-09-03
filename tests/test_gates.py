@@ -189,6 +189,29 @@ def test_draft_gate_blocks_on_required_modules(ws, project):
     assert not any("Required modules" in b for b in r.blockers)
 
 
+def test_draft_gate_drops_financial_section_when_scope_excludes_finance(ws, project):
+    """F4: an excluded financial module must not be required-yet-undraftable — the draft gate would
+    deadlock forever since drafting itself skips financial sections when finance is excluded."""
+    from agency.domain.scope import apply_scope_change, derive_scope
+
+    g = ws.graph("demo")
+    spec_without_financials = _spec()
+    scope = apply_scope_change(derive_scope(spec_without_financials), {"finance": "excluded"})
+    ws.put_scope("demo", scope)
+    spec = _spec()
+    spec.sections.append(SectionSpec(id="4", title="Financial maturity", kind="financial"))
+    g.add(NodeType.CALL_SPEC, spec.model_dump(mode="json"))
+    srcs, c = _populate_evidence(g)
+    g.add(NodeType.SECTION, {"section_id": "1", "section_name": "Abstract", "kind": "abstract",
+                             "draft_text": "We propose " + c.id, "claim_ids": [c.id]}, status="draft")
+    g.add(NodeType.SECTION, {"section_id": "2", "section_name": "Innovation", "kind": "excellence",
+                             "draft_text": "Novel because " + c.id, "claim_ids": [c.id]}, status="draft")
+    r = evaluate_gate("draft", g)
+    crit = next(c for c in r.criteria if c.criterion == "All required sections have drafts")
+    assert crit.met, crit.notes
+    assert not any("4" in b for b in r.blockers)
+
+
 def test_submission_gate_external_review_rule_only_when_required(ws, project):
     g = ws.graph("demo")
     names = [c.criterion for c in evaluate_gate("submission", g).criteria]

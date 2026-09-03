@@ -78,6 +78,19 @@ def test_rederive_keeps_user_choices_and_applies_call_upgrades():
     assert down.finance.state == "excluded" and down.finance.source == "default" and down.configured_at is None
 
 
+def test_scope_form_names_the_actual_locking_source():
+    """A pack-locked module's form description must say 'pack', not always 'call'."""
+    from agency.jobs.parse_call import scope_form_schema
+
+    pack = FunderPack(id="p", name="P", modules={"figures": "required"})
+    scope = derive_scope(_spec(), pack)
+    schema = scope_form_schema(scope)
+    assert "(required by the pack; cannot be changed)" in schema["properties"]["figures"]["description"]
+    call_locked = derive_scope(_spec(sections=[SectionSpec(id="4", title="Fin", kind="financial")]))
+    schema2 = scope_form_schema(call_locked)
+    assert "(required by the call; cannot be changed)" in schema2["properties"]["finance"]["description"]
+
+
 def test_load_and_save_round_trip():
     class P:  # duck-typed project
         settings: dict = {}

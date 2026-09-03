@@ -120,6 +120,13 @@ def _guidance(ws, pid, project, graph, scope, st, done, gate_failed) -> dict[str
                      {"kind": "run_stage", "stage": "ideate"},
                      alternatives=["Or write the hypothesis yourself in the project context and skip ideation."])
     if concept == "preliminary":
+        alignments = sorted(graph.decisions("concept_alignment"), key=lambda d: d.created_at)
+        if alignments and alignments[-1].data.get("decision") == "reopen_ideation":
+            return _step("ideate", "Develop the idea again",
+                         "The evaluator sent the preliminary concept back to ideation: it did not fit the call "
+                         "well enough to align. Develop a new framing, then align it with the call again.",
+                         {"kind": "run_stage", "stage": "ideate"},
+                         alternatives=["Or re-run the alignment: parse-call with align_only."])
         return _step("align_concept", "Align the concept with the call",
                      "The hypothesis was written before the call was parsed. An evaluator scores it against the "
                      "call's criteria, scope and eligibility; you keep it, adopt the suggested adjustment, or reopen ideation.",

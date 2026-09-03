@@ -209,6 +209,17 @@ async def test_scope_endpoints(client):
     assert side["finance"]["scope_state"] == "required"
 
 
+async def test_concept_endpoint(client):
+    await client.post("/api/projects", json={"name": "P6", "hypothesis": "h"})
+    assert client.engine.ws.concept_status("p6") == "preliminary"
+    r = await client.put("/api/projects/p6/concept", json={"status": "aligned"})
+    assert r.status_code == 200 and r.json() == {"concept_status": "aligned"}
+    assert client.engine.ws.concept_status("p6") == "aligned"
+    r = await client.put("/api/projects/p6/concept", json={"status": "bogus"})
+    assert r.status_code == 400
+    assert (await client.put("/api/projects/nope/concept", json={"status": "aligned"})).status_code == 404
+
+
 async def test_agents_graph_covers_every_contract_and_role(client):
     """The Agents page groups by these kinds; a role the UI cannot render must not appear silently."""
     body = (await client.get("/api/agents/graph")).json()

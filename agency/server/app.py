@@ -42,6 +42,10 @@ class ScopeChange(BaseModel):
     reason: str = ""
 
 
+class ConceptStatusChange(BaseModel):
+    status: str
+
+
 class StartRun(BaseModel):
     flags: dict[str, Any] = Field(default_factory=dict)
     resume: str | None = None
@@ -304,6 +308,17 @@ def create_app(ws: Workspace, engine: Engine | None = None) -> FastAPI:
             raise HTTPException(404, "project not found")
         except ValueError as e:
             raise HTTPException(409, str(e))
+
+    @app.put(f"{api}/projects/{{pid}}/concept")
+    def put_concept(pid: str, body: ConceptStatusChange) -> dict[str, Any]:
+        try:
+            ws.require_project(pid)
+            ws.set_concept_status(pid, body.status)
+        except KeyError:
+            raise HTTPException(404, "project not found")
+        except ValueError as e:
+            raise HTTPException(400, str(e))
+        return {"concept_status": ws.concept_status(pid)}
 
     @app.post(f"{api}/projects/{{pid}}/gates/{{gate}}")
     def run_gate(pid: str, gate: str, write: bool = True) -> dict[str, Any]:

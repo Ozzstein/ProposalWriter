@@ -302,7 +302,8 @@ def scope_form_schema(scope: ScopeConfig) -> dict[str, Any]:
         locked = scope.locked(m)
         props[m] = {"type": "string", "title": MODULE_LABEL[m],
                     "enum": ["required"] if locked else list(STATES),
-                    "description": mod.reason + (" (required by the call; cannot be changed)" if locked else "")}
+                    "description": mod.reason +
+                        (f" (required by the {mod.source}; cannot be changed)" if locked else "")}
         if locked:
             props[m]["readOnly"] = True
     return {"type": "object", "properties": props}
@@ -380,7 +381,10 @@ for TRL, geography, consortium, duration, budget or topic mismatches; `eligibili
 idea may violate; `suggested_hypothesis` only when changes would improve the fit (null when it fits as is);
 `verdict` fits | fits_with_changes | does_not_fit; `rationale` in 3-8 sentences."""
     res = await rt.agent("idea_evaluator", phase="align", inputs=inputs, instructions=instructions,
-                         output_model=ConceptAlignment, allowed_writes=set())
+                         output_model=ConceptAlignment, allowed_writes=set(),
+                         output_contract="Return the final result as a single JSON object conforming to the "
+                         "`ConceptAlignment` schema (the runner validates it and persists every node it contains). "
+                         "Do not also write the same JSON to a file.")
     al = ConceptAlignment.model_validate(res.structured)
     rt.graph.put_document("concept_alignment", "Concept alignment with the call", al.rationale,
                           created_by=rt.job.id, **al.model_dump(mode="json", exclude={"rationale"}))

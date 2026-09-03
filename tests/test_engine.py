@@ -238,14 +238,30 @@ def test_draftable_sections_skip_excluded_finance(ws, project):
     assert "4" in [s.id for s, _ in draftable_sections(spec)]      # no scope → unchanged behaviour
 
 
+class ScopeFormAnswering(AutoApprove):
+    """Answers the scope form's FORM item with an explicit user choice; everything else defaults."""
+
+    async def __call__(self, item):
+        if item.kind == InboxKind.FORM and item.header == "Configure proposal scope":
+            self.items.append(item)
+            return {"data": {"figures": "included", "external_review": "included"}}
+        return await super().__call__(item)
+
+
 async def test_parse_call_configures_scope_and_aligns_the_concept(ws, project, engine):
     from agency.domain.scope import ScopeConfig
+    engine.inbox.responder = ScopeFormAnswering()
     run = await engine.run_stage("demo", "parse-call")
     assert run.status == RunStatus.COMPLETED, run.error
     jobs = {j.name: j for j in ws.store.list_jobs(run.id)}
     assert jobs["configure_scope"].status == JobStatus.COMPLETED and jobs["align_concept"].status == JobStatus.COMPLETED
     scope = ScopeConfig.load(ws.get_project("demo"))
     assert scope.configured_at and scope.finance.state == "excluded"        # CALLSPEC has no financials
+    # the user's form choices override the derived scope; modules the user did not answer keep the derived value
+    assert scope.figures.state == "included" and scope.figures.source == "user"
+    assert scope.external_review.state == "included" and scope.external_review.source == "user"
+    assert scope.finance.state == "excluded" and scope.finance.source == "default"
+    assert scope.business_plan.state == "excluded" and scope.business_plan.source == "default"
     g = ws.graph("demo")
     assert g.decisions("scope_configured") and g.decisions("concept_alignment")
     assert ws.concept_status("demo") == "aligned"                            # AutoApprove answers "yes" → keep
@@ -289,6 +305,17 @@ async def test_align_concept_adopt_and_reopen(ws, project):
     assert run.status == RunStatus.COMPLETED, run.error
     assert ws.concept_status("demo") == "preliminary"
     assert any("not aligned" in b for b in ws.check_gate("demo", "scope").blockers)
+
+
+async def test_align_concept_output_contract_names_concept_alignment(ws, project):
+    fake = FakeQuery(responder)
+    eng = Engine(ws, query_fn=fake)
+    eng.inbox.responder = AutoApprove()
+    run = await eng.run_stage("demo", "parse-call")
+    assert run.status == RunStatus.COMPLETED, run.error
+    align_prompt = next(c["prompt"] for c in fake.calls
+                        if "idea_evaluator" in c["prompt"].splitlines()[0] and "CALL ALIGNMENT CHECK" in c["prompt"])
+    assert "`ConceptAlignment`" in align_prompt and "IdeationBrief" not in align_prompt
 
 
 async def test_parse_call_scope_only_needs_a_callspec(ws, project):

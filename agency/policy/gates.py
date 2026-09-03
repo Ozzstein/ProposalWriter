@@ -168,7 +168,10 @@ def rule_unsupported_ratio(ctx: GateContext) -> Criterion:
 def _required_sections(ctx: GateContext) -> list[str]:
     if not ctx.callspec:
         return []
-    return [s.id for s in ctx.callspec.sections if s.required and s.kind != "annex"]
+    sections = [s for s in ctx.callspec.sections if s.required and s.kind != "annex"]
+    if ctx.scope is not None and ctx.scope.state("finance") == "excluded":
+        sections = [s for s in sections if s.kind != "financial"]  # drafting skips these too
+    return [s.id for s in sections]
 
 
 def rule_all_sections_drafted(ctx: GateContext) -> Criterion:

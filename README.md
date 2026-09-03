@@ -16,6 +16,8 @@ idea ──▶ parse-call ──▶ ideate ──▶ research ──▶ write-pr
 
 Ideation can also run before the call (exploratory mode); parse-call then aligns the hypothesis with the call and asks you to configure the scope: finance, business plan, figures and external review as excluded / included / required.
 
+Existing projects created before this change must run `agency run PROJECT parse-call -f scope_only=1` to confirm the scope, and either `agency run PROJECT parse-call -f align_only=1` or `agency concept PROJECT aligned` for a hypothesis written earlier.
+
 ## What makes it different
 
 - **The proposal is a graph, not a folder.** Sources, claims, gaps, novelty
