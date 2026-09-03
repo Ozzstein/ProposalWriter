@@ -23,8 +23,8 @@ const NAV = [
   { to: "/inbox", label: "Inbox", icon: Inbox },
   { to: "/runs", label: "Runs", icon: ListChecks },
   { to: "/activity", label: "Activity", icon: Activity },
-  { to: "/graph", label: "Agents", icon: Network },
-  { to: "/memory", label: "Graph", icon: Database },
+  { to: "/agents", label: "Agents", icon: Network },
+  { to: "/graph", label: "Graph", icon: Database },
   { to: "/new", label: "New project", icon: Plus },
 ];
 
