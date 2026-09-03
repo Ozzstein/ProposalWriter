@@ -14,6 +14,7 @@ from pydantic import BaseModel, Field
 from agency.domain.callspec import CallSpec
 from agency.domain.graph import EdgeType, Node
 from agency.domain.models import CLOSED_FEEDBACK_STATUSES
+from agency.domain.scope import MODULE_STATE_KEY, ScopeConfig, concept_status_of
 from agency.graph.repo import Graph
 from agency.policy.thresholds import GATES, resolve
 
@@ -39,6 +40,8 @@ class GateContext:
     graph: Graph
     thresholds: dict[str, float]
     callspec: CallSpec | None = None
+    scope: ScopeConfig | None = None
+    stages: dict[str, dict[str, Any]] = field(default_factory=dict)
     extra: dict[str, Any] = field(default_factory=dict)
 
     @property
@@ -95,6 +98,22 @@ def rule_eligibility(ctx: GateContext) -> Criterion:
     if not reqs:
         return crit("Eligibility confirmed", True, "no disqualifying requirements parsed")
     return crit("Eligibility confirmed", ok, notes)
+
+
+def rule_scope_configured(ctx: GateContext) -> Criterion:
+    if ctx.scope is None:
+        return crit("Proposal scope configured", False, "scope not configured; run parse-call with scope_only")
+    ok = bool(ctx.scope.configured_at)
+    return crit("Proposal scope configured", ok, ctx.scope.summary() if ok else "derived but not confirmed")
+
+
+def rule_concept_aligned(ctx: GateContext) -> Criterion:
+    status = concept_status_of(ctx.graph.document("context"))
+    if status == "none":
+        return crit("Concept aligned with the call", True, "no hypothesis yet")
+    return crit("Concept aligned with the call", status == "aligned",
+                "aligned" if status == "aligned" else
+                "preliminary concept not aligned to the call; run parse-call with align_only")
 
 
 # ------------------------------------------------------------------ evidence
@@ -224,6 +243,16 @@ def rule_section_limits(ctx: GateContext) -> Criterion:
     return crit("Sections within word limits", not over, f"over limit: {over}" if over else "")
 
 
+def rule_required_modules_complete(ctx: GateContext) -> Criterion:
+    if ctx.scope is None:
+        return crit("Required modules complete", True, "scope not configured")
+    missing = [m for m in ("finance", "business_plan", "figures")
+               if ctx.scope.state(m) == "required"
+               and ctx.stages.get(MODULE_STATE_KEY[m], {}).get("status") != "complete"]
+    return crit("Required modules complete", not missing,
+                f"incomplete: {missing}" if missing else (f"{ctx.scope.required() or 'none'} required"))
+
+
 # ------------------------------------------------------------------ submission
 
 def _latest_by_section(findings: list[Node]) -> dict[tuple[str, str], Node]:
@@ -324,15 +353,27 @@ def rule_feedback_stale(ctx: GateContext) -> Criterion | None:
                 f"missing resolution: {stale}" if stale else "")
 
 
+def rule_external_review_required(ctx: GateContext) -> Criterion | None:
+    if ctx.scope is None or ctx.scope.state("external_review") != "required":
+        return None
+    fb = ctx.graph.feedback()
+    if not fb:
+        return crit("External review round ingested and closed", False, "no external feedback ingested")
+    sub = [c for c in (rule_feedback_open(ctx), rule_feedback_statuses(ctx), rule_feedback_stale(ctx)) if c]
+    failed = [c.notes or c.criterion for c in sub if not c.met]
+    return crit("External review round ingested and closed", not failed,
+                "; ".join(failed) if failed else f"{len(fb)} comments closed")
+
+
 GATE_RULES: dict[str, list[Rule]] = {
     "scope": [rule_call_parsed, rule_criteria_mapped, rule_outline_exists, rule_context_documented,
-              rule_eligibility],
+              rule_eligibility, rule_scope_configured, rule_concept_aligned],
     "evidence": [rule_min_sources, rule_sota, rule_anchors, rule_gaps, rule_claims_registered,
                  rule_unsupported_ratio],
     "draft": [rule_all_sections_drafted, rule_drafts_cite_claims, rule_assumption_markers,
-              rule_unregistered_refs, rule_abstract_limit, rule_section_limits],
+              rule_unregistered_refs, rule_abstract_limit, rule_section_limits, rule_required_modules_complete],
     "submission": [rule_scientific_scores, rule_no_critical_fixes, rule_compliance,
-                   rule_unsupported_resolved, rule_hard_rules, rule_panel_score],
+                   rule_unsupported_resolved, rule_hard_rules, rule_panel_score, rule_external_review_required],
     "external_feedback": [rule_feedback_open, rule_feedback_statuses, rule_feedback_stale],
 }
 
@@ -360,11 +401,15 @@ def load_callspec(graph: Graph) -> CallSpec | None:
 
 
 def evaluate_gate(gate: str, graph: Graph, thresholds: dict[str, float] | None = None,
-                  callspec: CallSpec | None = None) -> GateResult:
+                  callspec: CallSpec | None = None, project: Any = None) -> GateResult:
     gate = normalize_gate(gate)
     if gate not in GATE_RULES:
         raise ValueError(f"unknown gate {gate!r}; expected one of {GATES}")
-    ctx = GateContext(graph=graph, thresholds=resolve(thresholds), callspec=callspec or load_callspec(graph))
+    if project is None and graph.project_id:
+        project = graph.store.get_project(graph.project_id)
+    ctx = GateContext(graph=graph, thresholds=resolve(thresholds), callspec=callspec or load_callspec(graph),
+                      scope=ScopeConfig.load(project) if project is not None else None,
+                      stages=dict(project.stages) if project is not None else {})
     criteria = [c for c in (rule(ctx) for rule in GATE_RULES[gate]) if c is not None]
     if gate == "external_feedback" and not criteria:
         return GateResult(gate_name=gate, passed=False, not_applicable=True,
@@ -386,14 +431,13 @@ class GatePolicy:
     def check(self, project_id: str, gate: str, write: bool = True,
               pack_thresholds: dict[str, float] | None = None) -> GateResult:
         graph = Graph(self.store, project_id)
-        result = evaluate_gate(gate, graph, resolve(self.thresholds, pack_thresholds))
-        if write:
-            project = self.store.get_project(project_id)
-            if project is not None:
-                entry = project.gates.setdefault(normalize_gate(gate), {})
-                entry["passed"] = result.passed
-                entry["checked_at"] = result.checked_at
-                entry["not_applicable"] = result.not_applicable
-                entry["blockers"] = result.blockers
-                self.store.put_project(project)
+        project = self.store.get_project(project_id)
+        result = evaluate_gate(gate, graph, resolve(self.thresholds, pack_thresholds), project=project)
+        if write and project is not None:
+            entry = project.gates.setdefault(normalize_gate(gate), {})
+            entry["passed"] = result.passed
+            entry["checked_at"] = result.checked_at
+            entry["not_applicable"] = result.not_applicable
+            entry["blockers"] = result.blockers
+            self.store.put_project(project)
         return result

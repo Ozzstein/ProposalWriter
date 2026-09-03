@@ -24,6 +24,8 @@ def test_scope_gate(ws, project):
     r = evaluate_gate("scope", g)
     assert not r.passed and any("Eligibility" in b for b in r.blockers)
     spec.requirements[0].status = "met"
+    ws.set_scope("demo", {})
+    ws.set_concept_status("demo", "aligned")
     r = evaluate_gate("scope", g, callspec=spec)
     assert r.passed, r.blockers
 
@@ -147,3 +149,55 @@ def test_workspace_gate_records_project(ws, project):
     r = ws.check_gate("demo", "scope")
     assert r.passed is False
     assert ws.get_project("demo").gates["scope"]["blockers"]
+
+
+from agency.domain.models import FeedbackEntry
+
+
+def test_scope_gate_needs_configured_scope_and_aligned_concept(ws, project):
+    g = ws.graph("demo")
+    spec = _spec()
+    spec.requirements[0].status = "met"
+    g.add(NodeType.CALL_SPEC, spec.model_dump(mode="json"))
+    g.put_document("outline", "Outline", "## 1. Abstract\n## 2. Innovation")
+    r = evaluate_gate("scope", g)
+    assert any("scope not configured" in b for b in r.blockers)
+    assert any("preliminary concept not aligned" in b for b in r.blockers)
+    ws.set_scope("demo", {})                       # confirm the derived scope
+    ws.set_concept_status("demo", "aligned")
+    assert evaluate_gate("scope", g).passed, evaluate_gate("scope", g).blockers
+
+
+def test_scope_gate_alignment_passes_without_a_hypothesis(ws):
+    ws.create_project("Empty", project_id="empty")
+    g = ws.graph("empty")
+    r = evaluate_gate("scope", g)
+    aligned = next(c for c in r.criteria if c.criterion.startswith("Concept aligned"))
+    assert aligned.met and "no hypothesis" in aligned.notes
+
+
+def test_draft_gate_blocks_on_required_modules(ws, project):
+    g = ws.graph("demo")
+    spec = _spec()
+    spec.sections.append(SectionSpec(id="4", title="Financial", kind="financial"))
+    g.add(NodeType.CALL_SPEC, spec.model_dump(mode="json"))
+    ws.put_scope("demo", ws.recommend_scope("demo"))      # finance required by the call
+    r = evaluate_gate("draft", g)
+    assert any("Required modules complete" in b and "finance" in b for b in r.blockers)
+    ws.set_stage("demo", "finance", "complete")
+    r = evaluate_gate("draft", g)
+    assert not any("Required modules" in b for b in r.blockers)
+
+
+def test_submission_gate_external_review_rule_only_when_required(ws, project):
+    g = ws.graph("demo")
+    names = [c.criterion for c in evaluate_gate("submission", g).criteria]
+    assert not any("External review" in n for n in names)
+    ws.set_scope("demo", {"external_review": "required"})
+    r = evaluate_gate("submission", g)
+    assert any("External review" in b and "no external feedback" in b for b in r.blockers)
+    g.add(NodeType.FEEDBACK, FeedbackEntry(round=1, source_file="r.md", location="1", comment="x",
+                                           category="writing", status="resolved", dedupe_key="k"))
+    r = evaluate_gate("submission", g)
+    ext = next(c for c in r.criteria if c.criterion.startswith("External review"))
+    assert ext.met, ext.notes
