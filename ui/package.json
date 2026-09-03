@@ -1,21 +1,17 @@
 {
-  "name": "proposalwriter-ui",
+  "name": "proposal-agency-ui",
   "version": "0.1.0",
   "private": true,
   "workspaces": [
     "shared",
-    "server",
     "web"
   ],
   "scripts": {
-    "dev": "npm-run-all --parallel dev:server dev:web",
-    "dev:server": "npm --workspace server run dev",
-    "dev:web": "npm --workspace web run dev",
-    "build": "npm --workspace shared run build && npm --workspace server run build && npm --workspace web run build",
-    "typecheck": "npm --workspace shared run typecheck && npm --workspace server run typecheck && npm --workspace web run typecheck"
+    "dev": "npm --workspace web run dev",
+    "build": "npm --workspace web run build",
+    "typecheck": "npm --workspace shared run typecheck && npm --workspace web run typecheck"
   },
   "devDependencies": {
-    "npm-run-all": "^4.1.5",
     "typescript": "^5.6.3"
   }
 }

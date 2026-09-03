@@ -1,0 +1,23 @@
+name: idea_evaluator
+description: Score candidate project framings against the prior-art probe evidence, as a skeptical evaluator
+  would — before the user commits months of work to the wrong one.
+role: synthesizer
+model_tier: reasoning
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+connectors: []
+output: IdeationBrief
+output_mode: structured
+budget:
+  max_turns: 30
+  max_usd: 5
+writes:
+- IdeationBrief
+acceptance:
+- framings_min: 1
+env_keys: []
+session: false
+notes: ''

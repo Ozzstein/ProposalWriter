@@ -2,11 +2,15 @@ import { NavLink, Outlet } from "react-router-dom";
 import {
   Activity,
   Database,
+  Inbox,
   LayoutDashboard,
+  ListChecks,
   Network,
-  Terminal,
+  Plus,
   Workflow,
 } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { listInbox } from "@/lib/api";
 import { cn } from "@/lib/cn";
 import { ProjectSwitcher } from "./ProjectSwitcher";
 import { useEventStream } from "@/lib/sse";
@@ -16,16 +20,24 @@ import { useEventStore } from "@/stores/event-store";
 const NAV = [
   { to: "/", label: "Overview", icon: LayoutDashboard, end: true },
   { to: "/pipeline", label: "Pipeline", icon: Workflow },
+  { to: "/inbox", label: "Inbox", icon: Inbox },
+  { to: "/runs", label: "Runs", icon: ListChecks },
   { to: "/activity", label: "Activity", icon: Activity },
-  { to: "/graph", label: "System", icon: Network },
-  { to: "/memory", label: "Memory", icon: Database },
-  { to: "/sessions", label: "Sessions", icon: Terminal },
+  { to: "/graph", label: "Agents", icon: Network },
+  { to: "/memory", label: "Graph", icon: Database },
+  { to: "/new", label: "New project", icon: Plus },
 ];
 
 export function AppShell(): React.ReactElement {
   const activeProject = useProjectStore((s) => s.activeProject);
   useEventStream(activeProject);
   const status = useEventStore((s) => s.status);
+  const pending = useQuery({
+    queryKey: ["inbox-count", activeProject],
+    queryFn: () => listInbox(activeProject ?? undefined),
+    refetchInterval: 3000,
+  });
+  const pendingCount = pending.data?.length ?? 0;
 
   const statusColor =
     status === "live"
@@ -58,7 +70,7 @@ export function AppShell(): React.ReactElement {
           <div className="flex flex-col leading-tight">
             <span className="text-sm font-semibold">Mission Control</span>
             <span className="text-[11px] text-foreground-muted">
-              ProposalWriter
+              local workspace
             </span>
           </div>
         </div>
@@ -80,6 +92,9 @@ export function AppShell(): React.ReactElement {
             >
               <Icon className="h-4 w-4" aria-hidden />
               <span>{label}</span>
+              {to === "/inbox" && pendingCount > 0 && (
+                <span className="ml-auto rounded-full bg-destructive px-1.5 text-[10px] text-white">{pendingCount}</span>
+              )}
             </NavLink>
           ))}
         </nav>

@@ -1,0 +1,11 @@
+id: generic
+name: Generic funder (no built-in template)
+funder: unknown
+match: []
+abstract_word_limit: 500
+thresholds: {}
+criteria_hints: []
+panel_personas:
+  - a rigorous senior scientist in the field
+  - a programme officer focused on fit-to-call and feasibility
+  - a sceptical practitioner focused on impact and adoption

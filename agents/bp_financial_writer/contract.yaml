@@ -1,0 +1,26 @@
+name: bp_financial_writer
+description: Draft BP sections 1.5 (Financial assumptions), 2.1 (Detailed cash flow projections), 2.2
+  (Expected project profitability), 2.3 (Sensitivity analysis), 3 (Financing plan — sources & uses, equity,
+  debt, IF grant allocation), and 4 (Project funders & investors commitment).
+role: writer
+model_tier: balanced
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+- Write
+- Edit
+connectors: []
+output: null
+output_mode: files
+budget:
+  max_turns: 40
+  max_usd: 4
+writes:
+- Section
+acceptance:
+- drafts_written: true
+env_keys: []
+session: false
+notes: ''

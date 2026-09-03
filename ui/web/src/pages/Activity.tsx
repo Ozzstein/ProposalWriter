@@ -3,25 +3,33 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Pause, Play, Trash2 } from "lucide-react";
 import { cn } from "@/lib/cn";
 import { useEventStore } from "@/stores/event-store";
-import type { HookKind, PipelineEvent } from "@pw/shared";
+import { eventFamily, type EventFamily, type PipelineEvent } from "@pw/shared";
+
+type HookKind = EventFamily | "other";
 
 const HOOK_FILTERS: Array<{ value: HookKind | "all"; label: string }> = [
   { value: "all", label: "All" },
-  { value: "PreToolUse", label: "PreTool" },
-  { value: "PostToolUse", label: "PostTool" },
-  { value: "UserPromptSubmit", label: "Prompt" },
-  { value: "SessionStart", label: "Session" },
-  { value: "Stop", label: "Stop" },
-  { value: "SdkStream", label: "SDK" },
+  { value: "stage", label: "Stages" },
+  { value: "job", label: "Jobs" },
+  { value: "agent", label: "Agents" },
+  { value: "tool", label: "Tools" },
+  { value: "inbox", label: "Inbox" },
+  { value: "gate", label: "Gates" },
+  { value: "graph", label: "Graph" },
+  { value: "cost", label: "Cost" },
 ];
 
 const HOOK_COLOR: Record<HookKind, string> = {
-  SessionStart: "bg-info/20 text-info",
-  UserPromptSubmit: "bg-info/20 text-info",
-  PreToolUse: "bg-warning/20 text-warning",
-  PostToolUse: "bg-accent/20 text-accent",
-  Stop: "bg-destructive/20 text-destructive",
-  SdkStream: "bg-muted text-foreground-muted",
+  stage: "bg-info/20 text-info",
+  job: "bg-info/20 text-info",
+  agent: "bg-warning/20 text-warning",
+  tool: "bg-accent/20 text-accent",
+  inbox: "bg-destructive/20 text-destructive",
+  gate: "bg-warning/20 text-warning",
+  graph: "bg-muted text-foreground-muted",
+  cost: "bg-muted text-foreground-muted",
+  project: "bg-muted text-foreground-muted",
+  other: "bg-muted text-foreground-muted",
 };
 
 export function ActivityPage(): React.ReactElement {
@@ -39,7 +47,7 @@ export function ActivityPage(): React.ReactElement {
     return events
       .slice()
       .reverse()
-      .filter((e) => (hookFilter === "all" ? true : e.hook === hookFilter))
+      .filter((e) => (hookFilter === "all" ? true : eventFamily(e.kind) === hookFilter))
       .filter((e) =>
         toolFilter.trim()
           ? (e.tool_name ?? "").toLowerCase().includes(toolFilter.trim().toLowerCase())
@@ -200,22 +208,21 @@ function EventRow({
         <span
           className={cn(
             "inline-flex h-5 shrink-0 items-center rounded px-1.5 text-[10px] font-medium",
-            HOOK_COLOR[event.hook],
+            HOOK_COLOR[eventFamily(event.kind)],
           )}
         >
-          {event.hook}
+          {event.kind}
         </span>
         <span className="mono w-28 shrink-0 truncate text-foreground">
           {event.tool_name ?? "—"}
         </span>
         <span className="flex-1 truncate text-foreground-muted">
-          {event.agent_hint ??
-            event.project_hint ??
-            summarizeInput(event.tool_input_summary)}
+          {event.agent ? `${event.agent} · ` : ""}
+          {summarizeInput(event.data)}
         </span>
-        {event.duration_ms !== undefined && (
+        {typeof event.data.duration_ms === "number" && (
           <span className="mono shrink-0 tabular-nums text-foreground-muted">
-            {event.duration_ms}ms
+            {event.data.duration_ms}ms
           </span>
         )}
       </button>

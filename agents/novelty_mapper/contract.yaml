@@ -1,0 +1,23 @@
+name: novelty_mapper
+description: Map the project's specific novelty positions against the established state of the art.
+role: synthesizer
+model_tier: reasoning
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+connectors: []
+output: NoveltyMap
+output_mode: structured
+budget:
+  max_turns: 30
+  max_usd: 6
+writes:
+- NoveltyAnchor
+acceptance:
+- anchors_min: 3
+- every_anchor_has_source: true
+env_keys: []
+session: false
+notes: ''

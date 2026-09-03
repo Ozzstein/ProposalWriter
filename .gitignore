@@ -34,3 +34,7 @@ ProposalWriter/**
 
 # API keys — ingested by scripts/with_secrets.sh at MCP startup
 secrets.json
+
+# Agency workspace (SQLite, blobs) and local venv
+workspace/
+*.egg-info/

@@ -1,0 +1,45 @@
+id: innovation-fund
+name: EU Innovation Fund — large-scale projects
+funder: CINEA / European Commission
+match: [innovation fund, innovfund, cinea, nzt, net-zero technologies]
+outline: outline.md
+abstract_word_limit: 500
+thresholds:
+  min_evidence: 12
+  min_anchors: 3
+  min_gaps: 4
+section_kinds:
+  "1": excellence
+  "2": impact
+  "3": implementation
+  "4": financial
+  "5": business_plan
+hard_rules:
+  - id: HR-CER
+    kind: hard_rule
+    text: Cost-efficiency ratio (grant request / absolute GHG avoidance) must not exceed EUR 200 per tCO2eq.
+    rule: cer_eur_per_tco2 <= 200
+    disqualifying: true
+  - id: HR-GHG
+    kind: hard_rule
+    text: Relative GHG emission avoidance must be at least 50% versus the reference scenario.
+    rule: ghg_relative_avoidance_pct >= 50
+    disqualifying: true
+  - id: HR-MATURITY
+    kind: hard_rule
+    text: Financial and technical maturity thresholds (each criterion scored above its minimum).
+    disqualifying: true
+criteria_hints:
+  - {id: C1, name: Degree of innovation, weight: 1, max_score: 15}
+  - {id: C2, name: GHG emission avoidance potential, weight: 1, max_score: 15}
+  - {id: C3, name: Technical maturity, weight: 1, max_score: 15}
+  - {id: C4, name: Operational maturity, weight: 1, max_score: 15}
+  - {id: C5, name: Financial maturity, weight: 1, max_score: 15}
+  - {id: C6, name: Replicability, weight: 1, max_score: 15}
+  - {id: C7, name: Cost efficiency, weight: 1, max_score: 15}
+  - {id: C8, name: Bonus points, weight: 1, max_score: 4}
+annexes: [Business Plan, Financial Information File, GHG calculator, Feasibility study]
+panel_personas:
+  - a climate-tech investment analyst who scrutinises financial maturity and bankability
+  - a process engineer who challenges technical maturity and scale-up risk
+  - a Commission policy officer focused on GHG methodology and replicability

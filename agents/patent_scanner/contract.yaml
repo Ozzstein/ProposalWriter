@@ -1,0 +1,24 @@
+name: patent_scanner
+description: Map the IP landscape for the research topic by searching Google Patents and EPO Espacenet.
+role: retriever
+model_tier: fast
+effort: medium
+tools:
+- Read
+- Grep
+- Glob
+- WebFetch
+- WebSearch
+connectors:
+- firecrawl
+output: EvidenceResult
+output_mode: structured
+budget:
+  max_turns: 80
+  max_usd: 3
+writes:
+- Source
+acceptance: []
+env_keys: []
+session: false
+notes: ''

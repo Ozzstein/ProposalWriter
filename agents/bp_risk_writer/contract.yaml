@@ -1,0 +1,25 @@
+name: bp_risk_writer
+description: Draft BP section 5 — Risk analysis and management.
+role: writer
+model_tier: balanced
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+- Write
+- Edit
+- Bash
+connectors: []
+output: null
+output_mode: files
+budget:
+  max_turns: 40
+  max_usd: 4
+writes:
+- Section
+acceptance:
+- drafts_written: true
+env_keys: []
+session: false
+notes: ''

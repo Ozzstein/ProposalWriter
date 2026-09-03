@@ -1,16 +1,18 @@
 export type AgentKind =
-  | "command"
-  | "orchestrator"
+  | "stage"
   | "retriever"
   | "synthesizer"
   | "writer"
   | "reviewer"
-  | "worker";
+  | "modeler"
+  | "renderer"
+  | "interviewer"
+  | "orchestrator";
 
-export type AgentModel = "haiku" | "sonnet" | "opus";
+export type AgentModel = "fast" | "balanced" | "reasoning";
 
 export interface AgentNode {
-  /** Stable id, e.g. "orchestrators/research_orchestrator" or "commands/research" */
+  /** "stages/research" or "agents/novelty_mapper" */
   id: string;
   kind: AgentKind;
   title: string;

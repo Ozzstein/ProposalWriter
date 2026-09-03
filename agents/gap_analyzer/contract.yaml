@@ -1,0 +1,23 @@
+name: gap_analyzer
+description: Identify, characterise, and rank the gaps in current knowledge, technology, and practice
+  that the proposed project addresses.
+role: synthesizer
+model_tier: reasoning
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+connectors: []
+output: GapAnalysis
+output_mode: structured
+budget:
+  max_turns: 30
+  max_usd: 6
+writes:
+- Gap
+acceptance:
+- gaps_min: 4
+env_keys: []
+session: false
+notes: ''

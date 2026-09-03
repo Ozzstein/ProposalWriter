@@ -8,6 +8,7 @@ interface EventStoreState {
   status: "idle" | "connecting" | "live" | "paused" | "error";
   lastPingAt: number | null;
   paused: boolean;
+  /** last activity per agent-graph node id ("agents/<contract>" or "stages/<stage>") */
   agentPulse: Record<string, number>;
   push: (event: PipelineEvent) => void;
   setStatus: (status: EventStoreState["status"]) => void;
@@ -27,9 +28,10 @@ export const useEventStore = create<EventStoreState>((set) => ({
       const next = state.events.concat(event);
       if (next.length > CAPACITY) next.splice(0, next.length - CAPACITY);
       const pulse = { ...state.agentPulse };
-      if (event.agent_hint) {
-        pulse[event.agent_hint] = Date.parse(event.ts) || Date.now();
-      }
+      const t = Date.parse(event.ts) || Date.now();
+      if (event.agent) pulse[`agents/${event.agent}`] = t;
+      const stage = event.data?.stage;
+      if (typeof stage === "string") pulse[`stages/${stage}`] = t;
       return { events: next, agentPulse: pulse };
     }),
   setStatus: (status) => set({ status }),

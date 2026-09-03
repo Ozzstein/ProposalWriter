@@ -1,0 +1,25 @@
+name: feedback_parser
+description: Extract and classify every individual reviewer comment from a single input file, returning
+  structured feedback_entry objects ready for the feedback log.
+role: retriever
+model_tier: balanced
+effort: medium
+tools:
+- Read
+- Grep
+- Glob
+- Write
+- Edit
+- Bash
+connectors: []
+output: FeedbackParse
+output_mode: structured
+budget:
+  max_turns: 40
+  max_usd: 2
+writes:
+- Feedback
+acceptance: []
+env_keys: []
+session: false
+notes: ''

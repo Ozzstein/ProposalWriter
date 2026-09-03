@@ -1,375 +1,233 @@
 import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Link } from "react-router-dom";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Play, RotateCcw, AlertTriangle } from "lucide-react";
-import {
-  getProject,
-  launchStage,
-  listSessions,
-  type SessionRecord,
-  type StageName,
-} from "@/lib/api";
+import { AlertTriangle, ArrowRight, Compass, Lock, Play, RotateCcw, ShieldCheck } from "lucide-react";
+import { getPlan, getProject, listRuns, listStages, runGate, startPlan, startRun } from "@/lib/api";
 import { useProjectStore } from "@/stores/project-store";
-import type { StageName as StateStageName, StageStatus } from "@pw/shared";
-
-interface StageDef {
-  slug: StageName;
-  label: string;
-  desc: string;
-  /** matching key in ProjectState.stages */
-  stateKey?: StateStageName;
-  /** required free-form args prompt when launching (e.g. gate name) */
-  argsPrompt?: string;
-}
-
-const STAGES: StageDef[] = [
-  {
-    slug: "parse-call",
-    label: "Parse call",
-    desc: "Extract eligibility, criteria, structure from the funding call.",
-    stateKey: "call_parsing",
-  },
-  {
-    slug: "research",
-    label: "Research",
-    desc: "Gather evidence, identify SOTA and gaps.",
-    stateKey: "research",
-  },
-  {
-    slug: "write-proposal",
-    label: "Write proposal",
-    desc: "Draft polished narrative sections.",
-    stateKey: "writing",
-  },
-  {
-    slug: "review",
-    label: "Review",
-    desc: "Red-team, compliance check, unsupported-claim detection.",
-    stateKey: "review",
-  },
-  {
-    slug: "external-review",
-    label: "External review",
-    desc: "Ingest external reviewer comments and apply patches.",
-    stateKey: "external_review",
-  },
-  {
-    slug: "gate-check",
-    label: "Gate check",
-    desc: "Verify a review gate (scope / evidence / draft / submission).",
-    argsPrompt: "Gate name (scope | evidence | draft | submission):",
-  },
-  {
-    slug: "pipeline-status",
-    label: "Pipeline status",
-    desc: "Print current progress and the next recommended action.",
-  },
-];
+import type { StageDef, StageKey } from "@pw/shared";
+import { StageBadge } from "./Overview";
 
 export function PipelinePage(): React.ReactElement {
   const active = useProjectStore((s) => s.activeProject);
   const qc = useQueryClient();
-
-  const projectQ = useQuery({
-    queryKey: ["project", active],
-    queryFn: () => (active ? getProject(active) : Promise.resolve(null)),
-    enabled: !!active,
-  });
-
-  const sessionsQ = useQuery({
-    queryKey: ["sessions"],
-    queryFn: listSessions,
-    refetchInterval: 3000,
-  });
-
-  const launchM = useMutation({
-    mutationFn: async (args: {
-      stage: StageName;
-      resume?: string;
-      args?: string;
-    }) => {
-      if (!active) throw new Error("No active project");
-      return launchStage(active, args.stage, {
-        resume: args.resume,
-        args: args.args,
-      });
+  const { data: stages } = useQuery({ queryKey: ["stages"], queryFn: listStages });
+  const { data: project } = useQuery({ queryKey: ["project", active], queryFn: () => getProject(active!), enabled: !!active, refetchInterval: 4000 });
+  const { data: runs } = useQuery({ queryKey: ["runs", active], queryFn: () => listRuns(active!), enabled: !!active, refetchInterval: 4000 });
+  const [flags, setFlags] = useState<Record<string, Record<string, string>>>({});
+  const [force, setForce] = useState<Record<string, boolean>>({});
+  const [message, setMessage] = useState<string | null>(null);
+  const [goal, setGoal] = useState("");
+  const { data: plan } = useQuery({ queryKey: ["plan", active], queryFn: () => getPlan(active!), enabled: !!active, refetchInterval: 4000 });
+  const planStart = useMutation({
+    mutationFn: () => startPlan(active!, { goal }),
+    onSuccess: (run) => {
+      setMessage(`Planning started (${run.id}); approve the plan in the inbox`);
+      qc.invalidateQueries({ queryKey: ["runs", active] });
+      qc.invalidateQueries({ queryKey: ["plan", active] });
     },
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["sessions"] });
-    },
+    onError: (e) => setMessage(String(e)),
   });
 
-  const [confirm, setConfirm] = useState<{
-    stage: StageDef;
-    resumeFrom?: SessionRecord;
-    argsValue: string;
-  } | null>(null);
+  const start = useMutation({
+    mutationFn: ({ stage, resume }: { stage: string; resume?: string }) =>
+      startRun(active!, stage, {
+        flags: Object.fromEntries(Object.entries(flags[stage] ?? {}).filter(([, v]) => v !== "")),
+        resume,
+        force: !!force[stage],
+      }),
+    onSuccess: (run) => {
+      setMessage(`Started ${run.stage} (${run.id})`);
+      qc.invalidateQueries({ queryKey: ["runs", active] });
+    },
+    onError: (e) => setMessage(String(e)),
+  });
+  const gate = useMutation({
+    mutationFn: (g: string) => runGate(active!, g),
+    onSuccess: (res) => {
+      setMessage(`Gate ${res.gate_name}: ${res.not_applicable ? "not applicable" : res.passed ? "PASS" : "FAIL — " + res.blockers.join("; ")}`);
+      qc.invalidateQueries({ queryKey: ["project", active] });
+    },
+    onError: (e) => setMessage(String(e)),
+  });
 
-  if (!active) {
-    return (
-      <Card>
-        <CardHeader>
-          <CardTitle>Pipeline control</CardTitle>
-          <CardDescription>
-            Pick a project in the top bar to launch stages.
-          </CardDescription>
-        </CardHeader>
-      </Card>
-    );
-  }
-
-  const lastSessionByStage = new Map<StageName, SessionRecord>();
-  for (const s of sessionsQ.data ?? []) {
-    if (s.project !== active) continue;
-    const existing = lastSessionByStage.get(s.stage);
-    if (!existing || s.started_at > existing.started_at) {
-      lastSessionByStage.set(s.stage, s);
-    }
-  }
+  if (!active) return <div className="text-sm text-foreground-muted">Select a project first.</div>;
+  const activeRun = runs?.find((r) => r.status === "running" || r.status === "waiting_for_user");
 
   return (
-    <div className="flex flex-col gap-4">
-      {launchM.error && (
-        <div className="flex items-start gap-2 rounded-md border border-destructive/40 bg-destructive/10 p-3 text-xs text-destructive">
-          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0" aria-hidden />
-          <div>{String(launchM.error)}</div>
+    <div className="space-y-4">
+      {message && (
+        <div className="rounded border border-border bg-surface px-3 py-2 text-xs text-foreground-muted" role="status">
+          {message}
         </div>
       )}
-
-      <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-        {STAGES.map((stage) => {
-          const stageState =
-            stage.stateKey && projectQ.data?.state.stages[stage.stateKey];
-          const lastSession = lastSessionByStage.get(stage.slug);
-          return (
-            <StageCard
-              key={stage.slug}
-              stage={stage}
-              stageState={stageState}
-              lastSession={lastSession}
-              onRun={() =>
-                setConfirm({ stage, argsValue: "" })
-              }
-              onResume={() =>
-                setConfirm({
-                  stage,
-                  resumeFrom: lastSession,
-                  argsValue: lastSession?.args ?? "",
-                })
-              }
-              disabled={launchM.isPending}
+      {activeRun && (
+        <div className="flex items-center gap-2 rounded border border-warning/40 bg-warning/10 px-3 py-2 text-xs">
+          <AlertTriangle className="h-3 w-3 text-warning" aria-hidden />
+          Run <span className="mono">{activeRun.id}</span> ({activeRun.stage}) is {activeRun.status.replace("_", " ")}
+          {activeRun.status === "waiting_for_user" && (
+            <Link to="/inbox" className="underline">answer in the inbox</Link>
+          )}
+          {" · "}
+          <Link to="/runs" className="underline">details</Link>
+        </div>
+      )}
+      <div className="rounded border border-border bg-surface px-3 py-2 text-xs text-foreground-muted">
+        Stages run in order: <span className="mono">ideate → parse-call → research → write-proposal → review → export</span>, with finance, figures,
+        business-plan and external-feedback as optional side steps. Locked stages say what they wait for.
+        The recommended next stage is highlighted; the <Link to="/" className="underline">Overview</Link> explains it.
+      </div>
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Compass className="h-4 w-4 text-accent" aria-hidden />
+            <CardTitle className="text-base">Planner</CardTitle>
+          </div>
+          <CardDescription>
+            Describe what you want next. The planning agent proposes a campaign of stage runs, you approve it in the inbox, the engine executes it and re-plans once if a step stops.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex gap-2">
+            <input
+              className="h-8 flex-1 rounded border border-border bg-background px-2 text-sm"
+              placeholder="e.g. get the draft gate passed with a focus on the impact section"
+              value={goal}
+              onChange={(e) => setGoal(e.target.value)}
             />
+            <Button size="sm" disabled={!!activeRun || planStart.isPending || goal.trim().length < 3} onClick={() => planStart.mutate()}>
+              <Compass className="h-3 w-3" aria-hidden /> Plan
+            </Button>
+          </div>
+          {plan && (
+            <div className="space-y-2 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="font-medium">Latest plan</span>
+                <Badge variant={plan.status === "completed" ? "success" : plan.status === "stopped" ? "warning" : "muted"}>{plan.status}</Badge>
+                {plan.campaign_active && <span className="text-foreground-muted">campaign running</span>}
+                <span className="ml-auto text-foreground-muted">{plan.goal}</span>
+              </div>
+              <p className="text-foreground-muted">{plan.assessment}</p>
+              {plan.questions_for_researcher.length > 0 && (
+                <ul className="list-disc pl-4 text-foreground-muted">
+                  {plan.questions_for_researcher.map((q) => <li key={q}>{q}</li>)}
+                </ul>
+              )}
+              <table className="w-full text-left">
+                <thead className="text-foreground-muted">
+                  <tr><th className="pr-2">#</th><th className="pr-2">stage</th><th className="pr-2">flags</th><th className="pr-2">status</th><th>rationale</th></tr>
+                </thead>
+                <tbody>
+                  {plan.steps.map((st) => (
+                    <tr key={st.step} className="border-t border-border align-top">
+                      <td className="pr-2 py-1">{st.step}</td>
+                      <td className="pr-2 py-1 mono">{st.stage}{st.force ? " (force)" : ""}</td>
+                      <td className="pr-2 py-1 mono">{Object.entries(st.flags).map(([k, v]) => `${k}=${String(v)}`).join(" ") || "–"}</td>
+                      <td className="pr-2 py-1">
+                        <Badge variant={st.status === "completed" ? "success" : st.status === "failed" || st.status === "blocked" ? "warning" : "muted"}>{st.status}</Badge>
+                        {st.run_id && <Link to="/runs" className="ml-1 underline">run</Link>}
+                      </td>
+                      <td className="py-1 text-foreground-muted">{st.rationale}{st.error ? ` — ${st.error}` : ""}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {plan.error && <p className="text-warning">{plan.error}</p>}
+            </div>
+          )}
+        </CardContent>
+      </Card>
+      <div className="grid gap-3 md:grid-cols-2">
+        {(stages ?? []).filter((s: StageDef) => s.name !== "plan").map((s: StageDef, idx: number) => {
+          const last = runs?.find((r) => r.stage === s.name);
+          const stateStatus = s.state_key ? project?.state.stages[s.state_key]?.status : undefined;
+          const gateOk = s.requires_gate ? project?.state.gates[s.requires_gate]?.passed : true;
+          const missing = s.requires_stages.filter((k) => !["complete", "skipped"].includes(project?.state.stages[k as StageKey]?.status ?? ""));
+          const isNext = project?.next_step.action.stage === s.name;
+          const locked = missing.length > 0 || (s.requires_gate && gateOk === false && !force[s.name]);
+          return (
+            <Card key={s.name} className={isNext ? "border-accent/60 ring-1 ring-accent/30" : locked ? "opacity-80" : ""}>
+              <CardHeader>
+                <div className="flex items-center justify-between gap-2">
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-surface text-[11px] text-foreground-muted">{idx + 1}</span>
+                    {s.name}
+                    {s.optional && <Badge variant="muted">optional</Badge>}
+                    {isNext && <Badge variant="success"><ArrowRight className="h-3 w-3" aria-hidden />next</Badge>}
+                  </CardTitle>
+                  <StageBadge status={stateStatus} />
+                </div>
+                <CardDescription>{s.description}</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                {missing.length > 0 && (
+                  <div className="flex items-center gap-2 text-xs text-foreground-muted">
+                    <Lock className="h-3 w-3" aria-hidden /> waits for {missing.join(", ")} to complete
+                  </div>
+                )}
+                {s.requires_gate && (
+                  <div className="flex items-center gap-2 text-xs">
+                    <ShieldCheck className={`h-3 w-3 ${gateOk ? "text-accent" : "text-warning"}`} aria-hidden />
+                    requires gate <span className="mono">{s.requires_gate}</span>
+                    <Badge variant={gateOk ? "success" : "warning"}>{gateOk ? "passed" : "not passed"}</Badge>
+                    <Button size="sm" variant="ghost" onClick={() => gate.mutate(s.requires_gate!)}>re-check</Button>
+                    <label className="ml-auto flex items-center gap-1">
+                      <input type="checkbox" checked={!!force[s.name]} onChange={(e) => setForce({ ...force, [s.name]: e.target.checked })} />
+                      force
+                    </label>
+                  </div>
+                )}
+                {Object.keys(s.flags).length > 0 && (
+                  <details className="text-xs">
+                    <summary className="cursor-pointer text-foreground-muted">flags</summary>
+                    <div className="mt-1 grid gap-1">
+                      {Object.entries(s.flags).map(([k, help]) => (
+                        <label key={k} className="grid grid-cols-[8rem_1fr] items-center gap-2">
+                          <span className="mono" title={help}>{k}</span>
+                          <input
+                            className="h-7 rounded border border-border bg-background px-2"
+                            placeholder={help}
+                            value={flags[s.name]?.[k] ?? ""}
+                            onChange={(e) => setFlags({ ...flags, [s.name]: { ...(flags[s.name] ?? {}), [k]: e.target.value } })}
+                          />
+                        </label>
+                      ))}
+                    </div>
+                  </details>
+                )}
+                <div className="flex items-center gap-2">
+                  <Button size="sm" disabled={!!activeRun || start.isPending || !!locked} title={locked ? "prerequisites not met (tick force to override a gate)" : undefined} onClick={() => start.mutate({ stage: s.name })}>
+                    <Play className="h-3 w-3" aria-hidden /> Run
+                  </Button>
+                  {last && last.status !== "completed" && (
+                    <Button size="sm" variant="secondary" disabled={!!activeRun} onClick={() => start.mutate({ stage: s.name, resume: last.id })}>
+                      <RotateCcw className="h-3 w-3" aria-hidden /> Resume
+                    </Button>
+                  )}
+                  {last && (
+                    <span className="ml-auto text-[11px] text-foreground-muted">
+                      last: {last.status} · ${last.cost_usd.toFixed(2)}
+                    </span>
+                  )}
+                </div>
+              </CardContent>
+            </Card>
           );
         })}
       </div>
-
-      {confirm && (
-        <ConfirmLaunch
-          project={active}
-          stage={confirm.stage}
-          resumeFrom={confirm.resumeFrom}
-          argsValue={confirm.argsValue}
-          pending={launchM.isPending}
-          onCancel={() => setConfirm(null)}
-          onConfirm={(argsValue) => {
-            launchM.mutate({
-              stage: confirm.stage.slug,
-              resume: confirm.resumeFrom?.sdk_session_id,
-              args: argsValue || undefined,
-            });
-            setConfirm(null);
-          }}
-        />
-      )}
-    </div>
-  );
-}
-
-function StageCard({
-  stage,
-  stageState,
-  lastSession,
-  onRun,
-  onResume,
-  disabled,
-}: {
-  stage: StageDef;
-  stageState?: StageStatus | false;
-  lastSession?: SessionRecord;
-  onRun: () => void;
-  onResume: () => void;
-  disabled: boolean;
-}): React.ReactElement {
-  const status = stageState ? stageState.status : null;
-  return (
-    <Card>
-      <CardHeader>
-        <div className="flex items-start justify-between gap-2">
-          <CardTitle className="text-base">{stage.label}</CardTitle>
-          {status && <StatusBadge status={status} />}
-        </div>
-        <CardDescription>{stage.desc}</CardDescription>
-      </CardHeader>
-      <CardContent className="flex flex-col gap-3 text-xs">
-        {lastSession && (
-          <div className="rounded-md border border-border bg-background/50 p-2">
-            <div className="flex items-center justify-between gap-2">
-              <span className="text-foreground-muted">Last session</span>
-              <SessionStatusBadge status={lastSession.status} />
-            </div>
-            <div className="mono mt-1 text-[11px] text-foreground-muted">
-              {lastSession.started_at.replace("T", " ").slice(0, 19)}
-            </div>
-            {lastSession.error && (
-              <div className="mt-1 text-destructive">{lastSession.error}</div>
-            )}
-          </div>
-        )}
-        <div className="flex gap-2">
-          <Button
-            size="sm"
-            onClick={onRun}
-            disabled={disabled}
-            className="gap-1"
-          >
-            <Play className="h-3.5 w-3.5" aria-hidden />
-            Run
-          </Button>
-          <Button
-            size="sm"
-            variant="ghost"
-            onClick={onResume}
-            disabled={disabled || !lastSession?.sdk_session_id}
-            className="gap-1"
-            aria-label={`Resume ${stage.label}`}
-            title={
-              lastSession?.sdk_session_id
-                ? "Resume the last SDK session"
-                : "No resumable session"
-            }
-          >
-            <RotateCcw className="h-3.5 w-3.5" aria-hidden />
-            Resume
-          </Button>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-function StatusBadge({
-  status,
-}: {
-  status: StageStatus["status"];
-}): React.ReactElement {
-  const map = {
-    pending: { variant: "muted" as const, label: "pending" },
-    in_progress: { variant: "warning" as const, label: "in progress" },
-    complete: { variant: "success" as const, label: "complete" },
-    failed: { variant: "destructive" as const, label: "failed" },
-  };
-  const m = map[status] ?? map.pending;
-  return <Badge variant={m.variant}>{m.label}</Badge>;
-}
-
-function SessionStatusBadge({
-  status,
-}: {
-  status: SessionRecord["status"];
-}): React.ReactElement {
-  const map = {
-    running: { variant: "warning" as const, label: "running" },
-    completed: { variant: "success" as const, label: "completed" },
-    failed: { variant: "destructive" as const, label: "failed" },
-    stopped: { variant: "muted" as const, label: "stopped" },
-  };
-  const m = map[status];
-  return <Badge variant={m.variant}>{m.label}</Badge>;
-}
-
-function ConfirmLaunch({
-  project,
-  stage,
-  resumeFrom,
-  argsValue: initialArgs,
-  pending,
-  onCancel,
-  onConfirm,
-}: {
-  project: string;
-  stage: StageDef;
-  resumeFrom?: SessionRecord;
-  argsValue: string;
-  pending: boolean;
-  onCancel: () => void;
-  onConfirm: (argsValue: string) => void;
-}): React.ReactElement {
-  const [args, setArgs] = useState(initialArgs);
-  return (
-    <div
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="launch-title"
-      className="fixed inset-0 z-50 flex items-center justify-center bg-background/70 p-4"
-    >
-      <Card className="w-full max-w-lg">
+      <Card>
         <CardHeader>
-          <CardTitle id="launch-title">
-            {resumeFrom ? "Resume" : "Run"} /{stage.slug}
-          </CardTitle>
-          <CardDescription>
-            Project: <span className="mono">{project}</span>
-            {resumeFrom?.sdk_session_id && (
-              <>
-                {" · "}Resuming session{" "}
-                <span className="mono">
-                  {resumeFrom.sdk_session_id.slice(0, 8)}…
-                </span>
-              </>
-            )}
-          </CardDescription>
+          <CardTitle className="text-base">Gates</CardTitle>
+          <CardDescription>Deterministic checks over the proposal graph. Thresholds come from the funder pack.</CardDescription>
         </CardHeader>
-        <CardContent className="flex flex-col gap-3">
-          {stage.argsPrompt && (
-            <label className="flex flex-col gap-1 text-xs text-foreground-muted">
-              {stage.argsPrompt}
-              <input
-                type="text"
-                value={args}
-                onChange={(e) => setArgs(e.target.value)}
-                className="h-8 rounded-md border border-border bg-background px-2 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                autoFocus
-              />
-            </label>
-          )}
-          <div className="rounded-md border border-border bg-background p-2 text-[11px] text-foreground-muted">
-            The SDK will run this slash command against{" "}
-            <span className="mono">runs/{project}/</span>. Live progress appears
-            on the Activity page and pulses matching nodes on the System graph.
-          </div>
-          <div className="flex justify-end gap-2">
-            <Button variant="ghost" onClick={onCancel} disabled={pending}>
-              Cancel
+        <CardContent className="flex flex-wrap gap-2">
+          {["scope", "evidence", "draft", "submission", "external_feedback"].map((g) => (
+            <Button key={g} size="sm" variant="secondary" onClick={() => gate.mutate(g)}>
+              check {g.replace("_", " ")}
             </Button>
-            <Button
-              onClick={() => onConfirm(args)}
-              disabled={pending || (!!stage.argsPrompt && !args.trim())}
-            >
-              {pending
-                ? "Launching…"
-                : resumeFrom
-                  ? "Resume"
-                  : "Run stage"}
-            </Button>
-          </div>
+          ))}
         </CardContent>
       </Card>
     </div>

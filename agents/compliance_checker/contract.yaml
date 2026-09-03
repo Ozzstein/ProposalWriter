@@ -1,0 +1,24 @@
+name: compliance_checker
+description: Verify whether a reviewer's compliance comment is valid against the call requirements, and
+  if so, produce a targeted text patch to fix the issue.
+role: reviewer
+model_tier: fast
+effort: low
+tools:
+- Read
+- Grep
+- Glob
+- Bash
+connectors: []
+output: ReviewBatch
+output_mode: structured
+budget:
+  max_turns: 30
+  max_usd: 1.5
+writes:
+- ReviewFinding
+- Patch
+acceptance: []
+env_keys: []
+session: false
+notes: Review mode returns ReviewBatch; patch mode (external feedback) returns PatchBatch via job override.

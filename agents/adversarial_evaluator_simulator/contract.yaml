@@ -1,0 +1,23 @@
+name: adversarial_evaluator_simulator
+description: Simulate a panel of expert evaluators reviewing this proposal under the exact scoring rubric
+  of the target call.
+role: reviewer
+model_tier: reasoning
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+connectors: []
+output: EvaluatorSimulation
+output_mode: structured
+budget:
+  max_turns: 40
+  max_usd: 6
+writes:
+- PanelScore
+acceptance:
+- criteria_scored: true
+env_keys: []
+session: false
+notes: ''

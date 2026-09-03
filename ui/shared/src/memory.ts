@@ -1,61 +1,44 @@
 export type MemoryStore =
   | "evidence"
   | "claims"
+  | "gaps"
+  | "anchors"
+  | "sections"
+  | "findings"
+  | "figures"
   | "decisions"
-  | "tasks"
   | "feedback"
+  | "tasks"
   | "overrides";
 
-export interface EvidenceRecord {
-  source_id: string;
-  title?: string;
-  authors?: string;
-  year?: number;
-  type?: string;
-  quality?: string;
-  tags?: string[];
-  extract?: string;
-  url?: string;
-  [k: string]: unknown;
+export interface GraphNode {
+  id: string;
+  type: string;
+  scope: "project" | "workspace";
+  project_id?: string | null;
+  status: string;
+  version: number;
+  created_by?: string | null;
+  created_at: string;
+  updated_at: string;
+  data: Record<string, unknown>;
 }
 
-export interface ClaimRecord {
-  claim_id: string;
-  text?: string;
-  source_ids?: string[];
-  confidence?: number;
-  status?: string;
-  category?: string;
-  [k: string]: unknown;
+export interface GraphEdge {
+  src: string;
+  dst: string;
+  type: string;
+  created_by?: string | null;
+  created_at: string;
+  data: Record<string, unknown>;
 }
 
-export interface DecisionRecord {
-  decision_id: string;
-  timestamp?: string;
-  agent?: string;
-  decision?: string;
-  rationale?: string;
-  [k: string]: unknown;
-}
-
-export interface TaskRecord {
-  task_id: string;
-  dedupe_key?: string;
-  status?: string;
-  agent?: string;
-  started_at?: string;
-  completed_at?: string;
-  [k: string]: unknown;
-}
-
-export interface FeedbackRecord {
-  feedback_id: string;
-  round?: number;
-  comment?: string;
-  status?: string;
-  assignee?: string;
-  resolution?: string;
-  [k: string]: unknown;
+export interface NodeDetail {
+  node: GraphNode;
+  out: GraphEdge[];
+  in: GraphEdge[];
+  provenance: { nodes: GraphNode[]; edges: GraphEdge[] };
+  versions: Array<{ version: number; updated_at: string }>;
 }
 
 export interface OverrideRecord {
@@ -67,11 +50,3 @@ export interface OverrideRecord {
   ts: string;
   user?: string;
 }
-
-export type AnyMemoryRecord =
-  | EvidenceRecord
-  | ClaimRecord
-  | DecisionRecord
-  | TaskRecord
-  | FeedbackRecord
-  | OverrideRecord;

@@ -1,0 +1,28 @@
+name: concept_image_generator
+description: Generate **creative / editorial / hero graphics** via the Fal.ai HTTP API — concept graphics,
+  schematic illustrations with pictorial elements, cover art.
+role: renderer
+model_tier: balanced
+effort: medium
+tools:
+- Read
+- Grep
+- Glob
+- Write
+- Edit
+- Bash
+- WebFetch
+connectors: []
+output: FigureBatch
+output_mode: structured
+budget:
+  max_turns: 30
+  max_usd: 2
+writes:
+- Figure
+acceptance:
+- figures_min: 1
+env_keys:
+- FAL_KEY
+session: false
+notes: ''

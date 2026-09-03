@@ -1,0 +1,25 @@
+name: bp_commercial_writer
+description: Draft BP sections 1.1 (Product or business concept), 1.2 (Targeted market & market potential),
+  1.3 (Commercialisation strategy & market uptake), and 1.4 (Competitive landscape).
+role: writer
+model_tier: balanced
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+- Write
+- Edit
+connectors: []
+output: null
+output_mode: files
+budget:
+  max_turns: 40
+  max_usd: 4
+writes:
+- Section
+acceptance:
+- drafts_written: true
+env_keys: []
+session: false
+notes: ''

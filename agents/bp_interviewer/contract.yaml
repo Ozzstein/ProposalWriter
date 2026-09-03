@@ -1,0 +1,22 @@
+name: bp_interviewer
+description: Elicit BP-specific content that no existing project artefact can supply, by asking the user
+  structured, batched questions.
+role: interviewer
+model_tier: reasoning
+effort: medium
+tools:
+- Read
+- Grep
+- Glob
+- AskUserQuestion
+connectors: []
+output: null
+output_mode: session
+budget:
+  max_turns: 60
+  max_usd: 8
+writes: []
+acceptance: []
+env_keys: []
+session: true
+notes: ''
