@@ -12,6 +12,7 @@ import type {
   ProjectSummary,
   RunRecord,
   StageDef,
+  NextStep,
 } from "@pw/shared";
 
 const BASE = "/api";
@@ -137,6 +138,14 @@ export async function getNode(project: string, id: string): Promise<NodeDetail> 
 }
 
 // ---------------------------------------------------------------- gates / stages / runs
+export async function getNextStep(project: string): Promise<NextStep> {
+  return getJson(`${BASE}/projects/${enc(project)}/next`);
+}
+
+export async function setRequirement(project: string, id: string, status: string, note = ""): Promise<Record<string, unknown>> {
+  return postJson(`${BASE}/projects/${enc(project)}/requirements/${enc(id)}`, { status, note });
+}
+
 export async function runGate(project: string, gate: string): Promise<GateResult> {
   return postJson(`${BASE}/projects/${enc(project)}/gates/${enc(gate)}`, {});
 }

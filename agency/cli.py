@@ -55,6 +55,34 @@ def status(ctx: typer.Context, project: str):
 
 
 @app.command()
+def next(ctx: typer.Context, project: str):
+    """What to do next for this project (same guidance the UI shows)."""
+    ws = _ws(ctx.obj["root"])
+    step = ws.next_step(project)
+    typer.echo(f"{step['title']}\n  {step['why']}")
+    action = step.get("action", {})
+    if action.get("stage"):
+        typer.echo(f"  → agency run {project} {action['stage']}" + (" --force" if action.get("force") else "")
+                   + (" --resume" if action.get("resume") else ""))
+    for r in step.get("requirements", []):
+        typer.echo(f"  → agency requirement {project} {r['id']} met|unmet|not_applicable   # {r['text'][:100]}")
+    for a in step.get("alternatives", []):
+        typer.echo(f"  {a}")
+
+
+@app.command()
+def requirement(ctx: typer.Context, project: str, requirement_id: str, status: str,
+                note: str = typer.Option("", help="why")):
+    """Confirm a parsed requirement: met, unmet or not_applicable (gates read it)."""
+    ws = _ws(ctx.obj["root"])
+    try:
+        typer.echo(json.dumps(ws.set_requirement_status(project, requirement_id, status, note), indent=2))
+    except (KeyError, ValueError) as e:
+        typer.echo(f"error: {e}")
+        raise typer.Exit(1)
+
+
+@app.command()
 def gate(ctx: typer.Context, project: str, gate: str, no_write: bool = typer.Option(False, "--no-write")):
     """Evaluate a review gate deterministically. Exit 0 pass, 1 fail, 3 not applicable."""
     ws = _ws(ctx.obj["root"])

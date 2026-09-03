@@ -46,6 +46,11 @@ class Answer(BaseModel):
     answer: dict[str, Any]
 
 
+class RequirementStatus(BaseModel):
+    status: str
+    note: str = ""
+
+
 class StartPlan(BaseModel):
     goal: str
     budget_usd: float | None = None
@@ -76,6 +81,7 @@ def _project_summary(ws: Workspace, project) -> dict[str, Any]:
                    "gaps": counts.get("Gap", 0), "anchors": counts.get("NoveltyAnchor", 0)},
         "cost_usd": round(ws.store.sum_cost(project.id), 4),
         "pending_inbox": len(ws.store.list_inbox(project_id=project.id, status="pending")),
+        "next_step": ws.next_step(project.id),
     }
 
 
@@ -110,9 +116,14 @@ def create_app(ws: Workspace, engine: Engine | None = None) -> FastAPI:
 
     @app.get(f"{api}/stages")
     def stages() -> dict[str, Any]:
+        from agency.policy.guide import OPTIONAL_STAGE_NAMES, STAGE_ORDER
+        order = {n: i for i, n in enumerate(STAGE_ORDER)}
+        items = sorted(engine.stages.values(), key=lambda s: order.get(s.name, 99))
         return {"items": [{"name": s.name, "state_key": s.state_key, "description": s.description,
                            "requires_gate": s.requires_gate, "requires_stages": list(s.requires_stages),
-                           "interactive": s.interactive, "flags": s.flags} for s in engine.stages.values()],
+                           "interactive": s.interactive, "flags": s.flags,
+                           "order": order.get(s.name, 99), "optional": s.name in OPTIONAL_STAGE_NAMES}
+                          for s in items],
                 "stage_keys": STAGE_KEYS, "gates": GATES}
 
     # ------------------------------------------------------------ projects
@@ -246,6 +257,26 @@ def create_app(ws: Workspace, engine: Engine | None = None) -> FastAPI:
     @app.get(f"{api}/projects/{{pid}}/gates")
     def gates(pid: str) -> dict[str, Any]:
         return {"gates": ws.require_project(pid).gates}
+
+    @app.get(f"{api}/projects/{{pid}}/next")
+    def next_step(pid: str) -> dict[str, Any]:
+        ws.require_project(pid)
+        return ws.next_step(pid)
+
+    @app.get(f"{api}/projects/{{pid}}/requirements")
+    def requirements(pid: str) -> dict[str, Any]:
+        node = ws.graph(pid).callspec_node()
+        return {"items": (node.data.get("requirements", []) if node else [])}
+
+    @app.post(f"{api}/projects/{{pid}}/requirements/{{rid}}")
+    def set_requirement(pid: str, rid: str, body: RequirementStatus) -> dict[str, Any]:
+        ws.require_project(pid)
+        try:
+            return ws.set_requirement_status(pid, rid, body.status, body.note)
+        except KeyError as e:
+            raise HTTPException(404, str(e))
+        except ValueError as e:
+            raise HTTPException(400, str(e))
 
     @app.post(f"{api}/projects/{{pid}}/gates/{{gate}}")
     def run_gate(pid: str, gate: str, write: bool = True) -> dict[str, Any]:

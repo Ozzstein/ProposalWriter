@@ -144,3 +144,23 @@ async def test_plan_endpoint_runs_a_campaign(ws):
         plan = (await c.get("/api/projects/p3/plan")).json()
         assert plan["status"] == "completed" and [s["stage"] for s in plan["steps"]] == ["parse-call", "research"]
         assert all(s["status"] == "completed" for s in plan["steps"]) and plan["campaign_active"] is False
+
+
+async def test_next_step_and_requirements_endpoints(client):
+    await client.post("/api/projects", json={"name": "P4", "hypothesis": "h"})
+    r = await client.get("/api/projects/p4/next")
+    assert r.status_code == 200 and r.json()["key"] == "upload_call"
+    assert (await client.get("/api/projects/p4")).json()["next_step"]["key"] == "upload_call"
+    stages = (await client.get("/api/stages")).json()["items"]
+    assert [s["name"] for s in stages][:3] == ["ideate", "parse-call", "research"] and stages[0]["optional"] is True
+    assert (await client.post("/api/projects/p4/requirements/E1", json={"status": "met"})).status_code == 404
+    from tests.test_engine import CALLSPEC
+    from agency.domain.graph import NodeType
+    client.engine.ws.graph("p4").add(NodeType.CALL_SPEC, dict(CALLSPEC))
+    client.engine.ws.set_stage("p4", "call_parsing", "complete")
+    assert (await client.get("/api/projects/p4/next")).json()["key"] == "confirm_eligibility"
+    r = await client.post("/api/projects/p4/requirements/E1", json={"status": "met", "note": "ok"})
+    assert r.status_code == 200 and r.json()["status"] == "met"
+    assert (await client.post("/api/projects/p4/requirements/E1", json={"status": "bogus"})).status_code == 400
+    assert (await client.get("/api/projects/p4/requirements")).json()["items"][0]["status"] == "met"
+    assert (await client.get("/api/projects/p4/next")).json()["action"]["stage"] == "research"

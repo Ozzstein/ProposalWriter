@@ -35,6 +35,16 @@ Before every agent call the graph is materialised into the project working direc
 
 SDK options per call: `system_prompt = conventions + prompt.md`, `allowed_tools` from the contract plus `mcp__agency__*` (read-only unless the contract declares writes), `disallowed_tools=["Agent","Task"]`, `permission_mode="bypassPermissions"` with PreToolUse guards (no subagents, writes only under the project dir, no direct store writes, no destructive shell), `setting_sources=[]`, `output_format` from the pydantic output model, `max_turns`/`max_budget_usd`/`effort` from the contract, connectors as stdio MCP servers only for the agents that need them, secrets only in those processes' env.
 
+## Guidance
+
+`agency/policy/guide.py` derives a deterministic *next step* from project state (pending inbox,
+active run, hypothesis, input files, stage statuses, gate results and blockers, CallSpec needs) with
+the action that performs it (run a stage with flags/force/resume, upload then run, confirm
+requirements, open the inbox). The Overview card, `agency next` and `/projects/{id}/next` all read it,
+so every surface tells the same story. Requirement confirmation
+(`Workspace.set_requirement_status`) updates the CallSpec node that the scope gate reads and logs a
+`requirement_status` decision.
+
 ## Planning agent (campaigns)
 
 The engine decides *how* a stage runs; the planning agent decides *which* stages run next. `agency plan

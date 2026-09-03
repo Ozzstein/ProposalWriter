@@ -52,6 +52,36 @@ export interface MemoryCounts {
   anchors: number;
 }
 
+export interface PathStep {
+  key: StageKey;
+  label: string;
+  stage: string;
+  status: string;
+  optional: boolean;
+}
+
+export interface NextAction {
+  kind: "none" | "inbox" | "runs" | "run_stage" | "upload_then_run" | "confirm_requirements";
+  stage?: string;
+  flags?: Record<string, unknown>;
+  force?: boolean;
+  resume?: string;
+  run_id?: string;
+  subdir?: string;
+}
+
+export interface NextStep {
+  key: string;
+  title: string;
+  why: string;
+  action: NextAction;
+  alternatives?: string[];
+  requirements?: Array<{ id: string; text: string; status: string }>;
+  last_run?: { id: string; status: string; error?: string | null };
+  path: PathStep[];
+  side: PathStep[];
+}
+
 export interface ProjectSummary {
   id: string;
   name: string;
@@ -60,6 +90,7 @@ export interface ProjectSummary {
   memory: MemoryCounts;
   cost_usd: number;
   pending_inbox: number;
+  next_step: NextStep;
 }
 
 export interface StageDef {
@@ -70,6 +101,8 @@ export interface StageDef {
   requires_stages: string[];
   interactive: boolean;
   flags: Record<string, string>;
+  order: number;
+  optional: boolean;
 }
 
 export type RunStatus =

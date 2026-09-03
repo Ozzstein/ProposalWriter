@@ -4,10 +4,10 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, Compass, Play, RotateCcw, ShieldCheck } from "lucide-react";
+import { AlertTriangle, ArrowRight, Compass, Lock, Play, RotateCcw, ShieldCheck } from "lucide-react";
 import { getPlan, getProject, listRuns, listStages, runGate, startPlan, startRun } from "@/lib/api";
 import { useProjectStore } from "@/stores/project-store";
-import type { StageDef } from "@pw/shared";
+import type { StageDef, StageKey } from "@pw/shared";
 import { StageBadge } from "./Overview";
 
 export function PipelinePage(): React.ReactElement {
@@ -74,6 +74,11 @@ export function PipelinePage(): React.ReactElement {
           <Link to="/runs" className="underline">details</Link>
         </div>
       )}
+      <div className="rounded border border-border bg-surface px-3 py-2 text-xs text-foreground-muted">
+        Stages run in order: <span className="mono">ideate → parse-call → research → write-proposal → review → export</span>, with finance, figures,
+        business-plan and external-feedback as optional side steps. Locked stages say what they wait for.
+        The recommended next stage is highlighted; the <Link to="/" className="underline">Overview</Link> explains it.
+      </div>
       <Card>
         <CardHeader>
           <div className="flex items-center gap-2">
@@ -135,20 +140,33 @@ export function PipelinePage(): React.ReactElement {
         </CardContent>
       </Card>
       <div className="grid gap-3 md:grid-cols-2">
-        {(stages ?? []).filter((s: StageDef) => s.name !== "plan").map((s: StageDef) => {
+        {(stages ?? []).filter((s: StageDef) => s.name !== "plan").map((s: StageDef, idx: number) => {
           const last = runs?.find((r) => r.stage === s.name);
           const stateStatus = s.state_key ? project?.state.stages[s.state_key]?.status : undefined;
           const gateOk = s.requires_gate ? project?.state.gates[s.requires_gate]?.passed : true;
+          const missing = s.requires_stages.filter((k) => !["complete", "skipped"].includes(project?.state.stages[k as StageKey]?.status ?? ""));
+          const isNext = project?.next_step.action.stage === s.name;
+          const locked = missing.length > 0 || (s.requires_gate && gateOk === false && !force[s.name]);
           return (
-            <Card key={s.name}>
+            <Card key={s.name} className={isNext ? "border-accent/60 ring-1 ring-accent/30" : locked ? "opacity-80" : ""}>
               <CardHeader>
                 <div className="flex items-center justify-between gap-2">
-                  <CardTitle className="text-base">{s.name}</CardTitle>
+                  <CardTitle className="flex items-center gap-2 text-base">
+                    <span className="flex h-5 w-5 items-center justify-center rounded-full bg-surface text-[11px] text-foreground-muted">{idx + 1}</span>
+                    {s.name}
+                    {s.optional && <Badge variant="muted">optional</Badge>}
+                    {isNext && <Badge variant="success"><ArrowRight className="h-3 w-3" aria-hidden />next</Badge>}
+                  </CardTitle>
                   <StageBadge status={stateStatus} />
                 </div>
                 <CardDescription>{s.description}</CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
+                {missing.length > 0 && (
+                  <div className="flex items-center gap-2 text-xs text-foreground-muted">
+                    <Lock className="h-3 w-3" aria-hidden /> waits for {missing.join(", ")} to complete
+                  </div>
+                )}
                 {s.requires_gate && (
                   <div className="flex items-center gap-2 text-xs">
                     <ShieldCheck className={`h-3 w-3 ${gateOk ? "text-accent" : "text-warning"}`} aria-hidden />
@@ -180,7 +198,7 @@ export function PipelinePage(): React.ReactElement {
                   </details>
                 )}
                 <div className="flex items-center gap-2">
-                  <Button size="sm" disabled={!!activeRun || start.isPending} onClick={() => start.mutate({ stage: s.name })}>
+                  <Button size="sm" disabled={!!activeRun || start.isPending || !!locked} title={locked ? "prerequisites not met (tick force to override a gate)" : undefined} onClick={() => start.mutate({ stage: s.name })}>
                     <Play className="h-3 w-3" aria-hidden /> Run
                   </Button>
                   {last && last.status !== "completed" && (

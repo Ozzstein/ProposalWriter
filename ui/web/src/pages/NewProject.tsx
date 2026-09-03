@@ -29,7 +29,7 @@ export function NewProjectPage(): React.ReactElement {
     onSuccess: (p) => {
       qc.invalidateQueries({ queryKey: ["projects"] });
       setActive(p.id);
-      nav("/pipeline");
+      nav("/");
     },
     onError: (e) => setError(String(e)),
   });
@@ -50,7 +50,8 @@ export function NewProjectPage(): React.ReactElement {
       <CardHeader>
         <CardTitle>New proposal project</CardTitle>
         <CardDescription>
-          A firm hypothesis skips ideation. Upload the call document (and the official template if you have it) now, or later from the Pipeline page.
+          Step 1 of 3. A firm hypothesis skips ideation; leave it empty to develop the idea in an interview. Upload the call document
+          (and the official template if you have it) now or on the next screen. After creating, the Overview tells you what to do next.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-3">
@@ -76,7 +77,7 @@ export function NewProjectPage(): React.ReactElement {
         </label>
         {error && <div className="text-xs text-destructive">{error}</div>}
         <div>
-          <Button disabled={!form.name.trim() || create.isPending} onClick={() => create.mutate()}>Create project</Button>
+          <Button disabled={!form.name.trim() || create.isPending} onClick={() => create.mutate()}>Create project and continue</Button>
         </div>
       </CardContent>
     </Card>

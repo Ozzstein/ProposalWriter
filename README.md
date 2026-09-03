@@ -63,6 +63,27 @@ cd ui && npm install && npm run build && cd ..
 .venv/bin/agency serve            # http://127.0.0.1:7777 — projects, pipeline, inbox, runs, graph, agents
 ```
 
+## How to use it
+
+The app always tells you the next step. On the Overview page a **Next step** card names the action,
+explains why, and carries the button that does it; `agency next PROJECT` prints the same guidance
+in the terminal. The path is:
+
+1. **Create a project** (name, funder, your central idea). No idea yet? Leave the hypothesis empty
+   and the first step becomes the ideation interview.
+2. **Upload the call document and parse it.** The parsed call defines sections, criteria,
+   requirements and gates; you approve it in the Inbox.
+3. **Confirm eligibility.** Disqualifying requirements the parser found are listed on the Overview;
+   mark each met / not applicable (`agency requirement PROJECT E1 met`). The scope gate opens.
+4. **Research → Draft → Review → Export.** Run each from the Next step card or the Pipeline page.
+   Finance, figures, business plan and external feedback are optional side steps the guidance
+   proposes only when the call needs them.
+5. **Answer the Inbox** whenever its badge lights up: runs block on your questions, approvals and
+   forms and resume when you answer.
+
+Prefer to delegate? Type a goal into the **Planner** on the Pipeline page; the planning agent
+proposes a campaign of stage runs, you approve it once, and the engine executes it.
+
 ## Stages
 
 | Stage | What happens | Gate |
@@ -88,6 +109,8 @@ or in `agency.toml`.
 ```
 agency init NAME [--funder --mechanism --topic --deadline --hypothesis --id]
 agency projects | status PROJECT | gate PROJECT GATE [--no-write]
+agency next PROJECT                      # what to do now, and the command that does it
+agency requirement PROJECT REQ_ID met|unmet|not_applicable
 agency run PROJECT STAGE [-f key=value ...] [--resume] [--force]
 agency plan PROJECT --goal "..." [--budget USD] [--max-replans N] [--no-execute]
 agency inbox [PROJECT] | agency inbox --item ID --answer TEXT

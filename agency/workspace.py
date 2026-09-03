@@ -122,7 +122,33 @@ class Workspace:
             "pending_inbox": len(pending),
             "runs": [{"id": r.id, "stage": r.stage, "status": r.status.value,
                       "cost_usd": r.cost_usd} for r in runs[:10]],
+            "next_step": self.next_step(project_id),
         }
+
+    def next_step(self, project_id: str) -> dict[str, Any]:
+        from agency.policy.guide import next_step
+        return next_step(self, project_id)
+
+    def set_requirement_status(self, project_id: str, requirement_id: str, status: str, note: str = "") -> dict[str, Any]:
+        """Confirm a parsed requirement (met / unmet / not_applicable); gates read it from the CallSpec."""
+        if status not in ("met", "unmet", "not_applicable", "unknown"):
+            raise ValueError(f"invalid status {status!r}")
+        graph = self.graph(project_id)
+        node = graph.callspec_node()
+        if node is None:
+            raise KeyError("no call spec parsed yet")
+        reqs = node.data.get("requirements", [])
+        target = next((r for r in reqs if r.get("id") == requirement_id), None)
+        if target is None:
+            raise KeyError(f"unknown requirement {requirement_id!r}")
+        target["status"] = status
+        graph.store.put_node(node)
+        graph.add(NodeType.DECISION, {"question": f"Requirement {requirement_id}: {target.get('text', '')[:160]}",
+                                      "decision": status, "rationale": [note or "confirmed by the researcher"],
+                                      "evidence_refs": [requirement_id], "type": "requirement_status",
+                                      "date": datetime.now(timezone.utc).date().isoformat()})
+        self.events.emit("requirement:status", project_id=project_id, requirement_id=requirement_id, status=status)
+        return dict(target)
 
     def context_document(self, project_id: str):
         return self.graph(project_id).document("context")
