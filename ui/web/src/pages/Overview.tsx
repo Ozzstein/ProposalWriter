@@ -6,15 +6,15 @@ import {
   Upload, XCircle,
 } from "lucide-react";
 import { useProjectStore } from "@/stores/project-store";
-import { getCosts, getProject, listProjects, listRuns, setRequirement, startRun, uploadInputs } from "@/lib/api";
+import { getCosts, getProject, getScope, listProjects, listRuns, setRequirement, setScope, startRun, uploadInputs } from "@/lib/api";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { GateName, NextStep, PathStep, StageKey } from "@pw/shared";
+import type { GateName, NextStep, PathStep, ScopeModule, StageKey } from "@pw/shared";
 
 export const STAGE_KEYS: Array<{ key: StageKey; label: string; optional?: boolean }> = [
-  { key: "ideation", label: "Ideation", optional: true },
   { key: "call_parsing", label: "Call parsing" },
+  { key: "ideation", label: "Ideation", optional: true },
   { key: "research", label: "Research" },
   { key: "writing", label: "Writing" },
   { key: "finance", label: "Finance", optional: true },
@@ -64,7 +64,9 @@ export function WorkflowPath({ path, side, currentStage }: { path: PathStep[]; s
       <div className="flex flex-wrap items-center gap-1 text-[11px] text-foreground-muted">
         <span className="mr-1">optional:</span>
         {side.map((s) => (
-          <Badge key={s.key} variant={s.status === "complete" ? "success" : "muted"}>{s.label}</Badge>
+          <Badge key={s.key} variant={s.status === "complete" ? "success" : "muted"} className={s.scope_state === "excluded" ? "opacity-50" : ""}>
+            {s.label}{s.scope_state === "excluded" ? " · excluded" : s.scope_state === "required" ? " · required" : ""}
+          </Badge>
         ))}
       </div>
     </div>
@@ -188,6 +190,55 @@ function StartHere(): React.ReactElement {
   );
 }
 
+const SCOPE_ROWS: Array<[ScopeModule, string]> = [
+  ["finance", "Finance"],
+  ["business_plan", "Business plan"],
+  ["figures", "Figures"],
+  ["external_review", "External review"],
+];
+
+function ScopeCard({ project }: { project: string }): React.ReactElement {
+  const qc = useQueryClient();
+  const { data } = useQuery({ queryKey: ["scope", project], queryFn: () => getScope(project) });
+  const change = useMutation({
+    mutationFn: ({ module, state }: { module: string; state: string }) => setScope(project, { [module]: state }),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["scope", project] }); qc.invalidateQueries({ queryKey: ["project", project] }); },
+  });
+  const scope = data?.scope;
+  const shown = scope ?? data?.recommended;
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-base">Scope</CardTitle>
+        <CardDescription>{scope ? "Your preference controls optional work; the call controls mandatory work." : "Not configured yet — parse-call asks for it. Shown: the recommendation."}</CardDescription>
+      </CardHeader>
+      <CardContent className="space-y-1.5 text-sm">
+        {SCOPE_ROWS.map(([key, label]) => {
+          const m = shown?.[key];
+          const locked = m?.state === "required" && (m.source === "call" || m.source === "pack");
+          return (
+            <div key={key} className="flex items-center justify-between gap-2 rounded border border-border px-2 py-1">
+              <div>
+                <div>{label}</div>
+                <div className="text-xs text-foreground-muted">{m?.reason}</div>
+              </div>
+              {locked || !scope ? (
+                <Badge variant={m?.state === "required" ? "info" : "muted"}>{m?.state ?? "—"}{m ? ` · ${m.source}` : ""}</Badge>
+              ) : (
+                <select className="h-7 rounded border border-border bg-background px-1 text-xs" value={m?.state} disabled={change.isPending}
+                  onChange={(e) => change.mutate({ module: key, state: e.target.value })}>
+                  {["excluded", "included", "required"].map((s) => <option key={s} value={s}>{s}</option>)}
+                </select>
+              )}
+            </div>
+          );
+        })}
+        {change.error && <div className="text-xs text-destructive">{String(change.error)}</div>}
+      </CardContent>
+    </Card>
+  );
+}
+
 export function OverviewPage(): React.ReactElement {
   const active = useProjectStore((s) => s.activeProject);
   const { data: project, error } = useQuery({
@@ -252,6 +303,7 @@ export function OverviewPage(): React.ReactElement {
               )}
             </CardContent>
           </Card>
+          <ScopeCard project={active} />
           <Card>
             <CardHeader>
               <CardTitle className="text-base">Graph</CardTitle>

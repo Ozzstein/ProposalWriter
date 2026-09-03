@@ -52,12 +52,30 @@ export interface MemoryCounts {
   anchors: number;
 }
 
+export type ScopeState = "excluded" | "included" | "required";
+export type ScopeSource = "call" | "pack" | "user" | "default";
+export interface ModuleScope {
+  state: ScopeState;
+  source: ScopeSource;
+  reason: string;
+}
+export interface ScopeConfig {
+  finance: ModuleScope;
+  business_plan: ModuleScope;
+  figures: ModuleScope;
+  external_review: ModuleScope;
+  configured_at: string | null;
+}
+export const SCOPE_MODULES = ["finance", "business_plan", "figures", "external_review"] as const;
+export type ScopeModule = (typeof SCOPE_MODULES)[number];
+
 export interface PathStep {
   key: StageKey;
   label: string;
   stage: string;
   status: string;
   optional: boolean;
+  scope_state?: ScopeState | null;
 }
 
 export interface NextAction {
@@ -80,6 +98,7 @@ export interface NextStep {
   last_run?: { id: string; status: string; error?: string | null };
   path: PathStep[];
   side: PathStep[];
+  scope?: ScopeConfig | null;
 }
 
 export interface ProjectSummary {

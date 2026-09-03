@@ -75,8 +75,8 @@ export function PipelinePage(): React.ReactElement {
         </div>
       )}
       <div className="rounded border border-border bg-surface px-3 py-2 text-xs text-foreground-muted">
-        Stages run in order: <span className="mono">ideate → parse-call → research → write-proposal → review → export</span>, with finance, figures,
-        business-plan and external-feedback as optional side steps. Locked stages say what they wait for.
+        Stages run in order: <span className="mono">parse-call → ideate → research → write-proposal → review → export</span>, with finance, figures,
+        business-plan and external-feedback as side steps governed by the project scope (excluded stages need force). Locked stages say what they wait for.
         The recommended next stage is highlighted; the <Link to="/" className="underline">Overview</Link> explains it.
       </div>
       <Card>

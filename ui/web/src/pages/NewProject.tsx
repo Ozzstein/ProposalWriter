@@ -8,20 +8,32 @@ import { useProjectStore } from "@/stores/project-store";
 
 const PACKS = ["", "innovation-fund", "horizon-europe-ria", "nih-r01", "nsf", "generic"];
 
+const SCOPE_MODULES: Array<[string, string]> = [
+  ["finance", "Finance"],
+  ["business_plan", "Business plan"],
+  ["figures", "Figures"],
+  ["external_review", "External review"],
+];
+
 export function NewProjectPage(): React.ReactElement {
   const nav = useNavigate();
   const qc = useQueryClient();
   const setActive = useProjectStore((s) => s.setActiveProject);
   const [form, setForm] = useState({ name: "", funder: "", mechanism: "", topic: "", deadline: "", hypothesis: "", pack: "" });
   const [files, setFiles] = useState<File[]>([]);
+  const [scope, setScope] = useState<Record<string, string>>({ finance: "", business_plan: "", figures: "", external_review: "" });
   const [error, setError] = useState<string | null>(null);
 
   const create = useMutation({
     mutationFn: async () => {
+      const scope_preferences = Object.fromEntries(
+        Object.entries(scope).filter(([, v]) => v === "excluded" || v === "included"),
+      ) as Record<string, "excluded" | "included">;
       const p = await createProject({
         name: form.name, funder: form.funder || undefined, mechanism: form.mechanism || undefined,
         topic: form.topic || undefined, deadline: form.deadline || undefined,
         hypothesis: form.hypothesis || undefined, pack: form.pack || undefined,
+        scope_preferences: Object.keys(scope_preferences).length ? scope_preferences : undefined,
       });
       if (files.length) await uploadInputs(p.id, files);
       return p;
@@ -50,8 +62,8 @@ export function NewProjectPage(): React.ReactElement {
       <CardHeader>
         <CardTitle>New proposal project</CardTitle>
         <CardDescription>
-          Step 1 of 3. A firm hypothesis skips ideation; leave it empty to develop the idea in an interview. Upload the call document
-          (and the official template if you have it) now or on the next screen. After creating, the Overview tells you what to do next.
+          Step 1 of 3. Upload the call first; you can still explore an idea before the call arrives, and the app aligns it with the
+          call afterwards. A firm hypothesis skips the ideation interview. After creating, the Overview tells you what to do next.
         </CardDescription>
       </CardHeader>
       <CardContent className="grid gap-3">
@@ -71,6 +83,21 @@ export function NewProjectPage(): React.ReactElement {
             {PACKS.map((p) => <option key={p} value={p}>{p || "auto"}</option>)}
           </select>
         </label>
+        <div className="grid gap-1 text-sm">
+          <span className="text-foreground-muted">Optional modules (auto = decide after the call is parsed)</span>
+          <div className="grid grid-cols-2 gap-2">
+            {SCOPE_MODULES.map(([key, label]) => (
+              <label key={key} className="grid gap-1 text-xs">
+                <span>{label}</span>
+                <select className="h-8 rounded border border-border bg-background px-2" value={scope[key]} onChange={(e) => setScope({ ...scope, [key]: e.target.value })}>
+                  <option value="">auto</option>
+                  <option value="included">include</option>
+                  <option value="excluded">exclude</option>
+                </select>
+              </label>
+            ))}
+          </div>
+        </div>
         <label className="grid gap-1 text-sm">
           <span className="text-foreground-muted">Call documents / template</span>
           <input type="file" multiple onChange={(e) => setFiles(Array.from(e.target.files ?? []))} />
