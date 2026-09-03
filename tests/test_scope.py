@@ -100,3 +100,47 @@ def test_concept_status_helpers():
     assert hypothesis_of(Doc({"hypothesis": "  A digital twin  "})) == "A digital twin"
     assert concept_status_of(Doc({"hypothesis": "A digital twin"})) == "preliminary"
     assert concept_status_of(Doc({"hypothesis": "A digital twin", "concept_status": "aligned"})) == "aligned"
+
+
+# ---- workspace scope integration tests ----
+from agency.domain.graph import NodeType
+
+
+def test_workspace_scope_round_trip(ws, project):
+    assert ws.get_scope("demo") is None
+    rec = ws.recommend_scope("demo")                       # no call spec yet → all excluded
+    assert rec.finance.state == "excluded" and rec.configured_at is None
+    s = ws.set_scope("demo", {"figures": "included"}, by="test", reason="plots wanted")
+    assert s.figures.state == "included" and s.configured_at
+    assert ws.get_scope("demo").figures.state == "included"
+    d = ws.graph("demo").decisions("scope_changed")
+    assert len(d) == 1 and "figures: excluded -> included" in d[0].data["decision"]
+    assert ws.status("demo")["scope"]["figures"]["state"] == "included"
+    # a call that requires finance locks it
+    from tests.test_engine import CALLSPEC
+    spec = dict(CALLSPEC, sections=CALLSPEC["sections"] + [{"id": "4", "title": "Financial", "kind": "financial"}])
+    ws.graph("demo").add(NodeType.CALL_SPEC, spec)
+    assert ws.recommend_scope("demo").finance.state == "required"
+    ws.put_scope("demo", ws.recommend_scope("demo"))
+    with pytest.raises(ValueError):
+        ws.set_scope("demo", {"finance": "excluded"})
+
+
+def test_workspace_concept_status_and_preferences(ws):
+    p = ws.create_project("Pref", project_id="pref", scope_preferences={"external_review": "included"})
+    assert p.settings["scope_preferences"] == {"external_review": "included"}
+    assert ws.concept_status("pref") == "none"
+    assert ws.recommend_scope("pref").external_review.state == "included"
+    ws.create_project("Hyp", project_id="hyp", hypothesis="A twin cuts scrap")
+    assert ws.concept_status("hyp") == "preliminary"
+    ws.set_concept_status("hyp", "aligned")
+    assert ws.concept_status("hyp") == "aligned"
+    with pytest.raises(ValueError):
+        ws.set_concept_status("hyp", "maybe")
+
+
+def test_stage_order_is_call_first(ws):
+    from agency.workspace import STAGES
+    assert STAGES[:2] == ["call_parsing", "ideation"]
+    p = ws.create_project("Blank", project_id="blank")
+    assert ws.current_stage(p) == "call_parsing"

@@ -7,15 +7,19 @@ from pathlib import Path
 from typing import Any
 
 from agency.config import WorkspaceConfig, load_config
+from agency.domain.callspec import CallSpec
 from agency.domain.graph import NodeType
 from agency.domain.runs import Project
+from agency.domain.scope import (CONCEPT_STATUSES, MODULES, ScopeConfig, apply_scope_change, concept_status_of,
+                                 derive_scope)
 from agency.events.log import EventLog
+from agency.funders.packs import load_packs
 from agency.graph.repo import Graph
 from agency.policy.gates import GatePolicy, GateResult, normalize_gate
 from agency.store.blobs import LocalBlobStore
 from agency.store.sqlite import SqlStore
 
-STAGES = ["ideation", "call_parsing", "research", "writing", "finance", "figures",
+STAGES = ["call_parsing", "ideation", "research", "writing", "finance", "figures",
           "business_plan", "review", "external_review", "export"]
 OPTIONAL_STAGES = {"ideation", "finance", "figures", "business_plan", "external_review"}
 STAGE_STATUSES = ("pending", "in_progress", "complete", "skipped", "failed")
@@ -36,6 +40,7 @@ class Workspace:
         self.blobs = LocalBlobStore(config.blobs_dir)
         self.events = EventLog(self.store)
         self.gates = GatePolicy(self.store, config.gate_thresholds)
+        self.packs = load_packs(config.packs_dir)
 
     @classmethod
     def open(cls, root: str | Path | None = None) -> "Workspace":
@@ -51,20 +56,26 @@ class Workspace:
     def create_project(self, name: str, *, funder: str | None = None, mechanism: str | None = None,
                        topic: str | None = None, deadline: str | None = None,
                        hypothesis: str | None = None, context_md: str | None = None,
-                       project_id: str | None = None, settings: dict[str, Any] | None = None) -> Project:
+                       project_id: str | None = None, settings: dict[str, Any] | None = None,
+                       scope_preferences: dict[str, str] | None = None) -> Project:
         pid = project_id or slugify(name)
         if self.store.get_project(pid):
             raise ValueError(f"project '{pid}' already exists")
+        settings = dict(settings or {})
+        prefs = {m: s for m, s in (scope_preferences or {}).items() if m in MODULES and s in ("excluded", "included")}
+        if prefs:
+            settings["scope_preferences"] = prefs
         project = Project(
             id=pid, name=name, funder=funder, mechanism=mechanism, topic=topic, deadline=deadline,
             stages={s: {"status": "pending"} for s in STAGES},
             gates={g: {"passed": False} for g in GATES},
-            settings=settings or {},
+            settings=settings,
         )
         self.store.put_project(project)
         body = context_md or _default_context(project, hypothesis)
         self.graph(pid).put_document("context", f"{name} — research context", body,
-                                     hypothesis=hypothesis or "")
+                                     hypothesis=hypothesis or "",
+                                     concept_status="preliminary" if (hypothesis or "").strip() else "none")
         self.config.project_dir(pid)
         self.events.emit("project:created", project_id=pid, name=name, funder=funder)
         return project
@@ -123,6 +134,7 @@ class Workspace:
             "runs": [{"id": r.id, "stage": r.stage, "status": r.status.value,
                       "cost_usd": r.cost_usd} for r in runs[:10]],
             "next_step": self.next_step(project_id),
+            "scope": (lambda s: s.model_dump(mode="json") if s else None)(ScopeConfig.load(project)),
         }
 
     def next_step(self, project_id: str) -> dict[str, Any]:
@@ -149,6 +161,65 @@ class Workspace:
                                       "date": datetime.now(timezone.utc).date().isoformat()})
         self.events.emit("requirement:status", project_id=project_id, requirement_id=requirement_id, status=status)
         return dict(target)
+
+    # ------------------------------------------------------------ scope
+    def get_scope(self, project_id: str) -> ScopeConfig | None:
+        return ScopeConfig.load(self.require_project(project_id))
+
+    def recommend_scope(self, project_id: str) -> ScopeConfig:
+        """Derive the scope from the current CallSpec, pack, preferences and extracted call text."""
+        project = self.require_project(project_id)
+        node = self.graph(project_id).callspec_node()
+        spec: CallSpec | None = None
+        if node is not None:
+            try:
+                spec = CallSpec.model_validate(node.data)
+            except Exception:
+                spec = None
+        pack_id = (spec.pack if spec else None) or (project.settings or {}).get("pack") or "generic"
+        pack = self.packs.get(pack_id, self.packs["generic"])
+        inputs = self.config.project_dir(project_id) / "inputs"
+        text = ""
+        if inputs.exists():
+            for p in sorted(inputs.rglob("*.extracted.txt")):
+                text += p.read_text(errors="ignore")[:20000] + "\n"
+        return derive_scope(spec, pack, (project.settings or {}).get("scope_preferences"), text)
+
+    def put_scope(self, project_id: str, scope: ScopeConfig) -> ScopeConfig:
+        project = self.require_project(project_id)
+        scope.save(project)
+        self.store.put_project(project)
+        return scope
+
+    def set_scope(self, project_id: str, changes: dict[str, str], *, by: str = "researcher",
+                  reason: str = "") -> ScopeConfig:
+        """Apply researcher changes (validated), persist, log a scope_changed decision."""
+        project = self.require_project(project_id)
+        current = ScopeConfig.load(project) or self.recommend_scope(project_id)
+        new = apply_scope_change(current, changes, by=by, reason=reason)
+        diffs = [f"{m}: {current.state(m)} -> {new.state(m)}" for m in MODULES if current.state(m) != new.state(m)]
+        new.save(project)
+        self.store.put_project(project)
+        self.graph(project_id).add(NodeType.DECISION, {
+            "question": "Change the proposal scope?", "decision": "; ".join(diffs) or "confirmed without changes",
+            "rationale": [by, reason or "changed by the researcher"], "type": "scope_changed",
+            "date": datetime.now(timezone.utc).date().isoformat()})
+        self.events.emit("scope:changed", project_id=project_id, changes=changes, by=by)
+        return new
+
+    # ------------------------------------------------------------ concept status
+    def concept_status(self, project_id: str) -> str:
+        return concept_status_of(self.graph(project_id).document("context"))
+
+    def set_concept_status(self, project_id: str, status: str) -> None:
+        if status not in CONCEPT_STATUSES:
+            raise ValueError(f"status must be one of {CONCEPT_STATUSES}")
+        graph = self.graph(project_id)
+        doc = graph.document("context")
+        if doc is None:
+            raise KeyError("no context document")
+        graph.update(doc, concept_status=status)
+        self.events.emit("concept:status", project_id=project_id, status=status)
 
     def context_document(self, project_id: str):
         return self.graph(project_id).document("context")
