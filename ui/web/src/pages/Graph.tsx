@@ -18,14 +18,15 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import type { AgentGraph, AgentKind, AgentNode } from "@pw/shared";
+import type { AgentGraph, AgentNode } from "@pw/shared";
 import { useEventStore } from "@/stores/event-store";
 
 const PULSE_WINDOW_MS = 30_000;
 
-const KIND_ORDER: AgentKind[] = [
+/** Preferred column order; any kind the server sends that is missing here is appended. */
+const KIND_ORDER: string[] = [
   "stage",
-  "orchestrator",
+  "planner",
   "interviewer",
   "retriever",
   "synthesizer",
@@ -35,9 +36,9 @@ const KIND_ORDER: AgentKind[] = [
   "reviewer",
 ];
 
-const KIND_COLOR: Record<AgentKind, string> = {
+const KIND_COLOR: Record<string, string> = {
   stage: "#0ea5e9",
-  orchestrator: "#22c55e",
+  planner: "#22c55e",
   interviewer: "#14b8a6",
   retriever: "#f59e0b",
   synthesizer: "#a855f7",
@@ -46,24 +47,32 @@ const KIND_COLOR: Record<AgentKind, string> = {
   renderer: "#94a3b8",
   reviewer: "#ef4444",
 };
+const FALLBACK_COLOR = "#64748b";
 
-function emptyByKind(): Record<AgentKind, AgentNode[]> {
-  return Object.fromEntries(KIND_ORDER.map((k) => [k, []])) as unknown as Record<AgentKind, AgentNode[]>;
+const colorOf = (kind: string): string => KIND_COLOR[kind] ?? FALLBACK_COLOR;
+
+/** Group the nodes by whatever kinds the server actually returned, in the preferred order. */
+function groupByKind(graph: AgentGraph): Array<[string, AgentNode[]]> {
+  const byKind = new Map<string, AgentNode[]>();
+  for (const node of graph.nodes) {
+    const list = byKind.get(node.kind);
+    if (list) list.push(node);
+    else byKind.set(node.kind, [node]);
+  }
+  const rank = (k: string) => {
+    const i = KIND_ORDER.indexOf(k);
+    return i === -1 ? KIND_ORDER.length : i;
+  };
+  return [...byKind.entries()].sort((a, b) => rank(a[0]) - rank(b[0]) || a[0].localeCompare(b[0]));
 }
 
 function layoutNodes(graph: AgentGraph, pulses: Record<string, number>, now: number): Node[] {
-  const columns = emptyByKind();
-  for (const node of graph.nodes) {
-    columns[node.kind].push(node);
-  }
-
-  const columnOrder = KIND_ORDER.filter((k) => columns[k].length > 0);
   const colWidth = 260;
   const rowHeight = 64;
 
   const result: Node[] = [];
-  columnOrder.forEach((kind, colIdx) => {
-    columns[kind].forEach((node, rowIdx) => {
+  groupByKind(graph).forEach(([kind, nodes], colIdx) => {
+    nodes.forEach((node, rowIdx) => {
       const lastSeen = pulses[node.id];
       const active =
         typeof lastSeen === "number" && now - lastSeen < PULSE_WINDOW_MS;
@@ -81,7 +90,7 @@ function layoutNodes(graph: AgentGraph, pulses: Record<string, number>, now: num
         style: {
           background: "var(--color-surface)",
           color: "var(--color-foreground)",
-          border: `1px solid ${active ? "#22c55e" : KIND_COLOR[kind]}`,
+          border: `1px solid ${active ? "#22c55e" : colorOf(kind)}`,
           borderRadius: 8,
           fontSize: 12,
           padding: 8,
@@ -153,10 +162,10 @@ export function GraphPage(): React.ReactElement {
         <CardHeader>
           <CardTitle>Agent system</CardTitle>
           <CardDescription>
-            Commands → orchestrators → workers. Click any node to inspect its
-            definition.
+            Stages and the agent contracts they invoke, grouped by role. Click any
+            node to read its contract and prompt.
           </CardDescription>
-          <Legend />
+          <Legend graph={data} />
         </CardHeader>
         <CardContent className="h-[70vh] p-0 lg:h-full">
           {/* Graph view — shown on >=lg, list fallback below */}
@@ -196,10 +205,10 @@ export function GraphPage(): React.ReactElement {
   );
 }
 
-function Legend(): React.ReactElement {
+function Legend({ graph }: { graph: AgentGraph }): React.ReactElement {
   return (
     <div className="flex flex-wrap gap-2 pt-1">
-      {KIND_ORDER.map((kind) => (
+      {groupByKind(graph).map(([kind, nodes]) => (
         <span
           key={kind}
           className="inline-flex items-center gap-1.5 text-[11px] text-foreground-muted"
@@ -207,9 +216,9 @@ function Legend(): React.ReactElement {
           <span
             aria-hidden
             className="h-2.5 w-2.5 rounded-full"
-            style={{ backgroundColor: KIND_COLOR[kind] }}
+            style={{ backgroundColor: colorOf(kind) }}
           />
-          {kind}
+          {kind} ({nodes.length})
         </span>
       ))}
     </div>
@@ -227,18 +236,15 @@ function GroupedList({
   selectedId: string | null;
   className?: string;
 }): React.ReactElement {
-  const byKind = emptyByKind();
-  for (const n of graph.nodes) byKind[n.kind].push(n);
-
   return (
     <div className={className}>
-      {KIND_ORDER.filter((k) => byKind[k].length > 0).map((kind) => (
+      {groupByKind(graph).map(([kind, nodes]) => (
         <section key={kind} className="border-b border-border p-4">
           <h3 className="mb-2 text-xs font-semibold uppercase tracking-wide text-foreground-muted">
             {kind}
           </h3>
           <ul className="space-y-1">
-            {byKind[kind].map((n) => (
+            {nodes.map((n) => (
               <li key={n.id}>
                 <button
                   onClick={() => onSelect(n.id)}

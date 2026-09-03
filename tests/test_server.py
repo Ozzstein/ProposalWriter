@@ -164,3 +164,15 @@ async def test_next_step_and_requirements_endpoints(client):
     assert (await client.post("/api/projects/p4/requirements/E1", json={"status": "bogus"})).status_code == 400
     assert (await client.get("/api/projects/p4/requirements")).json()["items"][0]["status"] == "met"
     assert (await client.get("/api/projects/p4/next")).json()["action"]["stage"] == "research"
+
+
+async def test_agents_graph_covers_every_contract_and_role(client):
+    """The Agents page groups by these kinds; a role the UI cannot render must not appear silently."""
+    body = (await client.get("/api/agents/graph")).json()
+    kinds = {n["kind"] for n in body["nodes"]}
+    assert kinds <= {"stage", "planner", "interviewer", "retriever", "synthesizer", "writer", "modeler",
+                     "renderer", "reviewer"}, kinds
+    assert "planner" in kinds and "orchestrator" not in kinds
+    agent_nodes = {n["id"] for n in body["nodes"] if n["id"].startswith("agents/")}
+    assert len(agent_nodes) == len(client.engine.catalogue.contracts)
+    assert all(n["file"] for n in body["nodes"] if n["id"].startswith("agents/"))

@@ -7,7 +7,7 @@ export type AgentKind =
   | "modeler"
   | "renderer"
   | "interviewer"
-  | "orchestrator";
+  | "planner";
 
 export type AgentModel = "fast" | "balanced" | "reasoning";
 
