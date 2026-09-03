@@ -20,6 +20,8 @@ def test_guidance_walks_the_main_path(ws, project):
     g = ws.graph(pid)
     g.add(NodeType.CALL_SPEC, dict(CALLSPEC))
     ws.set_stage(pid, "call_parsing", "complete")
+    ws.set_scope(pid, {})
+    ws.set_concept_status(pid, "aligned")
     s = next_step(ws, pid)
     assert s["key"] == "confirm_eligibility" and [r["id"] for r in s["requirements"]] == ["E1"]
     ws.set_requirement_status(pid, "E1", "met", "three partners confirmed")
