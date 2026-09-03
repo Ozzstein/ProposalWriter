@@ -7,18 +7,36 @@ from typing import Any
 
 from agency.domain.callspec import CallSpec, CriterionSpec, RequirementSpec, RequirementsBatch, SectionSpec
 from agency.domain.graph import NodeType
+from agency.domain.models import ConceptAlignment
 from agency.domain.runs import JobKind
+from agency.domain.scope import MODULES, MODULE_LABEL, STATES, ScopeConfig, apply_scope_change, hypothesis_of, rederive
 from agency.engine.materialize import ingest_callspec
 from agency.engine.plan import JobFailed, JobSpec, StageDef, StagePlan
 from agency.engine.runtime import JobRuntime, RunContext
 from agency.funders.packs import detect_pack
 from agency.jobs import handler, stage
+from agency.jobs.common import replace_hypothesis
 from agency.legacy.importer import outline_to_sections
 
 TEXT_SUFFIXES = {".txt", ".md", ".html", ".htm", ".json"}
 
 
+SCOPE_HEADER = "Configure proposal scope"
+ALIGN_HEADER = "Align the concept with the call"
+
+
 def plan_parse_call(ctx: RunContext) -> StagePlan:
+    if ctx.flags.get("scope_only") or ctx.flags.get("align_only"):
+        if ctx.callspec() is None:
+            raise JobFailed("parse the call first")
+        if ctx.flags.get("align_only"):
+            if ctx.ws.concept_status(ctx.project_id) != "preliminary":
+                raise JobFailed("nothing to align: the concept is not preliminary")
+            first = JobSpec("align_concept", "parse_call.align_concept", kind=JobKind.AGENT, contract="idea_evaluator")
+        else:
+            first = JobSpec("configure_scope", "parse_call.configure_scope", kind=JobKind.INBOX)
+        return StagePlan("parse-call", [first, JobSpec("finalize", "finalize_stage", kind=JobKind.GATE,
+                                                       deps=[first.name], params={"gate": "scope"})])
     jobs = [
         JobSpec("locate_inputs", "parse_call.locate", kind=JobKind.CODE),
         JobSpec("parse_call", "parse_call.parse", kind=JobKind.AGENT, deps=["locate_inputs"], contract="call_parser"),
@@ -26,16 +44,25 @@ def plan_parse_call(ctx: RunContext) -> StagePlan:
                 contract="eligibility_parser", optional=True),
         JobSpec("merge_spec", "parse_call.merge", kind=JobKind.CODE, deps=["parse_call", "parse_eligibility"]),
         JobSpec("approve_outline", "parse_call.approve", kind=JobKind.INBOX, deps=["merge_spec"]),
-        JobSpec("finalize", "finalize_stage", kind=JobKind.GATE, deps=["approve_outline"], params={"gate": "scope"}),
+        JobSpec("configure_scope", "parse_call.configure_scope", kind=JobKind.INBOX, deps=["approve_outline"]),
     ]
+    last = "configure_scope"
+    if ctx.ws.concept_status(ctx.project_id) == "preliminary":
+        jobs.append(JobSpec("align_concept", "parse_call.align_concept", kind=JobKind.AGENT,
+                            deps=["configure_scope"], contract="idea_evaluator"))
+        last = "align_concept"
+    jobs.append(JobSpec("finalize", "finalize_stage", kind=JobKind.GATE, deps=[last], params={"gate": "scope"}))
     return StagePlan(stage="parse-call", jobs=jobs)
 
 
 stage(StageDef(name="parse-call", state_key="call_parsing", planner=plan_parse_call, interactive=True,
-               description="Parse the funding call into a CallSpec, build the outline, confirm with the user.",
+               description="Parse the funding call into a CallSpec, build the outline, confirm with the user, "
+                           "configure the proposal scope and align a preliminary concept with the call.",
                flags={"call_file": "path or name of the call document inside inputs/",
                       "template_file": "official application template to follow exactly",
-                      "pack": "force a funder pack id (innovation-fund, horizon-europe-ria, nih-r01, nsf, generic)"}))
+                      "pack": "force a funder pack id (innovation-fund, horizon-europe-ria, nih-r01, nsf, generic)",
+                      "scope_only": "only (re)configure the scope for an already parsed call",
+                      "align_only": "only align a preliminary concept with the parsed call"}))
 
 
 def _extract_text(path: Path) -> str:
@@ -264,3 +291,127 @@ async def approve(rt: JobRuntime) -> dict[str, Any]:
     rt.log_decision("Approve parsed call structure?", "approved" if not rejected else f"approved with {len(rejected)} rows removed",
                     [answer.get("note", "user approval via inbox")], type="callspec_approved")
     return {"rejected": rejected, "summary": f"approved ({len(rejected)} rows removed)"}
+
+
+# ------------------------------------------------------------------ scope configuration
+
+def scope_form_schema(scope: ScopeConfig) -> dict[str, Any]:
+    props: dict[str, Any] = {}
+    for m in MODULES:
+        mod = scope.module(m)
+        locked = scope.locked(m)
+        props[m] = {"type": "string", "title": MODULE_LABEL[m],
+                    "enum": ["required"] if locked else list(STATES),
+                    "description": mod.reason +
+                        (f" (required by the {mod.source}; cannot be changed)" if locked else "")}
+        if locked:
+            props[m]["readOnly"] = True
+    return {"type": "object", "properties": props}
+
+
+def _read_scope_answer(proposed: ScopeConfig, answer: dict[str, Any]) -> tuple[dict[str, str], list[str]]:
+    data = answer.get("data") or {}
+    chosen, notes = {}, []
+    for m in MODULES:
+        value = data.get(m)
+        if value in STATES:
+            chosen[m] = value
+        else:
+            notes.append(f"{m}: derived value '{proposed.state(m)}' used")
+    return chosen, notes
+
+
+@handler("parse_call.configure_scope")
+async def configure_scope(rt: JobRuntime) -> dict[str, Any]:
+    ws, pid = rt.ws, rt.project_id
+    derived = ws.recommend_scope(pid)
+    current = ws.get_scope(pid)
+    proposed = rederive(current, derived) if current is not None else derived
+    question = ("User preference controls optional work; call requirements control mandatory work. "
+                "Choose for each module whether it is excluded, included or required.")
+    example = {m: proposed.state(m) for m in MODULES}
+    answer = await rt.form(SCOPE_HEADER, question, scope_form_schema(proposed), key="configure_scope", example=example)
+    chosen, notes = _read_scope_answer(proposed, answer)
+    try:
+        scope = apply_scope_change(proposed, chosen, by="researcher", reason="confirmed at intake")
+    except ValueError as e:
+        answer = await rt.form(SCOPE_HEADER, f"{e}. {question}", scope_form_schema(proposed),
+                               key="configure_scope_retry", example=example)
+        chosen, more = _read_scope_answer(proposed, answer)
+        notes += more
+        try:
+            scope = apply_scope_change(proposed, chosen, by="researcher", reason="confirmed at intake")
+        except ValueError as e2:
+            notes.append(f"kept the derived value for invalid choices: {e2}")
+            scope = proposed
+            for m, s in chosen.items():                       # apply the valid choices, skip the offending ones
+                try:
+                    scope = apply_scope_change(scope, {m: s}, by="researcher", reason="confirmed at intake")
+                except ValueError:
+                    continue
+            scope = apply_scope_change(scope, {}, by="engine", reason="derived values kept")
+    ws.put_scope(pid, scope)
+    rt.log_decision("Which optional modules does the proposal include?", scope.summary(),
+                    [f"{m}: {scope.module(m).reason}" for m in MODULES] + notes, type="scope_configured")
+    rt.emit("scope:configured", scope=scope.model_dump(mode="json"))
+    return {"scope": scope.model_dump(mode="json"), "summary": scope.summary()}
+
+
+# ------------------------------------------------------------------ concept alignment
+
+@handler("parse_call.align_concept")
+async def align_concept(rt: JobRuntime) -> dict[str, Any]:
+    spec = rt.ctx.callspec()
+    if spec is None:
+        raise JobFailed("parse the call first")
+    ctx_doc = rt.graph.document("context")
+    hyp = hypothesis_of(ctx_doc)
+    d = rt.project_dir
+    inputs = [("research context", str(d / "context.md")),
+              ("call spec", str(d / "intermediate" / "call_spec.json")),
+              ("proposal outline", str(d / "intermediate" / "proposal_outline.md"))]
+    if (d / "intermediate" / "ideation_brief.json").exists():
+        inputs.append(("ideation brief", str(d / "intermediate" / "ideation_brief.json")))
+    crit_ids = ", ".join(c.id for c in spec.criteria) or "none parsed"
+    instructions = f"""CALL ALIGNMENT CHECK — not a framing evaluation. The hypothesis below was developed before the
+call was parsed. Assess how well it fits `{spec.title}` ({spec.funder}, {spec.instrument or 'n/a'}).
+Hypothesis: {hyp}
+Return a `ConceptAlignment`: one `criterion_fits` entry per evaluation criterion (ids: {crit_ids}); `scope_misfits`
+for TRL, geography, consortium, duration, budget or topic mismatches; `eligibility_conflicts` for requirements the
+idea may violate; `suggested_hypothesis` only when changes would improve the fit (null when it fits as is);
+`verdict` fits | fits_with_changes | does_not_fit; `rationale` in 3-8 sentences."""
+    res = await rt.agent("idea_evaluator", phase="align", inputs=inputs, instructions=instructions,
+                         output_model=ConceptAlignment, allowed_writes=set(),
+                         output_contract="Return the final result as a single JSON object conforming to the "
+                         "`ConceptAlignment` schema (the runner validates it and persists every node it contains). "
+                         "Do not also write the same JSON to a file.")
+    al = ConceptAlignment.model_validate(res.structured)
+    rt.graph.put_document("concept_alignment", "Concept alignment with the call", al.rationale,
+                          created_by=rt.job.id, **al.model_dump(mode="json", exclude={"rationale"}))
+    suggested = (al.suggested_hypothesis or "").strip()
+    options = ["keep the hypothesis as is"]
+    if suggested and suggested != hyp:
+        options.append("adopt the suggested hypothesis")
+    options.append("reopen ideation")
+    lines = [f"Verdict: {al.verdict} (overall fit {al.overall_fit:g}/10).", al.rationale]
+    if al.scope_misfits:
+        lines.append("Scope misfits: " + "; ".join(al.scope_misfits))
+    if al.eligibility_conflicts:
+        lines.append("Eligibility conflicts: " + "; ".join(al.eligibility_conflicts))
+    if "adopt the suggested hypothesis" in options:
+        lines.append(f"Suggested hypothesis: {suggested}")
+    ans = await rt.ask("\n\n".join(lines), options, header=ALIGN_HEADER, key="align_decision")
+    choice = str(ans.get("choice") or ans.get("text") or "").strip().lower()
+    question = "Does the preliminary concept fit the call?"
+    if choice.startswith("reopen"):
+        rt.log_decision(question, "reopen_ideation", [al.rationale], type="concept_alignment")
+        return {"verdict": al.verdict, "decision": "reopen_ideation",
+                "summary": "concept sent back to ideation (still preliminary)"}
+    if choice.startswith("adopt") and "adopt the suggested hypothesis" in options:
+        replace_hypothesis(rt.graph, suggested, suggested, created_by=rt.job.id, concept_status="aligned")
+        rt.log_decision(question, "adopted", [f"previous hypothesis: {hyp}", al.rationale], type="concept_alignment")
+        rt.ctx.materialize()
+        return {"verdict": al.verdict, "decision": "adopted", "summary": "suggested hypothesis adopted; concept aligned"}
+    rt.ws.set_concept_status(rt.project_id, "aligned")
+    rt.log_decision(question, "kept", [al.rationale], type="concept_alignment")
+    return {"verdict": al.verdict, "decision": "kept", "summary": f"concept aligned ({al.verdict})"}

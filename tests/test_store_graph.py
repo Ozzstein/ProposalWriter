@@ -5,9 +5,9 @@ from agency.domain.runs import CostEntry, Event, InboxItem, InboxKind, Job, JobK
 
 def test_project_lifecycle(ws, project):
     assert ws.get_project("demo").name == "Demo Project"
-    assert ws.current_stage(project) == "ideation"
-    ws.set_stage("demo", "ideation", "skipped")
+    assert ws.current_stage(project) == "call_parsing"
     ws.set_stage("demo", "call_parsing", "complete")
+    ws.set_stage("demo", "ideation", "skipped")
     assert ws.current_stage(ws.get_project("demo")) == "research"
     assert ws.graph("demo").document("context").data["hypothesis"].startswith("A digital twin")
 

@@ -62,8 +62,9 @@ def next(ctx: typer.Context, project: str):
     typer.echo(f"{step['title']}\n  {step['why']}")
     action = step.get("action", {})
     if action.get("stage"):
-        typer.echo(f"  → agency run {project} {action['stage']}" + (" --force" if action.get("force") else "")
-                   + (" --resume" if action.get("resume") else ""))
+        flags = " ".join(f"-f {k}={v}" for k, v in (action.get("flags") or {}).items())
+        typer.echo(f"  → agency run {project} {action['stage']}" + (f" {flags}" if flags else "")
+                   + (" --force" if action.get("force") else "") + (" --resume" if action.get("resume") else ""))
     for r in step.get("requirements", []):
         typer.echo(f"  → agency requirement {project} {r['id']} met|unmet|not_applicable   # {r['text'][:100]}")
     for a in step.get("alternatives", []):
@@ -80,6 +81,40 @@ def requirement(ctx: typer.Context, project: str, requirement_id: str, status: s
     except (KeyError, ValueError) as e:
         typer.echo(f"error: {e}")
         raise typer.Exit(1)
+
+
+@app.command()
+def concept(ctx: typer.Context, project: str, status: str):
+    """Set the concept status (none, preliminary, aligned) — for legacy projects or manual overrides."""
+    ws = _ws(ctx.obj["root"])
+    try:
+        ws.set_concept_status(project, status)
+        typer.echo(json.dumps({"concept_status": ws.concept_status(project)}, indent=2))
+    except (KeyError, ValueError) as e:
+        typer.echo(f"error: {e}")
+        raise typer.Exit(1)
+
+
+@app.command()
+def scope(ctx: typer.Context, project: str,
+          change: list[str] = typer.Argument(None, help="module=state pairs, e.g. finance=included figures=excluded")):
+    """Show or change the proposal scope (finance, business_plan, figures, external_review)."""
+    ws = _ws(ctx.obj["root"])
+    if change:
+        try:
+            changes = dict(c.split("=", 1) for c in change)
+        except ValueError:
+            typer.echo("error: expected module=state pairs")
+            raise typer.Exit(2)
+        try:
+            typer.echo(ws.set_scope(project, changes, by="cli").model_dump_json(indent=2))
+        except (KeyError, ValueError) as e:
+            typer.echo(f"error: {e}")
+            raise typer.Exit(2)
+        return
+    current = ws.get_scope(project)
+    typer.echo(json.dumps({"scope": current.model_dump(mode="json") if current else None,
+                           "recommended": ws.recommend_scope(project).model_dump(mode="json")}, indent=2))
 
 
 @app.command()

@@ -47,7 +47,7 @@ class InteractiveScripted(Scripted):
             start = int(prompt.split("SRC: SRC-")[1][:3])
             fid = re.search(r"Framing (FRM-\d+)", prompt).group(1)
             return {"structured": evidence(start, 3, fid.lower())}
-        if agent == "idea_evaluator":
+        if agent == "idea_evaluator" and "Candidate framings:" in prompt:
             framings = json.loads(prompt.split("Candidate framings:\n")[1].split("\nRaw idea")[0])
             return {"structured": {"project_name": "demo", "raw_idea": "dt", "status": "draft",
                                    "recommendation": "FRM-001 is the strongest",
@@ -121,6 +121,9 @@ class Answerer:
         if item.kind == InboxKind.APPROVAL:
             return {"decision": "approve", "rows": {r["id"]: "approve" for r in item.payload["rows"]}}
         if item.kind == InboxKind.FORM:
+            if "scope" in item.header.lower():
+                return {"data": {"finance": "included", "business_plan": "included", "figures": "included",
+                                 "external_review": "excluded"}}
             if "financial" in item.header.lower():
                 return {"data": FIN_INPUTS}
             return {"data": {"text": "Call: three partners."}}
@@ -145,6 +148,7 @@ async def test_ideate(ws, engine):
     assert brief.data["status"] == "chosen" and brief.data["chosen_framing_id"] == "FRM-001"
     assert "digital twin cuts scrap" in g.document("context").data["hypothesis"]
     assert "## Hypothesis" in g.document("context").data["body"] and "_To be completed._" not in g.document("context").data["body"]
+    assert g.document("context").data["concept_status"] == "preliminary"   # no call at ideation time
     assert len(g.sources()) == 6 and g.decisions("framing_chosen")
     kinds = [i.kind for i in engine.inbox.responder.items]
     assert kinds[0] == InboxKind.QUESTION and "Problem" in engine.inbox.responder.items[0].header

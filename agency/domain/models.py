@@ -362,6 +362,23 @@ class IdeationBrief(Payload):
     status: Literal["draft", "chosen", "needs_rework"] = "draft"
 
 
+class CriterionFit(Payload):
+    criterion_id: str
+    fit: float = Field(ge=0, le=10)
+    comment: str = ""
+
+
+class ConceptAlignment(Payload):
+    """parse-call align_concept output: how a preliminary hypothesis fits the parsed call."""
+    overall_fit: float = Field(ge=0, le=10)
+    verdict: Literal["fits", "fits_with_changes", "does_not_fit"]
+    criterion_fits: list[CriterionFit] = Field(default_factory=list)
+    scope_misfits: list[str] = Field(default_factory=list)
+    eligibility_conflicts: list[str] = Field(default_factory=list)
+    suggested_hypothesis: str | None = None
+    rationale: str = ""
+
+
 # --------------------------------------------------------------- planning
 
 class PlannedStep(Payload):

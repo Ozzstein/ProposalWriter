@@ -45,6 +45,10 @@ so every surface tells the same story. Requirement confirmation
 (`Workspace.set_requirement_status`) updates the CallSpec node that the scope gate reads and logs a
 `requirement_status` decision.
 
+**Scope.** `ScopeConfig` (`agency/domain/scope.py`) records for finance, business plan, figures and external review whether the module is `excluded`, `included` or `required`, with the source (`call`, `pack`, `user`, `default`). It is derived after parse-call (call requirements first, then the pack's `modules:`, then creation-time preferences, then defaults), confirmed by the researcher in the inbox, stored in `project.settings["scope"]`, and every change is a Decision. The runner blocks excluded stages unless `--force` (which flips the module to included), the draft gate requires `required` modules to be complete, the submission gate requires a closed external-review round when external review is required, and the guide never recommends an excluded module. The guided path is Call → Idea → Research → Draft → Review → Export; a hypothesis written before the call is `preliminary` until the alignment step marks it `aligned`, which the scope gate checks.
+
+*Existing projects.* A project created before this change has no scope record and a hypothesis (if any) reads as `preliminary`. Run `agency run PROJECT parse-call -f scope_only=1` to derive and confirm the scope, then either `agency run PROJECT parse-call -f align_only=1` to align a hypothesis written earlier or `agency concept PROJECT aligned` (`PUT /api/projects/{pid}/concept`) to set the status directly without re-running the alignment agent.
+
 ## Planning agent (campaigns)
 
 The engine decides *how* a stage runs; the planning agent decides *which* stages run next. `agency plan
@@ -71,8 +75,8 @@ flags: its levers are exactly the stage registry and the flags each stage declar
 
 | Stage | Plan | Gate in → out |
 |---|---|---|
-| ideate | setup → interview (session) → probes ∥ + evaluator → choose (inbox, ≤2 rework loops) | – |
-| parse-call | locate inputs → call_parser ∥ eligibility_parser → merge with pack → approve (inbox) | → scope |
+| parse-call | locate inputs → call_parser ∥ eligibility_parser → merge with pack → approve (inbox) → configure_scope (inbox form) → align_concept (agent + inbox, only for a preliminary concept); flags scope_only / align_only re-run just those jobs | → scope |
+| ideate | Exploratory when no CallSpec exists: the hypothesis is marked `preliminary` and aligned by parse-call later. | – |
 | research | kb_import → literature ∥ web ∥ patents → synthesize → novelty ∥ gaps | scope → evidence |
 | write-proposal | prepare → draft:<excellence> → draft:<others> ∥ → draft:abstract | evidence → draft |
 | finance | intake (files or form) → model → narrative ∥ → financial review | – |

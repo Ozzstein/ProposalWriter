@@ -149,15 +149,45 @@ function ApprovalForm({ item, onAnswer, disabled }: FormProps): React.ReactEleme
   );
 }
 
+type Prop = { type?: string; enum?: string[]; title?: string; description?: string; readOnly?: boolean };
+
 function JsonForm({ item, onAnswer, disabled }: FormProps): React.ReactElement {
-  const schema = item.payload.schema as { properties?: Record<string, { type?: string }> } | undefined;
-  const simpleText = schema?.properties && Object.keys(schema.properties).length === 1 && Object.values(schema.properties)[0]?.type === "string";
-  const [text, setText] = useState(item.payload.example && Object.keys(item.payload.example).length ? JSON.stringify(item.payload.example, null, 2) : "");
+  const schema = item.payload.schema as { properties?: Record<string, Prop> } | undefined;
+  const props = schema?.properties;
+  const keys = props ? Object.keys(props) : [];
+  const simpleText = keys.length === 1 && props![keys[0]!]?.type === "string" && !props![keys[0]!]?.enum;
+  const fieldForm = keys.length > 1 && keys.every((k) => props![k]?.type === "string");
+  const example = (item.payload.example ?? {}) as Record<string, string>;
+  const [text, setText] = useState(Object.keys(example).length && !fieldForm ? JSON.stringify(example, null, 2) : "");
+  const [values, setValues] = useState<Record<string, string>>(() => Object.fromEntries(keys.map((k) => [k, example[k] ?? props![k]?.enum?.[0] ?? ""])));
   const [err, setErr] = useState<string | null>(null);
+  if (fieldForm) {
+    return (
+      <div className="space-y-2">
+        {keys.map((k) => {
+          const p = props![k]!;
+          return (
+            <label key={k} className="grid gap-1 text-sm">
+              <span>{p.title ?? k}{p.description ? <span className="text-xs text-foreground-muted"> — {p.description}</span> : null}</span>
+              {p.enum ? (
+                <select className="h-8 rounded border border-border bg-background px-2" value={values[k]} disabled={p.readOnly || disabled}
+                  onChange={(e) => setValues({ ...values, [k]: e.target.value })}>
+                  {p.enum.map((o) => <option key={o} value={o}>{o}</option>)}
+                </select>
+              ) : (
+                <input className="h-8 rounded border border-border bg-background px-2" value={values[k]} disabled={p.readOnly || disabled}
+                  onChange={(e) => setValues({ ...values, [k]: e.target.value })} />
+              )}
+            </label>
+          );
+        })}
+        <Button size="sm" disabled={disabled} onClick={() => onAnswer({ data: values })}>Submit</Button>
+      </div>
+    );
+  }
   const submit = () => {
     if (simpleText) {
-      const key = Object.keys(schema!.properties!)[0]!;
-      onAnswer({ data: { [key]: text }, text });
+      onAnswer({ data: { [keys[0]!]: text }, text });
       return;
     }
     try {

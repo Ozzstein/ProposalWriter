@@ -83,13 +83,30 @@ async def test_run_stage_inbox_and_events(client):
     assert pending[0]["kind"] == "approval"
     rows = {row["id"]: "approve" for row in pending[0]["payload"]["rows"]}
     await client.post(f"/api/inbox/{pending[0]['id']}/answer", json={"answer": {"decision": "approve", "rows": rows}})
+    # then the scope configuration form
+    for _ in range(200):
+        await asyncio.sleep(0.02)
+        pending = (await client.get("/api/inbox", params={"project": "p2"})).json()["items"]
+        if pending and pending[0]["kind"] == "form":
+            break
+    assert pending[0]["kind"] == "form" and pending[0]["header"] == "Configure proposal scope"
+    await client.post(f"/api/inbox/{pending[0]['id']}/answer", json={"answer": {"data": {
+        "finance": "excluded", "business_plan": "excluded", "figures": "excluded", "external_review": "excluded"}}})
+    # then the preliminary concept's alignment with the parsed call
+    for _ in range(200):
+        await asyncio.sleep(0.02)
+        pending = (await client.get("/api/inbox", params={"project": "p2"})).json()["items"]
+        if pending and pending[0]["kind"] == "question":
+            break
+    assert pending[0]["kind"] == "question" and pending[0]["header"] == "Align the concept with the call"
+    await client.post(f"/api/inbox/{pending[0]['id']}/answer", json={"answer": {"choice": "keep the hypothesis as is"}})
     for _ in range(200):
         await asyncio.sleep(0.02)
         run = (await client.get(f"/api/runs/{run_id}")).json()
         if run["run"]["status"] in ("completed", "failed"):
             break
     assert run["run"]["status"] == "completed", run["run"]["error"]
-    assert {j["name"] for j in run["jobs"]} >= {"parse_call", "approve_outline", "finalize"}
+    assert {j["name"] for j in run["jobs"]} >= {"parse_call", "approve_outline", "configure_scope", "align_concept", "finalize"}
     assert run["costs"]
     # research is blocked by the scope gate (eligibility unknown) unless forced
     assert (await client.post("/api/projects/p2/stages/research", json={})).status_code == 412
@@ -152,15 +169,64 @@ async def test_next_step_and_requirements_endpoints(client):
     assert r.status_code == 200 and r.json()["key"] == "upload_call"
     assert (await client.get("/api/projects/p4")).json()["next_step"]["key"] == "upload_call"
     stages = (await client.get("/api/stages")).json()["items"]
-    assert [s["name"] for s in stages][:3] == ["ideate", "parse-call", "research"] and stages[0]["optional"] is True
+    assert [s["name"] for s in stages][:3] == ["parse-call", "ideate", "research"] and stages[1]["optional"] is True
     assert (await client.post("/api/projects/p4/requirements/E1", json={"status": "met"})).status_code == 404
     from tests.test_engine import CALLSPEC
     from agency.domain.graph import NodeType
     client.engine.ws.graph("p4").add(NodeType.CALL_SPEC, dict(CALLSPEC))
     client.engine.ws.set_stage("p4", "call_parsing", "complete")
+    assert (await client.get("/api/projects/p4/next")).json()["key"] == "configure_scope"
+    client.engine.ws.set_scope("p4", {})
+    client.engine.ws.set_concept_status("p4", "aligned")
     assert (await client.get("/api/projects/p4/next")).json()["key"] == "confirm_eligibility"
     r = await client.post("/api/projects/p4/requirements/E1", json={"status": "met", "note": "ok"})
     assert r.status_code == 200 and r.json()["status"] == "met"
     assert (await client.post("/api/projects/p4/requirements/E1", json={"status": "bogus"})).status_code == 400
     assert (await client.get("/api/projects/p4/requirements")).json()["items"][0]["status"] == "met"
     assert (await client.get("/api/projects/p4/next")).json()["action"]["stage"] == "research"
+
+
+async def test_scope_endpoints(client):
+    r = await client.post("/api/projects", json={"name": "P5", "hypothesis": "h",
+                                                  "scope_preferences": {"figures": "included", "bogus": "x"}})
+    assert r.status_code == 201 and r.json()["state"]["settings"]["scope_preferences"] == {"figures": "included"}
+    r = await client.get("/api/projects/p5/scope")
+    assert r.status_code == 200 and r.json()["scope"] is None and r.json()["recommended"]["figures"]["state"] == "included"
+    r = await client.put("/api/projects/p5/scope", json={"changes": {"external_review": "included"}, "reason": "colleagues"})
+    assert r.status_code == 200 and r.json()["external_review"]["state"] == "included" and r.json()["configured_at"]
+    assert (await client.get("/api/projects/p5/scope")).json()["scope"]["figures"]["state"] == "included"
+    assert (await client.put("/api/projects/p5/scope", json={"changes": {"figures": "maybe"}})).status_code == 409
+    from tests.test_engine import CALLSPEC
+    from agency.domain.graph import NodeType
+    spec = dict(CALLSPEC, sections=CALLSPEC["sections"] + [{"id": "4", "title": "Fin", "kind": "financial"}])
+    client.engine.ws.graph("p5").add(NodeType.CALL_SPEC, spec)
+    client.engine.ws.put_scope("p5", client.engine.ws.recommend_scope("p5"))
+    r = await client.put("/api/projects/p5/scope", json={"changes": {"finance": "excluded"}})
+    assert r.status_code == 409 and "required by the call" in r.json()["detail"]
+    assert (await client.get("/api/projects/nope/scope")).status_code == 404
+    # the guide's side path carries the scope state
+    side = {p["key"]: p for p in (await client.get("/api/projects/p5/next")).json()["side"]}
+    assert side["finance"]["scope_state"] == "required"
+
+
+async def test_concept_endpoint(client):
+    await client.post("/api/projects", json={"name": "P6", "hypothesis": "h"})
+    assert client.engine.ws.concept_status("p6") == "preliminary"
+    r = await client.put("/api/projects/p6/concept", json={"status": "aligned"})
+    assert r.status_code == 200 and r.json() == {"concept_status": "aligned"}
+    assert client.engine.ws.concept_status("p6") == "aligned"
+    r = await client.put("/api/projects/p6/concept", json={"status": "bogus"})
+    assert r.status_code == 400
+    assert (await client.put("/api/projects/nope/concept", json={"status": "aligned"})).status_code == 404
+
+
+async def test_agents_graph_covers_every_contract_and_role(client):
+    """The Agents page groups by these kinds; a role the UI cannot render must not appear silently."""
+    body = (await client.get("/api/agents/graph")).json()
+    kinds = {n["kind"] for n in body["nodes"]}
+    assert kinds <= {"stage", "planner", "interviewer", "retriever", "synthesizer", "writer", "modeler",
+                     "renderer", "reviewer"}, kinds
+    assert "planner" in kinds and "orchestrator" not in kinds
+    agent_nodes = {n["id"] for n in body["nodes"] if n["id"].startswith("agents/")}
+    assert len(agent_nodes) == len(client.engine.catalogue.contracts)
+    assert all(n["file"] for n in body["nodes"] if n["id"].startswith("agents/"))

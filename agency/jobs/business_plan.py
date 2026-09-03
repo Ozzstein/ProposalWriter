@@ -39,7 +39,7 @@ def plan_business_plan(ctx: RunContext) -> StagePlan:
 
 
 stage(StageDef(name="business-plan", state_key="business_plan", planner=plan_business_plan, interactive=True,
-               requires_stages=("call_parsing", "writing"),
+               requires_stages=("call_parsing", "writing"), scope_key="business_plan",
                description="Assemble the business-plan annex: discovery interview, fact synthesis, commercial/financial/"
                            "counterparty/risk drafts, cross-artefact red-team, assembled document.",
                flags={"skip_interview": "reuse the saved interview without asking again"}))

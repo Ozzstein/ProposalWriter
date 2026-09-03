@@ -44,6 +44,7 @@ class StageDef:
     interactive: bool = False
     description: str = ""
     flags: dict[str, str] = field(default_factory=dict)   # flag -> help
+    scope_key: str | None = None                          # module in ScopeConfig that governs this stage
 
 
 Handler = Callable[..., Awaitable[dict[str, Any]]]

@@ -8,11 +8,15 @@ with every claim traced to sources in a provenance graph and every human
 decision captured in an inbox.
 
 ```
-idea ──▶ ideate ──▶ parse-call ──▶ research ──▶ write-proposal ──▶ review ──▶ external-feedback ──▶ export
+idea ──▶ parse-call ──▶ ideate ──▶ research ──▶ write-proposal ──▶ review ──▶ external-feedback ──▶ export
                                      │              │  ▲               │(loop: revise → re-score)
                                      │        finance / figures / business-plan (optional)
                                      └─ knowledge base: promoted after a project, imported by the next
 ```
+
+Ideation can also run before the call (exploratory mode); parse-call then aligns the hypothesis with the call and asks you to configure the scope: finance, business plan, figures and external review as excluded / included / required.
+
+Existing projects created before this change must run `agency run PROJECT parse-call -f scope_only=1` to confirm the scope, and either `agency run PROJECT parse-call -f align_only=1` or `agency concept PROJECT aligned` for a hypothesis written earlier.
 
 ## What makes it different
 
@@ -88,8 +92,8 @@ proposes a campaign of stage runs, you approve it once, and the engine executes 
 
 | Stage | What happens | Gate |
 |---|---|---|
+| `parse-call` | `CallSpec` from the call document (+ eligibility parser, funder pack), outline, your approval, scope configuration, concept alignment | → `scope` |
 | `ideate` | Interview (through the inbox) → 2–3 candidate framings → shallow prior-art probes → evaluator scoring → you choose; the hypothesis is written into the project context | — |
-| `parse-call` | `CallSpec` from the call document (+ eligibility parser, funder pack), outline, your approval | → `scope` |
 | `research` | Knowledge-base import, parallel retrieval (literature, EU repositories, patents) with reserved ID ranges, SOTA synthesis with claim registration, novelty map, gap analysis | `scope` → `evidence` |
 | `write-proposal` | One writer job per required section: excellence first, impact + implementation in parallel, abstract last; drafts ingested as `Section` nodes with `cites` edges | `evidence` → `draft` |
 | `finance` | Inputs from workbooks or an inbox form (schema-validated), financial model with hard-threshold checks, narrative sections, financial red-team with escalation | — |

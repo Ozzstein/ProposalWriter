@@ -27,7 +27,7 @@ def plan_figures(ctx: RunContext) -> StagePlan:
     ])
 
 
-stage(StageDef(name="figures", state_key="figures", planner=plan_figures,
+stage(StageDef(name="figures", state_key="figures", planner=plan_figures, scope_key="figures",
                description="Render every figure in the figures register: data plots via Matplotlib/Plotly, concept "
                            "graphics via Fal.ai; four at a time.",
                flags={"only": "comma list of figure ids", "plots_only": "skip Fal.ai figures", "fal_only": "only Fal.ai figures",

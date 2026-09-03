@@ -8,6 +8,7 @@ from typing import Any
 
 from agency.catalogue.loader import load_catalogue
 from agency.domain.runs import JobStatus, Run, RunStatus
+from agency.domain.scope import ScopeConfig
 from agency.engine.plan import StageBlocked, StageDef
 from agency.engine.runtime import RunContext
 from agency.engine.scheduler import Scheduler
@@ -48,6 +49,15 @@ class Engine:
             st = project.stages.get(s, {}).get("status")
             if st not in ("complete", "skipped"):
                 warnings.append(f"stage '{s}' is {st or 'pending'}")
+        if sd.scope_key:
+            scope = ScopeConfig.load(project)
+            if scope is not None and scope.is_excluded(sd.scope_key):
+                if not force:
+                    raise StageBlocked(f"stage '{sd.name}' is excluded by the project scope; "
+                                       f"run with --force to include it")
+                self.ws.set_scope(project_id, {sd.scope_key: "included"}, by="engine",
+                                  reason=f"forced run of {sd.name}")
+                warnings.append(f"scope: {sd.scope_key} switched to included")
         if sd.requires_gate:
             result = self.ws.check_gate(project_id, sd.requires_gate, write=True)
             if not result.passed and not result.not_applicable:

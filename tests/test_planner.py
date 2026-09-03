@@ -136,3 +136,28 @@ async def test_plan_only_mode(ws, project):
     assert result["status"] == "planned" and [r["stage"] for r in result["runs"]] == ["plan"]
     assert load_plan(ws.graph("demo"))["status"] == "approved"
     assert ws.get_project("demo").stages["call_parsing"]["status"] == "pending"
+
+
+def test_validate_plan_rejects_excluded_stages_unless_forced(ws, project):
+    scope = ws.set_scope("demo", {"figures": "excluded"})
+    plan = RunPlan.model_validate({**GOOD_PLAN, "steps": GOOD_PLAN["steps"] + [
+        {"step": 3, "stage": "figures", "rationale": "plots"}]})
+    errors = validate_plan(plan, STAGES, ws.get_project("demo").stages, scope)
+    assert any("step 3 (figures): excluded by the project scope" in e for e in errors)
+    forced = RunPlan.model_validate({**GOOD_PLAN, "steps": GOOD_PLAN["steps"] + [
+        {"step": 3, "stage": "figures", "rationale": "plots", "force": True}]})
+    assert validate_plan(forced, STAGES, ws.get_project("demo").stages, scope) == []
+    assert validate_plan(plan, STAGES, ws.get_project("demo").stages) == []       # no scope → no check
+
+
+def test_brief_lists_the_scope(ws, project):
+    from agency.domain.runs import Run
+    from agency.engine.runtime import RunContext
+    ws.set_scope("demo", {"finance": "included"})
+    eng = Engine(ws, query_fn=FakeQuery(responder))
+    run = Run(id="run-y", project_id="demo", stage="plan")
+    ctx = RunContext(ws=ws, project_id="demo", run=run, catalogue=eng.catalogue, adapter=eng.adapter, inbox=eng.inbox,
+                     packs=eng.packs, project_dir=ws.config.project_dir("demo"), kb_dir=ws.config.root / "kb")
+    brief = build_brief(ctx, STAGES, goal="x")
+    assert "## Scope" in brief and "- finance: included (user)" in brief and "- figures: excluded (default)" in brief
+    assert "scope key: figures" in brief

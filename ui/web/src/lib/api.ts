@@ -13,6 +13,7 @@ import type {
   RunRecord,
   StageDef,
   NextStep,
+  ScopeConfig,
 } from "@pw/shared";
 
 const BASE = "/api";
@@ -64,6 +65,7 @@ export interface CreateProjectBody {
   context_md?: string;
   pack?: string;
   skip_ideation?: boolean;
+  scope_preferences?: Record<string, "excluded" | "included">;
 }
 
 export async function createProject(body: CreateProjectBody): Promise<ProjectSummary> {
@@ -144,6 +146,16 @@ export async function getNextStep(project: string): Promise<NextStep> {
 
 export async function setRequirement(project: string, id: string, status: string, note = ""): Promise<Record<string, unknown>> {
   return postJson(`${BASE}/projects/${enc(project)}/requirements/${enc(id)}`, { status, note });
+}
+
+export async function getScope(project: string): Promise<{ scope: ScopeConfig | null; recommended: ScopeConfig }> {
+  return getJson(`${BASE}/projects/${enc(project)}/scope`);
+}
+
+export async function setScope(project: string, changes: Record<string, string>, reason = ""): Promise<ScopeConfig> {
+  const url = `${BASE}/projects/${enc(project)}/scope`;
+  const res = await fetch(url, { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify({ changes, reason }) });
+  return handle<ScopeConfig>(res, url);
 }
 
 export async function runGate(project: string, gate: string): Promise<GateResult> {

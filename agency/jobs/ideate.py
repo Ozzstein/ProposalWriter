@@ -13,6 +13,7 @@ from agency.engine.materialize import ingest_evidence
 from agency.engine.plan import JobFailed, JobSpec, StageDef, StagePlan
 from agency.engine.runtime import JobRuntime, RunContext
 from agency.jobs import handler, stage
+from agency.jobs.common import replace_hypothesis
 
 
 def plan_ideate(ctx: RunContext) -> StagePlan:
@@ -27,7 +28,8 @@ def plan_ideate(ctx: RunContext) -> StagePlan:
 
 stage(StageDef(name="ideate", state_key="ideation", planner=plan_ideate, interactive=True,
                description="Develop the idea with you: interview, candidate framings, shallow prior-art probes, "
-                           "comparative scoring, and a chosen hypothesis written into the context.",
+                           "comparative scoring, and a chosen hypothesis written into the context. Without a parsed "
+                           "call this is exploratory: the hypothesis is marked preliminary and parse-call aligns it later.",
                flags={"max_loops": "max rework loops (default 2)", "probe_sources": "sources per probe (default 8)"}))
 
 
@@ -166,15 +168,9 @@ async def choose(rt: JobRuntime) -> dict[str, Any]:
     brief.chosen_framing_id = chosen.framing_id
     brief.status = "chosen"
     rt.graph.update(node, chosen_framing_id=chosen.framing_id, status="chosen")
-    ctx_doc = rt.graph.document("context")
-    body = ctx_doc.data.get("body", "") if ctx_doc else ""
     hyp = f"{chosen.statement}\n\n**Mechanism**: {chosen.mechanism}\n\n**Novelty type**: {chosen.novelty_type} — target gap: {chosen.target_gap}"
-    if "## Hypothesis" in body:
-        body = re.sub(r"## Hypothesis\s*\n.*?(?=\n## |\Z)", f"## Hypothesis\n\n{hyp}\n", body, count=1, flags=re.S)
-    else:
-        body += f"\n\n## Hypothesis\n\n{hyp}\n"
-    rt.graph.put_document("context", ctx_doc.data.get("title", "context") if ctx_doc else "context", body,
-                          created_by=rt.job.id, hypothesis=chosen.statement)
+    replace_hypothesis(rt.graph, hyp, chosen.statement, created_by=rt.job.id,
+                       concept_status="aligned" if rt.graph.callspec_node() is not None else "preliminary")
     rt.log_decision("Which project framing to pursue?", f"{chosen.framing_id}: {chosen.statement}",
                     [f"alternatives: {[f.framing_id for f in brief.candidate_framings if f.framing_id != chosen.framing_id]}",
                      brief.recommendation], type="framing_chosen", evidence_refs=chosen.closest_prior_art)

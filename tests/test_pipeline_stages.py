@@ -100,6 +100,8 @@ async def researched(ws, project):
     for r in spec.data["requirements"]:
         r["status"] = "met"
     ws.store.put_node(spec)
+    ws.set_scope("demo", {"external_review": "included"})  # this fixture runs external-feedback below
+    ws.set_concept_status("demo", "aligned")
     r2 = await eng.run_stage("demo", "research")
     assert r2.status == RunStatus.COMPLETED, r2.error
     return eng

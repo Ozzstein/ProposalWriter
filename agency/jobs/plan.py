@@ -13,6 +13,7 @@ from typing import Any
 
 from agency.domain.models import RunPlan
 from agency.domain.runs import JobKind
+from agency.domain.scope import MODULES, ScopeConfig
 from agency.engine.plan import JobFailed, JobSpec, StageDef, StagePlan
 from agency.engine.runtime import JobRuntime, RunContext
 from agency.jobs import STAGES, handler, stage
@@ -62,6 +63,12 @@ def build_brief(ctx: RunContext, stages: dict[str, StageDef], *, goal: str, budg
         st = project.stages.get(key, {})
         note = st.get("note")
         lines.append(f"- {key}: {st.get('status', 'pending')}" + (f" ({note})" if note else ""))
+    scope = ScopeConfig.load(project)
+    lines += ["", "## Scope (excluded stages must not be planned unless the step sets force)"]
+    if scope is None:
+        lines.append("- not configured yet (parse-call asks for it)")
+    else:
+        lines += [f"- {m}: {scope.state(m)} ({scope.module(m).source})" for m in MODULES]
     lines += ["", "## Gates (deterministic checks over the graph)"]
     for gate in project.gates:
         try:
@@ -108,13 +115,15 @@ def build_brief(ctx: RunContext, stages: dict[str, StageDef], *, goal: str, budg
         lines.append(f"### {name}")
         lines.append(sd.description or "")
         lines.append(f"- state key: {sd.state_key or 'none'}; requires stages: {', '.join(sd.requires_stages) or 'none'}; "
-                     f"entry gate: {sd.requires_gate or 'none'}; interactive: {'yes' if sd.interactive else 'no'}")
+                     f"entry gate: {sd.requires_gate or 'none'}; interactive: {'yes' if sd.interactive else 'no'}; "
+                     f"scope key: {sd.scope_key or 'none'}")
         lines.append("- flags: " + ("; ".join(f"`{k}` — {v}" for k, v in sd.flags.items()) or "none"))
     return "\n".join(lines) + "\n"
 
 
 # ------------------------------------------------------------------ validation
-def validate_plan(plan: RunPlan, stages: dict[str, StageDef], project_stages: dict[str, dict[str, Any]]) -> list[str]:
+def validate_plan(plan: RunPlan, stages: dict[str, StageDef], project_stages: dict[str, dict[str, Any]],
+                  scope: ScopeConfig | None = None) -> list[str]:
     """Deterministic checks the engine applies before anyone sees the plan."""
     errors: list[str] = []
     if len(plan.steps) > MAX_STEPS:
@@ -125,6 +134,8 @@ def validate_plan(plan: RunPlan, stages: dict[str, StageDef], project_stages: di
             errors.append(f"step {i}: unknown stage {s.stage!r}; known: {', '.join(n for n in stages if n != 'plan')}")
             continue
         sd = stages[s.stage]
+        if scope is not None and sd.scope_key and scope.is_excluded(sd.scope_key) and not s.force:
+            errors.append(f"step {i} ({s.stage}): excluded by the project scope; change the scope or set force")
         bad = sorted(set(s.flags) - set(sd.flags))
         if bad:
             errors.append(f"step {i} ({s.stage}): unknown flags {bad}; allowed: {sorted(sd.flags) or 'none'}")
@@ -170,7 +181,7 @@ async def propose(rt: JobRuntime) -> dict[str, Any]:
                              instructions=instructions, output_model=RunPlan,
                              extra={"Planning brief": info["brief"]})
         plan = RunPlan.model_validate(res.structured)
-        errors = validate_plan(plan, STAGES, project.stages)
+        errors = validate_plan(plan, STAGES, project.stages, ScopeConfig.load(project))
         rt.emit("plan:proposed", attempt=attempt + 1, steps=[s.model_dump(mode="json") for s in plan.steps], errors=errors)
         if not errors:
             break

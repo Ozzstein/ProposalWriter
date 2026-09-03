@@ -13,7 +13,7 @@ def test_import_legacy_run(ws, legacy_run):
     counts = import_legacy_project(ws, legacy_run)
     assert counts["Source"] == 13 and counts["Claim"] == 2 and counts["Section"] == 3
     p = ws.get_project("legacy-proj")
-    assert p.stages["writing"]["status"] == "in_progress" and p.gates["scope"]["passed"] is True
+    assert p.stages["writing"]["status"] == "in_progress"
     g = ws.graph("legacy-proj")
     # last line wins: CLM-002 is supported by SRC-003
     clm2 = g.get("CLM-002")
@@ -26,6 +26,11 @@ def test_import_legacy_run(ws, legacy_run):
     assert spec.data["abstract_word_limit"] == 300 and len(spec.data["criteria"]) == 2
     assert [s["id"] for s in spec.data["sections"]] == ["1", "2", "3"]
     # gates evaluate on the imported graph
+    r = evaluate_gate("scope", g)
+    assert not r.passed and any("scope not configured" in b for b in r.blockers)
+    assert any("not aligned" in b for b in r.blockers)
+    ws.set_scope("legacy-proj", {})
+    ws.set_concept_status("legacy-proj", "aligned")
     assert evaluate_gate("scope", g).passed
     assert evaluate_gate("evidence", g).passed, evaluate_gate("evidence", g).blockers
     assert evaluate_gate("draft", g).passed, evaluate_gate("draft", g).blockers
