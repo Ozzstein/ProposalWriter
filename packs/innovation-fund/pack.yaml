@@ -39,6 +39,10 @@ criteria_hints:
   - {id: C7, name: Cost efficiency, weight: 1, max_score: 15}
   - {id: C8, name: Bonus points, weight: 1, max_score: 4}
 annexes: [Business Plan, Financial Information File, GHG calculator, Feasibility study]
+modules:
+  finance: required
+  business_plan: required
+  figures: included
 panel_personas:
   - a climate-tech investment analyst who scrutinises financial maturity and bankability
   - a process engineer who challenges technical maturity and scale-up risk

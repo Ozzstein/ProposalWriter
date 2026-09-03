@@ -25,6 +25,7 @@ class FunderPack(BaseModel):
     hard_rules: list[RequirementSpec] = Field(default_factory=list)
     annexes: list[str] = Field(default_factory=list)
     panel_personas: list[str] = Field(default_factory=list)
+    modules: dict[str, str] = Field(default_factory=dict)   # module -> excluded | included | required
     root: Path | None = None
 
     def outline_text(self) -> str:
