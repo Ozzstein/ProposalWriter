@@ -77,6 +77,7 @@ cd ui && npm install && npm run build && cd ..
 | `review` | Scientific + compliance reviews, simulated panel, ranked revision plan, revise → re-score loop | `draft` → `submission` |
 | `external-feedback` | Reviewer files or pasted text → parsed comments → inbox triage → specialist routing → verbatim patches → round summary | → `external_feedback` |
 | `export` | Markdown + DOCX with a reference list built from cited sources | `submission` |
+| `plan` | The planning agent reads the project state (stages, gates, blockers, runs, cost) and your goal, proposes a campaign of stage runs with flags, you approve it in the inbox, the engine executes it and re-plans once if a step stops | — |
 
 Gates block by default; `--force` records a `gate_override` decision. All
 thresholds live in `agency/policy/thresholds.py` and can be overridden per pack
@@ -88,6 +89,7 @@ or in `agency.toml`.
 agency init NAME [--funder --mechanism --topic --deadline --hypothesis --id]
 agency projects | status PROJECT | gate PROJECT GATE [--no-write]
 agency run PROJECT STAGE [-f key=value ...] [--resume] [--force]
+agency plan PROJECT --goal "..." [--budget USD] [--max-replans N] [--no-execute]
 agency inbox [PROJECT] | agency inbox --item ID --answer TEXT
 agency kb status | promote PROJECT | query "question" | lint [--fix] | export [DIR]
 agency import-legacy [PROJECT] [--runs-dir DIR]      # old runs/{project}/ layouts

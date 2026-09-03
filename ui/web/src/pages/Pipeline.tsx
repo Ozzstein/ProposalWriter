@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { AlertTriangle, Play, RotateCcw, ShieldCheck } from "lucide-react";
-import { getProject, listRuns, listStages, runGate, startRun } from "@/lib/api";
+import { AlertTriangle, Compass, Play, RotateCcw, ShieldCheck } from "lucide-react";
+import { getPlan, getProject, listRuns, listStages, runGate, startPlan, startRun } from "@/lib/api";
 import { useProjectStore } from "@/stores/project-store";
 import type { StageDef } from "@pw/shared";
 import { StageBadge } from "./Overview";
@@ -19,6 +19,17 @@ export function PipelinePage(): React.ReactElement {
   const [flags, setFlags] = useState<Record<string, Record<string, string>>>({});
   const [force, setForce] = useState<Record<string, boolean>>({});
   const [message, setMessage] = useState<string | null>(null);
+  const [goal, setGoal] = useState("");
+  const { data: plan } = useQuery({ queryKey: ["plan", active], queryFn: () => getPlan(active!), enabled: !!active, refetchInterval: 4000 });
+  const planStart = useMutation({
+    mutationFn: () => startPlan(active!, { goal }),
+    onSuccess: (run) => {
+      setMessage(`Planning started (${run.id}); approve the plan in the inbox`);
+      qc.invalidateQueries({ queryKey: ["runs", active] });
+      qc.invalidateQueries({ queryKey: ["plan", active] });
+    },
+    onError: (e) => setMessage(String(e)),
+  });
 
   const start = useMutation({
     mutationFn: ({ stage, resume }: { stage: string; resume?: string }) =>
@@ -63,8 +74,68 @@ export function PipelinePage(): React.ReactElement {
           <Link to="/runs" className="underline">details</Link>
         </div>
       )}
+      <Card>
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Compass className="h-4 w-4 text-accent" aria-hidden />
+            <CardTitle className="text-base">Planner</CardTitle>
+          </div>
+          <CardDescription>
+            Describe what you want next. The planning agent proposes a campaign of stage runs, you approve it in the inbox, the engine executes it and re-plans once if a step stops.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-3">
+          <div className="flex gap-2">
+            <input
+              className="h-8 flex-1 rounded border border-border bg-background px-2 text-sm"
+              placeholder="e.g. get the draft gate passed with a focus on the impact section"
+              value={goal}
+              onChange={(e) => setGoal(e.target.value)}
+            />
+            <Button size="sm" disabled={!!activeRun || planStart.isPending || goal.trim().length < 3} onClick={() => planStart.mutate()}>
+              <Compass className="h-3 w-3" aria-hidden /> Plan
+            </Button>
+          </div>
+          {plan && (
+            <div className="space-y-2 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="font-medium">Latest plan</span>
+                <Badge variant={plan.status === "completed" ? "success" : plan.status === "stopped" ? "warning" : "muted"}>{plan.status}</Badge>
+                {plan.campaign_active && <span className="text-foreground-muted">campaign running</span>}
+                <span className="ml-auto text-foreground-muted">{plan.goal}</span>
+              </div>
+              <p className="text-foreground-muted">{plan.assessment}</p>
+              {plan.questions_for_researcher.length > 0 && (
+                <ul className="list-disc pl-4 text-foreground-muted">
+                  {plan.questions_for_researcher.map((q) => <li key={q}>{q}</li>)}
+                </ul>
+              )}
+              <table className="w-full text-left">
+                <thead className="text-foreground-muted">
+                  <tr><th className="pr-2">#</th><th className="pr-2">stage</th><th className="pr-2">flags</th><th className="pr-2">status</th><th>rationale</th></tr>
+                </thead>
+                <tbody>
+                  {plan.steps.map((st) => (
+                    <tr key={st.step} className="border-t border-border align-top">
+                      <td className="pr-2 py-1">{st.step}</td>
+                      <td className="pr-2 py-1 mono">{st.stage}{st.force ? " (force)" : ""}</td>
+                      <td className="pr-2 py-1 mono">{Object.entries(st.flags).map(([k, v]) => `${k}=${String(v)}`).join(" ") || "–"}</td>
+                      <td className="pr-2 py-1">
+                        <Badge variant={st.status === "completed" ? "success" : st.status === "failed" || st.status === "blocked" ? "warning" : "muted"}>{st.status}</Badge>
+                        {st.run_id && <Link to="/runs" className="ml-1 underline">run</Link>}
+                      </td>
+                      <td className="py-1 text-foreground-muted">{st.rationale}{st.error ? ` — ${st.error}` : ""}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              {plan.error && <p className="text-warning">{plan.error}</p>}
+            </div>
+          )}
+        </CardContent>
+      </Card>
       <div className="grid gap-3 md:grid-cols-2">
-        {(stages ?? []).map((s: StageDef) => {
+        {(stages ?? []).filter((s: StageDef) => s.name !== "plan").map((s: StageDef) => {
           const last = runs?.find((r) => r.stage === s.name);
           const stateStatus = s.state_key ? project?.state.stages[s.state_key]?.status : undefined;
           const gateOk = s.requires_gate ? project?.state.gates[s.requires_gate]?.passed : true;

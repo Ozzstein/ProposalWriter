@@ -1,0 +1,24 @@
+name: run_planner
+description: Propose the next campaign of stage runs (with flags) that moves the proposal towards the researcher's
+  goal, given the project state, gates and cost so far. The engine validates and the researcher approves before anything runs.
+role: planner
+model_tier: reasoning
+effort: high
+tools:
+- Read
+- Grep
+- Glob
+- mcp__agency__graph_read
+- mcp__agency__graph_search
+- mcp__agency__project_status
+connectors: []
+output: RunPlan
+output_mode: structured
+budget:
+  max_turns: 25
+  max_usd: 3
+writes: []
+acceptance: []
+env_keys: []
+session: false
+notes: Never executes anything; emits a plan the engine validates against the stage registry.

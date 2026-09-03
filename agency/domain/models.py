@@ -362,6 +362,30 @@ class IdeationBrief(Payload):
     status: Literal["draft", "chosen", "needs_rework"] = "draft"
 
 
+# --------------------------------------------------------------- planning
+
+class PlannedStep(Payload):
+    """One stage run inside a campaign proposed by the planning agent."""
+
+    step: int = Field(ge=1)
+    stage: str
+    flags: dict[str, Any] = Field(default_factory=dict)
+    force: bool = False
+    rationale: str
+    expected_outcome: str = ""
+    stop_if: str = ""            # human-readable condition under which the campaign should stop after this step
+
+
+class RunPlan(Payload):
+    goal: str
+    assessment: str
+    steps: list[PlannedStep] = Field(min_length=1)
+    risks: list[str] = Field(default_factory=list)
+    questions_for_researcher: list[str] = Field(default_factory=list)
+    stop_conditions: list[str] = Field(default_factory=list)
+    estimated_cost_usd: float | None = None
+
+
 # --------------------------------------------------------------- finance
 
 class FinancialInputs(Payload):

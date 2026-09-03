@@ -35,6 +35,28 @@ Before every agent call the graph is materialised into the project working direc
 
 SDK options per call: `system_prompt = conventions + prompt.md`, `allowed_tools` from the contract plus `mcp__agency__*` (read-only unless the contract declares writes), `disallowed_tools=["Agent","Task"]`, `permission_mode="bypassPermissions"` with PreToolUse guards (no subagents, writes only under the project dir, no direct store writes, no destructive shell), `setting_sources=[]`, `output_format` from the pydantic output model, `max_turns`/`max_budget_usd`/`effort` from the contract, connectors as stdio MCP servers only for the agents that need them, secrets only in those processes' env.
 
+## Planning agent (campaigns)
+
+The engine decides *how* a stage runs; the planning agent decides *which* stages run next. `agency plan
+PROJECT --goal "…"` (or `POST /projects/{id}/plan`) runs the `plan` stage:
+
+```
+survey (code)  ──▶ propose (run_planner agent) ──▶ approve (inbox)
+  planning brief:     RunPlan: ordered steps         one row per step; approve / skip / reject
+  stages + flags,     {stage, flags, force,          approved plan stored as the run_plan document
+  statuses, gates     rationale}, risks,             and a plan_approved decision
+  + blockers, runs,   questions for the researcher
+  cost, goal
+```
+
+`validate_plan` rejects unknown stages or flags, prerequisite order violations and plans over eight
+steps; the planner gets the errors back and two more attempts. After approval `Engine.run_campaign`
+executes each step as an ordinary `run_stage` call (gates, budgets, resume and inbox all apply) and
+records the outcome per step in the plan document. When a step fails or is blocked by a gate, the
+failure goes into a fresh planning brief and the planner gets one more attempt (`--max-replans`),
+again subject to approval. The planner never executes anything and cannot invent stages, jobs or
+flags: its levers are exactly the stage registry and the flags each stage declares.
+
 ## Stages and gates
 
 | Stage | Plan | Gate in → out |
@@ -49,6 +71,7 @@ SDK options per call: `system_prompt = conventions + prompt.md`, `allowed_tools`
 | review | setup → scientific ∥ compliance ∥ panel → compile plan → revise loop | draft → submission |
 | external-feedback | resolve round → parse files ∥ → ingest → triage (inbox) → dispatch by route → summary | → external_feedback |
 | export | assemble md → docx | submission |
+| plan | survey → run_planner → approve (inbox); then `run_campaign` executes the approved stage runs | – |
 
 Gate rules are plain functions over the graph (`agency/policy/gates.py`); thresholds come from `agency/policy/thresholds.py`, overridable per pack and in `agency.toml`.
 

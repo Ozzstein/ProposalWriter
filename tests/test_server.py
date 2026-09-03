@@ -123,3 +123,24 @@ async def test_sse_stream_replays_then_streams_live(ws):
     await asyncio.wait_for(consume(), timeout=5)
     assert chunks[0].startswith("event: ready")
     assert "project:created" in chunks[1] and any("live:test" in c for c in chunks[2:])
+
+
+async def test_plan_endpoint_runs_a_campaign(ws):
+    from tests.test_engine import AutoApprove
+    from tests.test_planner import GOOD_PLAN, make_responder
+    engine = Engine(ws, query_fn=FakeQuery(make_responder([GOOD_PLAN])))
+    engine.inbox.responder = AutoApprove()
+    app = create_app(ws, engine)
+    async with httpx.AsyncClient(transport=httpx.ASGITransport(app=app), base_url="http://test") as c:
+        await c.post("/api/projects", json={"name": "P3", "hypothesis": "h"})
+        assert (await c.get("/api/projects/p3/plan")).status_code == 404
+        r = await c.post("/api/projects/p3/plan", json={"goal": "reach the evidence gate"})
+        assert r.status_code == 202 and r.json()["stage"] == "plan"
+        for _ in range(300):
+            await asyncio.sleep(0.02)
+            runs = (await c.get("/api/runs?project=p3")).json()["items"]
+            if len(runs) == 3 and all(x["status"] in ("completed", "failed") for x in runs):
+                break
+        plan = (await c.get("/api/projects/p3/plan")).json()
+        assert plan["status"] == "completed" and [s["stage"] for s in plan["steps"]] == ["parse-call", "research"]
+        assert all(s["status"] == "completed" for s in plan["steps"]) and plan["campaign_active"] is False

@@ -153,6 +153,46 @@ export async function startRun(
   return postJson(`${BASE}/projects/${enc(project)}/stages/${enc(stage)}`, body);
 }
 
+export interface PlanStep {
+  step: number;
+  stage: string;
+  flags: Record<string, unknown>;
+  force: boolean;
+  rationale: string;
+  expected_outcome?: string;
+  status: "pending" | "running" | "completed" | "failed" | "stopped" | "blocked" | string;
+  run_id?: string | null;
+  error?: string | null;
+}
+
+export interface RunPlanDoc {
+  goal: string;
+  assessment: string;
+  risks: string[];
+  questions_for_researcher: string[];
+  estimated_cost_usd?: number | null;
+  status: string;
+  error?: string | null;
+  approved_at?: string;
+  plan_run_id?: string;
+  steps: PlanStep[];
+  campaign_active: boolean;
+}
+
+export async function startPlan(
+  project: string,
+  body: { goal: string; budget_usd?: number; max_replans?: number; execute?: boolean },
+): Promise<RunRecord> {
+  return postJson(`${BASE}/projects/${enc(project)}/plan`, body);
+}
+
+export async function getPlan(project: string): Promise<RunPlanDoc | null> {
+  const res = await fetch(`${BASE}/projects/${enc(project)}/plan`);
+  if (res.status === 404) return null;
+  if (!res.ok) throw new Error(`${res.status} ${await res.text()}`);
+  return (await res.json()) as RunPlanDoc;
+}
+
 export async function listRuns(project?: string): Promise<RunRecord[]> {
   const qs = project ? `?project=${enc(project)}` : "";
   return (await getJson<{ items: RunRecord[] }>(`${BASE}/runs${qs}`)).items;

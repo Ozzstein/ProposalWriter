@@ -20,4 +20,4 @@ def stage(sd: StageDef) -> StageDef:
 
 
 from agency.jobs import (business_plan, common, drafting, export, feedback, figures, finance, ideate,  # noqa: E402,F401
-                         parse_call, research, review)
+                         parse_call, plan, research, review)

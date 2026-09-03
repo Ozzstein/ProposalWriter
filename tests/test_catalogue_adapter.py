@@ -22,10 +22,10 @@ def catalogue():
 
 
 def test_catalogue_is_complete_and_valid(catalogue):
-    assert len(catalogue.contracts) == 31
+    assert len(catalogue.contracts) == 32
     assert catalogue.validate() == []
     roles = {c.role for c in catalogue.contracts.values()}
-    assert {"retriever", "synthesizer", "writer", "reviewer", "interviewer", "renderer", "modeler"} <= roles
+    assert {"retriever", "synthesizer", "writer", "reviewer", "interviewer", "renderer", "modeler", "planner"} <= roles
     assert catalogue.get("novelty_mapper").output_model() is NoveltyMap
     assert catalogue.get("excellence_writer").output_mode == "files"
     assert catalogue.get("idea_interviewer").session

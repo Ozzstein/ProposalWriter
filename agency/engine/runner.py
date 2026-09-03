@@ -116,6 +116,71 @@ class Engine:
                          error=run.error, summary=run.summary)
             return run
 
+    # ------------------------------------------------------------ campaigns (planning agent)
+    async def run_campaign(self, project_id: str, goal: str, *, budget_usd: float | None = None,
+                           max_replans: int = 1, execute: bool = True) -> dict[str, Any]:
+        """Plan (agent + approval) then execute the approved steps as ordinary stage runs.
+
+        When a step fails or is blocked by a gate, the failure goes back into a new planning
+        brief and the planner gets one more attempt (``max_replans``); every plan needs approval.
+        """
+        from agency.jobs.plan import load_plan, save_plan
+        flags: dict[str, Any] = {"goal": goal}
+        if budget_usd is not None:
+            flags["budget_usd"] = str(budget_usd)
+        runs: list[Run] = []
+        failure: str | None = None
+        status = "stopped"
+        self.ws.events.emit("campaign:start", project_id=project_id, goal=goal)
+        for attempt in range(max_replans + 1):
+            if failure:
+                flags["previous_failure"] = failure
+            plan_run = await self.run_stage(project_id, "plan", flags=dict(flags))
+            runs.append(plan_run)
+            if plan_run.status != RunStatus.COMPLETED:
+                status, failure = "plan_failed", plan_run.error or "planning failed"
+                break
+            if not execute:
+                status = "planned"
+                break
+            graph = self.ws.graph(project_id)
+            body = load_plan(graph) or {}
+            steps = body.get("steps", [])
+            failure = None
+            for i, step in enumerate(steps):
+                step["status"] = "running"
+                save_plan(graph, body)
+                self.ws.events.emit("campaign:step", project_id=project_id, step=i + 1, stage=step["stage"],
+                                    flags=step.get("flags", {}))
+                try:
+                    run = await self.run_stage(project_id, step["stage"], flags=dict(step.get("flags") or {}),
+                                               force=bool(step.get("force")))
+                except StageBlocked as e:
+                    step["status"], step["error"] = "blocked", str(e)
+                    save_plan(graph, body)
+                    failure = f"step {i + 1} ({step['stage']}) blocked: {e}"
+                    break
+                runs.append(run)
+                step["run_id"], step["status"], step["error"] = run.id, run.status.value, run.error
+                save_plan(graph, body)
+                if run.status != RunStatus.COMPLETED:
+                    failure = f"step {i + 1} ({step['stage']}) {run.status.value}: {run.error or ''}"
+                    break
+            if failure is None:
+                status = "completed"
+                body["status"] = "completed"
+                save_plan(graph, body)
+                break
+            body["status"] = "stopped"
+            body["error"] = failure
+            save_plan(graph, body)
+        result = {"status": status, "goal": goal, "error": failure, "attempts": min(attempt + 1, max_replans + 1),
+                  "runs": [{"id": r.id, "stage": r.stage, "status": r.status.value, "cost_usd": r.cost_usd,
+                            "error": r.error} for r in runs],
+                  "cost_usd": round(sum(r.cost_usd for r in runs), 4)}
+        self.ws.events.emit("campaign:end", project_id=project_id, **{k: v for k, v in result.items() if k != "runs"})
+        return result
+
     def start(self, project_id: str, stage: str, **kw) -> asyncio.Task:
         task = asyncio.create_task(self.run_stage(project_id, stage, **kw))
         self.active[id(task)] = task  # type: ignore[index]
@@ -140,3 +205,15 @@ def run_stage_cli(root: str | None, project_id: str, stage: str, *, flags: dict[
         return 2
     print(run.model_dump_json(indent=2))
     return 0 if run.status == RunStatus.COMPLETED else 1
+
+
+def run_campaign_cli(root: str | None, project_id: str, goal: str, *, budget_usd: float | None, max_replans: int,
+                     execute: bool) -> int:
+    from agency.inbox.terminal import terminal_responder
+    ws = Workspace.open(root)
+    engine = Engine(ws)
+    engine.inbox.responder = terminal_responder
+    result = asyncio.run(engine.run_campaign(project_id, goal, budget_usd=budget_usd, max_replans=max_replans,
+                                             execute=execute))
+    print(__import__("json").dumps(result, indent=2))
+    return 0 if result["status"] in ("completed", "planned") else 1

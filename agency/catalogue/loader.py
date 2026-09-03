@@ -11,7 +11,7 @@ from agency.domain import callspec as callspec_models
 from agency.domain import models as payload_models
 
 Role = Literal["retriever", "synthesizer", "writer", "reviewer", "modeler", "renderer", "interviewer",
-               "orchestrator"]
+               "planner"]
 
 
 class Budget(BaseModel):

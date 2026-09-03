@@ -46,6 +46,13 @@ class Answer(BaseModel):
     answer: dict[str, Any]
 
 
+class StartPlan(BaseModel):
+    goal: str
+    budget_usd: float | None = None
+    max_replans: int = 1
+    execute: bool = True
+
+
 class Override(BaseModel):
     target_id: str
     status: str | None = None
@@ -285,6 +292,47 @@ def create_app(ws: Workspace, engine: Engine | None = None) -> FastAPI:
                 app.state.tasks[run.id] = task
                 return run.model_dump(mode="json")
         return {"status": "starting", "project_id": pid, "stage": stage}
+
+    @app.post(f"{api}/projects/{{pid}}/plan", status_code=202)
+    async def start_plan(pid: str, body: StartPlan) -> dict[str, Any]:
+        """Start a campaign: planning agent → inbox approval → stage runs, in the background."""
+        ws.require_project(pid)
+        active = [r for r in ws.store.list_runs(project_id=pid)
+                  if r.status in (RunStatus.RUNNING, RunStatus.WAITING_FOR_USER, RunStatus.QUEUED)]
+        if active:
+            raise HTTPException(409, f"run {active[0].id} ({active[0].stage}) is still active")
+        before = {r.id for r in ws.store.list_runs(project_id=pid)}
+
+        async def _go() -> None:
+            try:
+                await engine.run_campaign(pid, body.goal, budget_usd=body.budget_usd, max_replans=body.max_replans,
+                                          execute=body.execute)
+            except Exception:  # surfaced through run status/events
+                pass
+
+        task = asyncio.create_task(_go())
+        engine.active[id(task)] = task  # type: ignore[index]
+        app.state.campaigns = getattr(app.state, "campaigns", {})
+        app.state.campaigns[pid] = task
+        for _ in range(100):
+            await asyncio.sleep(0.01)
+            new = [r for r in ws.store.list_runs(project_id=pid) if r.id not in before]
+            if new:
+                app.state.tasks = getattr(app.state, "tasks", {})
+                app.state.tasks[new[0].id] = task
+                return new[0].model_dump(mode="json")
+        return {"status": "starting", "project_id": pid, "stage": "plan"}
+
+    @app.get(f"{api}/projects/{{pid}}/plan")
+    def get_plan(pid: str) -> dict[str, Any]:
+        from agency.jobs.plan import load_plan
+        ws.require_project(pid)
+        body = load_plan(ws.graph(pid))
+        if body is None:
+            raise HTTPException(404, "no plan yet")
+        task = getattr(app.state, "campaigns", {}).get(pid)
+        body["campaign_active"] = bool(task is not None and not task.done())
+        return body
 
     @app.get(f"{api}/runs")
     def list_runs(project: str | None = None, status: str | None = None) -> dict[str, Any]:

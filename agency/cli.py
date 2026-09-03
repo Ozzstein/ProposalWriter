@@ -113,6 +113,17 @@ def run(ctx: typer.Context, project: str, stage: str,
 
 
 @app.command()
+def plan(ctx: typer.Context, project: str, goal: str = typer.Option(..., "--goal", "-g", help="what to achieve next"),
+         budget: float = typer.Option(None, "--budget", help="soft USD ceiling for the campaign"),
+         max_replans: int = typer.Option(1, "--max-replans"),
+         execute: bool = typer.Option(True, "--execute/--no-execute", help="run the approved steps")):
+    """Let the planning agent propose the next campaign of stage runs; approve on stdin; execute it."""
+    from agency.engine.runner import run_campaign_cli
+    code = run_campaign_cli(ctx.obj["root"], project, goal, budget_usd=budget, max_replans=max_replans, execute=execute)
+    raise typer.Exit(code)
+
+
+@app.command()
 def serve(ctx: typer.Context, host: str = typer.Option(None), port: int = typer.Option(None),
           reload: bool = typer.Option(False)):
     """Start the API server (serves the web UI when built)."""
