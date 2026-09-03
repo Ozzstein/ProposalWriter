@@ -145,6 +145,7 @@ async def test_ideate(ws, engine):
     assert brief.data["status"] == "chosen" and brief.data["chosen_framing_id"] == "FRM-001"
     assert "digital twin cuts scrap" in g.document("context").data["hypothesis"]
     assert "## Hypothesis" in g.document("context").data["body"] and "_To be completed._" not in g.document("context").data["body"]
+    assert g.document("context").data["concept_status"] == "preliminary"   # no call at ideation time
     assert len(g.sources()) == 6 and g.decisions("framing_chosen")
     kinds = [i.kind for i in engine.inbox.responder.items]
     assert kinds[0] == InboxKind.QUESTION and "Problem" in engine.inbox.responder.items[0].header

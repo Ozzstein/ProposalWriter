@@ -144,3 +144,15 @@ def test_stage_order_is_call_first(ws):
     assert STAGES[:2] == ["call_parsing", "ideation"]
     p = ws.create_project("Blank", project_id="blank")
     assert ws.current_stage(p) == "call_parsing"
+
+
+def test_replace_hypothesis_sets_status(ws, project):
+    from agency.jobs.common import replace_hypothesis
+    g = ws.graph("demo")
+    replace_hypothesis(g, "New idea\n\n**Mechanism**: x", "New idea", created_by="t", concept_status="aligned")
+    doc = g.document("context")
+    assert doc.data["hypothesis"] == "New idea" and doc.data["concept_status"] == "aligned"
+    assert doc.data["body"].count("## Hypothesis") == 1 and "**Mechanism**: x" in doc.data["body"]
+    from agency.domain.models import ConceptAlignment
+    al = ConceptAlignment(overall_fit=7, verdict="fits", criterion_fits=[], rationale="ok")
+    assert al.suggested_hypothesis is None
