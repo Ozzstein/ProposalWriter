@@ -180,16 +180,23 @@ async def propose(rt: JobRuntime) -> dict[str, Any]:
             "summary": f"{len(plan.steps)} steps: " + " → ".join(s.stage for s in plan.steps)}
 
 
+def _step_summary(s) -> str:
+    flags = " ".join(f"{k}={v}" for k, v in s.flags.items())
+    head = s.stage + (f" [{flags}]" if flags else "") + (" (force past gate)" if s.force else "")
+    return f"{head} — {s.rationale}" + (f" → {s.expected_outcome}" if s.expected_outcome else "")
+
+
 @handler("plan.approve")
 async def approve(rt: JobRuntime) -> dict[str, Any]:
     plan = RunPlan.model_validate(rt.result_of("propose")["plan"])
     rows = [{"id": f"step-{s.step}", "stage": s.stage, "flags": s.flags, "force": s.force,
-             "rationale": s.rationale, "expected_outcome": s.expected_outcome} for s in plan.steps]
-    text = [f"**Goal**: {plan.goal}", "", f"**Assessment**: {plan.assessment}"]
+             "rationale": s.rationale, "expected_outcome": s.expected_outcome,
+             "summary": _step_summary(s)} for s in plan.steps]
+    text = [f"Goal: {plan.goal}", "", f"Assessment: {plan.assessment}"]
     if plan.questions_for_researcher:
-        text += ["", "**Questions from the planner**:", *[f"- {q}" for q in plan.questions_for_researcher]]
+        text += ["", "Questions from the planner:", *[f"- {q}" for q in plan.questions_for_researcher]]
     if plan.risks:
-        text += ["", "**Risks**:", *[f"- {r}" for r in plan.risks]]
+        text += ["", "Risks:", *[f"- {r}" for r in plan.risks]]
     if plan.estimated_cost_usd is not None:
         text += ["", f"Estimated cost: {plan.estimated_cost_usd:.2f} USD"]
     text += ["", "Approve, skip or reject each step; rejecting a step stops the campaign there."]
