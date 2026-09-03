@@ -31,14 +31,36 @@ def test_catalogue_is_complete_and_valid(catalogue):
     assert catalogue.get("idea_interviewer").session
 
 
-def test_prompts_rewrite_legacy_paths(catalogue):
+BANNED_PROMPT_PATTERNS = [
+    # legacy runtime mechanics
+    r"/tmp/pw_venv", r"homebrew", r"/opt/", r"firecrawl (search|scrape|map|crawl) ", r"\.firecrawl/",
+    r"runs/\{project", r"(?<!figures/)scripts/", r"state\.py", r"gate_check", r"schemas/", r"templates/",
+    r"\.claude", r"subagent", r"Program Director", r"(?<!needs_)orchestrator", r"combine_to_docx", r"\.env\b",
+    r"evaluation_matrix", r"call_brief", r"wiki/",
+    # connectors that no longer exist
+    r"Consensus", r"Semantic Scholar",
+    # hard-coded identifiers from a previous project (illustrative SRC-012 / CLM-007 are allowed)
+    r"(SRC|CLM)-0(?!12\b|07\b)\d\d", r"CLM-FIN", r"WIKI-CLM-xxx",
+    # project-specific names and numbers
+    r"EnergyCo", r"BatteryCo", r"TwinHeat", r"\bSERI\b", r"Tpl_", r"ROADBLOCKERS", r"example-lfp",
+    r"\bLFP\b", r"Puglia", r"Licensor", r"Li2CO3", r"INNOVFUND", r"49\.94", r"€240M",
+]
+
+
+@pytest.mark.parametrize("prompt_path", sorted(AGENTS_DIR.glob("*/prompt.md")), ids=lambda p: p.parent.name)
+def test_prompt_hygiene(prompt_path):
+    """Role prompts carry only domain rules: no legacy paths, tools, orchestration or project facts."""
+    import re
+    text = prompt_path.read_text()
+    hits = [(pat, m.group(0)) for pat in BANNED_PROMPT_PATTERNS for m in [re.search(pat, text)] if m]
+    assert not hits, f"{prompt_path.parent.name}: {hits}"
+
+
+def test_prompts_render_with_paths(catalogue):
     for c in catalogue.contracts.values():
         sp = system_prompt(catalogue, c, "/ws/p", "/ws/kb")
-        body = sp.split("---", 1)[1]
-        assert "runs/{project}" not in body, c.name
-        assert "scripts/state.py" not in body, c.name
-        assert "wiki/" not in body.replace("`wiki/…`", ""), c.name
-        assert "/ws/p" in sp
+        assert "/ws/p" in sp and "{project_dir}" not in sp and "{kb_dir}" not in sp, c.name
+        assert "runs/{project}" not in sp and "wiki/" not in sp, c.name
 
 
 def test_task_rendering(catalogue, tmp_path):

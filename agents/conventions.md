@@ -18,9 +18,11 @@ spawn other agents and you never decide what the next stage is.
     exports of the graph (one JSON object per line, last line per ID wins)
   - `drafts/` — section drafts (`NN_slug.md`) with `NN_slug_meta.json` sidecars
   - `reviews/`, `figures/`, `final/`
-- `{kb_dir}/` is the cross-project knowledge base (may not exist yet).
-- Wherever your role definition says `runs/{project}/…`, read
-  `{project_dir}/…` instead. Wherever it says `wiki/…`, read `{kb_dir}/…`.
+- `{kb_dir}/` is the cross-project knowledge base (may not exist yet). The task
+  prompt tells you when knowledge-base context has been imported for this job.
+- The task prompt lists the exact input paths for your job and, for file
+  outputs, the exact paths to write. Those paths override any example in your
+  role definition.
 
 ## Evidence discipline
 

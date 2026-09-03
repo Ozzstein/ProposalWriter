@@ -57,7 +57,7 @@ class FakeSessionClient:
         self.pending: list = []
         sp = (options.system_prompt or "").lower()
         self.script = next((fn for key, fn in FakeSessionClient.scripts.items()
-                            if key != "*" and key.replace("_", " ") in sp), FakeSessionClient.scripts.get("*"))
+                            if key != "*" and (key in sp or key.replace("_", " ") in sp)), FakeSessionClient.scripts.get("*"))
 
     async def __aenter__(self):
         return self
