@@ -47,7 +47,7 @@ class InteractiveScripted(Scripted):
             start = int(prompt.split("SRC: SRC-")[1][:3])
             fid = re.search(r"Framing (FRM-\d+)", prompt).group(1)
             return {"structured": evidence(start, 3, fid.lower())}
-        if agent == "idea_evaluator":
+        if agent == "idea_evaluator" and "Candidate framings:" in prompt:
             framings = json.loads(prompt.split("Candidate framings:\n")[1].split("\nRaw idea")[0])
             return {"structured": {"project_name": "demo", "raw_idea": "dt", "status": "draft",
                                    "recommendation": "FRM-001 is the strongest",
@@ -121,6 +121,9 @@ class Answerer:
         if item.kind == InboxKind.APPROVAL:
             return {"decision": "approve", "rows": {r["id"]: "approve" for r in item.payload["rows"]}}
         if item.kind == InboxKind.FORM:
+            if "scope" in item.header.lower():
+                return {"data": {"finance": "included", "business_plan": "included", "figures": "included",
+                                 "external_review": "excluded"}}
             if "financial" in item.header.lower():
                 return {"data": FIN_INPUTS}
             return {"data": {"text": "Call: three partners."}}

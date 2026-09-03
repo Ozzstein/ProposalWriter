@@ -83,13 +83,30 @@ async def test_run_stage_inbox_and_events(client):
     assert pending[0]["kind"] == "approval"
     rows = {row["id"]: "approve" for row in pending[0]["payload"]["rows"]}
     await client.post(f"/api/inbox/{pending[0]['id']}/answer", json={"answer": {"decision": "approve", "rows": rows}})
+    # then the scope configuration form
+    for _ in range(200):
+        await asyncio.sleep(0.02)
+        pending = (await client.get("/api/inbox", params={"project": "p2"})).json()["items"]
+        if pending and pending[0]["kind"] == "form":
+            break
+    assert pending[0]["kind"] == "form" and pending[0]["header"] == "Configure proposal scope"
+    await client.post(f"/api/inbox/{pending[0]['id']}/answer", json={"answer": {"data": {
+        "finance": "excluded", "business_plan": "excluded", "figures": "excluded", "external_review": "excluded"}}})
+    # then the preliminary concept's alignment with the parsed call
+    for _ in range(200):
+        await asyncio.sleep(0.02)
+        pending = (await client.get("/api/inbox", params={"project": "p2"})).json()["items"]
+        if pending and pending[0]["kind"] == "question":
+            break
+    assert pending[0]["kind"] == "question" and pending[0]["header"] == "Align the concept with the call"
+    await client.post(f"/api/inbox/{pending[0]['id']}/answer", json={"answer": {"choice": "keep the hypothesis as is"}})
     for _ in range(200):
         await asyncio.sleep(0.02)
         run = (await client.get(f"/api/runs/{run_id}")).json()
         if run["run"]["status"] in ("completed", "failed"):
             break
     assert run["run"]["status"] == "completed", run["run"]["error"]
-    assert {j["name"] for j in run["jobs"]} >= {"parse_call", "approve_outline", "finalize"}
+    assert {j["name"] for j in run["jobs"]} >= {"parse_call", "approve_outline", "configure_scope", "align_concept", "finalize"}
     assert run["costs"]
     # research is blocked by the scope gate (eligibility unknown) unless forced
     assert (await client.post("/api/projects/p2/stages/research", json={})).status_code == 412

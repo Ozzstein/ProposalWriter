@@ -23,6 +23,12 @@ CALLSPEC = {
                       "disqualifying": True}],
 }
 
+ALIGNMENT = {"overall_fit": 7.5, "verdict": "fits_with_changes",
+             "criterion_fits": [{"criterion_id": "C1", "fit": 8, "comment": "strong on excellence"}],
+             "scope_misfits": [], "eligibility_conflicts": [],
+             "suggested_hypothesis": "A validated digital twin cuts scrap by 10% in LFP cathode plants",
+             "rationale": "fits the excellence criterion; quantify impact"}
+
 
 def evidence(prefix_start: int, n: int = 6, contract: str = "x"):
     return {"task_id": "t", "topic": "lfp", "summary": "s",
@@ -69,6 +75,8 @@ def responder(prompt: str, options):
         return {"structured": novelty()}
     if "gap_analyzer" in head:
         return {"structured": gaps_payload()}
+    if "idea_evaluator" in head and "CALL ALIGNMENT CHECK" in prompt:
+        return {"structured": ALIGNMENT}
     return {"structured": None}
 
 
@@ -228,3 +236,62 @@ def test_draftable_sections_skip_excluded_finance(ws, project):
     excluded = derive_scope(CallSpec.model_validate(CALLSPEC))     # a call without financials → excluded
     assert "4" not in [s.id for s, _ in draftable_sections(spec, scope=excluded)]
     assert "4" in [s.id for s, _ in draftable_sections(spec)]      # no scope → unchanged behaviour
+
+
+async def test_parse_call_configures_scope_and_aligns_the_concept(ws, project, engine):
+    from agency.domain.scope import ScopeConfig
+    run = await engine.run_stage("demo", "parse-call")
+    assert run.status == RunStatus.COMPLETED, run.error
+    jobs = {j.name: j for j in ws.store.list_jobs(run.id)}
+    assert jobs["configure_scope"].status == JobStatus.COMPLETED and jobs["align_concept"].status == JobStatus.COMPLETED
+    scope = ScopeConfig.load(ws.get_project("demo"))
+    assert scope.configured_at and scope.finance.state == "excluded"        # CALLSPEC has no financials
+    g = ws.graph("demo")
+    assert g.decisions("scope_configured") and g.decisions("concept_alignment")
+    assert ws.concept_status("demo") == "aligned"                            # AutoApprove answers "yes" → keep
+    assert g.document("concept_alignment").data["verdict"] == "fits_with_changes"
+    kinds = [i.kind for i in engine.inbox.responder.items]
+    assert kinds == [InboxKind.FORM, InboxKind.APPROVAL, InboxKind.FORM, InboxKind.QUESTION]
+    assert engine.inbox.responder.items[2].header == "Configure proposal scope"
+    # scope_only re-runs just the form; align_only refuses when nothing is preliminary
+    run2 = await engine.run_stage("demo", "parse-call", flags={"scope_only": "1"})
+    assert run2.status == RunStatus.COMPLETED and {j.name for j in ws.store.list_jobs(run2.id)} == {"configure_scope", "finalize"}
+    run3 = await engine.run_stage("demo", "parse-call", flags={"align_only": "1"})
+    assert run3.status == RunStatus.FAILED and "nothing to align" in run3.error
+
+
+async def test_align_concept_adopt_and_reopen(ws, project):
+    class Chooser(AutoApprove):
+        def __init__(self, pick):
+            super().__init__()
+            self.pick = pick
+
+        async def __call__(self, item):
+            if item.kind == InboxKind.QUESTION and item.header.startswith("Align"):
+                self.items.append(item)
+                opts = item.payload["options"]
+                assert opts[0].startswith("keep") and opts[1].startswith("adopt") and opts[2].startswith("reopen")
+                return {"choice": opts[self.pick]}
+            return await super().__call__(item)
+
+    eng = Engine(ws, query_fn=FakeQuery(responder))
+    eng.inbox.responder = Chooser(1)                                   # adopt
+    run = await eng.run_stage("demo", "parse-call")
+    assert run.status == RunStatus.COMPLETED, run.error
+    ctx = ws.graph("demo").document("context").data
+    assert ctx["hypothesis"] == ALIGNMENT["suggested_hypothesis"] and ctx["concept_status"] == "aligned"
+    assert any(d.data["decision"] == "adopted" for d in ws.graph("demo").decisions("concept_alignment"))
+    # reopen keeps it preliminary and the scope gate stays closed on alignment
+    ctx_doc = ws.graph("demo").document("context")
+    ws.graph("demo").update(ctx_doc, hypothesis="A digital twin cuts scrap by 10%", concept_status="preliminary")
+    eng.inbox.responder = Chooser(2)
+    run = await eng.run_stage("demo", "parse-call", flags={"align_only": "1"})
+    assert run.status == RunStatus.COMPLETED, run.error
+    assert ws.concept_status("demo") == "preliminary"
+    assert any("not aligned" in b for b in ws.check_gate("demo", "scope").blockers)
+
+
+async def test_parse_call_scope_only_needs_a_callspec(ws, project):
+    eng = Engine(ws, query_fn=FakeQuery(responder))
+    run = await eng.run_stage("demo", "parse-call", flags={"scope_only": "1"})
+    assert run.status == RunStatus.FAILED and "parse the call first" in run.error
