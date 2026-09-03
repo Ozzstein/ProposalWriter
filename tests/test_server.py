@@ -186,6 +186,29 @@ async def test_next_step_and_requirements_endpoints(client):
     assert (await client.get("/api/projects/p4/next")).json()["action"]["stage"] == "research"
 
 
+async def test_scope_endpoints(client):
+    r = await client.post("/api/projects", json={"name": "P5", "hypothesis": "h",
+                                                  "scope_preferences": {"figures": "included", "bogus": "x"}})
+    assert r.status_code == 201 and r.json()["state"]["settings"]["scope_preferences"] == {"figures": "included"}
+    r = await client.get("/api/projects/p5/scope")
+    assert r.status_code == 200 and r.json()["scope"] is None and r.json()["recommended"]["figures"]["state"] == "included"
+    r = await client.put("/api/projects/p5/scope", json={"changes": {"external_review": "included"}, "reason": "colleagues"})
+    assert r.status_code == 200 and r.json()["external_review"]["state"] == "included" and r.json()["configured_at"]
+    assert (await client.get("/api/projects/p5/scope")).json()["scope"]["figures"]["state"] == "included"
+    assert (await client.put("/api/projects/p5/scope", json={"changes": {"figures": "maybe"}})).status_code == 409
+    from tests.test_engine import CALLSPEC
+    from agency.domain.graph import NodeType
+    spec = dict(CALLSPEC, sections=CALLSPEC["sections"] + [{"id": "4", "title": "Fin", "kind": "financial"}])
+    client.engine.ws.graph("p5").add(NodeType.CALL_SPEC, spec)
+    client.engine.ws.put_scope("p5", client.engine.ws.recommend_scope("p5"))
+    r = await client.put("/api/projects/p5/scope", json={"changes": {"finance": "excluded"}})
+    assert r.status_code == 409 and "required by the call" in r.json()["detail"]
+    assert (await client.get("/api/projects/nope/scope")).status_code == 404
+    # the guide's side path carries the scope state
+    side = {p["key"]: p for p in (await client.get("/api/projects/p5/next")).json()["side"]}
+    assert side["finance"]["scope_state"] == "required"
+
+
 async def test_agents_graph_covers_every_contract_and_role(client):
     """The Agents page groups by these kinds; a role the UI cannot render must not appear silently."""
     body = (await client.get("/api/agents/graph")).json()

@@ -34,6 +34,12 @@ class CreateProject(BaseModel):
     project_id: str | None = None
     skip_ideation: bool = False
     pack: str | None = None
+    scope_preferences: dict[str, str] | None = None
+
+
+class ScopeChange(BaseModel):
+    changes: dict[str, str] = Field(default_factory=dict)
+    reason: str = ""
 
 
 class StartRun(BaseModel):
@@ -136,7 +142,8 @@ def create_app(ws: Workspace, engine: Engine | None = None) -> FastAPI:
         try:
             p = ws.create_project(body.name, funder=body.funder, mechanism=body.mechanism, topic=body.topic,
                                  deadline=body.deadline, hypothesis=body.hypothesis, context_md=body.context_md,
-                                 project_id=body.project_id, settings={"pack": body.pack} if body.pack else None)
+                                 project_id=body.project_id, settings={"pack": body.pack} if body.pack else None,
+                                 scope_preferences=body.scope_preferences)
         except ValueError as e:
             raise HTTPException(409, str(e))
         if body.skip_ideation or body.hypothesis:
@@ -277,6 +284,26 @@ def create_app(ws: Workspace, engine: Engine | None = None) -> FastAPI:
             raise HTTPException(404, str(e))
         except ValueError as e:
             raise HTTPException(400, str(e))
+
+    # ------------------------------------------------------------ scope
+    @app.get(f"{api}/projects/{{pid}}/scope")
+    def get_scope(pid: str) -> dict[str, Any]:
+        try:
+            scope = ws.get_scope(pid)
+        except KeyError:
+            raise HTTPException(404, "project not found")
+        return {"scope": scope.model_dump(mode="json") if scope else None,
+                "recommended": ws.recommend_scope(pid).model_dump(mode="json")}
+
+    @app.put(f"{api}/projects/{{pid}}/scope")
+    def put_scope(pid: str, body: ScopeChange) -> dict[str, Any]:
+        try:
+            ws.require_project(pid)
+            return ws.set_scope(pid, body.changes, by="researcher", reason=body.reason).model_dump(mode="json")
+        except KeyError:
+            raise HTTPException(404, "project not found")
+        except ValueError as e:
+            raise HTTPException(409, str(e))
 
     @app.post(f"{api}/projects/{{pid}}/gates/{{gate}}")
     def run_gate(pid: str, gate: str, write: bool = True) -> dict[str, Any]:
