@@ -37,3 +37,4 @@ secrets.json
 
 # Agency workspace (SQLite, blobs) and local venv
 workspace/
+*.egg-info/

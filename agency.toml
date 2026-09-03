@@ -1,0 +1,30 @@
+# Proposal Agency workspace configuration (all keys optional; env vars override).
+
+[workspace]
+# root = "./workspace"            # SQLite db, blobs, per-project working dirs, kb vault
+# db_url = "sqlite:///./workspace/workspace.db"   # any SQLAlchemy URL; Postgres works with the same schema
+# secrets_file = "./secrets.json"
+
+[models]                          # model tier -> model id
+fast = "claude-haiku-4-5"
+balanced = "claude-sonnet-5"
+reasoning = "claude-opus-5"
+
+[limits]
+max_concurrent_queries = 6        # concurrent claude processes per workspace
+default_budget_usd = 5.0          # per agent call unless the contract says otherwise
+stage_budget_usd = 40.0
+panel_max_iterations = 3          # review loop: revise -> re-score iterations
+panel_min_gain = 2.0              # stop the loop when the predicted score gains fewer points
+
+[gates]                           # override any threshold from agency/policy/thresholds.py
+# min_evidence = 12
+# min_anchors = 3
+# min_gaps = 4
+# max_unsupported_ratio = 0.20
+# min_scientific_score = 6.0
+# min_predicted_score_pct = 50
+
+[server]
+host = "127.0.0.1"
+port = 7777
